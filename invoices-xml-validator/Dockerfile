@@ -8,6 +8,4 @@ RUN apt-get update \
 ENV WORKING_DIRECTORY /usr/invoices-xml-validator
 WORKDIR $WORKING_DIRECTORY
 
-RUN shopt -s extglob
-
-CMD ["/bin/sh", "-c", "xmllint --noout --schema ./xml/xsd/schema.xsd ./xml/*"]
+CMD ["/bin/sh", "-c", "xmllint --noout --schema ./xsd/schema.xsd ./xml/*"]

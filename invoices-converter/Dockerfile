@@ -3,7 +3,8 @@ FROM python:3.6-alpine
 RUN pip install https://github.com/hay/xml2json/zipball/master
 
 ENV WORKING_DIRECTORY /usr/invoices-converter
-RUN mkdir -p $WORKING_DIRECTORY
+RUN mkdir -p $WORKING_DIRECTORY/json \
+  && mkdir -p $WORKING_DIRECTORY/xml/xsd
 ADD usr/invoices-converter/ $WORKING_DIRECTORY
 WORKDIR $WORKING_DIRECTORY
 
