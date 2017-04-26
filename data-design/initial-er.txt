@@ -1,0 +1,137 @@
+VERSIONE_FATTURA_ELETTRONICA
+  - id: "http://www.fatturapa.gov.it/sdi/fatturapa/v1.1"
+  - versione: "1.1"
+
+PAESI_FATTURA
+  - Id (Codice ISO paese)
+  - Descrizione
+
+SOGGETTO_FATTURA
+  - Id
+    - IdPaese
+    - IdCodice
+  - Dati Anagrafici
+    - Codice fiscale
+    - Denominazione
+  - Contatti
+    - Email
+    - Telefono
+  - Sede
+    - Indirizzo
+    - CAP
+    - Comune
+    - Provincia
+    - Paese
+
+CEDENTE_PRESTATORE_FATTURA
+  - Id soggetto fattura
+  - Regime fiscale
+  - Iscrizione REA
+    - Ufficio
+    - Numero REA
+    - Capitale Sociale (decimal)
+    - Socio unico
+    - Stato liquidazione
+
+TRASMISSIONE_FATTURA
+  - Id trasmittente fattura = Id soggetto fattura
+  - Progressivo invio (int)
+  - Formato Trasmissione
+  - Codice destinatario
+
+ORDINE_ACQUISTO
+  - id ordine acquisto
+    - id fattura
+    - id documento ordine (1..n)
+  - data
+  - riferimento numero linea
+
+FATTURA_COLLEGATA
+  - Id fattura collegata
+    - Id fattura
+    - Id documento collegato (1..n)
+  - Riferimento Numero Linea
+  - Data
+  - Codice CIG
+
+IVA_FATTURA
+  - Id IVA fattura
+  - Aliquota IVA
+  - Riferimento normativo
+
+DIVISA_FATTURA
+  - Id divisa fattura
+    - Codice ISO 4217
+  - Descrizione
+
+DOCUMENTO_DI_TRASPORTO_FATTURA
+  - Id DDT fattura
+    - Numero DDT
+  - Data DDT
+
+ISTITUTO_FINANZIARIO
+  - Id istituto finanziario
+    - ABI
+    - CAB
+    - BIC
+    - IBAN
+
+ARTICOLO
+  - Id articolo
+  - Tipo codice Articolo
+  - Valore codice Articolo
+  - Descrizione
+
+CODICE_EMITTENTE_INTERMEDIARIO
+  - Id codice emittente_intermediario
+    - Codice
+
+FATTURA_ELETTRONICA
+  - Header:
+    - Id Versione Fattura
+    - Id trasmissione
+    - Id Cedente Prestatore
+    - Id Cessionario committente = Id soggetto fattura
+    - Id codice emittente_intermediario
+    - Denominazione Emittente_Intermediario
+  - Body:
+    - Dati Generali
+      - Dati Generali documento
+        - Codice tipo documento
+        - Id divisa fattura
+        - Data
+        - Id fattura
+          - Numero documento
+        - Importo Totale
+        - Causale
+        - Dati Bollo
+          - Bollo virtuale (bool)
+          - Importo bollo
+          - Sconto Maggiorazione
+            - Tipo
+            - Importo
+      - Dati ordine acquisto [0..n]
+        - id ordine acquisto
+      - Dati Fatture collegate [0..n]
+        - Id fattura collegata
+      - Id DDT fattura
+    - Dati Beni e Servizi
+      - Dettaglio linee
+        - Numero Linea
+        - Id articolo
+        - Quantità
+        - Descrizione unità di misura
+        - Prezzo unitario
+        - Prezzo Totale
+      - Dati riepilogo
+        - Id iva fattura
+        - Imponibile Importo
+        - Esigibilità IVA
+    - Dati Pagamento
+      - Condizioni Pagamento
+      - Dettaglio Pagamento
+        - Modalità pagamento
+        . Giorni Termini
+        - Data scadenza
+        - Importo
+        - Id Istituto finanziario
