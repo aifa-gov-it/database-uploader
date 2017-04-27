@@ -1,0 +1,23 @@
+---
+spring:
+    jackson:
+        mapper:
+            SORT_PROPERTIES_ALPHABETICALLY: true
+            DEFAULT_VIEW_INCLUSION: true
+        serialization:
+            INDENT_OUTPUT: true
+    jpa:
+        generate-ddl: false
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+          dialect: org.hibernate.dialect.Oracle12cDialect
+    datasource:
+        initialize: false
+        hikari:
+          idle-timeout: 240000
+          max-lifetime: 240000
+        type: com.zaxxer.hikari.HikariDataSource
+    profiles:
+        active: development
