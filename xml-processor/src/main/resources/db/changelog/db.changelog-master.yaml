@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - preConditions:
+    - or:
+      - dbms:
+          type: h2
+      - and:
+        - dbms:
+            type: oracle
+        - runningAs:
+            username: AIFA_INVOICE_PROCESSOR
+  - include:
+      file: db/changelog/db.changelog-1.0.0.yaml
