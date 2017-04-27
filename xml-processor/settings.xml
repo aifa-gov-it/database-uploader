@@ -1,0 +1,47 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <profiles>
+        <profile>
+            <id>main</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>maven.oracle.com</id>
+                    <url>https://maven.oracle.com</url>
+                    <layout>default</layout>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <servers>
+        <server>
+            <id>maven.oracle.com</id>
+            <username>ferrari.marco@gmail.com</username>
+            <password>{owfEWngu8M0HUwCVCr0v3Me2C3F3DBIJqVTecrNVuUs=}</password>
+            <configuration>
+                <basicAuthScope>
+                    <host>ANY</host>
+                    <port>ANY</port>
+                    <realm>OAM 11g</realm>
+                </basicAuthScope>
+                <httpConfiguration>
+                    <all>
+                        <params>
+                            <property>
+                                <name>http.protocol.allow-circular-redirects</name>
+                                <value>%b,true</value>
+                            </property>
+                        </params>
+                    </all>
+                </httpConfiguration>
+            </configuration>
+        </server>
+    </servers>
+</settings>
