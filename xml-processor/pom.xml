@@ -37,9 +37,11 @@
         <commons-io.version>2.5</commons-io.version>
         <commons-lang3.version>3.5</commons-lang3.version>
         <java-ee-api.version>7.0</java-ee-api.version>
+        <mockito-all.version>2.0.2-beta</mockito-all.version>
         <ojdbc.version>12.2.0.1</ojdbc.version>
         <spring-boot.version>${project.parent.version}</spring-boot.version>
         <sysout-over-slf4j.version>1.0.2</sysout-over-slf4j.version>
+        <testng.version>6.11</testng.version>
 
         <!-- Plugins (keep this alphabetically ordered) -->
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
@@ -139,6 +141,18 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito-all.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
