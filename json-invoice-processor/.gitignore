@@ -80,4 +80,9 @@ local.properties
 
 # Code Recommenders
 .recommenders/
-/test-output/
+
+# TestNG Eclipse Plugin output
+test-output/
+
+# Log files
+*.log
