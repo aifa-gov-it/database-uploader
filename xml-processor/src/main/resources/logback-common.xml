@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+
+	<!-- Spring Boot defaults -->
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+	<!-- Main log file -->
+	<appender name="MAIN_FS_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/main.log</file>
+		<append>true</append>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/main-%d{yyyy-MM-dd}-%i.log.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>5MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!--Use an AsyncAppender to avoid performance bottlenecks -->
+	<appender name="ASYNC_MAIN_FS_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="MAIN_FS_APPENDER"/>
+	</appender>
+
+	<!-- Console appender -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Commonly used loggers -->
+	<logger name="org.springframework" level="WARN"/>
+	<logger name="org.hibernate" level="WARN"/>
+	<logger name="org.hibernate.type" level="WARN"/>
+	<logger name="org.hibernate.SQL" level="WARN"/>
+	<logger name="net.sf.ehcache" level="WARN"/>
+
+	<!-- Application loggers -->
+	<logger name="it.gov.aifa" level="WARN"/>
+
+	<!-- Trace method calls -->
+	<logger name="org.springframework.aop.interceptor.CustomizableTraceInterceptor" level="NONE"/>
+
+	<root>
+		<level value="WARN"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="ASYNC_MAIN_FS_APPENDER"/>
+	</root>
+</included>
