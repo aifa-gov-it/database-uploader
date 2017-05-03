@@ -15,12 +15,9 @@ public final class TestConstant {
 	private static final Logger log = LoggerFactory.getLogger(TestConstant.class);
 	private TestConstant() { }
 	
+	public static final String BOOTSTRAP_INVOICE_SHORT_VERSION = "0.1";
 	public static final String INVOICE_SHORT_VERSION = "1.1";
 	public static final String INVOICE_ROOT = "{http://www.fatturapa.gov.it/sdi/fatturapa/v" + INVOICE_SHORT_VERSION + "}FatturaElettronica";
-	public static final String INVOICE_CAUSE =
-			"Il ritardato pagamento della presente fattura puo' comportare  l'addebito degli interessi di mora secondo quanto stabilito dal  D.Lgs.n. 231 9.10.02 e/o secondo gli accordi specifici con voi  interc"
-            + "orsi Contributo ambientale CONAI assolto ove dovuto.    DIS (ove indicato in \"Tipo OP.\"): Merce Sconto-valore esposto ai soli fini IVA Art.15 D.P.R 633/72. Al pagamento indicare il nostro riferimento"
-            + "cliente 1234567890 e fattura nr. 1234567890";
 	public static final String TEST_DIRECTORY_NAME = "input";
 	public static final Path TEST_DIRECTORY_PATH = getPath(TEST_DIRECTORY_NAME);
 	public static final long TEST_ITEM_COUNT = 1;

@@ -10,7 +10,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: version
-                  value: "1.1"
+                  value: "0.1"
               - column:
                   name: validity_start_date
                   value: "2017-05-02T08:30:00"

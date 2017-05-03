@@ -21,8 +21,8 @@ public class InvoiceVersionRepositoryIT extends AbstractComponentIT{
 	
 	@Test
 	public void findOneTest() {
-		InvoiceVersion invoiceVersion = repository.findOne(TestConstant.INVOICE_SHORT_VERSION);
-		assertThat(invoiceVersion.getVersion()).isEqualTo(TestConstant.INVOICE_SHORT_VERSION);
+		InvoiceVersion invoiceVersion = repository.findOne(TestConstant.BOOTSTRAP_INVOICE_SHORT_VERSION);
+		assertThat(invoiceVersion.getVersion()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_SHORT_VERSION);
 	}
 
 }
