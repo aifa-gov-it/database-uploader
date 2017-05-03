@@ -86,3 +86,4 @@ test-output/
 
 # Log files
 *.log
+/logs/
