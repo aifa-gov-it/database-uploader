@@ -1,1 +1,21 @@
 databaseChangeLog:
+  - changeSet:
+    - preConditions:
+      - dbms:
+          type: h2
+      id: 2
+      author: ferrarim
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: semantic_version
+                  value: "v1.1"
+              - column:
+                  name: version
+                  value: "{http://www.fatturapa.gov.it/sdi/fatturapa/v1.1}FatturaElettronica"
+              - column:
+                  name: validity_start_date
+                  value: "2017-05-02T08:30:00"
+            dbms: h2
+            tableName: invoice_version

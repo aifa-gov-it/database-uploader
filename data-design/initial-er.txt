@@ -39,17 +39,8 @@ TRASMISSIONE_FATTURA
   - Formato Trasmissione
   - Codice destinatario
 
-ORDINE_ACQUISTO
-  - id ordine acquisto
-    - id fattura
-    - id documento ordine (1..n)
-  - data
-  - riferimento numero linea
-
-FATTURA_COLLEGATA
-  - Id fattura collegata
-    - Id fattura
-    - Id documento collegato (1..n)
+DOCUMENTO_COLLEGATO
+  - Id documento collegato
   - Riferimento Numero Linea
   - Data
   - Codice CIG
@@ -75,6 +66,7 @@ ISTITUTO_FINANZIARIO
     - CAB
     - BIC
     - IBAN
+  - Nome
 
 ARTICOLO
   - Id articolo
@@ -82,9 +74,14 @@ ARTICOLO
   - Valore codice Articolo
   - Descrizione
 
-CODICE_EMITTENTE_INTERMEDIARIO
-  - Id codice emittente_intermediario
-    - Codice
+LINEA_ACQUISTO
+  - Numero Linea
+  - Id articolo
+  - Quantità
+  - Descrizione unità di misura
+  - Prezzo unitario
+  - Prezzo Totale
+  - Id IVA
 
 FATTURA_ELETTRONICA
   - Header:
@@ -92,7 +89,7 @@ FATTURA_ELETTRONICA
     - Id trasmissione
     - Id Cedente Prestatore
     - Id Cessionario committente = Id soggetto fattura
-    - Id codice emittente_intermediario
+    - Codice emittente_intermediario
     - Denominazione Emittente_Intermediario
   - Body:
     - Dati Generali
@@ -111,18 +108,12 @@ FATTURA_ELETTRONICA
             - Tipo
             - Importo
       - Dati ordine acquisto [0..n]
-        - id ordine acquisto
+        - id ordine acquisto = id documento collegato
       - Dati Fatture collegate [0..n]
-        - Id fattura collegata
+        - Id fattura collegata = id documento collegato
       - Id DDT fattura
     - Dati Beni e Servizi
-      - Dettaglio linee
-        - Numero Linea
-        - Id articolo
-        - Quantità
-        - Descrizione unità di misura
-        - Prezzo unitario
-        - Prezzo Totale
+      - Id linea acquisto [1..n]
       - Dati riepilogo
         - Id iva fattura
         - Imponibile Importo

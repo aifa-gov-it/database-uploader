@@ -102,10 +102,12 @@
                         "CodiceCIG": "12345678B0"
                     }
                 ],
-                "DatiFattureCollegate": {
-                    "IdDocumento": "1234567896",
-                    "Data": "2016-01-04"
-                },
+                "DatiFattureCollegate": [
+                    {
+                        "IdDocumento": "1234567896",
+                        "Data": "2016-01-04"
+                    }
+                ],
                 "DatiDDT": {
                     "NumeroDDT": "1234567897",
                     "DataDDT": "2016-01-04"

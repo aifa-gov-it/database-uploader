@@ -12,13 +12,10 @@
 			<charset>UTF-8</charset>
 			<pattern>${FILE_LOG_PATTERN}</pattern>
 		</encoder>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/main-%d{yyyy-MM-dd}-%i.log.zip
-			</fileNamePattern>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>logs/main-%d{yyyy-MM-dd}-%i.log.zip</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
 			<maxHistory>30</maxHistory>
-			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>5MB</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 	</appender>
 
