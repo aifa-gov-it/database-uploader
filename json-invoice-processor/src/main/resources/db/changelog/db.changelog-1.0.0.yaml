@@ -7,9 +7,6 @@ databaseChangeLog:
             tableName: invoice_version
             columns:
               - column:
-                  name: semantic_version
-                  type: varchar(10)
-              - column:
                   name: version
                   type: varchar(255)
                   constraints:
@@ -18,8 +15,6 @@ databaseChangeLog:
               - column:
                   name: validity_end_date
                   type: dateTime
-                  constraints:
-                    nullable: false
               - column:
                   name: validity_start_date
                   type: dateTime

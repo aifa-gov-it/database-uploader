@@ -16,8 +16,6 @@ spring:
     datasource:
         initialize: false
         hikari:
-          idle-timeout: 240000
+          idle-timeout: 230000
           max-lifetime: 240000
         type: com.zaxxer.hikari.HikariDataSource
-    profiles:
-        active: development
