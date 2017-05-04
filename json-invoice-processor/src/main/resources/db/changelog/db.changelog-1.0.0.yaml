@@ -54,6 +54,16 @@ databaseChangeLog:
                     type: varchar(8)
                     constraints:
                       nullable: false
+              - column:
+                    name: soggetto_emittente
+                    type: varchar(8)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: soggetto_emittente_name
+                    type: varchar(255)
+                    constraints:
+                      nullable: false
         - createTable:
             tableName: invoice_participant
             columns:

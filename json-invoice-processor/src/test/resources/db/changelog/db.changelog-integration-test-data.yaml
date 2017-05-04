@@ -101,5 +101,11 @@ databaseChangeLog:
               - column:
                     name: cessionario_committente_country_code
                     value: "IT"
+              - column:
+                    name: soggetto_emittente
+                    value: "TZ"
+              - column:
+                    name: soggetto_emittente_name
+                    value: "Soggetto Emittente SPA"
             dbms: h2
             tableName: invoice

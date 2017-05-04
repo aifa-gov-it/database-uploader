@@ -41,6 +41,12 @@ public class Invoice {
 	@Id
 	@NotBlank
 	private String number;
+	
+	@NotBlank
+	private String soggettoEmittente;
+	
+	@NotBlank
+	private String soggettoEmittenteName;
 
 	@Override
 	public boolean equals(Object other) {
@@ -56,6 +62,8 @@ public class Invoice {
 				.append(cessionarioCommittente, rhs.cessionarioCommittente)
 				.append(invoiceVersion, rhs.invoiceVersion)
 				.append(number, rhs.number)
+				.append(soggettoEmittente, rhs.soggettoEmittente)
+				.append(soggettoEmittenteName, rhs.soggettoEmittenteName)
 				.isEquals();
 	}
 
@@ -75,6 +83,10 @@ public class Invoice {
 		return number;
 	}
 
+	public String getSoggettoEmittente() {
+		return soggettoEmittente;
+	}
+
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
@@ -82,7 +94,17 @@ public class Invoice {
 				.append(cessionarioCommittente)
 				.append(invoiceVersion)
 				.append(number)
+				.append(soggettoEmittente)
+				.append(soggettoEmittenteName)
 				.toHashCode();
+	}
+
+	public String getSoggettoEmittenteName() {
+		return soggettoEmittenteName;
+	}
+
+	public void setSoggettoEmittenteName(String soggettoEmittenteName) {
+		this.soggettoEmittenteName = soggettoEmittenteName;
 	}
 
 	public void setCedentePrestatore(InvoiceCedentePrestatore cedentePrestatore) {
@@ -99,6 +121,10 @@ public class Invoice {
 
 	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public void setSoggettoEmittente(String soggettoEmittente) {
+		this.soggettoEmittente = soggettoEmittente;
 	}
 
 	@Override

@@ -26,5 +26,7 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getInvoiceVersion().getVersion()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_VERSION);
 		assertThat(invoice.getCedentePrestatore()).isNotNull();
 		assertThat(invoice.getCessionarioCommittente()).isNotNull();
+		assertThat(invoice.getSoggettoEmittente()).isNotBlank();
+		assertThat(invoice.getSoggettoEmittenteName()).isNotBlank();
 	}
 }
