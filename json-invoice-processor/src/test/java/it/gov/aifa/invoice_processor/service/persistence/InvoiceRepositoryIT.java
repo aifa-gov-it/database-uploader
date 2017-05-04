@@ -23,6 +23,11 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 	public void findOneTest() {
 		Invoice invoice = repository.findOne(TestConstant.BOOTSTRAP_INVOICE_ID);
 		assertThat(invoice.getNumber()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_ID);
+		assertThat(invoice.getInvoiceSenderCode()).isNotBlank();
+		assertThat(invoice.getInvoiceSenderCountryCode()).isNotBlank();
+		assertThat(invoice.getInvoiceSendingNumber()).isNotBlank();
+		assertThat(invoice.getInvoiceRecipientCode()).isNotBlank();
+		assertThat(invoice.getInvoiceSendingFormat()).isNotBlank();
 		assertThat(invoice.getInvoiceVersion().getVersion()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_VERSION);
 		assertThat(invoice.getCedentePrestatore()).isNotNull();
 		assertThat(invoice.getCessionarioCommittente()).isNotNull();

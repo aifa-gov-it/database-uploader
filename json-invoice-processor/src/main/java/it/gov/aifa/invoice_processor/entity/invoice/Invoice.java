@@ -33,6 +33,21 @@ public class Invoice {
 	@NotNull
 	private InvoiceParticipant cessionarioCommittente;
 	
+	@NotBlank
+	private String invoiceRecipientCode;
+	
+	@NotBlank
+	private String invoiceSenderCode;
+	
+	@NotBlank
+	private String invoiceSenderCountryCode;
+	
+	@NotBlank
+	private String invoiceSendingFormat;
+	
+	@NotBlank
+	private String invoiceSendingNumber;
+	
 	@ManyToOne
 	@JoinColumn(name = "version")
 	@NotNull
@@ -60,19 +75,44 @@ public class Invoice {
 		return new EqualsBuilder()
 				.append(cedentePrestatore, rhs.cedentePrestatore)
 				.append(cessionarioCommittente, rhs.cessionarioCommittente)
+				.append(invoiceSenderCode, rhs.invoiceSenderCode)
+				.append(invoiceSenderCountryCode, rhs.invoiceSenderCountryCode)
+				.append(invoiceSendingNumber, rhs.invoiceSendingNumber)
+				.append(invoiceRecipientCode, rhs.invoiceRecipientCode)
+				.append(invoiceSendingFormat, rhs.invoiceSendingFormat)
 				.append(invoiceVersion, rhs.invoiceVersion)
 				.append(number, rhs.number)
 				.append(soggettoEmittente, rhs.soggettoEmittente)
 				.append(soggettoEmittenteName, rhs.soggettoEmittenteName)
 				.isEquals();
 	}
-
+	
 	public InvoiceCedentePrestatore getCedentePrestatore() {
 		return cedentePrestatore;
 	}
 
 	public InvoiceParticipant getCessionarioCommittente() {
 		return cessionarioCommittente;
+	}
+
+	public String getInvoiceRecipientCode() {
+		return invoiceRecipientCode;
+	}
+
+	public String getInvoiceSenderCode() {
+		return invoiceSenderCode;
+	}
+
+	public String getInvoiceSenderCountryCode() {
+		return invoiceSenderCountryCode;
+	}
+
+	public String getInvoiceSendingFormat() {
+		return invoiceSendingFormat;
+	}
+
+	public String getInvoiceSendingNumber() {
+		return invoiceSendingNumber;
 	}
 
 	public InvoiceVersion getInvoiceVersion() {
@@ -87,24 +127,25 @@ public class Invoice {
 		return soggettoEmittente;
 	}
 
+	public String getSoggettoEmittenteName() {
+		return soggettoEmittenteName;
+	}
+
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
 				.append(cedentePrestatore)
 				.append(cessionarioCommittente)
+				.append(invoiceSenderCode)
+				.append(invoiceSenderCountryCode)
+				.append(invoiceSendingNumber)
+				.append(invoiceRecipientCode)
+				.append(invoiceSendingFormat)
 				.append(invoiceVersion)
 				.append(number)
 				.append(soggettoEmittente)
 				.append(soggettoEmittenteName)
 				.toHashCode();
-	}
-
-	public String getSoggettoEmittenteName() {
-		return soggettoEmittenteName;
-	}
-
-	public void setSoggettoEmittenteName(String soggettoEmittenteName) {
-		this.soggettoEmittenteName = soggettoEmittenteName;
 	}
 
 	public void setCedentePrestatore(InvoiceCedentePrestatore cedentePrestatore) {
@@ -113,6 +154,26 @@ public class Invoice {
 
 	public void setCessionarioCommittente(InvoiceParticipant cessionarioCommittente) {
 		this.cessionarioCommittente = cessionarioCommittente;
+	}
+
+	public void setInvoiceRecipientCode(String invoiceRecipientCode) {
+		this.invoiceRecipientCode = invoiceRecipientCode;
+	}
+
+	public void setInvoiceSenderCode(String invoiceSenderCode) {
+		this.invoiceSenderCode = invoiceSenderCode;
+	}
+
+	public void setInvoiceSenderCountryCode(String invoiceSenderCountryCode) {
+		this.invoiceSenderCountryCode = invoiceSenderCountryCode;
+	}
+
+	public void setInvoiceSendingFormat(String invoiceSendingFormat) {
+		this.invoiceSendingFormat = invoiceSendingFormat;
+	}
+
+	public void setInvoiceSendingNumber(String invoiceSendingNumber) {
+		this.invoiceSendingNumber = invoiceSendingNumber;
 	}
 
 	public void setInvoiceVersion(InvoiceVersion invoiceVersion) {
@@ -125,6 +186,10 @@ public class Invoice {
 
 	public void setSoggettoEmittente(String soggettoEmittente) {
 		this.soggettoEmittente = soggettoEmittente;
+	}
+
+	public void setSoggettoEmittenteName(String soggettoEmittenteName) {
+		this.soggettoEmittenteName = soggettoEmittenteName;
 	}
 
 	@Override

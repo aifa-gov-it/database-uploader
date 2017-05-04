@@ -107,5 +107,20 @@ databaseChangeLog:
               - column:
                     name: soggetto_emittente_name
                     value: "Soggetto Emittente SPA"
+              - column:
+                    name: invoice_sender_code
+                    value: "789456"
+              - column:
+                    name: invoice_sender_country_code
+                    value: "IT"
+              - column:
+                    name: invoice_sending_number
+                    value: "123789"
+              - column:
+                    name: invoice_recipient_code
+                    value: "QWERTY1"
+              - column:
+                    name: invoice_sending_format
+                    value: "Sending Format"
             dbms: h2
             tableName: invoice

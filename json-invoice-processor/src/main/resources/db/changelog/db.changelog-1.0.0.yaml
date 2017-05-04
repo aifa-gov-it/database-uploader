@@ -64,6 +64,31 @@ databaseChangeLog:
                     type: varchar(255)
                     constraints:
                       nullable: false
+              - column:
+                    name: invoice_sender_code
+                    type: varchar(255)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: invoice_sender_country_code
+                    type: varchar(8)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: invoice_sending_number
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: invoice_recipient_code
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: invoice_sending_format
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
         - createTable:
             tableName: invoice_participant
             columns:
