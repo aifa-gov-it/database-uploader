@@ -26,6 +26,14 @@ public class Invoice {
 	private InvoiceCedentePrestatore cedentePrestatore;
 
 	@ManyToOne
+	@JoinColumns({
+		@JoinColumn(name = "cessionarioCommittenteCode", referencedColumnName = "code")
+		, @JoinColumn(name = "cessionarioCommittenteCountryCode", referencedColumnName = "countryCode")
+	})
+	@NotNull
+	private InvoiceParticipant cessionarioCommittente;
+	
+	@ManyToOne
 	@JoinColumn(name = "version")
 	@NotNull
 	private InvoiceVersion invoiceVersion;
@@ -44,6 +52,8 @@ public class Invoice {
 		}
 		Invoice rhs = ((Invoice) other);
 		return new EqualsBuilder()
+				.append(cedentePrestatore, rhs.cedentePrestatore)
+				.append(cessionarioCommittente, rhs.cessionarioCommittente)
 				.append(invoiceVersion, rhs.invoiceVersion)
 				.append(number, rhs.number)
 				.isEquals();
@@ -51,6 +61,10 @@ public class Invoice {
 
 	public InvoiceCedentePrestatore getCedentePrestatore() {
 		return cedentePrestatore;
+	}
+
+	public InvoiceParticipant getCessionarioCommittente() {
+		return cessionarioCommittente;
 	}
 
 	public InvoiceVersion getInvoiceVersion() {
@@ -64,6 +78,8 @@ public class Invoice {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
+				.append(cedentePrestatore)
+				.append(cessionarioCommittente)
 				.append(invoiceVersion)
 				.append(number)
 				.toHashCode();
@@ -71,6 +87,10 @@ public class Invoice {
 
 	public void setCedentePrestatore(InvoiceCedentePrestatore cedentePrestatore) {
 		this.cedentePrestatore = cedentePrestatore;
+	}
+
+	public void setCessionarioCommittente(InvoiceParticipant cessionarioCommittente) {
+		this.cessionarioCommittente = cessionarioCommittente;
 	}
 
 	public void setInvoiceVersion(InvoiceVersion invoiceVersion) {

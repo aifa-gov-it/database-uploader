@@ -95,5 +95,11 @@ databaseChangeLog:
               - column:
                     name: cedente_prestatore_country_code
                     value: "IT"
+              - column:
+                    name: cessionario_committente_code
+                    value: "123456789"
+              - column:
+                    name: cessionario_committente_country_code
+                    value: "IT"
             dbms: h2
             tableName: invoice

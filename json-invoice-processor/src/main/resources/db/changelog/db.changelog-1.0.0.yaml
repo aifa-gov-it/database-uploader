@@ -44,6 +44,16 @@ databaseChangeLog:
                     type: varchar(8)
                     constraints:
                       nullable: false
+              - column:
+                    name: cessionario_committente_code
+                    type: varchar(255)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: cessionario_committente_country_code
+                    type: varchar(8)
+                    constraints:
+                      nullable: false
         - createTable:
             tableName: invoice_participant
             columns:
@@ -157,3 +167,9 @@ databaseChangeLog:
             constraintName: fk_invoice_invoice_cedente_prestatore
             referencedColumnNames: code,country_code
             referencedTableName: invoice_cedente_prestatore
+        - addForeignKeyConstraint:
+            baseColumnNames: cessionario_committente_code,cessionario_committente_country_code
+            baseTableName: invoice
+            constraintName: fk_invoice_invoice_cessionario_committente
+            referencedColumnNames: code,country_code
+            referencedTableName: invoice_participant
