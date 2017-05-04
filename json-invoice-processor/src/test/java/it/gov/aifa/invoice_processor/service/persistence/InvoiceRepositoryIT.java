@@ -23,6 +23,24 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 	public void findOneTest() {
 		Invoice invoice = repository.findOne(TestConstant.BOOTSTRAP_INVOICE_ID);
 		assertThat(invoice.getNumber()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_ID);
+		assertThat(invoice.getCurrency()).isNotBlank();
+		assertThat(invoice.getDate()).isNotNull();
+		assertThat(invoice.getDescription()).isNotBlank();
+		assertThat(invoice.getDiscountAmount()).isGreaterThan(0);
+		assertThat(invoice.getDiscountType()).isNotBlank();
+		assertThat(invoice.getDocumentTypeCode()).isNotBlank();
+		assertThat(invoice.getPaymentAmount()).isGreaterThan(0);
+		assertThat(invoice.getPaymentConditions()).isNotBlank();
+		assertThat(invoice.getPaymentExpirationDate()).isNotNull();
+		assertThat(invoice.getPaymentMode()).isNotBlank();
+		assertThat(invoice.getPaymentTermDays()).isGreaterThan(0);
+		assertThat(invoice.getStampAmount()).isGreaterThan(0);
+		assertThat(invoice.getTaxableAmount()).isGreaterThan(0);
+		assertThat(invoice.getTaxDue()).isNotBlank();
+		assertThat(invoice.getTotalAmount()).isGreaterThan(0);
+		assertThat(invoice.getTransportDocumentDate()).isNotNull();
+		assertThat(invoice.getTransportDocumentId()).isNotBlank();
+		assertThat(invoice.getVirtualStamp()).isNotNull();
 		assertThat(invoice.getInvoiceSenderCode()).isNotBlank();
 		assertThat(invoice.getInvoiceSenderCountryCode()).isNotBlank();
 		assertThat(invoice.getInvoiceSendingNumber()).isNotBlank();

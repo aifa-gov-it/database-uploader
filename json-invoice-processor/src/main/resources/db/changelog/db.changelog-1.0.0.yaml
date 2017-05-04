@@ -23,18 +23,6 @@ databaseChangeLog:
             tableName: invoice
             columns:
               - column:
-                  name: version
-                  type: varchar(255)
-                  constraints:
-                    foreignKeyName: fk_invoice_version_invoice
-                    nullable: false
-                    references: invoice_version(version)
-              - column:
-                  name: number
-                  type: varchar(255)
-                  constraints:
-                    primaryKey: true
-              - column:
                     name: cedente_prestatore_code
                     type: varchar(255)
                     constraints:
@@ -55,13 +43,43 @@ databaseChangeLog:
                     constraints:
                       nullable: false
               - column:
-                    name: soggetto_emittente
+                    name: currency
                     type: varchar(8)
                     constraints:
                       nullable: false
               - column:
-                    name: soggetto_emittente_name
-                    type: varchar(255)
+                    name: date
+                    type: dateTime
+                    constraints:
+                      nullable: false
+              - column:
+                    name: description
+                    type: varchar(1024)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: discount_amount
+                    type: decimal
+                    constraints:
+                      nullable: false
+              - column:
+                    name: discount_type
+                    type: varchar(20)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: discount_type_code
+                    type: varchar(10)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: document_type_code
+                    type: varchar(10)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: invoice_recipient_code
+                    type: varchar(50)
                     constraints:
                       nullable: false
               - column:
@@ -75,20 +93,95 @@ databaseChangeLog:
                     constraints:
                       nullable: false
               - column:
+                    name: invoice_sending_format
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+              - column:
                     name: invoice_sending_number
                     type: varchar(50)
                     constraints:
                       nullable: false
               - column:
-                    name: invoice_recipient_code
-                    type: varchar(50)
+                    name: number
+                    type: varchar(255)
+                    constraints:
+                      primaryKey: true
+              - column:
+                    name: payment_amount
+                    type: decimal
                     constraints:
                       nullable: false
               - column:
-                    name: invoice_sending_format
-                    type: varchar(50)
+                    name: payment_conditions
+                    type: varchar(10)
                     constraints:
                       nullable: false
+              - column:
+                    name: payment_expiration_date
+                    type: dateTime
+                    constraints:
+                      nullable: false
+              - column:
+                    name: payment_mode
+                    type: varchar(10)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: payment_term_days
+                    type: number
+                    constraints:
+                      nullable: false
+              - column:
+                    name: soggetto_emittente
+                    type: varchar(8)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: soggetto_emittente_name
+                    type: varchar(255)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: stamp_amount
+                    type: decimal
+                    constraints:
+                      nullable: false
+              - column:
+                    name: taxable_amount
+                    type: decimal
+                    constraints:
+                      nullable: false
+              - column:
+                    name: tax_due
+                    type: varchar(10)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: total_amount
+                    type: decimal
+                    constraints:
+                      nullable: false
+              - column:
+                    name: transport_document_date
+                    type: dateTime
+                    constraints:
+                      nullable: false
+              - column:
+                    name: transport_document_id
+                    type: varchar(20)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: version
+                    type: varchar(255)
+                    constraints:
+                      foreignKeyName: fk_invoice_version_invoice
+                      nullable: false
+                      references: invoice_version(version)
+              - column:
+                    name: virtual_stamp
+                    type: integer
         - createTable:
             tableName: invoice_participant
             columns:

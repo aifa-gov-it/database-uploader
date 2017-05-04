@@ -84,12 +84,6 @@ databaseChangeLog:
         - insert:
             columns:
               - column:
-                  name: version
-                  value: "0.1"
-              - column:
-                  name: number
-                  value: "123456789"
-              - column:
                     name: cedente_prestatore_code
                     value: "123456789"
               - column:
@@ -102,11 +96,29 @@ databaseChangeLog:
                     name: cessionario_committente_country_code
                     value: "IT"
               - column:
-                    name: soggetto_emittente
-                    value: "TZ"
+                    name: currency
+                    value: "EUR"
               - column:
-                    name: soggetto_emittente_name
-                    value: "Soggetto Emittente SPA"
+                    name: date
+                    value: "2017-05-03"
+              - column:
+                    name: description
+                    value: "Invoice Description"
+              - column:
+                    name: discount_amount
+                    value: "0.5"
+              - column:
+                    name: discount_type
+                    value: "Discount Type"
+              - column:
+                    name: discount_type_code
+                    value: "DTC"
+              - column:
+                    name: document_type_code
+                    value: "DOCTC"
+              - column:
+                    name: invoice_recipient_code
+                    value: "QWERTY1"
               - column:
                     name: invoice_sender_code
                     value: "789456"
@@ -116,11 +128,57 @@ databaseChangeLog:
               - column:
                     name: invoice_sending_number
                     value: "123789"
-              - column:
-                    name: invoice_recipient_code
-                    value: "QWERTY1"
+              
               - column:
                     name: invoice_sending_format
                     value: "Sending Format"
+              - column:
+                    name: number
+                    value: "123456789"
+              - column:
+                    name: payment_amount
+                    value: "10.1"
+              - column:
+                    name: payment_conditions
+                    value: "PC3"
+              - column:
+                    name: payment_expiration_date
+                    value: "2017-05-04"
+              - column:
+                    name: payment_mode
+                    value: "PM4"
+              - column:
+                    name: payment_term_days
+                    value: "50"
+              - column:
+                    name: soggetto_emittente
+                    value: "TZ"
+              - column:
+                    name: soggetto_emittente_name
+                    value: "Soggetto Emittente SPA"
+              - column:
+                    name: stamp_amount
+                    value: "50.8"
+              - column:
+                    name: taxable_amount
+                    value: "200.89"
+              - column:
+                    name: tax_due
+                    value: "S"
+              - column:
+                    name: total_amount
+                    value: "250.56"
+              - column:
+                    name: transport_document_date
+                    value: "2017-05-04"
+              - column:
+                    name: transport_document_id
+                    value: "456123"
+              - column:
+                    name: version
+                    value: "0.1"
+              - column:
+                    name: virtual_stamp
+                    value: "1"
             dbms: h2
             tableName: invoice
