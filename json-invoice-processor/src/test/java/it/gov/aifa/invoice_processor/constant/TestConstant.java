@@ -17,6 +17,7 @@ public final class TestConstant {
 	private static final Logger log = LoggerFactory.getLogger(TestConstant.class);
 	private TestConstant() { }
 	
+	public static final String BOOTSTRAP_FINANCIAL_INSTITUTION_ID = "IT123";
 	public static final String BOOTSTRAP_INVOICE_VERSION = "0.1";
 	public static final String BOOTSTRAP_INVOICE_ID = "123456789";
 	public static final CountryAndCodePrimaryKey BOOTSTRAP_INVOICE_PARTICIPANT_ID = new CountryAndCodePrimaryKey("123456789", "IT");

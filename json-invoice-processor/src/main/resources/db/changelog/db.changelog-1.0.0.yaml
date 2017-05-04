@@ -36,6 +36,32 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
+            tableName: financial_institution
+            columns:
+              - column:
+                  name: iban
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: abi
+                  type: varchar(50)
+              - column:
+                  name: bic
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cab
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
             tableName: invoice
             columns:
               - column:
@@ -93,6 +119,13 @@ databaseChangeLog:
                     type: varchar(10)
                     constraints:
                       nullable: false
+              - column:
+                    name: financial_institution_id
+                    type: varchar(255)
+                    constraints:
+                      foreignKeyName: fk_financial_institution_invoice
+                      nullable: false
+                      references: financial_institution(iban)
               - column:
                     name: invoice_recipient_code
                     type: varchar(50)

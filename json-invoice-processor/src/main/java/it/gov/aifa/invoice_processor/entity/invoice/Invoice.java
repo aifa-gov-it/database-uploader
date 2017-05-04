@@ -51,6 +51,11 @@ public class Invoice {
 	
 	@NotBlank
 	private String documentTypeCode;
+	
+	@ManyToOne
+	@JoinColumn(name = "financialInstitutionId", referencedColumnName = "iban")
+	@NotNull
+	private FinancialInstitution financialInstitution;
 
 	@NotBlank
 	private String invoiceRecipientCode;
@@ -132,6 +137,7 @@ public class Invoice {
 				.append(discountType, rhs.discountType)
 				.append(discountAmount, rhs.discountAmount)
 				.append(documentTypeCode, rhs.documentTypeCode)
+				.append(financialInstitution, rhs.financialInstitution)
 				.append(invoiceSenderCode, rhs.invoiceSenderCode)
 				.append(invoiceSenderCountryCode, rhs.invoiceSenderCountryCode)
 				.append(invoiceSendingNumber, rhs.invoiceSendingNumber)
@@ -187,6 +193,10 @@ public class Invoice {
 
 	public String getDocumentTypeCode() {
 		return documentTypeCode;
+	}
+
+	public FinancialInstitution getFinancialInstitution() {
+		return financialInstitution;
 	}
 
 	public String getInvoiceRecipientCode() {
@@ -287,6 +297,7 @@ public class Invoice {
 				.append(discountType)
 				.append(discountAmount)
 				.append(documentTypeCode)
+				.append(financialInstitution)
 				.append(invoiceSenderCode)
 				.append(invoiceSenderCountryCode)
 				.append(invoiceSendingNumber)
@@ -342,6 +353,10 @@ public class Invoice {
 
 	public void setDocumentTypeCode(String documentTypeCode) {
 		this.documentTypeCode = documentTypeCode;
+	}
+
+	public void setFinancialInstitution(FinancialInstitution financialInstitution) {
+		this.financialInstitution = financialInstitution;
 	}
 
 	public void setInvoiceRecipientCode(String invoiceRecipientCode) {

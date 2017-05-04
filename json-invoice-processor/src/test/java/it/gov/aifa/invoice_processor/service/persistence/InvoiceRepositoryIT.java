@@ -29,6 +29,7 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getDiscountAmount()).isGreaterThan(0);
 		assertThat(invoice.getDiscountType()).isNotBlank();
 		assertThat(invoice.getDocumentTypeCode()).isNotBlank();
+		assertThat(invoice.getFinancialInstitution()).isNotNull();
 		assertThat(invoice.getPaymentAmount()).isGreaterThan(0);
 		assertThat(invoice.getPaymentConditions()).isNotBlank();
 		assertThat(invoice.getPaymentExpirationDate()).isNotNull();

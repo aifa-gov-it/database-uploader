@@ -97,6 +97,24 @@ databaseChangeLog:
         - insert:
             columns:
               - column:
+                  name: iban
+                  value: "IT123"
+              - column:
+                  name: abi
+                  value: "ABI123"
+              - column:
+                  name: bic
+                  value: "BIC123"
+              - column:
+                  name: cab
+                  value: "CAB123"
+              - column:
+                  name: name
+                  value: "Name 123"
+            tableName: "financial_institution"
+        - insert:
+            columns:
+              - column:
                     name: cedente_prestatore_code
                     value: "123456789"
               - column:
@@ -129,6 +147,9 @@ databaseChangeLog:
               - column:
                     name: document_type_code
                     value: "DOCTC"
+              - column:
+                    name: financial_institution_id
+                    value: "IT123"
               - column:
                     name: invoice_recipient_code
                     value: "QWERTY1"
