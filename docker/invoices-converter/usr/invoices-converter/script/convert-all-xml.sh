@@ -3,7 +3,19 @@
 prefix="$1/"
 suffix=".xml"
 for X in $1/*; do
-  output=${X#$prefix}
-  output=$2/${output%$suffix}.json
-  xml2json -t xml2json --pretty -o $output $X
+  output_file_name=${X#$prefix}
+  output_file_name=$2/${output_file_name%$suffix}
+  output_file_name_ext=${output_file_name}.json
+  output_file_name_linked_invoice_data_ext=${output_file_name}_DatiFattureCollegate.json
+  output_file_name_post_processed_ext=${output_file_name}_post_processed.json
+  echo "Processing: " $X
+  xml2json -t xml2json --pretty -o $output_file_name_ext $X
+  if grep -q v1.1 "$output_file_name_ext"; then
+    echo "Post-processing Invoice v1.1: " $output_file_name_ext
+    jq '."{http://www.fatturapa.gov.it/sdi/fatturapa/v1.1}FatturaElettronica".FatturaElettronicaBody.DatiGenerali.DatiFattureCollegate' $output_file_name_ext | jq -s '.' > $output_file_name_linked_invoice_data_ext
+    jq --slurpfile dati_fatture_collegate $output_file_name_linked_invoice_data_ext '."{http://www.fatturapa.gov.it/sdi/fatturapa/v1.1}FatturaElettronica".FatturaElettronicaBody.DatiGenerali.DatiFattureCollegate = $dati_fatture_collegate[0]' $output_file_name_ext >> $output_file_name_post_processed_ext
+    rm $output_file_name_ext
+    rm $output_file_name_linked_invoice_data_ext
+    mv $output_file_name_post_processed_ext $output_file_name_ext
+  fi
 done

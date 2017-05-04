@@ -1,6 +1,8 @@
 FROM python:3.6-alpine
 
-RUN pip install https://github.com/hay/xml2json/zipball/master
+RUN pip install https://github.com/hay/xml2json/zipball/master \
+  && apk --update add \
+    jq
 
 ENV WORKING_DIRECTORY /usr/invoices-converter
 RUN mkdir -p $WORKING_DIRECTORY/json \
