@@ -3,6 +3,7 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -15,9 +16,17 @@ import org.springframework.validation.annotation.Validated;
 @Entity
 @Validated
 public class Invoice {
-	
+
 	@ManyToOne
-    @JoinColumn(name = "version")
+	@JoinColumns({
+		@JoinColumn(name = "cedentePrestatoreCode", referencedColumnName = "code")
+		, @JoinColumn(name = "cedentePrestatoreCountryCode", referencedColumnName = "country_code")
+	})
+	@NotNull
+	private InvoiceCedentePrestatore cedentePrestatore;
+
+	@ManyToOne
+	@JoinColumn(name = "version")
 	@NotNull
 	private InvoiceVersion invoiceVersion;
 
@@ -40,6 +49,10 @@ public class Invoice {
 				.isEquals();
 	}
 
+	public InvoiceCedentePrestatore getCedentePrestatore() {
+		return cedentePrestatore;
+	}
+
 	public InvoiceVersion getInvoiceVersion() {
 		return invoiceVersion;
 	}
@@ -47,7 +60,7 @@ public class Invoice {
 	public String getNumber() {
 		return number;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
@@ -55,11 +68,15 @@ public class Invoice {
 				.append(number)
 				.toHashCode();
 	}
-	
+
+	public void setCedentePrestatore(InvoiceCedentePrestatore cedentePrestatore) {
+		this.cedentePrestatore = cedentePrestatore;
+	}
+
 	public void setInvoiceVersion(InvoiceVersion invoiceVersion) {
 		this.invoiceVersion = invoiceVersion;
 	}
-	
+
 	public void setNumber(String number) {
 		this.number = number;
 	}

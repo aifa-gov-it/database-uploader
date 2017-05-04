@@ -3,6 +3,8 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -12,6 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Validated
 public class InvoiceParticipant {
 	@NotBlank

@@ -34,6 +34,16 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     primaryKey: true
+              - column:
+                    name: cedente_prestatore_code
+                    type: varchar(255)
+                    constraints:
+                      nullable: false
+              - column:
+                    name: cedente_prestatore_country_code
+                    type: varchar(8)
+                    constraints:
+                      nullable: false
         - createTable:
             tableName: invoice_participant
             columns:
@@ -92,3 +102,58 @@ databaseChangeLog:
                   type: varchar(10)
                   constraints:
                     nullable: false
+        - createTable:
+            tableName: invoice_cedente_prestatore
+            columns:
+            - column:
+                  name: clearance_state
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: code
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+            - column:
+                  name: country_code
+                  type: varchar(8)
+                  constraints:
+                    primaryKey: true
+            - column:
+                  name: rea_number
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: rea_office
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: share_capital
+                  type: decimal
+                  constraints:
+                    nullable: false
+            - column:
+                  name: sole_stakeholder
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: tax_system
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: code,country_code
+            baseTableName: invoice_cedente_prestatore
+            constraintName: fk_invoice_participant_invoice_cedente_prestatore
+            referencedColumnNames: code,country_code
+            referencedTableName: invoice_participant
+        - addForeignKeyConstraint:
+            baseColumnNames: cedente_prestatore_code,cedente_prestatore_country_code
+            baseTableName: invoice
+            constraintName: fk_invoice_invoice_cedente_prestatore
+            referencedColumnNames: code,country_code
+            referencedTableName: invoice_cedente_prestatore

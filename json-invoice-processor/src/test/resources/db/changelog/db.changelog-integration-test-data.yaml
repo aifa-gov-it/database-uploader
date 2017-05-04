@@ -18,16 +18,6 @@ databaseChangeLog:
             tableName: invoice_version
         - insert:
             columns:
-              - column:
-                  name: version
-                  value: "0.1"
-              - column:
-                  name: number
-                  value: "123456789"
-            dbms: h2
-            tableName: invoice
-        - insert:
-            columns:
             - column:
                   name: city
                   value: "Rome"
@@ -63,3 +53,47 @@ databaseChangeLog:
                   value: "12345"
             dbms: h2
             tableName: invoice_participant
+        - insert:
+            columns:
+            - column:
+                  name: clearance_state
+                  value: "CL"
+            - column:
+                  name: code
+                  value: "123456789"
+            - column:
+                  name: country_code
+                  value: "IT"
+            - column:
+                  name: rea_number
+                  value: "12345"
+            - column:
+                  name: rea_office
+                  value: "REA Office"
+            - column:
+                  name: share_capital
+                  value: "1.2"
+            - column:
+                  name: sole_stakeholder
+                  value: "SU"
+            - column:
+                  name: tax_system
+                  value: "TS1"
+            dbms: h2
+            tableName: invoice_cedente_prestatore
+        - insert:
+            columns:
+              - column:
+                  name: version
+                  value: "0.1"
+              - column:
+                  name: number
+                  value: "123456789"
+              - column:
+                    name: cedente_prestatore_code
+                    value: "123456789"
+              - column:
+                    name: cedente_prestatore_country_code
+                    value: "IT"
+            dbms: h2
+            tableName: invoice
