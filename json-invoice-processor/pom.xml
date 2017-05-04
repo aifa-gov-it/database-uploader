@@ -297,6 +297,20 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>⅛{liquibase.version}</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                    <driver>org.h2.Driver</driver>
+                    <outputFileEncoding>${project.resources.sourceEncoding}</outputFileEncoding>
+                    <url>jdbc:h2:mem:testdb</url>
+                    <username>sa</username>
+                    <password>sa</password>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

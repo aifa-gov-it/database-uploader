@@ -45,3 +45,9 @@ You can use a container to build the source if you don't want to install build d
 ##### Procedure
 
 Run the build container, from the root of the project: `docker run -it -v $(pwd):/usr/src/app -w /usr/src/app --rm maven:3.3.9-jdk-8 mvn install`
+
+### How to Run
+
+#### Generate the SQL to update the DB
+
+Run the `liquibase:updateSQL` Maven goal to generate an SQL script with the changes to apply to the database. The script will be in `target/liquibase/migrate.sql`
