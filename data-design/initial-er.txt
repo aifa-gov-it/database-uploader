@@ -1,12 +1,10 @@
-VERSIONE_FATTURA_ELETTRONICA
+*VERSIONE_FATTURA_ELETTRONICA
   - id: "http://www.fatturapa.gov.it/sdi/fatturapa/v1.1"
   - versione: "1.1"
+  - data inizio validità
+  - data fine validità
 
-PAESI_FATTURA
-  - Id (Codice ISO paese)
-  - Descrizione
-
-SOGGETTO_FATTURA
+*SOGGETTO_FATTURA
   - Id
     - IdPaese
     - IdCodice
@@ -23,7 +21,7 @@ SOGGETTO_FATTURA
     - Provincia
     - Paese
 
-CEDENTE_PRESTATORE_FATTURA
+*CEDENTE_PRESTATORE_FATTURA
   - Id soggetto fattura
   - Regime fiscale
   - Iscrizione REA
@@ -33,40 +31,26 @@ CEDENTE_PRESTATORE_FATTURA
     - Socio unico
     - Stato liquidazione
 
-TRASMISSIONE_FATTURA
-  - Id trasmittente fattura = Id soggetto fattura
-  - Progressivo invio (int)
-  - Formato Trasmissione
-  - Codice destinatario
-
-DOCUMENTO_COLLEGATO
-  - Id documento collegato
-  - Riferimento Numero Linea
-  - Data
-  - Codice CIG
-
-IVA_FATTURA
+*IVA_FATTURA
   - Id IVA fattura
   - Aliquota IVA
   - Riferimento normativo
 
-DIVISA_FATTURA
-  - Id divisa fattura
-    - Codice ISO 4217
-  - Descrizione
-
-DOCUMENTO_DI_TRASPORTO_FATTURA
-  - Id DDT fattura
-    - Numero DDT
-  - Data DDT
-
-ISTITUTO_FINANZIARIO
+*ISTITUTO_FINANZIARIO
   - Id istituto finanziario
-    - ABI
-    - CAB
-    - BIC
     - IBAN
+  - ABI
+  - CAB
+  - BIC
   - Nome
+
+DOCUMENTO_COLLEGATO
+  - Id
+    - Id documento collegato
+    - Id fattura
+  - Riferimento Numero Linea
+  - Data
+  - Codice CIG
 
 ARTICOLO
   - Id articolo
@@ -84,45 +68,50 @@ LINEA_ACQUISTO
   - Id IVA
 
 FATTURA_ELETTRONICA
-  - Header:
-    - Id Versione Fattura
-    - Id trasmissione
-    - Id Cedente Prestatore
-    - Id Cessionario committente = Id soggetto fattura
-    - Codice emittente_intermediario
-    - Denominazione Emittente_Intermediario
+*  - Header:
+*    - Id Versione Fattura
+*    - Trasmissione fattura
+*      - Id trasmittente fattura = Id soggetto fattura
+*      - Progressivo invio (int)
+*      - Formato Trasmissione
+*      - Codice destinatario
+*    - Id Cedente Prestatore
+*    - Id Cessionario committente = Id soggetto fattura
+*    - Codice emittente_intermediario
+*    - Denominazione Emittente_Intermediario
   - Body:
     - Dati Generali
-      - Dati Generali documento
-        - Codice tipo documento
-        - Id divisa fattura
-        - Data
-        - Id fattura
-          - Numero documento
-        - Importo Totale
-        - Causale
-        - Dati Bollo
-          - Bollo virtuale (bool)
-          - Importo bollo
-          - Sconto Maggiorazione
-            - Tipo
-            - Importo
+*      - Dati Generali documento
+*        - Codice tipo documento
+*        - Divisa fattura
+*        - Data
+*        - Numero documento (= Id)
+*        - Importo Totale
+*        - Causale
+*        - Dati Bollo
+*          - Bollo virtuale (bool)
+*          - Importo bollo
+*          - Sconto Maggiorazione
+*            - Tipo
+*            - Importo
       - Dati ordine acquisto [0..n]
         - id ordine acquisto = id documento collegato
       - Dati Fatture collegate [0..n]
         - Id fattura collegata = id documento collegato
-      - Id DDT fattura
+*      - DDT
+*        - Numero DDT
+*        - Data DDT
     - Dati Beni e Servizi
       - Id linea acquisto [1..n]
-      - Dati riepilogo
-        - Id iva fattura
-        - Imponibile Importo
-        - Esigibilità IVA
-    - Dati Pagamento
-      - Condizioni Pagamento
-      - Dettaglio Pagamento
-        - Modalità pagamento
-        . Giorni Termini
-        - Data scadenza
-        - Importo
-        - Id Istituto finanziario
+*      - Dati riepilogo
+*        - Id iva fattura
+*       - Imponibile Importo
+*       - Esigibilità IVA
+*    - Dati Pagamento
+*      - Condizioni Pagamento
+*      - Dettaglio Pagamento
+*        - Modalità pagamento
+*        . Giorni Termini
+*        - Data scadenza
+*        - Importo
+*        - Id Istituto finanziario
