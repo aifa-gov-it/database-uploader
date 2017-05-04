@@ -26,3 +26,40 @@ databaseChangeLog:
                   value: "123456789"
             dbms: h2
             tableName: invoice
+        - insert:
+            columns:
+            - column:
+                  name: city
+                  value: "Rome"
+            - column:
+                  name: code
+                  value: "123456789"
+            - column:
+                  name: country
+                  value: "Italy"
+            - column:
+                  name: country_code
+                  value: "IT"
+            - column:
+                  name: district
+                  value: "RM"
+            - column:
+                  name: email_address
+                  value: "host@domain.ext"
+            - column:
+                  name: name
+                  value: "Test Participant"
+            - column:
+                  name: phone_number
+                  value: "+39123456789"
+            - column:
+                  name: social_security_number
+                  value: "1234567890123456789"
+            - column:
+                  name: street_address
+                  value: "Via del Corso, 1"
+            - column:
+                  name: zip_code
+                  value: "12345"
+            dbms: h2
+            tableName: invoice_participant

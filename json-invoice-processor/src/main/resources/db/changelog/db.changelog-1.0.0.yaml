@@ -19,10 +19,6 @@ databaseChangeLog:
                   type: dateTime
                   constraints:
                     nullable: false
-  - changeSet:
-      id: 2
-      author: ferrarim
-      changes:
         - createTable:
             tableName: invoice
             columns:
@@ -38,3 +34,61 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     primaryKey: true
+        - createTable:
+            tableName: invoice_participant
+            columns:
+            - column:
+                  name: city
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: code
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+            - column:
+                  name: country
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: country_code
+                  type: varchar(8)
+                  constraints:
+                    primaryKey: true
+            - column:
+                  name: district
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: email_address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: phone_number
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: social_security_number
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: street_address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: zip_code
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
