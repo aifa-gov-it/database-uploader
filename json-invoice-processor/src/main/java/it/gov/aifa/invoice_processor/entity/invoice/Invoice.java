@@ -4,10 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
@@ -16,9 +18,11 @@ public class Invoice {
 	
 	@ManyToOne
     @JoinColumn(name = "version")
+	@NotNull
 	private InvoiceVersion invoiceVersion;
 
 	@Id
+	@NotBlank
 	private String number;
 
 	@Override
