@@ -68,9 +68,15 @@ public class Invoice {
 	private String invoiceSendingNumber;
 	
 	@ManyToOne
+	@JoinColumn(name = "taxId", referencedColumnName = "id")
+	@NotNull
+	private InvoiceTax invoiceTax;
+	
+	@ManyToOne
 	@JoinColumn(name = "version")
 	@NotNull
 	private InvoiceVersion invoiceVersion;
+	
 	@Id
 	@NotBlank
 	private String number;
@@ -143,6 +149,7 @@ public class Invoice {
 				.append(stampAmount, rhs.stampAmount)
 				.append(taxableAmount, rhs.taxableAmount)
 				.append(taxDue, rhs.taxDue)
+				.append(invoiceTax, rhs.invoiceTax)
 				.append(totalAmount, rhs.totalAmount)
 				.append(transportDocumentId, rhs.transportDocumentId)
 				.append(transportDocumentDate, rhs.transportDocumentDate)
@@ -200,6 +207,10 @@ public class Invoice {
 
 	public String getInvoiceSendingNumber() {
 		return invoiceSendingNumber;
+	}
+
+	public InvoiceTax getInvoiceTax() {
+		return invoiceTax;
 	}
 
 	public InvoiceVersion getInvoiceVersion() {
@@ -293,6 +304,7 @@ public class Invoice {
 				.append(stampAmount)
 				.append(taxableAmount)
 				.append(taxDue)
+				.append(invoiceTax)
 				.append(totalAmount)
 				.append(transportDocumentId)
 				.append(transportDocumentDate)
@@ -350,6 +362,10 @@ public class Invoice {
 
 	public void setInvoiceSendingNumber(String invoiceSendingNumber) {
 		this.invoiceSendingNumber = invoiceSendingNumber;
+	}
+
+	public void setInvoiceTax(InvoiceTax invoiceTax) {
+		this.invoiceTax = invoiceTax;
 	}
 
 	public void setInvoiceVersion(InvoiceVersion invoiceVersion) {

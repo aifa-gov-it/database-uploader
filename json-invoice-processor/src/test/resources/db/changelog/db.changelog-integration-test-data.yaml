@@ -18,6 +18,19 @@ databaseChangeLog:
             tableName: invoice_version
         - insert:
             columns:
+              - column:
+                  name: id
+                  value: "321"
+              - column:
+                  name: law_reference
+                  value: "Law Reference"
+              - column:
+                  name: rate
+                  value: "0.1"
+            dbms: h2
+            tableName: invoice_tax
+        - insert:
+            columns:
             - column:
                   name: city
                   value: "Rome"
@@ -128,7 +141,6 @@ databaseChangeLog:
               - column:
                     name: invoice_sending_number
                     value: "123789"
-              
               - column:
                     name: invoice_sending_format
                     value: "Sending Format"
@@ -165,6 +177,9 @@ databaseChangeLog:
               - column:
                     name: tax_due
                     value: "S"
+              - column:
+                    name: tax_id
+                    value: "321"
               - column:
                     name: total_amount
                     value: "250.56"

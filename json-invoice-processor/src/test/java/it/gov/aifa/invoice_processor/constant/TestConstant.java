@@ -20,6 +20,7 @@ public final class TestConstant {
 	public static final String BOOTSTRAP_INVOICE_VERSION = "0.1";
 	public static final String BOOTSTRAP_INVOICE_ID = "123456789";
 	public static final CountryAndCodePrimaryKey BOOTSTRAP_INVOICE_PARTICIPANT_ID = new CountryAndCodePrimaryKey("123456789", "IT");
+	public static final Long BOOTSTRAP_INVOICE_TAX_ID = 321L;
 	
 	public static final String INVOICE_SHORT_VERSION = "1.1";
 	public static final String INVOICE_ROOT = "{http://www.fatturapa.gov.it/sdi/fatturapa/v" + INVOICE_SHORT_VERSION + "}FatturaElettronica";

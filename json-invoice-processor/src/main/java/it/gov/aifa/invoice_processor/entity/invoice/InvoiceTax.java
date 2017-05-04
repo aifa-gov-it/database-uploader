@@ -15,40 +15,16 @@ import org.springframework.validation.annotation.Validated;
 @Entity
 @Validated
 public class InvoiceTax {
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public double getRate() {
-		return rate;
-	}
-
-	public void setRate(double rate) {
-		this.rate = rate;
-	}
-
-	public String getLawReference() {
-		return lawReference;
-	}
-
-	public void setLawReference(String lawReference) {
-		this.lawReference = lawReference;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
 	private Long id;
-	
-	private double rate;
-	
+
 	@NotBlank
 	private String lawReference;
-	
+
+	private double rate;
+
 	@Override
 	public boolean equals(Object other) {
 		if (other == this) {
@@ -64,6 +40,18 @@ public class InvoiceTax {
 				.append(lawReference, rhs.lawReference)
 				.isEquals();
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getLawReference() {
+		return lawReference;
+	}
+
+	public double getRate() {
+		return rate;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -72,6 +60,18 @@ public class InvoiceTax {
 				.append(rate)
 				.append(lawReference)
 				.toHashCode();
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public void setLawReference(String lawReference) {
+		this.lawReference = lawReference;
+	}
+	
+	public void setRate(double rate) {
+		this.rate = rate;
 	}
 	
 	@Override
