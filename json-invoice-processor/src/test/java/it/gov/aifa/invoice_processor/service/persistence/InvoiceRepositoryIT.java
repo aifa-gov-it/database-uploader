@@ -7,12 +7,12 @@ import org.testng.annotations.Test;
 
 import it.gov.aifa.invoice_processor.AbstractComponentIT;
 import it.gov.aifa.invoice_processor.constant.TestConstant;
-import it.gov.aifa.invoice_processor.entity.invoice.InvoiceVersion;
+import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 
-public class InvoiceVersionRepositoryIT extends AbstractComponentIT{
+public class InvoiceRepositoryIT extends AbstractComponentIT{
 	
 	@Autowired
-	private InvoiceVersionRepository repository;
+	private InvoiceRepository repository;
 	
 	@Override
 	public Object getComponent() {
@@ -21,8 +21,8 @@ public class InvoiceVersionRepositoryIT extends AbstractComponentIT{
 	
 	@Test
 	public void findOneTest() {
-		InvoiceVersion invoiceVersion = repository.findOne(TestConstant.BOOTSTRAP_INVOICE_VERSION);
-		assertThat(invoiceVersion.getVersion()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_VERSION);
+		Invoice invoice = repository.findOne(TestConstant.BOOTSTRAP_INVOICE_ID);
+		assertThat(invoice.getNumber()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_ID);
+		assertThat(invoice.getInvoiceVersion().getVersion()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_VERSION);
 	}
-
 }

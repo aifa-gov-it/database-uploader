@@ -15,7 +15,9 @@ public final class TestConstant {
 	private static final Logger log = LoggerFactory.getLogger(TestConstant.class);
 	private TestConstant() { }
 	
-	public static final String BOOTSTRAP_INVOICE_SHORT_VERSION = "0.1";
+	public static final String BOOTSTRAP_INVOICE_VERSION = "0.1";
+	public static final String BOOTSTRAP_INVOICE_ID = "123456789";
+	
 	public static final String INVOICE_SHORT_VERSION = "1.1";
 	public static final String INVOICE_ROOT = "{http://www.fatturapa.gov.it/sdi/fatturapa/v" + INVOICE_SHORT_VERSION + "}FatturaElettronica";
 	public static final String TEST_DIRECTORY_NAME = "input";

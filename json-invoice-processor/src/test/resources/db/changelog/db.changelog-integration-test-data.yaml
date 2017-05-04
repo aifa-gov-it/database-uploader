@@ -16,3 +16,13 @@ databaseChangeLog:
                   value: "2017-05-02T08:30:00"
             dbms: h2
             tableName: invoice_version
+        - insert:
+            columns:
+              - column:
+                  name: version
+                  value: "0.1"
+              - column:
+                  name: number
+                  value: "123456789"
+            dbms: h2
+            tableName: invoice
