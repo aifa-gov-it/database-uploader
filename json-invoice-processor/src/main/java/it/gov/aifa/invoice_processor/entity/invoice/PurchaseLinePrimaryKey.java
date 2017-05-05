@@ -3,7 +3,6 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -16,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 public class PurchaseLinePrimaryKey implements Serializable{
 	private static final long serialVersionUID = 4169358380087358121L;
 
-	@NotNull
+	@NotBlank
 	private String invoiceId;
 	
 	@NotBlank
