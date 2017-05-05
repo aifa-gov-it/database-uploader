@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import it.gov.aifa.invoice_processor.AbstractComponentIT;
 import it.gov.aifa.invoice_processor.constant.TestConstant;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
+import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
 
 public class InvoiceRepositoryIT extends AbstractComponentIT{
 	
@@ -45,6 +46,8 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getPaymentMode()).isNotBlank();
 		assertThat(invoice.getPaymentTermDays()).isGreaterThan(0);
 		assertThat(invoice.getPurchaseLines()).isNotEmpty();
+		for(PurchaseLine purchaseLine : invoice.getPurchaseLines())
+			assertThat(purchaseLine.getInvoice()).isEqualTo(invoice);
 		assertThat(invoice.getSoggettoEmittente()).isNotBlank();
 		assertThat(invoice.getSoggettoEmittenteName()).isNotBlank();
 		assertThat(invoice.getStampAmount()).isGreaterThan(0);

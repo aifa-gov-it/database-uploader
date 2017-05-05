@@ -31,14 +31,14 @@ public class PurchaseLine {
 	@ManyToOne
 	@NotNull
 	private InvoiceItem item;
-	
+
 	private double quantity;
 
 	@JoinColumn(name = "taxId", referencedColumnName = "id")
 	@ManyToOne
 	@NotNull
 	private InvoiceTax tax;
-
+	
 	private double totalPrice;
 
 	@NotBlank
@@ -64,19 +64,23 @@ public class PurchaseLine {
 				.append(unitPrice, rhs.unitPrice)
 				.isEquals();
 	}
-	
+
 	public PurchaseLinePrimaryKey getId() {
 		return id;
 	}
 
+	public Invoice getInvoice() {
+		return invoice;
+	}
+	
 	public InvoiceItem getItem() {
 		return item;
 	}
-	
+
 	public double getQuantity() {
 		return quantity;
 	}
-
+	
 	public InvoiceTax getTax() {
 		return tax;
 	}
@@ -107,6 +111,10 @@ public class PurchaseLine {
 
 	public void setId(PurchaseLinePrimaryKey id) {
 		this.id = id;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 
 	public void setItem(InvoiceItem item) {
