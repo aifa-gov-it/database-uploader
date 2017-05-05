@@ -234,3 +234,30 @@ databaseChangeLog:
                     value: "1"
             dbms: h2
             tableName: invoice
+        - insert:
+            columns:
+              - column:
+                  name: invoice_id
+                  value: "123456789"
+              - column:
+                  name: quantity
+                  value: "10"
+              - column:
+                  name: number
+                  value: "1"
+              - column:
+                  name: item_id
+                  value: "456"
+              - column:
+                  name: tax_id
+                  value: "321"
+              - column:
+                  name: total_price
+                  value: "100.23"
+              - column:
+                  name: unit_of_measure_description
+                  value: "Box"
+              - column:
+                  name: unit_price
+                  value: "10.023"
+            tableName: purchase_line

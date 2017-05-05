@@ -35,6 +35,7 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getPaymentExpirationDate()).isNotNull();
 		assertThat(invoice.getPaymentMode()).isNotBlank();
 		assertThat(invoice.getPaymentTermDays()).isGreaterThan(0);
+		assertThat(invoice.getPurchaseLines()).isNotEmpty();
 		assertThat(invoice.getStampAmount()).isGreaterThan(0);
 		assertThat(invoice.getTaxableAmount()).isGreaterThan(0);
 		assertThat(invoice.getTaxDue()).isNotBlank();

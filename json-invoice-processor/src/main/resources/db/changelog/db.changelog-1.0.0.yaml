@@ -85,6 +85,53 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
+            tableName: purchase_line
+            columns:
+              - column:
+                  name: invoice_id
+                  type: number
+                  constraints:
+                    primaryKey: true
+              - column: 
+                  name: quantity
+                  type: number
+                  constraints:
+                      nullable: false
+              - column:
+                  name: number
+                  type: number
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: item_id
+                  type: number
+                  constraints:
+                    foreignKeyName: fk_purchase_line_invoice_item
+                    nullable: false
+                    references: invoice_item(id)
+              - column:
+                  name: tax_id
+                  type: number
+                  constraints:
+                    foreignKeyName: fk_purchase_line_invoice_tax
+                    nullable: false
+                    references: invoice_tax(id)
+              - column:
+                  name: total_price
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_of_measure_description
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_price
+                  type: decimal
+                  constraints:
+                    nullable: false
+        - createTable:
             tableName: invoice
             columns:
               - column:
@@ -380,3 +427,9 @@ databaseChangeLog:
             constraintName: fk_invoice_invoice_cessionario_committente
             referencedColumnNames: code,country_code
             referencedTableName: invoice_participant
+        - addForeignKeyConstraint:
+            baseColumnNames: invoice_id
+            baseTableName: purchase_line
+            constraintName: fk_purchase_line_invoice
+            referencedColumnNames: number
+            referencedTableName: invoice

@@ -1,18 +1,22 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
@@ -34,10 +38,10 @@ public class Invoice {
 	})
 	@NotNull
 	private InvoiceParticipant cessionarioCommittente;
-	
+
 	@NotBlank
 	private String currency;
-	
+
 	@NotNull
 	private LocalDate date;
 	
@@ -56,13 +60,13 @@ public class Invoice {
 	@JoinColumn(name = "financialInstitutionId", referencedColumnName = "iban")
 	@NotNull
 	private FinancialInstitution financialInstitution;
-
+	
 	@NotBlank
 	private String invoiceRecipientCode;
 	
 	@NotBlank
 	private String invoiceSenderCode;
-	
+
 	@NotBlank
 	private String invoiceSenderCountryCode;
 	
@@ -87,6 +91,7 @@ public class Invoice {
 	private String number;
 	
 	private double paymentAmount;
+	
 	@NotBlank
 	private String paymentConditions;
 	
@@ -98,18 +103,23 @@ public class Invoice {
 	
 	private int paymentTermDays;
 	
+	@JoinColumn(name = "invoiceId")
+	@OneToMany(fetch = FetchType.EAGER)
+	@NotEmpty
+	private List<PurchaseLine> purchaseLines;
+	
 	@NotBlank
 	private String soggettoEmittente;
+
 	@NotBlank
 	private String soggettoEmittenteName;
-	
+
 	private double stampAmount;
 	
 	private double taxableAmount;
 	
 	@NotBlank
 	private String taxDue;
-	
 	private double totalAmount;
 	
 	@NotNull
@@ -119,6 +129,14 @@ public class Invoice {
 	private String transportDocumentId;
 	
 	private Boolean virtualStamp;
+	
+	public Invoice() {
+	}
+	
+	public Invoice(String number) {
+		this();
+		this.number = number;
+	}
 	
 	@Override
 	public boolean equals(Object other) {
@@ -150,6 +168,7 @@ public class Invoice {
 				.append(paymentTermDays, rhs.paymentTermDays)
 				.append(paymentExpirationDate, rhs.paymentExpirationDate)
 				.append(paymentAmount, rhs.paymentAmount)
+				.append(purchaseLines, rhs.purchaseLines)
 				.append(soggettoEmittente, rhs.soggettoEmittente)
 				.append(soggettoEmittenteName, rhs.soggettoEmittenteName)
 				.append(stampAmount, rhs.stampAmount)
@@ -166,11 +185,11 @@ public class Invoice {
 	public InvoiceCedentePrestatore getCedentePrestatore() {
 		return cedentePrestatore;
 	}
-
+	
 	public InvoiceParticipant getCessionarioCommittente() {
 		return cessionarioCommittente;
 	}
-
+	
 	public String getCurrency() {
 		return currency;
 	}
@@ -251,6 +270,10 @@ public class Invoice {
 		return paymentTermDays;
 	}
 
+	public List<PurchaseLine> getPurchaseLines() {
+		return purchaseLines;
+	}
+
 	public String getSoggettoEmittente() {
 		return soggettoEmittente;
 	}
@@ -310,6 +333,7 @@ public class Invoice {
 				.append(paymentTermDays)
 				.append(paymentExpirationDate)
 				.append(paymentAmount)
+				.append(purchaseLines)
 				.append(soggettoEmittente)
 				.append(soggettoEmittenteName)
 				.append(stampAmount)
@@ -409,6 +433,10 @@ public class Invoice {
 
 	public void setPaymentTermDays(int paymentTermDays) {
 		this.paymentTermDays = paymentTermDays;
+	}
+
+	public void setPurchaseLines(List<PurchaseLine> purchaseLines) {
+		this.purchaseLines = purchaseLines;
 	}
 
 	public void setSoggettoEmittente(String soggettoEmittente) {
