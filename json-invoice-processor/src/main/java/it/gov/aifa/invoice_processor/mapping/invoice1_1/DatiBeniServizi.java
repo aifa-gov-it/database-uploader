@@ -3,17 +3,21 @@ package it.gov.aifa.invoice_processor.mapping.invoice1_1;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "DettaglioLinee", "DatiRiepilogo" })
@@ -21,7 +25,7 @@ public class DatiBeniServizi implements Serializable {
 
 	@JsonProperty("DettaglioLinee")
 	@Valid
-	private DettaglioLinee dettaglioLinee;
+	private List<DettaglioLinee> dettaglioLinee;
 	@JsonProperty("DatiRiepilogo")
 	@Valid
 	private DatiRiepilogo datiRiepilogo;
@@ -42,19 +46,19 @@ public class DatiBeniServizi implements Serializable {
 	 * @param datiRiepilogo
 	 * @param dettaglioLinee
 	 */
-	public DatiBeniServizi(DettaglioLinee dettaglioLinee, DatiRiepilogo datiRiepilogo) {
+	public DatiBeniServizi(List<DettaglioLinee> dettaglioLinee, DatiRiepilogo datiRiepilogo) {
 		super();
 		this.dettaglioLinee = dettaglioLinee;
 		this.datiRiepilogo = datiRiepilogo;
 	}
 
 	@JsonProperty("DettaglioLinee")
-	public DettaglioLinee getDettaglioLinee() {
+	public List<DettaglioLinee> getDettaglioLinee() {
 		return dettaglioLinee;
 	}
 
 	@JsonProperty("DettaglioLinee")
-	public void setDettaglioLinee(DettaglioLinee dettaglioLinee) {
+	public void setDettaglioLinee(List<DettaglioLinee> dettaglioLinee) {
 		this.dettaglioLinee = dettaglioLinee;
 	}
 

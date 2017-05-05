@@ -114,19 +114,21 @@
                 }
             },
             "DatiBeniServizi": {
-                "DettaglioLinee": {
-                    "NumeroLinea": "10",
-                    "CodiceArticolo": {
-                        "CodiceTipo": "SA",
-                        "CodiceValore": "12345678"
-                    },
-                    "Descrizione": "MEDIPLUS 200MG 112CPR",
-                    "Quantita": "2.00",
-                    "UnitaMisura": "Pezzi",
-                    "PrezzoUnitario": "3214.70000000",
-                    "PrezzoTotale": "6429.40",
-                    "AliquotaIVA": "10.00"
-                },
+                "DettaglioLinee": [
+                    {
+                        "NumeroLinea": "10",
+                        "CodiceArticolo": {
+                            "CodiceTipo": "SA",
+                            "CodiceValore": "12345678"
+                        },
+                        "Descrizione": "MEDIPLUS 200MG 112CPR",
+                        "Quantita": "2.00",
+                        "UnitaMisura": "Pezzi",
+                        "PrezzoUnitario": "3214.70000000",
+                        "PrezzoTotale": "6429.40",
+                        "AliquotaIVA": "10.00"
+                    }
+                ],
                 "DatiRiepilogo": {
                     "AliquotaIVA": "10.00",
                     "ImponibileImporto": "6429.40",
