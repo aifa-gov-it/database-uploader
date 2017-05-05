@@ -28,6 +28,7 @@ public final class TestConstant {
 	public static final Long BOOTSTRAP_INVOICE_TAX_ID = 321L;
 	public static final DocumentIdDatePrimaryKey BOOTSTRAP_LINKED_INVOICE_ID = new DocumentIdDatePrimaryKey(LocalDate.of(2017, 5, 5),"321654", BOOTSTRAP_INVOICE_ID);
 	public static final PurchaseLinePrimaryKey BOOTSTRAP_PURCHASE_LINE_ID = new PurchaseLinePrimaryKey(BOOTSTRAP_INVOICE_ID, "1");
+	public static final DocumentIdDatePrimaryKey BOOTSTRAP_PURCHASE_ORDER_ID = new DocumentIdDatePrimaryKey(LocalDate.of(2017, 5, 6),"1234567890123456", BOOTSTRAP_INVOICE_ID);
 	
 	public static final String INVOICE_SHORT_VERSION = "1.1";
 	public static final String INVOICE_ROOT = "{http://www.fatturapa.gov.it/sdi/fatturapa/v" + INVOICE_SHORT_VERSION + "}FatturaElettronica";

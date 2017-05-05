@@ -113,28 +113,32 @@ public class Invoice {
 	@NotEmpty
 	private Set<PurchaseLine> purchaseLines;
 	
+	@JoinColumn(name = "invoiceId")
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<PurchaseOrder> purchaseOrders;
+	
 	@NotBlank
 	private String soggettoEmittente;
-	
+
 	@NotBlank
 	private String soggettoEmittenteName;
-	
+
 	private double stampAmount;
-
+	
 	private double taxableAmount;
-
+	
 	@NotBlank
 	private String taxDue;
-	
+
 	private double totalAmount;
-	
+
 	@NotNull
 	private LocalDate transportDocumentDate;
+	
 	@NotBlank
 	private String transportDocumentId;
 	
 	private Boolean virtualStamp;
-	
 	public Invoice() {
 	}
 	
@@ -205,11 +209,11 @@ public class Invoice {
 	public String getDescription() {
 		return description;
 	}
-
+	
 	public double getDiscountAmount() {
 		return discountAmount;
 	}
-
+	
 	public String getDiscountType() {
 		return discountType;
 	}
@@ -280,6 +284,10 @@ public class Invoice {
 
 	public Set<PurchaseLine> getPurchaseLines() {
 		return purchaseLines;
+	}
+
+	public Set<PurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
 	}
 
 	public String getSoggettoEmittente() {
@@ -450,6 +458,10 @@ public class Invoice {
 
 	public void setPurchaseLines(Set<PurchaseLine> purchaseLines) {
 		this.purchaseLines = purchaseLines;
+	}
+
+	public void setPurchaseOrders(Set<PurchaseOrder> purchaseOrders) {
+		this.purchaseOrders = purchaseOrders;
 	}
 
 	public void setSoggettoEmittente(String soggettoEmittente) {

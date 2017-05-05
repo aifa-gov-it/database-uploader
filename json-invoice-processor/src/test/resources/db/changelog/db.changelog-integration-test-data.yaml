@@ -273,3 +273,24 @@ databaseChangeLog:
                   name: invoice_id
                   value: "123456789"
             tableName: linked_invoice
+        - insert:
+            columns:
+            - column:
+                  name: cig_code
+                  value: "CIG code"
+            - column:
+                  name: date
+                  value: "2017-05-06"
+            - column:
+                  name: id
+                  value: "1234567890123456"
+            - column:
+                  name: invoice_id
+                  value: "123456789"
+            - column:
+                  name: purchase_line_invoice_id
+                  value: "123456789"
+            - column:
+                  name: purchase_line_number
+                  value: "1"
+            tableName: purchase_order

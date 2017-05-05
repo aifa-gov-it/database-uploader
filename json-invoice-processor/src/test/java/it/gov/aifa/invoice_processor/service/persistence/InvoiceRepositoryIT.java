@@ -10,6 +10,7 @@ import it.gov.aifa.invoice_processor.constant.TestConstant;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
+import it.gov.aifa.invoice_processor.entity.invoice.PurchaseOrder;
 
 public class InvoiceRepositoryIT extends AbstractComponentIT{
 	
@@ -52,6 +53,11 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getPurchaseLines()).isNotEmpty();
 		for(PurchaseLine purchaseLine : invoice.getPurchaseLines())
 			assertThat(purchaseLine.getInvoice()).isEqualTo(invoice);
+		assertThat(invoice.getPurchaseOrders()).isNotEmpty();
+		for(PurchaseOrder purchaseOrder : invoice.getPurchaseOrders()) {
+			assertThat(purchaseOrder.getInvoice()).isEqualTo(invoice);
+			assertThat(purchaseOrder.getPurchaseLine()).isIn(invoice.getPurchaseLines());
+		}
 		assertThat(invoice.getSoggettoEmittente()).isNotBlank();
 		assertThat(invoice.getSoggettoEmittenteName()).isNotBlank();
 		assertThat(invoice.getStampAmount()).isGreaterThan(0);
