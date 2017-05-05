@@ -21,7 +21,7 @@ public class Sede implements Serializable {
 
 	@JsonProperty("Indirizzo")
 	private String indirizzo;
-	@JsonProperty("cap")
+	@JsonProperty("CAP")
 	private String cap;
 	@JsonProperty("Comune")
 	private String comune;
@@ -69,12 +69,12 @@ public class Sede implements Serializable {
 	}
 
 	@JsonProperty("cap")
-	public String getcap() {
+	public String getCap() {
 		return cap;
 	}
 
 	@JsonProperty("cap")
-	public void setcap(String cap) {
+	public void setCap(String cap) {
 		this.cap = cap;
 	}
 
