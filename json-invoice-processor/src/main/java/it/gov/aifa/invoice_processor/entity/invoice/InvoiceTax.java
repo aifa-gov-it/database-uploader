@@ -2,7 +2,6 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
@@ -16,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class InvoiceTax {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	@NotNull
 	private Long id;
 
