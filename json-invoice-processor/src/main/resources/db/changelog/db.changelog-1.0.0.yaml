@@ -62,6 +62,29 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
+            tableName: invoice_item
+            columns:
+              - column:
+                  name: id
+                  type: number
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: code_type
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
             tableName: invoice
             columns:
               - column:

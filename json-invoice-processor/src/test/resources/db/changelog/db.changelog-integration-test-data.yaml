@@ -20,6 +20,22 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
+                  value: "456"
+              - column:
+                  name: code
+                  value: "987"
+              - column:
+                  name: code_type
+                  value: "RAND"
+              - column:
+                  name: description
+                  value: "Invoice Item"
+            dbms: h2
+            tableName: invoice_item
+        - insert:
+            columns:
+              - column:
+                  name: id
                   value: "321"
               - column:
                   name: law_reference
