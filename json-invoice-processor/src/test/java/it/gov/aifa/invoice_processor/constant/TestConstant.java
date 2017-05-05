@@ -6,12 +6,14 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.gov.aifa.invoice_processor.entity.invoice.CountryAndCodePrimaryKey;
+import it.gov.aifa.invoice_processor.entity.invoice.DocumentIdDatePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLinePrimaryKey;
 
 public final class TestConstant {
@@ -24,6 +26,7 @@ public final class TestConstant {
 	public static final String BOOTSTRAP_INVOICE_ID = "123456789";
 	public static final CountryAndCodePrimaryKey BOOTSTRAP_INVOICE_PARTICIPANT_ID = new CountryAndCodePrimaryKey("123456789", "IT");
 	public static final Long BOOTSTRAP_INVOICE_TAX_ID = 321L;
+	public static final DocumentIdDatePrimaryKey BOOTSTRAP_LINKED_INVOICE_ID = new DocumentIdDatePrimaryKey(LocalDate.of(2017, 5, 5),"321654", BOOTSTRAP_INVOICE_ID);
 	public static final PurchaseLinePrimaryKey BOOTSTRAP_PURCHASE_LINE_ID = new PurchaseLinePrimaryKey(BOOTSTRAP_INVOICE_ID, "1");
 	
 	public static final String INVOICE_SHORT_VERSION = "1.1";

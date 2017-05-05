@@ -1,7 +1,7 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -86,12 +86,17 @@ public class Invoice {
 	@NotNull
 	private InvoiceVersion invoiceVersion;
 	
+	@JoinColumn(name = "invoiceId")
+	@OneToMany(fetch = FetchType.EAGER)
+	@NotEmpty
+	private Set<LinkedInvoice> linkedInvoices;
+	
 	@Id
 	@NotBlank
 	private String number;
-	
+
 	private double paymentAmount;
-	
+
 	@NotBlank
 	private String paymentConditions;
 	
@@ -106,25 +111,25 @@ public class Invoice {
 	@JoinColumn(name = "invoiceId")
 	@OneToMany(fetch = FetchType.EAGER)
 	@NotEmpty
-	private List<PurchaseLine> purchaseLines;
+	private Set<PurchaseLine> purchaseLines;
 	
 	@NotBlank
 	private String soggettoEmittente;
-
+	
 	@NotBlank
 	private String soggettoEmittenteName;
-
+	
 	private double stampAmount;
-	
+
 	private double taxableAmount;
-	
+
 	@NotBlank
 	private String taxDue;
+	
 	private double totalAmount;
 	
 	@NotNull
 	private LocalDate transportDocumentDate;
-	
 	@NotBlank
 	private String transportDocumentId;
 	
@@ -168,7 +173,6 @@ public class Invoice {
 				.append(paymentTermDays, rhs.paymentTermDays)
 				.append(paymentExpirationDate, rhs.paymentExpirationDate)
 				.append(paymentAmount, rhs.paymentAmount)
-				.append(purchaseLines, rhs.purchaseLines)
 				.append(soggettoEmittente, rhs.soggettoEmittente)
 				.append(soggettoEmittenteName, rhs.soggettoEmittenteName)
 				.append(stampAmount, rhs.stampAmount)
@@ -193,11 +197,11 @@ public class Invoice {
 	public String getCurrency() {
 		return currency;
 	}
-
+	
 	public LocalDate getDate() {
 		return date;
 	}
-
+	
 	public String getDescription() {
 		return description;
 	}
@@ -246,6 +250,10 @@ public class Invoice {
 		return invoiceVersion;
 	}
 
+	public Set<LinkedInvoice> getLinkedInvoices() {
+		return linkedInvoices;
+	}
+
 	public String getNumber() {
 		return number;
 	}
@@ -270,7 +278,7 @@ public class Invoice {
 		return paymentTermDays;
 	}
 
-	public List<PurchaseLine> getPurchaseLines() {
+	public Set<PurchaseLine> getPurchaseLines() {
 		return purchaseLines;
 	}
 
@@ -327,6 +335,7 @@ public class Invoice {
 				.append(invoiceRecipientCode)
 				.append(invoiceSendingFormat)
 				.append(invoiceVersion)
+				.append(linkedInvoices)
 				.append(number)
 				.append(paymentConditions)
 				.append(paymentMode)
@@ -411,6 +420,10 @@ public class Invoice {
 		this.invoiceVersion = invoiceVersion;
 	}
 
+	public void setLinkedInvoices(Set<LinkedInvoice> linkedInvoices) {
+		this.linkedInvoices = linkedInvoices;
+	}
+
 	public void setNumber(String number) {
 		this.number = number;
 	}
@@ -435,7 +448,7 @@ public class Invoice {
 		this.paymentTermDays = paymentTermDays;
 	}
 
-	public void setPurchaseLines(List<PurchaseLine> purchaseLines) {
+	public void setPurchaseLines(Set<PurchaseLine> purchaseLines) {
 		this.purchaseLines = purchaseLines;
 	}
 

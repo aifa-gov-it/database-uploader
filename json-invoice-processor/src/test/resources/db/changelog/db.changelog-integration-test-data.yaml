@@ -261,3 +261,15 @@ databaseChangeLog:
                   name: unit_price
                   value: "10.023"
             tableName: purchase_line
+        - insert:
+            columns:
+            - column:
+                  name: date
+                  value: "2017-05-05"
+            - column:
+                  name: id
+                  value: "321654"
+            - column:
+                  name: invoice_id
+                  value: "123456789"
+            tableName: linked_invoice

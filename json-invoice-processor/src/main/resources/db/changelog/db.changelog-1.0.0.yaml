@@ -409,6 +409,26 @@ databaseChangeLog:
                   type: varchar(20)
                   constraints:
                     nullable: false
+        - createTable:
+            tableName: linked_invoice
+            columns:
+            - column:
+                  name: date
+                  type: dateTime
+                  constraints:
+                    nullable: false
+            - column:
+                  name: id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: invoice_id
+                  type: varchar(255)
+                  constraints:
+                      foreignKeyName: fk_linked_invoice_invoice
+                      nullable: false
+                      references: invoice(number)
         - addForeignKeyConstraint:
             baseColumnNames: code,country_code
             baseTableName: invoice_cedente_prestatore
