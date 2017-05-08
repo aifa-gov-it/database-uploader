@@ -78,6 +78,11 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		
 		DatiTrasmissione datiTrasmissione = header.getDatiTrasmissione();
 		invoice.setInvoiceRecipientCode(datiTrasmissione.getCodiceDestinatario());
+		invoice.setInvoiceSenderCode(datiTrasmissione.getIdTrasmittente().getIdCodice());
+		invoice.setInvoiceSenderCountryCode(datiTrasmissione.getIdTrasmittente().getIdPaese());
+		invoice.setInvoiceSenderEmailAddress(datiTrasmissione.getContattiTrasmittente().getEmail());
+		invoice.setInvoiceSendingFormat(datiTrasmissione.getFormatoTrasmissione());
+		invoice.setInvoiceSendingNumber(datiTrasmissione.getProgressivoInvio());
 		
 		return invoice;
 	}

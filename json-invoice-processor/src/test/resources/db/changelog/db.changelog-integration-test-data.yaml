@@ -176,6 +176,9 @@ databaseChangeLog:
                     name: invoice_sender_country_code
                     value: "IT"
               - column:
+                    name: invoice_sender_email_address
+                    value: "email@addre.ss"
+              - column:
                     name: invoice_sending_number
                     value: "123789"
               - column:

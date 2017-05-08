@@ -71,6 +71,9 @@ public class Invoice {
 	private String invoiceSenderCountryCode;
 	
 	@NotBlank
+	private String invoiceSenderEmailAddress;
+	
+	@NotBlank
 	private String invoiceSendingFormat;
 	
 	@NotBlank
@@ -167,6 +170,7 @@ public class Invoice {
 				.append(financialInstitution, rhs.financialInstitution)
 				.append(invoiceSenderCode, rhs.invoiceSenderCode)
 				.append(invoiceSenderCountryCode, rhs.invoiceSenderCountryCode)
+				.append(invoiceSenderEmailAddress, rhs.invoiceSenderEmailAddress)
 				.append(invoiceSendingNumber, rhs.invoiceSendingNumber)
 				.append(invoiceRecipientCode, rhs.invoiceRecipientCode)
 				.append(invoiceSendingFormat, rhs.invoiceSendingFormat)
@@ -236,6 +240,10 @@ public class Invoice {
 
 	public String getInvoiceSenderCountryCode() {
 		return invoiceSenderCountryCode;
+	}
+
+	public String getInvoiceSenderEmailAddress() {
+		return invoiceSenderEmailAddress;
 	}
 
 	public String getInvoiceSendingFormat() {
@@ -339,6 +347,7 @@ public class Invoice {
 				.append(financialInstitution)
 				.append(invoiceSenderCode)
 				.append(invoiceSenderCountryCode)
+				.append(invoiceSenderEmailAddress)
 				.append(invoiceSendingNumber)
 				.append(invoiceRecipientCode)
 				.append(invoiceSendingFormat)
@@ -410,6 +419,10 @@ public class Invoice {
 
 	public void setInvoiceSenderCountryCode(String invoiceSenderCountryCode) {
 		this.invoiceSenderCountryCode = invoiceSenderCountryCode;
+	}
+
+	public void setInvoiceSenderEmailAddress(String invoiceSenderEmailAddress) {
+		this.invoiceSenderEmailAddress = invoiceSenderEmailAddress;
 	}
 
 	public void setInvoiceSendingFormat(String invoiceSendingFormat) {

@@ -212,6 +212,11 @@ databaseChangeLog:
                     constraints:
                       nullable: false
               - column:
+                    name: invoice_sender_email_address
+                    type: varchar(255)
+                    constraints:
+                      nullable: false
+              - column:
                     name: invoice_sending_format
                     type: varchar(50)
                     constraints:

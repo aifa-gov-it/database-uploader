@@ -16,6 +16,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.Anagrafica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Contatti;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.ContattiTrasmittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiAnagrafici;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
@@ -27,6 +28,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.IdFiscaleIVA;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.IdTrasmittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Invoice1_1;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.IscrizioneREA;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.ScontoMaggiorazione;
@@ -58,6 +60,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		String financialInstitutionIban = "financialInstitutionIban";
 		String financialInstitutionName = "financialInstitutionName";
 		String invoiceRecipientCode = "invoiceRecipientCode";
+		String invoiceSenderCode = "invoiceSenderCode";
+		String invoiceSenderCountryCode = "invoiceSenderCountryCode";
+		String invoiceSenderEmailAddress = "invoiceSenderEmailAddress";
+		String invoiceSendingFormat = "invoiceSendingFormat";
+		String invoiceSendingNumber = "invoiceSendingNumber";
 		String name = "name";
 		String phoneNumber = "phoneNumber";
 		String reaNumber = "reaNumber";
@@ -86,16 +93,16 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 						, new Anagrafica(name)
 						, taxSystem)
 				, new Sede(streetAddress, zipCode, city, district, country));
-		
 		source.setHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 				new HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 						null
 						, new FatturaElettronicaHeader(
-								new DatiTrasmissione(null
-										, null
-										, null
+								new DatiTrasmissione(
+										new IdTrasmittente(invoiceSenderCountryCode, invoiceSenderCode)
+										, invoiceSendingNumber
+										, invoiceSendingFormat
 										, invoiceRecipientCode
-										, null)
+										, new ContattiTrasmittente(invoiceSenderEmailAddress))
 								, cedentePrestatore
 								, cessionarioCommittente
 								, null
@@ -181,5 +188,10 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoice.getVirtualStamp()).isEqualTo(true);
 		
 		assertThat(invoice.getInvoiceRecipientCode()).isEqualTo(invoiceRecipientCode);
+		assertThat(invoice.getInvoiceSenderCode()).isEqualTo(invoiceSenderCode);
+		assertThat(invoice.getInvoiceSenderCountryCode()).isEqualTo(invoiceSenderCountryCode);
+		assertThat(invoice.getInvoiceSenderEmailAddress()).isEqualTo(invoiceSenderEmailAddress);
+		assertThat(invoice.getInvoiceSendingFormat()).isEqualTo(invoiceSendingFormat);
+		assertThat(invoice.getInvoiceSendingNumber()).isEqualTo(invoiceSendingNumber);
 	}
 }
