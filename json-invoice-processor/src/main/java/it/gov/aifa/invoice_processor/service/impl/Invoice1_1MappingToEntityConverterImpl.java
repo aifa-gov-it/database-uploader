@@ -66,6 +66,8 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 							datiBollo.getBolloVirtuale().equals("SI") ? true : false);
 		}
 		
+		invoice.setDocumentTypeCode(datiGenerali.getDatiGeneraliDocumento().getTipoDocumento());
+		
 		return invoice;
 	}
 	

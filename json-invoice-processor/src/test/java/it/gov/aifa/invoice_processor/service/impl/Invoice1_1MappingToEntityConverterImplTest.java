@@ -47,6 +47,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		String discountAmount = "2.00";
 		String discountType = "discountType";
 		String district = "district";
+		String documentTypeCode = "documentTypeCode";
 		String name = "name";
 		String phoneNumber = "phoneNumber";
 		String reaNumber = "reaNumber";
@@ -88,7 +89,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 						, new FatturaElettronicaBody(
 								new DatiGenerali(
 										new DatiGeneraliDocumento(
-												null
+												documentTypeCode
 												, currency
 												, date.toString()
 												, null
@@ -139,10 +140,9 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoice.getCurrency()).isEqualTo(currency);
 		assertThat(invoice.getDate()).isEqualTo(date);
 		assertThat(invoice.getDescription()).isEqualTo(String.join("", description));
-		
 		assertThat(invoice.getDiscountAmount()).isEqualTo(Double.parseDouble(discountAmount));
 		assertThat(invoice.getDiscountType()).isEqualTo(discountType);
-
+		assertThat(invoice.getDocumentTypeCode()).isEqualTo(documentTypeCode);
 		assertThat(invoice.getStampAmount()).isEqualTo(Double.parseDouble(stampAmount));
 		assertThat(invoice.getVirtualStamp()).isEqualTo(true);
 	}
