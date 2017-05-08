@@ -12,6 +12,9 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Contatti;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiAnagrafici;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.IdFiscaleIVA;
@@ -26,10 +29,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 	public void convertInvoice1_1Test() {
 		Invoice1_1 source = new Invoice1_1();
 		String codeId = "codeId";
-		String clearanceState = "clearanceState";
 		String city = "city";
+		String clearanceState = "clearanceState";
 		String country = "country";
 		String countryId = "countryId";
+		String currency = "currency";
 		String district = "district";
 		String name = "name";
 		String phoneNumber = "phoneNumber";
@@ -67,7 +71,14 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 								, cessionarioCommittente
 								, null
 								, null)
-						, null));
+						, new FatturaElettronicaBody(
+								new DatiGenerali(
+										new DatiGeneraliDocumento(null, currency, null, null, null, null)
+										, null
+										, null
+										, null)
+								, null
+								, null)));
 		InvoiceMappingToEntityConverter<Invoice1_1, Invoice> converter = new Invoice1_1MappingToEntityConverterImpl();
 		Invoice invoice = converter.convert(source);
 		assertThat(invoice).isNotNull();
@@ -102,5 +113,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoiceCessionarioCommittente.getSocialSecurityNumber()).isEqualTo(ssn);
 		assertThat(invoiceCessionarioCommittente.getStreetAddress()).isEqualTo(streetAddress);
 		assertThat(invoiceCessionarioCommittente.getZipCode()).isEqualTo(zipCode);
+		
+		assertThat(invoice.getCurrency()).isEqualTo(currency);
 	}
 }

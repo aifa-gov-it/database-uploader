@@ -11,6 +11,9 @@ import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Invoice1_1;
@@ -25,8 +28,15 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		Invoice invoice = new Invoice();
 		HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica fatturaElettronica = source.getHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica();
 		FatturaElettronicaHeader header = fatturaElettronica.getFatturaElettronicaHeader();
+		
 		invoice.setCedentePrestatore(buildCedentePrestatore(header.getCedentePrestatore()));
 		invoice.setCessionarioCommittente(buildCessionarioCommittente(header.getCessionarioCommittente()));
+		
+		FatturaElettronicaBody body = fatturaElettronica.getFatturaElettronicaBody();
+		DatiGenerali datiGenerali = body.getDatiGenerali();
+		DatiGeneraliDocumento datiGeneraliDocumento = datiGenerali.getDatiGeneraliDocumento();
+		
+		invoice.setCurrency(datiGeneraliDocumento.getDivisa());
 		return invoice;
 	}
 	
