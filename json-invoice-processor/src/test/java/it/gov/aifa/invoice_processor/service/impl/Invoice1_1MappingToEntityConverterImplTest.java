@@ -2,6 +2,8 @@ package it.gov.aifa.invoice_processor.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
+
 import org.testng.annotations.Test;
 
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
@@ -34,6 +36,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		String country = "country";
 		String countryId = "countryId";
 		String currency = "currency";
+		LocalDate date = LocalDate.now();
 		String district = "district";
 		String name = "name";
 		String phoneNumber = "phoneNumber";
@@ -73,7 +76,13 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 								, null)
 						, new FatturaElettronicaBody(
 								new DatiGenerali(
-										new DatiGeneraliDocumento(null, currency, null, null, null, null)
+										new DatiGeneraliDocumento(
+												null
+												, currency
+												, date.toString()
+												, null
+												, null
+												, null)
 										, null
 										, null
 										, null)
@@ -115,5 +124,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoiceCessionarioCommittente.getZipCode()).isEqualTo(zipCode);
 		
 		assertThat(invoice.getCurrency()).isEqualTo(currency);
+		
+		assertThat(invoice.getDate()).isEqualTo(date);
 	}
 }

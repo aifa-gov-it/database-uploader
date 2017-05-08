@@ -1,5 +1,9 @@
 package it.gov.aifa.invoice_processor.service.impl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
@@ -37,6 +41,11 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		DatiGeneraliDocumento datiGeneraliDocumento = datiGenerali.getDatiGeneraliDocumento();
 		
 		invoice.setCurrency(datiGeneraliDocumento.getDivisa());
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+		formatter = formatter.withLocale(Locale.ITALIAN);
+		LocalDate invoiceDate = LocalDate.parse(datiGeneraliDocumento.getData(), formatter);
+		invoice.setDate(invoiceDate);
 		return invoice;
 	}
 	
