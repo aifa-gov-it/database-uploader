@@ -59,11 +59,6 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		String discountType = "discountType";
 		String district = "district";
 		String documentTypeCode = "documentTypeCode";
-		String financialInstitutionAbi = "financialInstitutionAbi";
-		String financialInstitutionBic = "financialInstitutionBic";
-		String financialInstitutionCab = "financialInstitutionCab";
-		String financialInstitutionIban = "financialInstitutionIban";
-		String financialInstitutionName = "financialInstitutionName";
 		String invoiceRecipientCode = "invoiceRecipientCode";
 		String invoiceSenderCode = "invoiceSenderCode";
 		String invoiceSenderCountryCode = "invoiceSenderCountryCode";
@@ -122,7 +117,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 												, currency
 												, date.toString()
 												, "number"
-												, null
+												, "123.456"
 												, new DatiBollo(virtualStamp, stampAmount)
 												, new ScontoMaggiorazione(discountType, discountAmount)
 												, description)
@@ -133,15 +128,15 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 								, new DatiPagamento(
 										null
 										, new DettaglioPagamento(
-												null
-												, null
-												, null
-												, null
-												, financialInstitutionName
-												, financialInstitutionIban
-												, financialInstitutionAbi
-												, financialInstitutionCab
-												, financialInstitutionBic)))));
+												"paymentMode"
+												, "10"
+												, "2017-05-08"
+												, "123.456"
+												, "financialInstitutionName"
+												, "financialInstitutionIban"
+												, "financialInstitutionAbi"
+												, "financialInstitutionCab"
+												, "financialInstitutionBic")))));
 		InvoiceMappingToEntityConverter<Invoice1_1, Invoice> converter = new Invoice1_1MappingToEntityConverterImpl();
 		Invoice invoice = converter.convert(source);
 		assertThat(invoice).isNotNull();
@@ -151,6 +146,9 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		
 		DatiGenerali datiGenerali = fatturaElettronicaBody.getDatiGenerali();
 		DatiGeneraliDocumento datiGeneraliDocumento = datiGenerali.getDatiGeneraliDocumento();
+		
+		DatiPagamento datiPagamento = fatturaElettronicaBody.getDatiPagamento();
+		DettaglioPagamento dettaglioPagamento = datiPagamento.getDettaglioPagamento();
 		
 		DatiBeniServizi datiBeniServizi = fatturaElettronicaBody.getDatiBeniServizi();
 		DatiRiepilogo datiRiepilogo = datiBeniServizi.getDatiRiepilogo();
@@ -196,11 +194,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		
 		FinancialInstitution financialInstitution = invoice.getFinancialInstitution();
 		assertThat(financialInstitution).isNotNull();
-		assertThat(financialInstitution.getAbi()).isEqualTo(financialInstitutionAbi);
-		assertThat(financialInstitution.getBic()).isEqualTo(financialInstitutionBic);
-		assertThat(financialInstitution.getCab()).isEqualTo(financialInstitutionCab);
-		assertThat(financialInstitution.getIban()).isEqualTo(financialInstitutionIban);
-		assertThat(financialInstitution.getName()).isEqualTo(financialInstitutionName);
+		assertThat(financialInstitution.getAbi()).isEqualTo(dettaglioPagamento.getABI());
+		assertThat(financialInstitution.getBic()).isEqualTo(dettaglioPagamento.getBIC());
+		assertThat(financialInstitution.getCab()).isEqualTo(dettaglioPagamento.getCAB());
+		assertThat(financialInstitution.getIban()).isEqualTo(dettaglioPagamento.getIBAN());
+		assertThat(financialInstitution.getName()).isEqualTo(dettaglioPagamento.getIstitutoFinanziario());
 		
 		assertThat(invoice.getStampAmount()).isEqualTo(Double.parseDouble(stampAmount));
 		assertThat(invoice.getVirtualStamp()).isEqualTo(true);
@@ -230,5 +228,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 			assertThat(linkedInvoice.getId().getInvoiceId()).isEqualTo(invoice.getNumber());
 			assertThat(linkedInvoice.getInvoice()).isSameAs(invoice);
 		}
+		
+		assertThat(invoice.getPaymentAmount()).isEqualTo(Double.parseDouble(datiGeneraliDocumento.getImportoTotaleDocumento()));
+		assertThat(invoice.getPaymentConditions()).isEqualTo(datiPagamento.getCondizioniPagamento());
+		assertThat(invoice.getPaymentExpirationDate().toString()).isEqualTo(dettaglioPagamento.getDataScadenzaPagamento());
+		assertThat(invoice.getPaymentMode()).isEqualTo(dettaglioPagamento.getModalitaPagamento());
+		assertThat(Integer.toString(invoice.getPaymentTermDays())).isEqualTo(dettaglioPagamento.getGiorniTerminiPagamento());
 	}
 }

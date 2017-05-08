@@ -108,6 +108,12 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		
 		List<DatiFattureCollegate> datiFattureCollegate = datiGenerali.getDatiFattureCollegate();
 		invoice.setLinkedInvoices(buildLinkedInvoices(datiFattureCollegate, invoice));
+		
+		invoice.setPaymentAmount(Double.parseDouble(datiGeneraliDocumento.getImportoTotaleDocumento()));
+		invoice.setPaymentConditions(datiPagamento.getCondizioniPagamento());
+		invoice.setPaymentExpirationDate(LocalDate.parse(dettaglioPagamento.getDataScadenzaPagamento(), dateTimeFormatter));
+		invoice.setPaymentMode(dettaglioPagamento.getModalitaPagamento());
+		invoice.setPaymentTermDays(Integer.parseInt(dettaglioPagamento.getGiorniTerminiPagamento()));
 
 		return invoice;
 	}
