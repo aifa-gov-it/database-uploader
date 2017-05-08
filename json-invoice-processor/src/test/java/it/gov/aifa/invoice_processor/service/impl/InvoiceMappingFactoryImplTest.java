@@ -13,14 +13,14 @@ import org.testng.annotations.Test;
 import it.gov.aifa.invoice_processor.AbstractTest;
 import it.gov.aifa.invoice_processor.constant.TestConstant;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Invoice1_1;
-import it.gov.aifa.invoice_processor.service.DataExtractService;
+import it.gov.aifa.invoice_processor.service.MappingObjectFactory;
 
-public class DataExtractServiceImplTest extends AbstractTest{
+public class InvoiceMappingFactoryImplTest extends AbstractTest{
 	
 	@Test
 	public void buildInvoice1_1Test() throws IOException {
-		DataExtractService dataExtractService = new DataExtractServiceImpl();
-		Invoice1_1 invoice = dataExtractService.buildInvoice(TestConstant.INVOICE1_1_JSON, Invoice1_1.class);
+		MappingObjectFactory<Invoice1_1> dataExtractService = new InvoiceMappingFactoryImpl<>();
+		Invoice1_1 invoice = dataExtractService.buildFromJson(TestConstant.INVOICE1_1_JSON, Invoice1_1.class);
 		assertThat(invoice).isNotNull();
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
