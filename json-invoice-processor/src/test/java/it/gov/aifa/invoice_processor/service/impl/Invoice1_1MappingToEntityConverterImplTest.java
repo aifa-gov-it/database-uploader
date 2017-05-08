@@ -26,6 +26,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.ContattiTrasmittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiAnagrafici;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiDDT;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiFattureCollegate;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
@@ -44,6 +45,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.Invoice1_1;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.IscrizioneREA;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.ScontoMaggiorazione;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Sede;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.TerzoIntermediarioOSoggettoEmittente;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
 public class Invoice1_1MappingToEntityConverterImplTest{
@@ -101,7 +103,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 				, new Sede(streetAddress, zipCode, city, district, country));
 		List<DatiFattureCollegate> datiFattureCollegate = new ArrayList<>();
 		datiFattureCollegate.add(new DatiFattureCollegate("id", "2017-05-08"));
-		
+
 		List<DettaglioLinee> dettaglioLinee = new ArrayList<>();
 		dettaglioLinee.add(new DettaglioLinee(
 				"lineNumber"
@@ -112,10 +114,10 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 				, "12.3"
 				, "123.0"
 				, "10.2"));
-		
+
 		List<DatiOrdineAcquisto> datiOrdiniAcquisto = new ArrayList<>();
 		datiOrdiniAcquisto.add(new DatiOrdineAcquisto("documentId", "2017-05-09", "lineNumber", "123654"));
-		
+
 		source.setHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 				new HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 						"1.1"
@@ -128,8 +130,8 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 										, new ContattiTrasmittente(invoiceSenderEmailAddress))
 								, cedentePrestatore
 								, cessionarioCommittente
-								, null
-								, null)
+								, new TerzoIntermediarioOSoggettoEmittente(new DatiAnagrafici(null, null, new Anagrafica("name"), null))
+								, "SE")
 						, new FatturaElettronicaBody(
 								new DatiGenerali(
 										new DatiGeneraliDocumento(
@@ -143,10 +145,10 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 												, description)
 										, datiOrdiniAcquisto
 										, datiFattureCollegate
-										, null)
-								, new DatiBeniServizi(dettaglioLinee, new DatiRiepilogo("10.0", null, null, null, "lawReference"))
+										, new DatiDDT("transportDocumentId", "2017-05-10"))
+								, new DatiBeniServizi(dettaglioLinee, new DatiRiepilogo("10.0", "11.1", "12.2", "taxDue", "lawReference"))
 								, new DatiPagamento(
-										null
+										"paymentConditions"
 										, new DettaglioPagamento(
 												"paymentMode"
 												, "10"
@@ -160,19 +162,21 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		InvoiceMappingToEntityConverter<Invoice1_1, Invoice> converter = new Invoice1_1MappingToEntityConverterImpl();
 		Invoice invoice = converter.convert(source);
 		assertThat(invoice).isNotNull();
-		
+
 		HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica fatturaElettronica = source.getHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica();
 		FatturaElettronicaBody fatturaElettronicaBody = fatturaElettronica.getFatturaElettronicaBody();
-		
+		FatturaElettronicaHeader fatturaElettronicaHeader = fatturaElettronica.getFatturaElettronicaHeader();
+
 		DatiGenerali datiGenerali = fatturaElettronicaBody.getDatiGenerali();
 		DatiGeneraliDocumento datiGeneraliDocumento = datiGenerali.getDatiGeneraliDocumento();
-		
+		DatiDDT datiDDT = datiGenerali.getDatiDDT();
+
 		DatiPagamento datiPagamento = fatturaElettronicaBody.getDatiPagamento();
 		DettaglioPagamento dettaglioPagamento = datiPagamento.getDettaglioPagamento();
-		
+
 		DatiBeniServizi datiBeniServizi = fatturaElettronicaBody.getDatiBeniServizi();
 		DatiRiepilogo datiRiepilogo = datiBeniServizi.getDatiRiepilogo();
-		
+
 		InvoiceCedentePrestatore invoiceCedentePrestatore = invoice.getCedentePrestatore();
 		assertThat(invoiceCedentePrestatore).isNotNull();
 		assertThat(invoiceCedentePrestatore.getCity()).isEqualTo(city);
@@ -190,7 +194,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoiceCedentePrestatore.getStreetAddress()).isEqualTo(streetAddress);
 		assertThat(invoiceCedentePrestatore.getTaxSystem()).isEqualTo(taxSystem);
 		assertThat(invoiceCedentePrestatore.getZipCode()).isEqualTo(zipCode);
-		
+
 		InvoiceParticipant invoiceCessionarioCommittente = invoice.getCessionarioCommittente();
 		assertThat(invoiceCessionarioCommittente).isNotNull();
 		assertThat(invoiceCessionarioCommittente.getCity()).isEqualTo(city);
@@ -204,14 +208,14 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoiceCessionarioCommittente.getSocialSecurityNumber()).isEqualTo(ssn);
 		assertThat(invoiceCessionarioCommittente.getStreetAddress()).isEqualTo(streetAddress);
 		assertThat(invoiceCessionarioCommittente.getZipCode()).isEqualTo(zipCode);
-		
+
 		assertThat(invoice.getCurrency()).isEqualTo(currency);
 		assertThat(invoice.getDate()).isEqualTo(date);
 		assertThat(invoice.getDescription()).isEqualTo(String.join("", description));
 		assertThat(invoice.getDiscountAmount()).isEqualTo(Double.parseDouble(discountAmount));
 		assertThat(invoice.getDiscountType()).isEqualTo(discountType);
 		assertThat(invoice.getDocumentTypeCode()).isEqualTo(documentTypeCode);
-		
+
 		FinancialInstitution financialInstitution = invoice.getFinancialInstitution();
 		assertThat(financialInstitution).isNotNull();
 		assertThat(financialInstitution.getAbi()).isEqualTo(dettaglioPagamento.getABI());
@@ -219,27 +223,27 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(financialInstitution.getCab()).isEqualTo(dettaglioPagamento.getCAB());
 		assertThat(financialInstitution.getIban()).isEqualTo(dettaglioPagamento.getIBAN());
 		assertThat(financialInstitution.getName()).isEqualTo(dettaglioPagamento.getIstitutoFinanziario());
-		
+
 		assertThat(invoice.getStampAmount()).isEqualTo(Double.parseDouble(stampAmount));
 		assertThat(invoice.getVirtualStamp()).isEqualTo(true);
-		
+
 		assertThat(invoice.getInvoiceRecipientCode()).isEqualTo(invoiceRecipientCode);
 		assertThat(invoice.getInvoiceSenderCode()).isEqualTo(invoiceSenderCode);
 		assertThat(invoice.getInvoiceSenderCountryCode()).isEqualTo(invoiceSenderCountryCode);
 		assertThat(invoice.getInvoiceSenderEmailAddress()).isEqualTo(invoiceSenderEmailAddress);
 		assertThat(invoice.getInvoiceSendingFormat()).isEqualTo(invoiceSendingFormat);
 		assertThat(invoice.getInvoiceSendingNumber()).isEqualTo(invoiceSendingNumber);
-		
+
 		InvoiceTax invoiceTax = invoice.getInvoiceTax();
 		assertThat(invoiceTax).isNotNull();
 		assertThat(invoiceTax.getLawReference()).isEqualTo(datiRiepilogo.getRiferimentoNormativo());
 		assertThat(invoiceTax.getRate()).isEqualTo(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
-		
+
 		assertThat(invoice.getInvoiceVersion()).isNotNull();
 		assertThat(invoice.getInvoiceVersion().getVersion()).isEqualTo(fatturaElettronica.getVersione());
-		
+
 		assertThat(invoice.getNumber()).isEqualTo(datiGeneraliDocumento.getNumero());
-		
+
 		Set<LinkedInvoice> linkedInvoices = invoice.getLinkedInvoices();
 		assertThat(linkedInvoices).isNotEmpty();
 		assertThat(linkedInvoices).hasSize(datiFattureCollegate.size());
@@ -249,13 +253,13 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 			assertThat(linkedInvoice.getId().getInvoiceId()).isEqualTo(invoice.getNumber());
 			assertThat(linkedInvoice.getInvoice()).isSameAs(invoice);
 		}
-		
+
 		assertThat(invoice.getPaymentAmount()).isEqualTo(Double.parseDouble(datiGeneraliDocumento.getImportoTotaleDocumento()));
 		assertThat(invoice.getPaymentConditions()).isEqualTo(datiPagamento.getCondizioniPagamento());
 		assertThat(invoice.getPaymentExpirationDate().toString()).isEqualTo(dettaglioPagamento.getDataScadenzaPagamento());
 		assertThat(invoice.getPaymentMode()).isEqualTo(dettaglioPagamento.getModalitaPagamento());
 		assertThat(Integer.toString(invoice.getPaymentTermDays())).isEqualTo(dettaglioPagamento.getGiorniTerminiPagamento());
-		
+
 		Set<PurchaseLine> purchaseLines = invoice.getPurchaseLines();
 		assertThat(purchaseLines).isNotEmpty();
 		assertThat(purchaseLines).hasSize(dettaglioLinee.size());
@@ -272,7 +276,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 			assertThat(purchaseLine.getUnitOfMeasureDescription()).isEqualTo(dettaglioLinee.get(0).getUnitaMisura());
 			assertThat(Double.toString(purchaseLine.getUnitPrice())).isEqualTo(dettaglioLinee.get(0).getPrezzoUnitario());
 		}
-		
+
 		Set<PurchaseOrder> purchaseOrders = invoice.getPurchaseOrders();
 		assertThat(purchaseOrders).isNotEmpty();
 		assertThat(purchaseOrders).hasSize(datiOrdiniAcquisto.size());
@@ -284,5 +288,13 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 			assertThat(purchaseOrder.getPurchaseLine().getId().getInvoiceId()).isEqualTo(invoice.getNumber());
 			assertThat(purchaseOrder.getPurchaseLine().getId().getNumber()).isEqualTo(dettaglioLinee.get(0).getNumeroLinea());
 		}
+
+		assertThat(invoice.getSoggettoEmittente()).isEqualTo(fatturaElettronicaHeader.getSoggettoEmittente());
+		assertThat(invoice.getSoggettoEmittenteName()).isEqualTo(fatturaElettronicaHeader.getTerzoIntermediarioOSoggettoEmittente().getDatiAnagrafici().getAnagrafica().getDenominazione());
+		assertThat(Double.toString(invoice.getTaxableAmount())).isEqualTo(datiRiepilogo.getImponibileImporto());
+		assertThat(invoice.getTaxDue()).isEqualTo(datiRiepilogo.getEsigibilitaIVA());
+		assertThat(Double.toString(invoice.getTotalAmount())).isEqualTo(datiGeneraliDocumento.getImportoTotaleDocumento());
+		assertThat(invoice.getTransportDocumentDate().toString()).isEqualTo(datiDDT.getDataDDT());
+		assertThat(invoice.getTransportDocumentId()).isEqualTo(datiDDT.getNumeroDDT());
 	}
 }

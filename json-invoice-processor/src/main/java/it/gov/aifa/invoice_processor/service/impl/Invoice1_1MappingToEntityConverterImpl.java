@@ -30,6 +30,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiDDT;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiFattureCollegate;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
@@ -116,7 +117,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		List<DatiFattureCollegate> datiFattureCollegate = datiGenerali.getDatiFattureCollegate();
 		invoice.setLinkedInvoices(buildLinkedInvoices(datiFattureCollegate, invoice));
 
-		invoice.setPaymentAmount(Double.parseDouble(datiGeneraliDocumento.getImportoTotaleDocumento()));
+		invoice.setPaymentAmount(Double.parseDouble(dettaglioPagamento.getImportoPagamento()));
 		invoice.setPaymentConditions(datiPagamento.getCondizioniPagamento());
 		invoice.setPaymentExpirationDate(LocalDate.parse(dettaglioPagamento.getDataScadenzaPagamento(), dateTimeFormatter));
 		invoice.setPaymentMode(dettaglioPagamento.getModalitaPagamento());
@@ -125,6 +126,16 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setPurchaseLines(buildPurchaseLines(datiBeniServizi.getDettaglioLinee(), invoice));
 
 		invoice.setPurchaseOrders(buildPurchaseOrders(datiGenerali.getDatiOrdineAcquisto(), invoice));
+		
+		invoice.setSoggettoEmittente(header.getSoggettoEmittente());
+		invoice.setSoggettoEmittenteName(header.getTerzoIntermediarioOSoggettoEmittente().getDatiAnagrafici().getAnagrafica().getDenominazione());
+		invoice.setTaxableAmount(Double.parseDouble(datiRiepilogo.getImponibileImporto()));
+		invoice.setTaxDue(datiRiepilogo.getEsigibilitaIVA());
+		invoice.setTotalAmount(Double.parseDouble(datiGeneraliDocumento.getImportoTotaleDocumento()));
+		
+		DatiDDT datiDDT = datiGenerali.getDatiDDT();
+		invoice.setTransportDocumentDate(LocalDate.parse(datiDDT.getDataDDT(), dateTimeFormatter));
+		invoice.setTransportDocumentId(datiDDT.getNumeroDDT());
 
 		return invoice;
 	}
