@@ -46,6 +46,9 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		formatter = formatter.withLocale(Locale.ITALIAN);
 		LocalDate invoiceDate = LocalDate.parse(datiGeneraliDocumento.getData(), formatter);
 		invoice.setDate(invoiceDate);
+		
+		invoice.setDescription(String.join("", datiGeneraliDocumento.getCausale()));
+		
 		return invoice;
 	}
 	
