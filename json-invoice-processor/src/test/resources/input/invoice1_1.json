@@ -80,6 +80,10 @@
                     "Data": "2016-01-04",
                     "Numero": "1234567890",
                     "ImportoTotaleDocumento": "1234.56",
+                    "ScontoMaggiorazione": {
+                        "Tipo": "MG",
+                        "Importo": "2.00"
+                        },
                     "Causale": [
                         "Il ritardato pagamento della presente fattura puo' comportare  l'addebito degli interessi di mora secondo quanto stabilito dal  D.Lgs.n. 231 9.10.02 e/o secondo gli accordi specifici con voi  interc",
                         "orsi Contributo ambientale CONAI assolto ove dovuto.    DIS (ove indicato in \"Tipo OP.\"): Merce Sconto-valore esposto ai soli fini IVA Art.15 D.P.R 633/72. Al pagamento indicare il nostro riferimento",

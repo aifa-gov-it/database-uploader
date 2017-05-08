@@ -24,6 +24,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.HttpWwwFatturapaGovItSdi
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.IdFiscaleIVA;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Invoice1_1;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.IscrizioneREA;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.ScontoMaggiorazione;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Sede;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
@@ -42,6 +43,8 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		List<String> description = new ArrayList<>();
 		description.add("First line ");
 		description.add("Second line.");
+		String discountAmount = "2.00";
+		String discountType = "discountType";
 		String district = "district";
 		String name = "name";
 		String phoneNumber = "phoneNumber";
@@ -87,6 +90,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 												, date.toString()
 												, null
 												, null
+												, new ScontoMaggiorazione(discountType, discountAmount)
 												, description)
 										, null
 										, null
@@ -131,5 +135,8 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoice.getCurrency()).isEqualTo(currency);
 		assertThat(invoice.getDate()).isEqualTo(date);
 		assertThat(invoice.getDescription()).isEqualTo(String.join("", description));
+		
+		assertThat(invoice.getDiscountAmount()).isEqualTo(Double.parseDouble(discountAmount));
+		assertThat(invoice.getDiscountType()).isEqualTo(discountType);
 	}
 }

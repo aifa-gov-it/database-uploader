@@ -21,6 +21,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Invoice1_1;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.ScontoMaggiorazione;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
 @Service
@@ -48,6 +49,10 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setDate(invoiceDate);
 		
 		invoice.setDescription(String.join("", datiGeneraliDocumento.getCausale()));
+		
+		ScontoMaggiorazione discount = datiGeneraliDocumento.getScontoMaggiorazione();
+		invoice.setDiscountAmount(Double.parseDouble(discount.getImporto()));
+		invoice.setDiscountType(discount.getTipo());
 		
 		return invoice;
 	}

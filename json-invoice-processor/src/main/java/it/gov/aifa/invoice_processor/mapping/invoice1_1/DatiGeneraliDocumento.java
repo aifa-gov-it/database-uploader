@@ -17,26 +17,28 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "TipoDocumento", "Divisa", "Data", "Numero", "ImportoTotaleDocumento", "Causale" })
+@JsonPropertyOrder({ "TipoDocumento", "Divisa", "Data", "Numero", "ImportoTotaleDocumento", "ScontoMaggiorazione", "Causale" })
 public class DatiGeneraliDocumento implements Serializable {
 
-	@JsonProperty("TipoDocumento")
-	private String tipoDocumento;
-	@JsonProperty("Divisa")
-	private String divisa;
-	@JsonProperty("Data")
-	private String data;
-	@JsonProperty("Numero")
-	private String numero;
-	@JsonProperty("ImportoTotaleDocumento")
-	private String importoTotaleDocumento;
-	@JsonProperty("Causale")
-	@Valid
-	private List<String> causale = null;
+	private final static long serialVersionUID = 9015129899413377938L;
 	@JsonIgnore
 	@Valid
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-	private final static long serialVersionUID = 9015129899413377938L;
+	@JsonProperty("Causale")
+	@Valid
+	private List<String> causale = null;
+	@JsonProperty("Data")
+	private String data;
+	@JsonProperty("Divisa")
+	private String divisa;
+	@JsonProperty("ImportoTotaleDocumento")
+	private String importoTotaleDocumento;
+	@JsonProperty("Numero")
+	private String numero;
+	@JsonProperty("ScontoMaggiorazione")
+	private ScontoMaggiorazione scontoMaggiorazione;
+	@JsonProperty("TipoDocumento")
+	private String tipoDocumento;
 
 	/**
 	 * No args constructor for use in serialization
@@ -55,95 +57,15 @@ public class DatiGeneraliDocumento implements Serializable {
 	 * @param numero
 	 */
 	public DatiGeneraliDocumento(String tipoDocumento, String divisa, String data, String numero,
-			String importoTotaleDocumento, List<String> causale) {
+			String importoTotaleDocumento, ScontoMaggiorazione scontoMaggiorazione, List<String> causale) {
 		super();
 		this.tipoDocumento = tipoDocumento;
 		this.divisa = divisa;
 		this.data = data;
 		this.numero = numero;
 		this.importoTotaleDocumento = importoTotaleDocumento;
+		this.scontoMaggiorazione = scontoMaggiorazione;
 		this.causale = causale;
-	}
-
-	@JsonProperty("TipoDocumento")
-	public String getTipoDocumento() {
-		return tipoDocumento;
-	}
-
-	@JsonProperty("TipoDocumento")
-	public void setTipoDocumento(String tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
-	}
-
-	@JsonProperty("Divisa")
-	public String getDivisa() {
-		return divisa;
-	}
-
-	@JsonProperty("Divisa")
-	public void setDivisa(String divisa) {
-		this.divisa = divisa;
-	}
-
-	@JsonProperty("Data")
-	public String getData() {
-		return data;
-	}
-
-	@JsonProperty("Data")
-	public void setData(String data) {
-		this.data = data;
-	}
-
-	@JsonProperty("Numero")
-	public String getNumero() {
-		return numero;
-	}
-
-	@JsonProperty("Numero")
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-
-	@JsonProperty("ImportoTotaleDocumento")
-	public String getImportoTotaleDocumento() {
-		return importoTotaleDocumento;
-	}
-
-	@JsonProperty("ImportoTotaleDocumento")
-	public void setImportoTotaleDocumento(String importoTotaleDocumento) {
-		this.importoTotaleDocumento = importoTotaleDocumento;
-	}
-
-	@JsonProperty("Causale")
-	public List<String> getCausale() {
-		return causale;
-	}
-
-	@JsonProperty("Causale")
-	public void setCausale(List<String> causale) {
-		this.causale = causale;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
-
-	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(tipoDocumento).append(divisa).append(data).append(numero)
-				.append(importoTotaleDocumento).append(causale).append(additionalProperties).toHashCode();
 	}
 
 	@Override
@@ -157,8 +79,98 @@ public class DatiGeneraliDocumento implements Serializable {
 		DatiGeneraliDocumento rhs = ((DatiGeneraliDocumento) other);
 		return new EqualsBuilder().append(tipoDocumento, rhs.tipoDocumento).append(divisa, rhs.divisa)
 				.append(data, rhs.data).append(numero, rhs.numero)
-				.append(importoTotaleDocumento, rhs.importoTotaleDocumento).append(causale, rhs.causale)
+				.append(importoTotaleDocumento, rhs.importoTotaleDocumento).append(scontoMaggiorazione, rhs.scontoMaggiorazione)
+				.append(causale, rhs.causale)
 				.append(additionalProperties, rhs.additionalProperties).isEquals();
+	}
+
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
+
+	@JsonProperty("Causale")
+	public List<String> getCausale() {
+		return causale;
+	}
+
+	@JsonProperty("Data")
+	public String getData() {
+		return data;
+	}
+
+	@JsonProperty("Divisa")
+	public String getDivisa() {
+		return divisa;
+	}
+
+	@JsonProperty("ImportoTotaleDocumento")
+	public String getImportoTotaleDocumento() {
+		return importoTotaleDocumento;
+	}
+
+	@JsonProperty("Numero")
+	public String getNumero() {
+		return numero;
+	}
+
+	public ScontoMaggiorazione getScontoMaggiorazione() {
+		return scontoMaggiorazione;
+	}
+
+	@JsonProperty("TipoDocumento")
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(tipoDocumento).append(divisa).append(data).append(numero)
+				.append(importoTotaleDocumento).append(scontoMaggiorazione).append(causale).append(additionalProperties).toHashCode();
+	}
+
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
+
+	@JsonProperty("Causale")
+	public void setCausale(List<String> causale) {
+		this.causale = causale;
+	}
+
+	@JsonProperty("Data")
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	@JsonProperty("Divisa")
+	public void setDivisa(String divisa) {
+		this.divisa = divisa;
+	}
+
+	@JsonProperty("ImportoTotaleDocumento")
+	public void setImportoTotaleDocumento(String importoTotaleDocumento) {
+		this.importoTotaleDocumento = importoTotaleDocumento;
+	}
+
+	@JsonProperty("Numero")
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public void setScontoMaggiorazione(ScontoMaggiorazione scontoMaggiorazione) {
+		this.scontoMaggiorazione = scontoMaggiorazione;
+	}
+
+	@JsonProperty("TipoDocumento")
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }
