@@ -12,16 +12,19 @@ import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
+import it.gov.aifa.invoice_processor.entity.invoice.InvoiceTax;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Anagrafica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Contatti;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.ContattiTrasmittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiAnagrafici;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiTrasmissione;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
@@ -121,7 +124,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 										, null
 										, null
 										, null)
-								, null
+								, new DatiBeniServizi(null, new DatiRiepilogo("10.0", null, null, null, "lawReference"))
 								, new DatiPagamento(
 										null
 										, new DettaglioPagamento(
@@ -137,6 +140,13 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		InvoiceMappingToEntityConverter<Invoice1_1, Invoice> converter = new Invoice1_1MappingToEntityConverterImpl();
 		Invoice invoice = converter.convert(source);
 		assertThat(invoice).isNotNull();
+		
+		HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica fatturaElettronica = source.getHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica();
+		FatturaElettronicaBody fatturaElettronicaBody = fatturaElettronica.getFatturaElettronicaBody();
+		
+		DatiBeniServizi datiBeniServizi = fatturaElettronicaBody.getDatiBeniServizi();
+		DatiRiepilogo datiRiepilogo = datiBeniServizi.getDatiRiepilogo();
+		
 		InvoiceCedentePrestatore invoiceCedentePrestatore = invoice.getCedentePrestatore();
 		assertThat(invoiceCedentePrestatore).isNotNull();
 		assertThat(invoiceCedentePrestatore.getCity()).isEqualTo(city);
@@ -193,5 +203,10 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoice.getInvoiceSenderEmailAddress()).isEqualTo(invoiceSenderEmailAddress);
 		assertThat(invoice.getInvoiceSendingFormat()).isEqualTo(invoiceSendingFormat);
 		assertThat(invoice.getInvoiceSendingNumber()).isEqualTo(invoiceSendingNumber);
+		
+		InvoiceTax invoiceTax = invoice.getInvoiceTax();
+		assertThat(invoiceTax).isNotNull();
+		assertThat(invoiceTax.getLawReference()).isEqualTo(datiRiepilogo.getRiferimentoNormativo());
+		assertThat(invoiceTax.getRate()).isEqualTo(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
 	}
 }

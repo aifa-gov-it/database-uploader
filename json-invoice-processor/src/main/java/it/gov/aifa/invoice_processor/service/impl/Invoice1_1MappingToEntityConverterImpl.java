@@ -14,12 +14,15 @@ import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
+import it.gov.aifa.invoice_processor.entity.invoice.InvoiceTax;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiTrasmissione;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
@@ -84,6 +87,10 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setInvoiceSendingFormat(datiTrasmissione.getFormatoTrasmissione());
 		invoice.setInvoiceSendingNumber(datiTrasmissione.getProgressivoInvio());
 		
+		DatiBeniServizi datiBeniServizi = body.getDatiBeniServizi();
+		DatiRiepilogo datiRiepilogo = datiBeniServizi.getDatiRiepilogo();
+		invoice.setInvoiceTax(buildInvoiceTax(datiRiepilogo));
+		
 		return invoice;
 	}
 	
@@ -133,6 +140,13 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		financialInstitution.setIban(dettaglioPagamento.getIBAN());
 		financialInstitution.setName(dettaglioPagamento.getIstitutoFinanziario());
 		return financialInstitution;
+	}
+	
+	private InvoiceTax buildInvoiceTax(DatiRiepilogo datiRiepilogo) {
+		InvoiceTax invoiceTax = new InvoiceTax();
+		invoiceTax.setLawReference(datiRiepilogo.getRiferimentoNormativo());
+		invoiceTax.setRate(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
+		return invoiceTax;
 	}
 
 }
