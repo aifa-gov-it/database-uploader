@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -24,6 +25,7 @@ import it.gov.aifa.invoice_processor.entity.invoice.InvoiceVersion;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLinePrimaryKey;
+import it.gov.aifa.invoice_processor.entity.invoice.PurchaseOrder;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
@@ -31,6 +33,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiFattureCollegate;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiOrdineAcquisto;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiTrasmissione;
@@ -46,14 +49,14 @@ import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 @Service
 @Validated
 public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToEntityConverter<Invoice1_1, Invoice> {
-	
+
 	private DateTimeFormatter dateTimeFormatter;
-	
+
 	public Invoice1_1MappingToEntityConverterImpl() {
 		dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
 		dateTimeFormatter = dateTimeFormatter.withLocale(Locale.ITALIAN);
 	}
-	
+
 	@Override
 	public Invoice convert(Invoice1_1 source) {
 		Invoice invoice = new Invoice();
@@ -109,19 +112,47 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setInvoiceVersion(buildInvoiceVersion(fatturaElettronica.getVersione()));
 
 		invoice.setNumber(datiGeneraliDocumento.getNumero());
-		
+
 		List<DatiFattureCollegate> datiFattureCollegate = datiGenerali.getDatiFattureCollegate();
 		invoice.setLinkedInvoices(buildLinkedInvoices(datiFattureCollegate, invoice));
-		
+
 		invoice.setPaymentAmount(Double.parseDouble(datiGeneraliDocumento.getImportoTotaleDocumento()));
 		invoice.setPaymentConditions(datiPagamento.getCondizioniPagamento());
 		invoice.setPaymentExpirationDate(LocalDate.parse(dettaglioPagamento.getDataScadenzaPagamento(), dateTimeFormatter));
 		invoice.setPaymentMode(dettaglioPagamento.getModalitaPagamento());
 		invoice.setPaymentTermDays(Integer.parseInt(dettaglioPagamento.getGiorniTerminiPagamento()));
-		
+
 		invoice.setPurchaseLines(buildPurchaseLines(datiBeniServizi.getDettaglioLinee(), invoice));
-		
+
+		invoice.setPurchaseOrders(buildPurchaseOrders(datiGenerali.getDatiOrdineAcquisto(), invoice));
+
 		return invoice;
+	}
+
+	private Set<PurchaseOrder> buildPurchaseOrders(List<DatiOrdineAcquisto> datiOrdiniAcquisto, Invoice parentInvoice) {
+		Set<PurchaseOrder> purchaseOrders = new HashSet<>(datiOrdiniAcquisto.size());
+		for(DatiOrdineAcquisto datiOrdineAcquisto : datiOrdiniAcquisto) {
+			PurchaseOrder purchaseOrder = new PurchaseOrder();
+			purchaseOrder.setCigCode(datiOrdineAcquisto.getCodiceCIG());
+			purchaseOrder.setId(new DocumentIdDatePrimaryKey(
+					LocalDate.parse(datiOrdineAcquisto.getData(), dateTimeFormatter)
+					, datiOrdineAcquisto.getIdDocumento()
+					, parentInvoice.getNumber()));
+			purchaseOrder.setInvoice(parentInvoice);
+			List<PurchaseLine> relatedPurchaseLines = parentInvoice.getPurchaseLines().stream()
+					.filter(c -> c.getId().getInvoiceId().equals(parentInvoice.getNumber()))
+					.filter(c -> c.getId().getNumber().equals(datiOrdineAcquisto.getRiferimentoNumeroLinea()))
+					.collect(Collectors.toList());
+			if(relatedPurchaseLines != null) {
+				if(relatedPurchaseLines.size() > 1)
+					throw new RuntimeException("Search returned more than one related purchase line");
+				if(!relatedPurchaseLines.isEmpty())
+					purchaseOrder.setPurchaseLine(relatedPurchaseLines.get(0));
+			}
+			
+			purchaseOrders.add(purchaseOrder);
+		}
+		return purchaseOrders;
 	}
 
 	private Set<PurchaseLine> buildPurchaseLines(List<DettaglioLinee> dettaglioLinee, Invoice parentInvoice) {

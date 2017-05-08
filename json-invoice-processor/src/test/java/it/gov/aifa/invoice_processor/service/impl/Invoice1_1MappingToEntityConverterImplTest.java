@@ -16,6 +16,7 @@ import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceTax;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
+import it.gov.aifa.invoice_processor.entity.invoice.PurchaseOrder;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Anagrafica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
@@ -28,6 +29,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiFattureCollegate;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiOrdineAcquisto;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiTrasmissione;
@@ -111,6 +113,9 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 				, "123.0"
 				, "10.2"));
 		
+		List<DatiOrdineAcquisto> datiOrdiniAcquisto = new ArrayList<>();
+		datiOrdiniAcquisto.add(new DatiOrdineAcquisto("documentId", "2017-05-09", "lineNumber", "123654"));
+		
 		source.setHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 				new HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 						"1.1"
@@ -136,7 +141,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 												, new DatiBollo(virtualStamp, stampAmount)
 												, new ScontoMaggiorazione(discountType, discountAmount)
 												, description)
-										, null
+										, datiOrdiniAcquisto
 										, datiFattureCollegate
 										, null)
 								, new DatiBeniServizi(dettaglioLinee, new DatiRiepilogo("10.0", null, null, null, "lawReference"))
@@ -266,6 +271,18 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 			assertThat(Double.toString(purchaseLine.getTotalPrice())).isEqualTo(dettaglioLinee.get(0).getPrezzoTotale());
 			assertThat(purchaseLine.getUnitOfMeasureDescription()).isEqualTo(dettaglioLinee.get(0).getUnitaMisura());
 			assertThat(Double.toString(purchaseLine.getUnitPrice())).isEqualTo(dettaglioLinee.get(0).getPrezzoUnitario());
+		}
+		
+		Set<PurchaseOrder> purchaseOrders = invoice.getPurchaseOrders();
+		assertThat(purchaseOrders).isNotEmpty();
+		assertThat(purchaseOrders).hasSize(datiOrdiniAcquisto.size());
+		for(PurchaseOrder purchaseOrder : purchaseOrders) {
+			assertThat(purchaseOrder.getId().getInvoiceId()).isEqualTo(invoice.getNumber());
+			assertThat(purchaseOrder.getId().getDate().toString()).isEqualTo(datiOrdiniAcquisto.get(0).getData());
+			assertThat(purchaseOrder.getInvoice()).isSameAs(invoice);
+			assertThat(purchaseOrder.getCigCode()).isEqualTo(datiOrdiniAcquisto.get(0).getCodiceCIG());
+			assertThat(purchaseOrder.getPurchaseLine().getId().getInvoiceId()).isEqualTo(invoice.getNumber());
+			assertThat(purchaseOrder.getPurchaseLine().getId().getNumber()).isEqualTo(dettaglioLinee.get(0).getNumeroLinea());
 		}
 	}
 }
