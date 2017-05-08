@@ -5,38 +5,52 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "TipoDocumento", "Divisa", "Data", "Numero", "ImportoTotaleDocumento", "ScontoMaggiorazione", "Causale" })
+@JsonPropertyOrder({ "TipoDocumento", "Divisa", "Data", "Numero", "ImportoTotaleDocumento", "DatiBollo", "ScontoMaggiorazione", "Causale" })
 public class DatiGeneraliDocumento implements Serializable {
 
 	private final static long serialVersionUID = 9015129899413377938L;
+	
 	@JsonIgnore
 	@Valid
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	
 	@JsonProperty("Causale")
 	@Valid
 	private List<String> causale = null;
+	
 	@JsonProperty("Data")
 	private String data;
+	
+	@JsonProperty("DatiBollo")
+	private DatiBollo datiBollo;
+	
 	@JsonProperty("Divisa")
 	private String divisa;
+	
 	@JsonProperty("ImportoTotaleDocumento")
 	private String importoTotaleDocumento;
+	
 	@JsonProperty("Numero")
 	private String numero;
+	
 	@JsonProperty("ScontoMaggiorazione")
 	private ScontoMaggiorazione scontoMaggiorazione;
+	
 	@JsonProperty("TipoDocumento")
 	private String tipoDocumento;
 
@@ -57,13 +71,14 @@ public class DatiGeneraliDocumento implements Serializable {
 	 * @param numero
 	 */
 	public DatiGeneraliDocumento(String tipoDocumento, String divisa, String data, String numero,
-			String importoTotaleDocumento, ScontoMaggiorazione scontoMaggiorazione, List<String> causale) {
+			String importoTotaleDocumento, DatiBollo datiBollo, ScontoMaggiorazione scontoMaggiorazione, List<String> causale) {
 		super();
 		this.tipoDocumento = tipoDocumento;
 		this.divisa = divisa;
 		this.data = data;
 		this.numero = numero;
 		this.importoTotaleDocumento = importoTotaleDocumento;
+		this.datiBollo = datiBollo;
 		this.scontoMaggiorazione = scontoMaggiorazione;
 		this.causale = causale;
 	}
@@ -77,11 +92,17 @@ public class DatiGeneraliDocumento implements Serializable {
 			return false;
 		}
 		DatiGeneraliDocumento rhs = ((DatiGeneraliDocumento) other);
-		return new EqualsBuilder().append(tipoDocumento, rhs.tipoDocumento).append(divisa, rhs.divisa)
-				.append(data, rhs.data).append(numero, rhs.numero)
-				.append(importoTotaleDocumento, rhs.importoTotaleDocumento).append(scontoMaggiorazione, rhs.scontoMaggiorazione)
+		return new EqualsBuilder()
+				.append(tipoDocumento, rhs.tipoDocumento)
+				.append(divisa, rhs.divisa)
+				.append(data, rhs.data)
+				.append(numero, rhs.numero)
+				.append(importoTotaleDocumento, rhs.importoTotaleDocumento)
+				.append(datiBollo, rhs.datiBollo)
+				.append(scontoMaggiorazione, rhs.scontoMaggiorazione)
 				.append(causale, rhs.causale)
-				.append(additionalProperties, rhs.additionalProperties).isEquals();
+				.append(additionalProperties, rhs.additionalProperties)
+				.isEquals();
 	}
 
 	@JsonAnyGetter
@@ -97,6 +118,10 @@ public class DatiGeneraliDocumento implements Serializable {
 	@JsonProperty("Data")
 	public String getData() {
 		return data;
+	}
+
+	public DatiBollo getDatiBollo() {
+		return datiBollo;
 	}
 
 	@JsonProperty("Divisa")
@@ -126,7 +151,9 @@ public class DatiGeneraliDocumento implements Serializable {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(tipoDocumento).append(divisa).append(data).append(numero)
-				.append(importoTotaleDocumento).append(scontoMaggiorazione).append(causale).append(additionalProperties).toHashCode();
+				.append(importoTotaleDocumento)
+				.append(datiBollo)
+				.append(scontoMaggiorazione).append(causale).append(additionalProperties).toHashCode();
 	}
 
 	@JsonAnySetter
@@ -142,6 +169,10 @@ public class DatiGeneraliDocumento implements Serializable {
 	@JsonProperty("Data")
 	public void setData(String data) {
 		this.data = data;
+	}
+
+	public void setDatiBollo(DatiBollo datiBollo) {
+		this.datiBollo = datiBollo;
 	}
 
 	@JsonProperty("Divisa")
@@ -172,5 +203,4 @@ public class DatiGeneraliDocumento implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
-
 }

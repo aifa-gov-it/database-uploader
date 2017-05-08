@@ -16,6 +16,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Contatti;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiAnagrafici;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
@@ -53,8 +54,10 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		String shareCapital = "shareCapital";
 		String soleStakeholder = "soleStakeholder";
 		String ssn = "456";
+		String stampAmount = "2.00";
 		String streetAddress = "Route 1";
 		String taxSystem = "taxSystem";
+		String virtualStamp = "SI";
 		String zipCode = "123456";
 		CedentePrestatore cedentePrestatore = new CedentePrestatore(
 				new DatiAnagrafici(
@@ -90,6 +93,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 												, date.toString()
 												, null
 												, null
+												, new DatiBollo(virtualStamp, stampAmount)
 												, new ScontoMaggiorazione(discountType, discountAmount)
 												, description)
 										, null
@@ -138,5 +142,8 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		
 		assertThat(invoice.getDiscountAmount()).isEqualTo(Double.parseDouble(discountAmount));
 		assertThat(invoice.getDiscountType()).isEqualTo(discountType);
+
+		assertThat(invoice.getStampAmount()).isEqualTo(Double.parseDouble(stampAmount));
+		assertThat(invoice.getVirtualStamp()).isEqualTo(true);
 	}
 }

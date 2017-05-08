@@ -15,6 +15,7 @@ import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
@@ -51,8 +52,19 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setDescription(String.join("", datiGeneraliDocumento.getCausale()));
 		
 		ScontoMaggiorazione discount = datiGeneraliDocumento.getScontoMaggiorazione();
-		invoice.setDiscountAmount(Double.parseDouble(discount.getImporto()));
-		invoice.setDiscountType(discount.getTipo());
+		if(discount != null) {
+			invoice.setDiscountAmount(
+					discount.getImporto() != null ? Double.parseDouble(discount.getImporto()) : null);
+			invoice.setDiscountType(discount.getTipo());
+		}
+		
+		DatiBollo datiBollo = datiGeneraliDocumento.getDatiBollo();
+		if(datiBollo != null) {
+			invoice.setStampAmount(Double.parseDouble(datiBollo.getImportoBollo()));
+			invoice.setVirtualStamp(
+					datiBollo.getBolloVirtuale() == null ? null :
+							datiBollo.getBolloVirtuale().equals("SI") ? true : false);
+		}
 		
 		return invoice;
 	}
