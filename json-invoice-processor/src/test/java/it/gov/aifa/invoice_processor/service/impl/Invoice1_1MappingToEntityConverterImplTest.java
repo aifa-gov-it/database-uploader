@@ -21,6 +21,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiTrasmissione;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
@@ -56,6 +57,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		String financialInstitutionCab = "financialInstitutionCab";
 		String financialInstitutionIban = "financialInstitutionIban";
 		String financialInstitutionName = "financialInstitutionName";
+		String invoiceRecipientCode = "invoiceRecipientCode";
 		String name = "name";
 		String phoneNumber = "phoneNumber";
 		String reaNumber = "reaNumber";
@@ -89,7 +91,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 				new HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 						null
 						, new FatturaElettronicaHeader(
-								null
+								new DatiTrasmissione(null
+										, null
+										, null
+										, invoiceRecipientCode
+										, null)
 								, cedentePrestatore
 								, cessionarioCommittente
 								, null
@@ -173,5 +179,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		
 		assertThat(invoice.getStampAmount()).isEqualTo(Double.parseDouble(stampAmount));
 		assertThat(invoice.getVirtualStamp()).isEqualTo(true);
+		
+		assertThat(invoice.getInvoiceRecipientCode()).isEqualTo(invoiceRecipientCode);
 	}
 }

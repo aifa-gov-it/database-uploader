@@ -20,6 +20,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiTrasmissione;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
@@ -74,6 +75,9 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		DatiPagamento datiPagamento = body.getDatiPagamento();
 		DettaglioPagamento dettaglioPagamento = datiPagamento.getDettaglioPagamento();
 		invoice.setFinancialInstitution(buildFinancialInstitution(dettaglioPagamento));
+		
+		DatiTrasmissione datiTrasmissione = header.getDatiTrasmissione();
+		invoice.setInvoiceRecipientCode(datiTrasmissione.getCodiceDestinatario());
 		
 		return invoice;
 	}
