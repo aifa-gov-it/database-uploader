@@ -26,7 +26,6 @@ public class InvoiceParticipant {
 	@NotBlank
 	private String district;
 	
-	@NotBlank
 	private String emailAddress;
 	
 	@EmbeddedId
@@ -37,7 +36,6 @@ public class InvoiceParticipant {
 	@NotBlank
 	private String name;
 	
-	@NotBlank
 	private String phoneNumber;
 	
 	@NotBlank
