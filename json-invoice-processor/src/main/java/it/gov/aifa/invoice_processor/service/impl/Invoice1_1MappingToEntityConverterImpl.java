@@ -15,6 +15,7 @@ import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceTax;
+import it.gov.aifa.invoice_processor.entity.invoice.InvoiceVersion;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
@@ -91,6 +92,8 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		DatiRiepilogo datiRiepilogo = datiBeniServizi.getDatiRiepilogo();
 		invoice.setInvoiceTax(buildInvoiceTax(datiRiepilogo));
 		
+		invoice.setInvoiceVersion(buildInvoiceVersion(fatturaElettronica.getVersione()));
+		
 		return invoice;
 	}
 	
@@ -147,6 +150,10 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoiceTax.setLawReference(datiRiepilogo.getRiferimentoNormativo());
 		invoiceTax.setRate(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
 		return invoiceTax;
+	}
+	
+	private InvoiceVersion buildInvoiceVersion(String versione) {
+		return new InvoiceVersion(versione, null, null);
 	}
 
 }

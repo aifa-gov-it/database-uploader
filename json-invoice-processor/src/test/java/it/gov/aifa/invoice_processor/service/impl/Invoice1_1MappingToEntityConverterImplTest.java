@@ -98,7 +98,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 				, new Sede(streetAddress, zipCode, city, district, country));
 		source.setHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 				new HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
-						null
+						"1.1"
 						, new FatturaElettronicaHeader(
 								new DatiTrasmissione(
 										new IdTrasmittente(invoiceSenderCountryCode, invoiceSenderCode)
@@ -208,5 +208,7 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoiceTax).isNotNull();
 		assertThat(invoiceTax.getLawReference()).isEqualTo(datiRiepilogo.getRiferimentoNormativo());
 		assertThat(invoiceTax.getRate()).isEqualTo(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
+		
+		assertThat(invoice.getInvoiceVersion().getVersion()).isEqualTo(fatturaElettronica.getVersione());
 	}
 }
