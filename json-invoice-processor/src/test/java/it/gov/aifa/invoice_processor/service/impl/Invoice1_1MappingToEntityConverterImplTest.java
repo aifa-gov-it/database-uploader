@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
@@ -19,6 +20,8 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiAnagrafici;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica;
@@ -48,6 +51,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		String discountType = "discountType";
 		String district = "district";
 		String documentTypeCode = "documentTypeCode";
+		String financialInstitutionAbi = "financialInstitutionAbi";
+		String financialInstitutionBic = "financialInstitutionBic";
+		String financialInstitutionCab = "financialInstitutionCab";
+		String financialInstitutionIban = "financialInstitutionIban";
+		String financialInstitutionName = "financialInstitutionName";
 		String name = "name";
 		String phoneNumber = "phoneNumber";
 		String reaNumber = "reaNumber";
@@ -101,7 +109,18 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 										, null
 										, null)
 								, null
-								, null)));
+								, new DatiPagamento(
+										null
+										, new DettaglioPagamento(
+												null
+												, null
+												, null
+												, null
+												, financialInstitutionName
+												, financialInstitutionIban
+												, financialInstitutionAbi
+												, financialInstitutionCab
+												, financialInstitutionBic)))));
 		InvoiceMappingToEntityConverter<Invoice1_1, Invoice> converter = new Invoice1_1MappingToEntityConverterImpl();
 		Invoice invoice = converter.convert(source);
 		assertThat(invoice).isNotNull();
@@ -143,6 +162,15 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoice.getDiscountAmount()).isEqualTo(Double.parseDouble(discountAmount));
 		assertThat(invoice.getDiscountType()).isEqualTo(discountType);
 		assertThat(invoice.getDocumentTypeCode()).isEqualTo(documentTypeCode);
+		
+		FinancialInstitution financialInstitution = invoice.getFinancialInstitution();
+		assertThat(financialInstitution).isNotNull();
+		assertThat(financialInstitution.getAbi()).isEqualTo(financialInstitutionAbi);
+		assertThat(financialInstitution.getBic()).isEqualTo(financialInstitutionBic);
+		assertThat(financialInstitution.getCab()).isEqualTo(financialInstitutionCab);
+		assertThat(financialInstitution.getIban()).isEqualTo(financialInstitutionIban);
+		assertThat(financialInstitution.getName()).isEqualTo(financialInstitutionName);
+		
 		assertThat(invoice.getStampAmount()).isEqualTo(Double.parseDouble(stampAmount));
 		assertThat(invoice.getVirtualStamp()).isEqualTo(true);
 	}

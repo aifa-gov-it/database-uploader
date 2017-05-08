@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.invoice.CountryAndCodePrimaryKey;
+import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
@@ -18,6 +19,8 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica;
@@ -68,6 +71,10 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		
 		invoice.setDocumentTypeCode(datiGenerali.getDatiGeneraliDocumento().getTipoDocumento());
 		
+		DatiPagamento datiPagamento = body.getDatiPagamento();
+		DettaglioPagamento dettaglioPagamento = datiPagamento.getDettaglioPagamento();
+		invoice.setFinancialInstitution(buildFinancialInstitution(dettaglioPagamento));
+		
 		return invoice;
 	}
 	
@@ -107,6 +114,16 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoiceParticipant.setStreetAddress(cessionarioCommittente.getSede().getIndirizzo());
 		invoiceParticipant.setZipCode(cessionarioCommittente.getSede().getCap());
 		return invoiceParticipant;
+	}
+	
+	private FinancialInstitution buildFinancialInstitution(DettaglioPagamento dettaglioPagamento) {
+		FinancialInstitution financialInstitution = new FinancialInstitution();
+		financialInstitution.setAbi(dettaglioPagamento.getABI());
+		financialInstitution.setBic(dettaglioPagamento.getBIC());
+		financialInstitution.setCab(dettaglioPagamento.getCAB());
+		financialInstitution.setIban(dettaglioPagamento.getIBAN());
+		financialInstitution.setName(dettaglioPagamento.getIstitutoFinanziario());
+		return financialInstitution;
 	}
 
 }
