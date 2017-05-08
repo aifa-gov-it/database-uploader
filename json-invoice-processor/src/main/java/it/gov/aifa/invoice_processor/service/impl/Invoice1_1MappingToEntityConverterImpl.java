@@ -2,7 +2,10 @@ package it.gov.aifa.invoice_processor.service.impl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -10,16 +13,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.invoice.CountryAndCodePrimaryKey;
+import it.gov.aifa.invoice_processor.entity.invoice.DocumentIdDatePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceTax;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceVersion;
+import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiFattureCollegate;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGenerali;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
@@ -37,49 +43,53 @@ import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 @Validated
 public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToEntityConverter<Invoice1_1, Invoice> {
 	
+	private DateTimeFormatter dateTimeFormatter;
+	
+	public Invoice1_1MappingToEntityConverterImpl() {
+		dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+		dateTimeFormatter = dateTimeFormatter.withLocale(Locale.ITALIAN);
+	}
+	
 	@Override
 	public Invoice convert(Invoice1_1 source) {
 		Invoice invoice = new Invoice();
 		HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica fatturaElettronica = source.getHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica();
 		FatturaElettronicaHeader header = fatturaElettronica.getFatturaElettronicaHeader();
-		
+
 		invoice.setCedentePrestatore(buildCedentePrestatore(header.getCedentePrestatore()));
 		invoice.setCessionarioCommittente(buildCessionarioCommittente(header.getCessionarioCommittente()));
-		
+
 		FatturaElettronicaBody body = fatturaElettronica.getFatturaElettronicaBody();
 		DatiGenerali datiGenerali = body.getDatiGenerali();
 		DatiGeneraliDocumento datiGeneraliDocumento = datiGenerali.getDatiGeneraliDocumento();
-		
+
 		invoice.setCurrency(datiGeneraliDocumento.getDivisa());
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-		formatter = formatter.withLocale(Locale.ITALIAN);
-		LocalDate invoiceDate = LocalDate.parse(datiGeneraliDocumento.getData(), formatter);
-		invoice.setDate(invoiceDate);
-		
+
+		invoice.setDate(LocalDate.parse(datiGeneraliDocumento.getData(), dateTimeFormatter));
+
 		invoice.setDescription(String.join("", datiGeneraliDocumento.getCausale()));
-		
+
 		ScontoMaggiorazione discount = datiGeneraliDocumento.getScontoMaggiorazione();
 		if(discount != null) {
 			invoice.setDiscountAmount(
 					discount.getImporto() != null ? Double.parseDouble(discount.getImporto()) : null);
 			invoice.setDiscountType(discount.getTipo());
 		}
-		
+
 		DatiBollo datiBollo = datiGeneraliDocumento.getDatiBollo();
 		if(datiBollo != null) {
 			invoice.setStampAmount(Double.parseDouble(datiBollo.getImportoBollo()));
 			invoice.setVirtualStamp(
 					datiBollo.getBolloVirtuale() == null ? null :
-							datiBollo.getBolloVirtuale().equals("SI") ? true : false);
+						datiBollo.getBolloVirtuale().equals("SI") ? true : false);
 		}
-		
+
 		invoice.setDocumentTypeCode(datiGenerali.getDatiGeneraliDocumento().getTipoDocumento());
-		
+
 		DatiPagamento datiPagamento = body.getDatiPagamento();
 		DettaglioPagamento dettaglioPagamento = datiPagamento.getDettaglioPagamento();
 		invoice.setFinancialInstitution(buildFinancialInstitution(dettaglioPagamento));
-		
+
 		DatiTrasmissione datiTrasmissione = header.getDatiTrasmissione();
 		invoice.setInvoiceRecipientCode(datiTrasmissione.getCodiceDestinatario());
 		invoice.setInvoiceSenderCode(datiTrasmissione.getIdTrasmittente().getIdCodice());
@@ -87,16 +97,21 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setInvoiceSenderEmailAddress(datiTrasmissione.getContattiTrasmittente().getEmail());
 		invoice.setInvoiceSendingFormat(datiTrasmissione.getFormatoTrasmissione());
 		invoice.setInvoiceSendingNumber(datiTrasmissione.getProgressivoInvio());
-		
+
 		DatiBeniServizi datiBeniServizi = body.getDatiBeniServizi();
 		DatiRiepilogo datiRiepilogo = datiBeniServizi.getDatiRiepilogo();
 		invoice.setInvoiceTax(buildInvoiceTax(datiRiepilogo));
-		
+
 		invoice.setInvoiceVersion(buildInvoiceVersion(fatturaElettronica.getVersione()));
+
+		invoice.setNumber(datiGeneraliDocumento.getNumero());
 		
+		List<DatiFattureCollegate> datiFattureCollegate = datiGenerali.getDatiFattureCollegate();
+		invoice.setLinkedInvoices(buildLinkedInvoices(datiFattureCollegate, invoice));
+
 		return invoice;
 	}
-	
+
 	private InvoiceCedentePrestatore buildCedentePrestatore(@NotNull CedentePrestatore cedentePrestatore) {
 		InvoiceCedentePrestatore invoiceCedentePrestatore = new InvoiceCedentePrestatore();
 		invoiceCedentePrestatore.setCity(cedentePrestatore.getSede().getComune());
@@ -119,7 +134,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoiceCedentePrestatore.setZipCode(cedentePrestatore.getSede().getCap());
 		return invoiceCedentePrestatore;
 	}
-	
+
 	private InvoiceParticipant buildCessionarioCommittente(@NotNull CessionarioCommittente cessionarioCommittente) {
 		InvoiceParticipant invoiceParticipant = new InvoiceParticipant();
 		invoiceParticipant.setCity(cessionarioCommittente.getSede().getComune());
@@ -134,7 +149,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoiceParticipant.setZipCode(cessionarioCommittente.getSede().getCap());
 		return invoiceParticipant;
 	}
-	
+
 	private FinancialInstitution buildFinancialInstitution(DettaglioPagamento dettaglioPagamento) {
 		FinancialInstitution financialInstitution = new FinancialInstitution();
 		financialInstitution.setAbi(dettaglioPagamento.getABI());
@@ -144,16 +159,27 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		financialInstitution.setName(dettaglioPagamento.getIstitutoFinanziario());
 		return financialInstitution;
 	}
-	
+
 	private InvoiceTax buildInvoiceTax(DatiRiepilogo datiRiepilogo) {
 		InvoiceTax invoiceTax = new InvoiceTax();
 		invoiceTax.setLawReference(datiRiepilogo.getRiferimentoNormativo());
 		invoiceTax.setRate(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
 		return invoiceTax;
 	}
-	
+
 	private InvoiceVersion buildInvoiceVersion(String versione) {
 		return new InvoiceVersion(versione, null, null);
+	}
+
+	private Set<LinkedInvoice> buildLinkedInvoices(List<DatiFattureCollegate> datiFattureCollegate, Invoice parentInvoice) {
+		Set<LinkedInvoice> linkedInvoices = new HashSet<>(datiFattureCollegate.size());
+		for(DatiFattureCollegate fatturaCollegata : datiFattureCollegate) {
+			LinkedInvoice linkedInvoice = new LinkedInvoice();
+			linkedInvoice.setId(new DocumentIdDatePrimaryKey(LocalDate.parse(fatturaCollegata.getData(), dateTimeFormatter), fatturaCollegata.getIdDocumento(), parentInvoice.getNumber()));
+			linkedInvoice.setInvoice(parentInvoice);
+			linkedInvoices.add(linkedInvoice);
+		}
+		return linkedInvoices;
 	}
 
 }
