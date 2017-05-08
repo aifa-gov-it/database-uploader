@@ -17,10 +17,13 @@ import it.gov.aifa.invoice_processor.entity.invoice.DocumentIdDatePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
+import it.gov.aifa.invoice_processor.entity.invoice.InvoiceItem;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceTax;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceVersion;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
+import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
+import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLinePrimaryKey;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
@@ -31,6 +34,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiGeneraliDocumento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiTrasmissione;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioLinee;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
@@ -114,8 +118,33 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setPaymentExpirationDate(LocalDate.parse(dettaglioPagamento.getDataScadenzaPagamento(), dateTimeFormatter));
 		invoice.setPaymentMode(dettaglioPagamento.getModalitaPagamento());
 		invoice.setPaymentTermDays(Integer.parseInt(dettaglioPagamento.getGiorniTerminiPagamento()));
-
+		
+		invoice.setPurchaseLines(buildPurchaseLines(datiBeniServizi.getDettaglioLinee(), invoice));
+		
 		return invoice;
+	}
+
+	private Set<PurchaseLine> buildPurchaseLines(List<DettaglioLinee> dettaglioLinee, Invoice parentInvoice) {
+		Set<PurchaseLine> purchaseLines = new HashSet<>(dettaglioLinee.size());
+		for(DettaglioLinee dettaglioLinea : dettaglioLinee) {
+			PurchaseLine purchaseLine = new PurchaseLine();
+			purchaseLine.setId(new PurchaseLinePrimaryKey(parentInvoice.getNumber(), dettaglioLinea.getNumeroLinea()));
+			purchaseLine.setInvoice(parentInvoice);
+			InvoiceItem invoiceItem = new InvoiceItem();
+			invoiceItem.setCode(dettaglioLinea.getCodiceArticolo().getCodiceValore());
+			invoiceItem.setCodeType(dettaglioLinea.getCodiceArticolo().getCodiceTipo());
+			invoiceItem.setDescription(dettaglioLinea.getDescrizione());
+			purchaseLine.setItem(invoiceItem);
+			purchaseLine.setQuantity(Double.parseDouble(dettaglioLinea.getQuantita()));
+			InvoiceTax invoiceTax = new InvoiceTax();
+			invoiceTax.setRate(Double.parseDouble(dettaglioLinea.getAliquotaIVA()));
+			purchaseLine.setTax(invoiceTax);
+			purchaseLine.setTotalPrice(Double.parseDouble(dettaglioLinea.getPrezzoTotale()));
+			purchaseLine.setUnitOfMeasureDescription(dettaglioLinea.getUnitaMisura());
+			purchaseLine.setUnitPrice(Double.parseDouble(dettaglioLinea.getPrezzoUnitario()));
+			purchaseLines.add(purchaseLine);
+		}
+		return purchaseLines;
 	}
 
 	private InvoiceCedentePrestatore buildCedentePrestatore(@NotNull CedentePrestatore cedentePrestatore) {

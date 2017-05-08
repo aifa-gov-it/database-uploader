@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
@@ -19,7 +18,6 @@ public class InvoiceTax {
 	@NotNull
 	private Long id;
 
-	@NotBlank
 	private String lawReference;
 
 	private double rate;
