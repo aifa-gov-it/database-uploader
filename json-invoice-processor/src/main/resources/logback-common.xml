@@ -39,7 +39,7 @@
 	<logger name="net.sf.ehcache" level="WARN"/>
 
 	<!-- Application loggers -->
-	<logger name="it.gov.aifa" level="WARN"/>
+	<logger name="it.gov.aifa" level="INFO"/>
 
 	<!-- Trace method calls -->
 	<logger name="org.springframework.aop.interceptor.CustomizableTraceInterceptor" level="NONE"/>
