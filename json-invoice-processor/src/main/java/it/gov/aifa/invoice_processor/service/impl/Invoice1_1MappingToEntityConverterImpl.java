@@ -18,9 +18,7 @@ import it.gov.aifa.invoice_processor.entity.invoice.DocumentIdDatePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
-import it.gov.aifa.invoice_processor.entity.invoice.InvoiceItem;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
-import it.gov.aifa.invoice_processor.entity.invoice.InvoiceTax;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceVersion;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
@@ -108,7 +106,8 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 
 		DatiBeniServizi datiBeniServizi = body.getDatiBeniServizi();
 		DatiRiepilogo datiRiepilogo = datiBeniServizi.getDatiRiepilogo();
-		invoice.setInvoiceTax(buildInvoiceTax(datiRiepilogo));
+		invoice.setTaxLawReference(datiRiepilogo.getRiferimentoNormativo());
+		invoice.setTaxRate(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
 
 		invoice.setInvoiceVersion(buildInvoiceVersion(fatturaElettronica.getVersione()));
 
@@ -172,15 +171,11 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 			PurchaseLine purchaseLine = new PurchaseLine();
 			purchaseLine.setId(new PurchaseLinePrimaryKey(parentInvoice.getNumber(), dettaglioLinea.getNumeroLinea()));
 			purchaseLine.setInvoice(parentInvoice);
-			InvoiceItem invoiceItem = new InvoiceItem();
-			invoiceItem.setCode(dettaglioLinea.getCodiceArticolo().getCodiceValore());
-			invoiceItem.setCodeType(dettaglioLinea.getCodiceArticolo().getCodiceTipo());
-			invoiceItem.setDescription(dettaglioLinea.getDescrizione());
-			purchaseLine.setItem(invoiceItem);
+			purchaseLine.setItemCode(dettaglioLinea.getCodiceArticolo().getCodiceValore());
+			purchaseLine.setItemCodeType(dettaglioLinea.getCodiceArticolo().getCodiceTipo());
+			purchaseLine.setItemDescription(dettaglioLinea.getDescrizione());
 			purchaseLine.setQuantity(Double.parseDouble(dettaglioLinea.getQuantita()));
-			InvoiceTax invoiceTax = new InvoiceTax();
-			invoiceTax.setRate(Double.parseDouble(dettaglioLinea.getAliquotaIVA()));
-			purchaseLine.setTax(invoiceTax);
+			purchaseLine.setTaxRate(Double.parseDouble(dettaglioLinea.getAliquotaIVA()));
 			purchaseLine.setTotalPrice(Double.parseDouble(dettaglioLinea.getPrezzoTotale()));
 			purchaseLine.setUnitOfMeasureDescription(dettaglioLinea.getUnitaMisura());
 			purchaseLine.setUnitPrice(Double.parseDouble(dettaglioLinea.getPrezzoUnitario()));
@@ -235,13 +230,6 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		financialInstitution.setIban(dettaglioPagamento.getIBAN());
 		financialInstitution.setName(dettaglioPagamento.getIstitutoFinanziario());
 		return financialInstitution;
-	}
-
-	private InvoiceTax buildInvoiceTax(DatiRiepilogo datiRiepilogo) {
-		InvoiceTax invoiceTax = new InvoiceTax();
-		invoiceTax.setLawReference(datiRiepilogo.getRiferimentoNormativo());
-		invoiceTax.setRate(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
-		return invoiceTax;
 	}
 
 	private InvoiceVersion buildInvoiceVersion(String versione) {

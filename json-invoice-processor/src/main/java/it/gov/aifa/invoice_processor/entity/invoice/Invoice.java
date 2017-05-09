@@ -3,6 +3,7 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -16,14 +17,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Validated
 public class Invoice {
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumns({
 		@JoinColumn(name = "cedentePrestatoreCode", referencedColumnName = "code")
 		, @JoinColumn(name = "cedentePrestatoreCountryCode", referencedColumnName = "country_code")
@@ -31,7 +31,7 @@ public class Invoice {
 	@NotNull
 	private InvoiceCedentePrestatore cedentePrestatore;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumns({
 		@JoinColumn(name = "cessionarioCommittenteCode", referencedColumnName = "code")
 		, @JoinColumn(name = "cessionarioCommittenteCountryCode", referencedColumnName = "countryCode")
@@ -50,13 +50,11 @@ public class Invoice {
 	
 	private double discountAmount;
 	
-	@NotBlank
 	private String discountType;
 	
-	@NotBlank
 	private String documentTypeCode;
 	
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "financialInstitutionId", referencedColumnName = "iban")
 	@NotNull
 	private FinancialInstitution financialInstitution;
@@ -79,19 +77,13 @@ public class Invoice {
 	@NotBlank
 	private String invoiceSendingNumber;
 	
-	@ManyToOne
-	@JoinColumn(name = "taxId", referencedColumnName = "id")
-	@NotNull
-	private InvoiceTax invoiceTax;
-	
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "version")
 	@NotNull
 	private InvoiceVersion invoiceVersion;
 	
 	@JoinColumn(name = "invoiceId")
-	@OneToMany(fetch = FetchType.EAGER)
-	@NotEmpty
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Set<LinkedInvoice> linkedInvoices;
 	
 	@Id
@@ -103,7 +95,7 @@ public class Invoice {
 	@NotBlank
 	private String paymentConditions;
 	
-	@NotBlank
+	@NotNull
 	private LocalDate paymentExpirationDate;
 	
 	@NotBlank
@@ -112,12 +104,11 @@ public class Invoice {
 	private int paymentTermDays;
 	
 	@JoinColumn(name = "invoiceId")
-	@OneToMany(fetch = FetchType.EAGER)
-	@NotEmpty
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Set<PurchaseLine> purchaseLines;
 	
 	@JoinColumn(name = "invoiceId")
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Set<PurchaseOrder> purchaseOrders;
 	
 	@NotBlank
@@ -132,19 +123,25 @@ public class Invoice {
 	
 	@NotBlank
 	private String taxDue;
+	
+	@NotBlank
+	private String taxLawReference;
+
+	private double taxRate;
 
 	private double totalAmount;
 
 	@NotNull
 	private LocalDate transportDocumentDate;
-	
+
 	@NotBlank
 	private String transportDocumentId;
-	
+
 	private Boolean virtualStamp;
+
 	public Invoice() {
 	}
-	
+
 	public Invoice(String number) {
 		this();
 		this.number = number;
@@ -186,7 +183,8 @@ public class Invoice {
 				.append(stampAmount, rhs.stampAmount)
 				.append(taxableAmount, rhs.taxableAmount)
 				.append(taxDue, rhs.taxDue)
-				.append(invoiceTax, rhs.invoiceTax)
+				.append(taxLawReference, rhs.taxLawReference)
+				.append(taxRate, rhs.taxRate)
 				.append(totalAmount, rhs.totalAmount)
 				.append(transportDocumentId, rhs.transportDocumentId)
 				.append(transportDocumentDate, rhs.transportDocumentDate)
@@ -197,7 +195,6 @@ public class Invoice {
 	public InvoiceCedentePrestatore getCedentePrestatore() {
 		return cedentePrestatore;
 	}
-	
 	public InvoiceParticipant getCessionarioCommittente() {
 		return cessionarioCommittente;
 	}
@@ -221,19 +218,19 @@ public class Invoice {
 	public String getDiscountType() {
 		return discountType;
 	}
-
+	
 	public String getDocumentTypeCode() {
 		return documentTypeCode;
 	}
-
+	
 	public FinancialInstitution getFinancialInstitution() {
 		return financialInstitution;
 	}
-
+	
 	public String getInvoiceRecipientCode() {
 		return invoiceRecipientCode;
 	}
-
+	
 	public String getInvoiceSenderCode() {
 		return invoiceSenderCode;
 	}
@@ -252,10 +249,6 @@ public class Invoice {
 
 	public String getInvoiceSendingNumber() {
 		return invoiceSendingNumber;
-	}
-
-	public InvoiceTax getInvoiceTax() {
-		return invoiceTax;
 	}
 
 	public InvoiceVersion getInvoiceVersion() {
@@ -318,6 +311,14 @@ public class Invoice {
 		return taxDue;
 	}
 
+	public String getTaxLawReference() {
+		return taxLawReference;
+	}
+
+	public double getTaxRate() {
+		return taxRate;
+	}
+
 	public double getTotalAmount() {
 		return totalAmount;
 	}
@@ -365,7 +366,8 @@ public class Invoice {
 				.append(stampAmount)
 				.append(taxableAmount)
 				.append(taxDue)
-				.append(invoiceTax)
+				.append(taxLawReference)
+				.append(taxRate)
 				.append(totalAmount)
 				.append(transportDocumentId)
 				.append(transportDocumentDate)
@@ -433,10 +435,6 @@ public class Invoice {
 		this.invoiceSendingNumber = invoiceSendingNumber;
 	}
 
-	public void setInvoiceTax(InvoiceTax invoiceTax) {
-		this.invoiceTax = invoiceTax;
-	}
-
 	public void setInvoiceVersion(InvoiceVersion invoiceVersion) {
 		this.invoiceVersion = invoiceVersion;
 	}
@@ -495,6 +493,14 @@ public class Invoice {
 
 	public void setTaxDue(String taxDue) {
 		this.taxDue = taxDue;
+	}
+
+	public void setTaxLawReference(String taxLawReference) {
+		this.taxLawReference = taxLawReference;
+	}
+
+	public void setTaxRate(double taxRate) {
+		this.taxRate = taxRate;
 	}
 
 	public void setTotalAmount(double totalAmount) {

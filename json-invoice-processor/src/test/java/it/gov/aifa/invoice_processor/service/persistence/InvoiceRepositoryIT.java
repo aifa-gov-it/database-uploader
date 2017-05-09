@@ -40,7 +40,6 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getInvoiceSendingNumber()).isNotBlank();
 		assertThat(invoice.getInvoiceRecipientCode()).isNotBlank();
 		assertThat(invoice.getInvoiceSendingFormat()).isNotBlank();
-		assertThat(invoice.getInvoiceTax()).isNotNull();
 		assertThat(invoice.getInvoiceVersion().getVersion()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_VERSION);
 		assertThat(invoice.getLinkedInvoices()).isNotEmpty();
 		for(LinkedInvoice linkedInvoice : invoice.getLinkedInvoices())
@@ -64,6 +63,8 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getStampAmount()).isGreaterThan(0);
 		assertThat(invoice.getTaxableAmount()).isGreaterThan(0);
 		assertThat(invoice.getTaxDue()).isNotBlank();
+		assertThat(invoice.getTaxLawReference()).isNotBlank();
+		assertThat(invoice.getTaxRate()).isGreaterThan(0);
 		assertThat(invoice.getTotalAmount()).isGreaterThan(0);
 		assertThat(invoice.getTransportDocumentDate()).isNotNull();
 		assertThat(invoice.getTransportDocumentId()).isNotBlank();

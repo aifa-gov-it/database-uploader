@@ -27,17 +27,18 @@ public class PurchaseLine {
     @MapsId("invoiceId")
 	private Invoice invoice;
 	
-	@JoinColumn(name = "itemId", referencedColumnName = "id")
-	@ManyToOne
-	@NotNull
-	private InvoiceItem item;
+	@NotBlank
+	private String itemCode;
+	
+	@NotBlank
+	private String itemCodeType;
+	
+	@NotBlank
+	private String itemDescription;
 
 	private double quantity;
 
-	@JoinColumn(name = "taxId", referencedColumnName = "id")
-	@ManyToOne
-	@NotNull
-	private InvoiceTax tax;
+	private double taxRate;
 	
 	private double totalPrice;
 
@@ -57,8 +58,10 @@ public class PurchaseLine {
 		PurchaseLine rhs = ((PurchaseLine) other);
 		return new EqualsBuilder()
 				.append(id, rhs.id)
-				.append(item, rhs.item)
-				.append(tax, rhs.tax)
+				.append(itemCode, rhs.itemCode)
+				.append(itemCodeType, rhs.itemCodeType)
+				.append(itemDescription, rhs.itemDescription)
+				.append(taxRate, rhs.taxRate)
 				.append(totalPrice, rhs.totalPrice)
 				.append(unitOfMeasureDescription, rhs.unitOfMeasureDescription)
 				.append(unitPrice, rhs.unitPrice)
@@ -73,16 +76,24 @@ public class PurchaseLine {
 		return invoice;
 	}
 	
-	public InvoiceItem getItem() {
-		return item;
+	public String getItemCode() {
+		return itemCode;
+	}
+	
+	public String getItemCodeType() {
+		return itemCodeType;
+	}
+
+	public String getItemDescription() {
+		return itemDescription;
 	}
 
 	public double getQuantity() {
 		return quantity;
 	}
-	
-	public InvoiceTax getTax() {
-		return tax;
+
+	public double getTaxRate() {
+		return taxRate;
 	}
 
 	public double getTotalPrice() {
@@ -101,8 +112,10 @@ public class PurchaseLine {
 	public int hashCode() {
 		return new HashCodeBuilder()
 				.append(id)
-				.append(item)
-				.append(tax)
+				.append(itemCode)
+				.append(itemCodeType)
+				.append(itemDescription)
+				.append(taxRate)
 				.append(totalPrice)
 				.append(unitOfMeasureDescription)
 				.append(unitPrice)
@@ -117,18 +130,26 @@ public class PurchaseLine {
 		this.invoice = invoice;
 	}
 
-	public void setItem(InvoiceItem item) {
-		this.item = item;
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
+	public void setItemCodeType(String itemCodeType) {
+		this.itemCodeType = itemCodeType;
+	}
+
+	public void setItemDescription(String itemDescription) {
+		this.itemDescription = itemDescription;
 	}
 
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-	
-	public void setTax(InvoiceTax tax) {
-		this.tax = tax;
+
+	public void setTaxRate(double taxRate) {
+		this.taxRate = taxRate;
 	}
-	
+
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}

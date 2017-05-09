@@ -17,24 +17,6 @@ databaseChangeLog:
               - column:
                   name: validity_start_date
                   type: dateTime
-                  constraints:
-                    nullable: false
-        - createTable:
-            tableName: invoice_tax
-            columns:
-              - column:
-                  name: id
-                  type: number
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: law_reference
-                  type: varchar(255)
-              - column:
-                  name: rate
-                  type: decimal
-                  constraints:
-                    nullable: false
         - createTable:
             tableName: financial_institution
             columns:
@@ -62,29 +44,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
-            tableName: invoice_item
-            columns:
-              - column:
-                  name: id
-                  type: number
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: code
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: code_type
-                  type: varchar(10)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-        - createTable:
             tableName: purchase_line
             columns:
               - column:
@@ -92,6 +51,21 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     primaryKey: true
+              - column:
+                  name: item_code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: item_code_type
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: item_description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false                    
               - column: 
                   name: quantity
                   type: number
@@ -103,19 +77,10 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: item_id
-                  type: number
+                  name: tax_rate
+                  type: decimal
                   constraints:
-                    foreignKeyName: fk_purchase_line_invoice_item
                     nullable: false
-                    references: invoice_item(id)
-              - column:
-                  name: tax_id
-                  type: number
-                  constraints:
-                    foreignKeyName: fk_purchase_line_invoice_tax
-                    nullable: false
-                    references: invoice_tax(id)
               - column:
                   name: total_price
                   type: decimal
@@ -172,18 +137,12 @@ databaseChangeLog:
               - column:
                     name: discount_amount
                     type: decimal
-                    constraints:
-                      nullable: false
               - column:
                     name: discount_type
                     type: varchar(20)
-                    constraints:
-                      nullable: false
               - column:
                     name: discount_type_code
                     type: varchar(10)
-                    constraints:
-                      nullable: false
               - column:
                     name: document_type_code
                     type: varchar(10)
@@ -282,12 +241,15 @@ databaseChangeLog:
                     constraints:
                       nullable: false
               - column:
-                    name: tax_id
-                    type: varchar(10)
+                    name: tax_law_reference
+                    type: varchar(255)
                     constraints:
-                      foreignKeyName: fk_invoice_tax_invoice
                       nullable: false
-                      references: invoice_tax(id)
+              - column:
+                    name: tax_rate
+                    type: decimal
+                    constraints:
+                      nullable: false
               - column:
                     name: total_amount
                     type: decimal
@@ -344,8 +306,6 @@ databaseChangeLog:
             - column:
                   name: email_address
                   type: varchar(255)
-                  constraints:
-                    nullable: false
             - column:
                   name: name
                   type: varchar(255)
@@ -354,8 +314,6 @@ databaseChangeLog:
             - column:
                   name: phone_number
                   type: varchar(255)
-                  constraints:
-                    nullable: false
             - column:
                   name: social_security_number
                   type: varchar(255)
@@ -460,13 +418,9 @@ databaseChangeLog:
             - column:
                   name: purchase_line_invoice_id
                   type: varchar(255)
-                  constraints:
-                      nullable: false
             - column:
                   name: purchase_line_number
                   type: varchar(255)
-                  constraints:
-                      nullable: false
         - addForeignKeyConstraint:
             baseColumnNames: code,country_code
             baseTableName: invoice_cedente_prestatore

@@ -19,7 +19,7 @@ import it.gov.aifa.invoice_processor.service.MappingObjectFactory;
 
 @Service
 @Validated
-public class InvoiceMappingFactoryImpl<T extends Invoice> implements MappingObjectFactory<T> {
+public class InvoiceMappingFactoryImpl<T extends Invoice<String>> implements MappingObjectFactory<T> {
 	private Configuration configuration;
 
 	public InvoiceMappingFactoryImpl() {

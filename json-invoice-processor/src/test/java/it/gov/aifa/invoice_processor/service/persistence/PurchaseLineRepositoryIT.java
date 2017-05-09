@@ -23,9 +23,11 @@ public class PurchaseLineRepositoryIT extends AbstractComponentIT{
 	public void findOneTest() {
 		PurchaseLine purchaseLine = repository.findOne(TestConstant.BOOTSTRAP_PURCHASE_LINE_ID);
 		assertThat(purchaseLine.getId()).isEqualTo(TestConstant.BOOTSTRAP_PURCHASE_LINE_ID);
-		assertThat(purchaseLine.getItem()).isNotNull();
+		assertThat(purchaseLine.getItemCode()).isNotBlank();
+		assertThat(purchaseLine.getItemCodeType()).isNotBlank();
+		assertThat(purchaseLine.getItemDescription()).isNotBlank();
 		assertThat(purchaseLine.getQuantity()).isGreaterThan(0);
-		assertThat(purchaseLine.getTax()).isNotNull();
+		assertThat(purchaseLine.getTaxRate()).isGreaterThan(0);
 		assertThat(purchaseLine.getTotalPrice()).isGreaterThan(0);
 		assertThat(purchaseLine.getUnitOfMeasureDescription()).isNotBlank();
 		assertThat(purchaseLine.getUnitPrice()).isGreaterThan(0);

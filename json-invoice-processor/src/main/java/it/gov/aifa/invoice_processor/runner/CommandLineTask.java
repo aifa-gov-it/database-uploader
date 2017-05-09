@@ -1,10 +1,10 @@
 package it.gov.aifa.invoice_processor.runner;
 
 import it.gov.aifa.invoice_processor.constant.CommandLineArgumentKey;
-import it.gov.aifa.invoice_processor.runner.impl.JsonToDbUploader;
+import it.gov.aifa.invoice_processor.runner.impl.JsonToDbUploaderImpl;
 
 public enum CommandLineTask {
-	JSON_TO_DB_UPLOADER(CommandLineArgumentKey.UPLOAD_JSON_TO_DB, JsonToDbUploader.class);
+	JSON_TO_DB_UPLOADER(CommandLineArgumentKey.UPLOAD_JSON_TO_DB, JsonToDbUploaderImpl.class);
 	
 	private String argumentKey;
 	private Class<? extends CliRunner> cliRunnerClass;

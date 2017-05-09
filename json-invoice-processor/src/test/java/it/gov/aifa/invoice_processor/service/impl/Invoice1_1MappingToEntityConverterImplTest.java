@@ -13,7 +13,6 @@ import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
-import it.gov.aifa.invoice_processor.entity.invoice.InvoiceTax;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseOrder;
@@ -234,10 +233,8 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoice.getInvoiceSendingFormat()).isEqualTo(invoiceSendingFormat);
 		assertThat(invoice.getInvoiceSendingNumber()).isEqualTo(invoiceSendingNumber);
 
-		InvoiceTax invoiceTax = invoice.getInvoiceTax();
-		assertThat(invoiceTax).isNotNull();
-		assertThat(invoiceTax.getLawReference()).isEqualTo(datiRiepilogo.getRiferimentoNormativo());
-		assertThat(invoiceTax.getRate()).isEqualTo(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
+		assertThat(invoice.getTaxLawReference()).isEqualTo(datiRiepilogo.getRiferimentoNormativo());
+		assertThat(invoice.getTaxRate()).isEqualTo(Double.parseDouble(datiRiepilogo.getAliquotaIVA()));
 
 		assertThat(invoice.getInvoiceVersion()).isNotNull();
 		assertThat(invoice.getInvoiceVersion().getVersion()).isEqualTo(fatturaElettronica.getVersione());
@@ -267,11 +264,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 			assertThat(purchaseLine.getId().getInvoiceId()).isEqualTo(invoice.getNumber());
 			assertThat(purchaseLine.getId().getNumber()).isEqualTo(dettaglioLinee.get(0).getNumeroLinea());
 			assertThat(purchaseLine.getInvoice()).isSameAs(invoice);
-			assertThat(purchaseLine.getItem().getCode()).isEqualTo(dettaglioLinee.get(0).getCodiceArticolo().getCodiceValore());
-			assertThat(purchaseLine.getItem().getCodeType()).isEqualTo(dettaglioLinee.get(0).getCodiceArticolo().getCodiceTipo());
-			assertThat(purchaseLine.getItem().getDescription()).isEqualTo(dettaglioLinee.get(0).getDescrizione());
+			assertThat(purchaseLine.getItemCode()).isEqualTo(dettaglioLinee.get(0).getCodiceArticolo().getCodiceValore());
+			assertThat(purchaseLine.getItemCodeType()).isEqualTo(dettaglioLinee.get(0).getCodiceArticolo().getCodiceTipo());
+			assertThat(purchaseLine.getItemDescription()).isEqualTo(dettaglioLinee.get(0).getDescrizione());
 			assertThat(Double.toString(purchaseLine.getQuantity())).isEqualTo(dettaglioLinee.get(0).getQuantita());
-			assertThat(Double.toString(purchaseLine.getTax().getRate())).isEqualTo(dettaglioLinee.get(0).getAliquotaIVA());
+			assertThat(Double.toString(purchaseLine.getTaxRate())).isEqualTo(dettaglioLinee.get(0).getAliquotaIVA());
 			assertThat(Double.toString(purchaseLine.getTotalPrice())).isEqualTo(dettaglioLinee.get(0).getPrezzoTotale());
 			assertThat(purchaseLine.getUnitOfMeasureDescription()).isEqualTo(dettaglioLinee.get(0).getUnitaMisura());
 			assertThat(Double.toString(purchaseLine.getUnitPrice())).isEqualTo(dettaglioLinee.get(0).getPrezzoUnitario());

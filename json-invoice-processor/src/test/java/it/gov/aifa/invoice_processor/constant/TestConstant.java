@@ -23,7 +23,7 @@ public final class TestConstant {
 	public static final String BOOTSTRAP_FINANCIAL_INSTITUTION_ID = "IT123";
 	public static final Long BOOTSTRAP_INVOICE_ITEM_ID = 456L;
 	public static final String BOOTSTRAP_INVOICE_VERSION = "0.1";
-	public static final String BOOTSTRAP_INVOICE_ID = "123456789";
+	public static final String BOOTSTRAP_INVOICE_ID = "1234567890";
 	public static final CountryAndCodePrimaryKey BOOTSTRAP_INVOICE_PARTICIPANT_ID = new CountryAndCodePrimaryKey("123456789", "IT");
 	public static final Long BOOTSTRAP_INVOICE_TAX_ID = 321L;
 	public static final DocumentIdDatePrimaryKey BOOTSTRAP_LINKED_INVOICE_ID = new DocumentIdDatePrimaryKey(LocalDate.of(2017, 5, 5),"321654", BOOTSTRAP_INVOICE_ID);

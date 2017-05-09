@@ -11,20 +11,22 @@ import org.springframework.stereotype.Service;
 
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Invoice1_1;
+import it.gov.aifa.invoice_processor.runner.JsonToDbUploader;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 import it.gov.aifa.invoice_processor.service.MappingObjectFactory;
 import it.gov.aifa.invoice_processor.service.persistence.InvoiceRepository;
 
 @Service
-public class JsonToDbUploader extends AbstractFilesystemCrawler{
+public class JsonToDbUploaderImpl extends AbstractFilesystemCrawler implements JsonToDbUploader{
 
-	private static final Logger log = LoggerFactory.getLogger(JsonToDbUploader.class);
+	private static final Logger log = LoggerFactory.getLogger(JsonToDbUploaderImpl.class);
 	
-	private InvoiceMappingToEntityConverter<Invoice1_1, it.gov.aifa.invoice_processor.entity.invoice.Invoice> invoiceMappingToEntityConverter;
+	private InvoiceMappingToEntityConverter<Invoice1_1, Invoice> invoiceMappingToEntityConverter;
 	private InvoiceRepository invoiceRepository;
 	private MappingObjectFactory<Invoice1_1> invoiceMappingFactory;
 	
-	public JsonToDbUploader(InvoiceMappingToEntityConverter<Invoice1_1, Invoice> invoiceMappingToEntityConverter,
+	public JsonToDbUploaderImpl(
+			InvoiceMappingToEntityConverter<Invoice1_1, Invoice> invoiceMappingToEntityConverter,
 			InvoiceRepository invoiceRepository,
 			MappingObjectFactory<Invoice1_1> invoiceMappingFactory) {
 		this.invoiceMappingToEntityConverter = invoiceMappingToEntityConverter;
@@ -45,12 +47,20 @@ public class JsonToDbUploader extends AbstractFilesystemCrawler{
 			message.append(filePath);
 			throw new RuntimeException(message.toString(), e);
 		}
-		Invoice1_1 invoiceMapping = invoiceMappingFactory.buildFromJson(fileContents, Invoice1_1.class);
+		Invoice1_1 invoiceMapping;
+		try {
+			invoiceMapping = invoiceMappingFactory.buildFromJson(fileContents, Invoice1_1.class);
+		} catch (Exception e) {
+			message.append(e.getMessage());
+			message.append(" creating a mapping object for ");
+			message.append(filePath);
+			throw new RuntimeException(message.toString(), e);
+		}
 		
 		String invoiceId;
 		
 		try {
-			invoiceId = invoiceMapping.getHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica().getFatturaElettronicaBody().getDatiGenerali().getDatiGeneraliDocumento().getNumero();
+			invoiceId = invoiceMapping.getId();
 		} catch (NullPointerException e) {
 			message.append(e.getMessage());
 			message.append(" while search the id of ");
@@ -62,10 +72,11 @@ public class JsonToDbUploader extends AbstractFilesystemCrawler{
 			message.append("Processing ");
 			message.append(filePath);
 			Invoice invoice = invoiceMappingToEntityConverter.convert(invoiceMapping);
+			invoiceRepository.save(invoice);
 		}else{
 			message.append("Skipping ");
 			message.append(filePath);
-			message.append(" because it was already crawled");
+			message.append(" because it was already processed");
 		}
 		log.info(message.toString());
 	}

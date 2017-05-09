@@ -42,7 +42,7 @@ public class DatiBollo implements Serializable {
 
 	/**
 	 * 
-	 * @param tipo
+	 * @param bolloVirtuale
 	 * @param importoBollo
 	 */
 	public DatiBollo(String bolloVirtuale, String importoBollo) {

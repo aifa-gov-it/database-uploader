@@ -4,6 +4,8 @@ package it.gov.aifa.invoice_processor.mapping.invoice1_1;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -20,7 +22,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "{http://www.fatturapa.gov.it/sdi/fatturapa/v1.1}FatturaElettronica" })
-public class Invoice1_1 implements Invoice, Serializable {
+public class Invoice1_1 implements Invoice<String>, Serializable {
 
 	@JsonProperty("{http://www.fatturapa.gov.it/sdi/fatturapa/v1.1}FatturaElettronica")
 	@Valid
@@ -92,6 +94,23 @@ public class Invoice1_1 implements Invoice, Serializable {
 				.append(httpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica,
 						rhs.httpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica)
 				.append(additionalProperties, rhs.additionalProperties).isEquals();
+	}
+	
+	@JsonIgnore
+	@Override
+	@Transient
+	public String getId() {
+		String id;
+		try {
+			id = this.getHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica()
+					.getFatturaElettronicaBody()
+					.getDatiGenerali()
+					.getDatiGeneraliDocumento()
+					.getNumero();
+		} catch (NullPointerException e) {
+			id = null;
+		}
+		return id;
 	}
 
 }

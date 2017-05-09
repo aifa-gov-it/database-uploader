@@ -18,35 +18,6 @@ databaseChangeLog:
             tableName: invoice_version
         - insert:
             columns:
-              - column:
-                  name: id
-                  value: "456"
-              - column:
-                  name: code
-                  value: "987"
-              - column:
-                  name: code_type
-                  value: "RAND"
-              - column:
-                  name: description
-                  value: "Invoice Item"
-            dbms: h2
-            tableName: invoice_item
-        - insert:
-            columns:
-              - column:
-                  name: id
-                  value: "321"
-              - column:
-                  name: law_reference
-                  value: "Law Reference"
-              - column:
-                  name: rate
-                  value: "0.1"
-            dbms: h2
-            tableName: invoice_tax
-        - insert:
-            columns:
             - column:
                   name: city
                   value: "Rome"
@@ -186,7 +157,7 @@ databaseChangeLog:
                     value: "Sending Format"
               - column:
                     name: number
-                    value: "123456789"
+                    value: "1234567890"
               - column:
                     name: payment_amount
                     value: "10.1"
@@ -218,8 +189,11 @@ databaseChangeLog:
                     name: tax_due
                     value: "S"
               - column:
-                    name: tax_id
-                    value: "321"
+                  name: tax_law_reference
+                  value: "Law Reference"
+              - column:
+                  name: tax_rate
+                  value: "0.1"
               - column:
                     name: total_amount
                     value: "250.56"
@@ -241,7 +215,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: invoice_id
-                  value: "123456789"
+                  value: "1234567890"
               - column:
                   name: quantity
                   value: "10"
@@ -249,11 +223,17 @@ databaseChangeLog:
                   name: number
                   value: "1"
               - column:
-                  name: item_id
-                  value: "456"
+                  name: item_code
+                  value: "987"
               - column:
-                  name: tax_id
-                  value: "321"
+                  name: item_code_type
+                  value: "RAND"
+              - column:
+                  name: item_description
+                  value: "Invoice Item"
+              - column:
+                  name: tax_rate
+                  value: "0.1"
               - column:
                   name: total_price
                   value: "100.23"
@@ -274,7 +254,7 @@ databaseChangeLog:
                   value: "321654"
             - column:
                   name: invoice_id
-                  value: "123456789"
+                  value: "1234567890"
             tableName: linked_invoice
         - insert:
             columns:
@@ -289,10 +269,10 @@ databaseChangeLog:
                   value: "1234567890123456"
             - column:
                   name: invoice_id
-                  value: "123456789"
+                  value: "1234567890"
             - column:
                   name: purchase_line_invoice_id
-                  value: "123456789"
+                  value: "1234567890"
             - column:
                   name: purchase_line_number
                   value: "1"

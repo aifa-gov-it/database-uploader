@@ -19,7 +19,7 @@ public class PurchaseOrder extends LinkedInvoice{
 		@JoinColumn(name = "purchaseLineInvoiceId", referencedColumnName = "invoiceId")
 		, @JoinColumn(name = "purchaseLineNumber", referencedColumnName = "number")
 	})
-	@OneToOne
+	@OneToOne(optional = true)
 	private PurchaseLine purchaseLine;
 	
 	@Override
