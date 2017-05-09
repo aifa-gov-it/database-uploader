@@ -42,19 +42,19 @@ public class JsonToDbUploaderImpl extends AbstractFilesystemCrawler implements J
 		try {
 			fileContents = Files.lines(file).collect(Collectors.joining());
 		} catch (IOException e) {
-			message.append(e.getMessage());
-			message.append(" while loading contents of ");
+			message.append("Cannot load the contents of ");
 			message.append(filePath);
-			throw new RuntimeException(message.toString(), e);
+			log.error(message.toString(), e);
+			return;
 		}
 		Invoice1_1 invoiceMapping;
 		try {
 			invoiceMapping = invoiceMappingFactory.buildFromJson(fileContents, Invoice1_1.class);
 		} catch (Exception e) {
-			message.append(e.getMessage());
-			message.append(" creating a mapping object for ");
+			message.append("Error creating a mapping object for ");
 			message.append(filePath);
-			throw new RuntimeException(message.toString(), e);
+			log.error(message.toString(), e);
+			return;
 		}
 		
 		String invoiceId;
@@ -63,9 +63,10 @@ public class JsonToDbUploaderImpl extends AbstractFilesystemCrawler implements J
 			invoiceId = invoiceMapping.getId();
 		} catch (NullPointerException e) {
 			message.append(e.getMessage());
-			message.append(" while search the id of ");
+			message.append("Error while searching the id of ");
 			message.append(filePath);
-			throw new RuntimeException(message.toString(), e);
+			log.error(message.toString());
+			return;
 		}
 		
 		if(!invoiceRepository.exists(invoiceId)){
