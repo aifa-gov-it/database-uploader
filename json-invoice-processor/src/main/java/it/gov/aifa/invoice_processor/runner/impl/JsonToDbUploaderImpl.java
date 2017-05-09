@@ -20,11 +20,11 @@ import it.gov.aifa.invoice_processor.service.persistence.InvoiceRepository;
 public class JsonToDbUploaderImpl extends AbstractFilesystemCrawler implements JsonToDbUploader{
 
 	private static final Logger log = LoggerFactory.getLogger(JsonToDbUploaderImpl.class);
-	
+
 	private InvoiceMappingToEntityConverter<Invoice1_1, Invoice> invoiceMappingToEntityConverter;
 	private InvoiceRepository invoiceRepository;
 	private MappingObjectFactory<Invoice1_1> invoiceMappingFactory;
-	
+
 	public JsonToDbUploaderImpl(
 			InvoiceMappingToEntityConverter<Invoice1_1, Invoice> invoiceMappingToEntityConverter,
 			InvoiceRepository invoiceRepository,
@@ -37,48 +37,64 @@ public class JsonToDbUploaderImpl extends AbstractFilesystemCrawler implements J
 	@Override
 	protected void actionOnFile(final Path file) {
 		String filePath = file.toUri().getPath();
-		StringBuilder message = new StringBuilder();
+		log.info("Processing {}", filePath);
+		
 		String fileContents;
 		try {
 			fileContents = Files.lines(file).collect(Collectors.joining());
 		} catch (IOException e) {
+			StringBuilder message = new StringBuilder();
 			message.append("Cannot load the contents of ");
 			message.append(filePath);
 			log.error(message.toString(), e);
 			return;
 		}
+		
 		Invoice1_1 invoiceMapping;
 		try {
 			invoiceMapping = invoiceMappingFactory.buildFromJson(fileContents, Invoice1_1.class);
 		} catch (Exception e) {
+			StringBuilder message = new StringBuilder();
 			message.append("Error creating a mapping object for ");
 			message.append(filePath);
 			log.error(message.toString(), e);
 			return;
 		}
-		
+
 		String invoiceId;
-		
 		try {
 			invoiceId = invoiceMapping.getId();
 		} catch (NullPointerException e) {
-			message.append(e.getMessage());
+			StringBuilder message = new StringBuilder();
 			message.append("Error while searching the id of ");
 			message.append(filePath);
-			log.error(message.toString());
+			log.error(message.toString(), e);
 			return;
 		}
-		
-		if(!invoiceRepository.exists(invoiceId)){
-			message.append("Processing ");
+
+		Invoice invoice;
+		try {
+			invoice = invoiceMappingToEntityConverter.convert(invoiceMapping);
+		} catch (NullPointerException e) {
+			StringBuilder message = new StringBuilder();
+			message.append("Error while converting mapping object to entity. Path: ");
 			message.append(filePath);
-			Invoice invoice = invoiceMappingToEntityConverter.convert(invoiceMapping);
-			invoiceRepository.save(invoice);
-		}else{
-			message.append("Skipping ");
-			message.append(filePath);
-			message.append(" because it was already processed");
+			log.error(message.toString(), e);
+			return;
 		}
-		log.info(message.toString());
+		if(!invoiceRepository.exists(invoiceId)){
+			try {
+				invoiceRepository.save(invoice);
+			} catch (Exception e) {
+				StringBuilder message = new StringBuilder();
+				message.append("Error while converting mapping object to entity. Path: ");
+				message.append(filePath);
+				log.error(message.toString(), e);
+				return;
+			}
+			log.info("Completed processing of: {}", filePath);
+		}else{
+			log.info("Skipping {} because it was already processed", filePath);
+		}
 	}
 }
