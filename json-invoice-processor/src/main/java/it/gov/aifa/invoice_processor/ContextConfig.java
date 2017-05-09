@@ -65,7 +65,7 @@ public class ContextConfig{
 	}
 	
 	public static void main(String[] args) {
-        SpringApplication.run(ContextConfig.class, args);
+        SpringApplication.run(ContextConfig.class, args).close();
     }
 	
 	@Bean
