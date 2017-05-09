@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -142,22 +143,51 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 	private Set<PurchaseOrder> buildPurchaseOrders(List<DatiOrdineAcquisto> datiOrdiniAcquisto, Invoice parentInvoice) {
 		Set<PurchaseOrder> purchaseOrders = new HashSet<>(datiOrdiniAcquisto.size());
 		for(DatiOrdineAcquisto datiOrdineAcquisto : datiOrdiniAcquisto) {
-			PurchaseOrder purchaseOrder = new PurchaseOrder();
-			purchaseOrder.setCigCode(datiOrdineAcquisto.getCodiceCIG());
-			purchaseOrder.setId(new DocumentIdDatePrimaryKey(
-					LocalDate.parse(datiOrdineAcquisto.getData(), dateTimeFormatter)
-					, datiOrdineAcquisto.getIdDocumento()
-					, parentInvoice.getNumber()));
-			purchaseOrder.setInvoice(parentInvoice);
+			// Check if a PurchaseOrder with the same ID has been already added to the Set
+			List<PurchaseOrder> alreadyCreatedPurchaseOrders = purchaseOrders.stream()
+					.filter(c -> 
+					(c.getId().getId().equals(datiOrdineAcquisto.getIdDocumento())
+							&& c.getId().getDate().equals(LocalDate.parse(datiOrdineAcquisto.getData(), dateTimeFormatter))))
+					.collect(Collectors.toList());
+			PurchaseOrder purchaseOrder;
+			if(alreadyCreatedPurchaseOrders.isEmpty()) {
+				purchaseOrder = new PurchaseOrder();
+				purchaseOrder.setId(new DocumentIdDatePrimaryKey(
+						LocalDate.parse(datiOrdineAcquisto.getData(), dateTimeFormatter)
+						, datiOrdineAcquisto.getIdDocumento()
+						, parentInvoice.getNumber()));
+				purchaseOrder.setInvoice(parentInvoice);
+			}else {
+				if(alreadyCreatedPurchaseOrders.size() > 1)
+					throw new RuntimeException(
+							"More than one Purchase Order found for Document ID: " + datiOrdineAcquisto.getIdDocumento()
+							+ " Date: " + datiOrdineAcquisto.getData());
+				purchaseOrder = alreadyCreatedPurchaseOrders.get(0);
+				purchaseOrders.remove(purchaseOrder);
+			}
+			
+			if(StringUtils.isBlank(purchaseOrder.getCigCode())) {
+				purchaseOrder.setCigCode(datiOrdineAcquisto.getCodiceCIG());
+			}else if(purchaseOrder.getCigCode() != null
+					&& datiOrdineAcquisto.getCodiceCIG() != null
+					&& !purchaseOrder.getCigCode().equals(datiOrdineAcquisto.getCodiceCIG())){
+				throw new RuntimeException("Cannot set two different CIG codes for the same purchase order");
+			}
+			
 			List<PurchaseLine> relatedPurchaseLines = parentInvoice.getPurchaseLines().stream()
-					.filter(c -> c.getId().getInvoiceId().equals(parentInvoice.getNumber()))
-					.filter(c -> c.getId().getNumber().equals(datiOrdineAcquisto.getRiferimentoNumeroLinea()))
+					.filter(c -> c.getId().getInvoiceId().equals(parentInvoice.getNumber())
+							&& c.getId().getNumber().equals(datiOrdineAcquisto.getRiferimentoNumeroLinea()))
 					.collect(Collectors.toList());
 			if(relatedPurchaseLines != null) {
 				if(relatedPurchaseLines.size() > 1)
-					throw new RuntimeException("Search returned more than one related purchase line");
-				if(!relatedPurchaseLines.isEmpty())
-					purchaseOrder.setPurchaseLine(relatedPurchaseLines.get(0));
+					throw new RuntimeException("Search returned more than one related purchase line for the same purchase order");
+				if(!relatedPurchaseLines.isEmpty()) {
+					if(purchaseOrder.getPurchaseLine() == null)
+						purchaseOrder.setPurchaseLine(relatedPurchaseLines.get(0));
+					else if(purchaseOrder.getPurchaseLine() != null
+							&& !purchaseOrder.getPurchaseLine().equals(relatedPurchaseLines.get(0)))
+						throw new RuntimeException("Cannot set two different purchase lines for the same purchase order");
+				}
 			}
 			
 			purchaseOrders.add(purchaseOrder);

@@ -102,10 +102,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 				, new Sede(streetAddress, zipCode, city, district, country));
 		List<DatiFattureCollegate> datiFattureCollegate = new ArrayList<>();
 		datiFattureCollegate.add(new DatiFattureCollegate("id", "2017-05-08"));
-
+		
+		String purchaseLineNumber = "purchaseLineNumber";
 		List<DettaglioLinee> dettaglioLinee = new ArrayList<>();
 		dettaglioLinee.add(new DettaglioLinee(
-				"lineNumber"
+				purchaseLineNumber
 				, new CodiceArticolo("codeType", "code")
 				, "description"
 				, "10.0"
@@ -113,9 +114,15 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 				, "12.3"
 				, "123.0"
 				, "10.2"));
-
+		
+		String purchaseOrderWithCigAndPurchaseLineNumberDocumentId = "documentId";
+		String purchaseOrderWithCigAndPurchaseLineNumberDate = "2017-05-09";
+		String cigCode = "123654";
 		List<DatiOrdineAcquisto> datiOrdiniAcquisto = new ArrayList<>();
-		datiOrdiniAcquisto.add(new DatiOrdineAcquisto("documentId", "2017-05-09", "lineNumber", "123654"));
+		datiOrdiniAcquisto.add(new DatiOrdineAcquisto(purchaseOrderWithCigAndPurchaseLineNumberDocumentId, purchaseOrderWithCigAndPurchaseLineNumberDate, purchaseLineNumber, cigCode));
+		datiOrdiniAcquisto.add(new DatiOrdineAcquisto(purchaseOrderWithCigAndPurchaseLineNumberDocumentId, purchaseOrderWithCigAndPurchaseLineNumberDate, null, null));
+		datiOrdiniAcquisto.add(new DatiOrdineAcquisto("documentId2", "2017-05-09", null, null));
+		datiOrdiniAcquisto.add(new DatiOrdineAcquisto("documentId3", "2017-05-10", null, null));
 
 		source.setHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
 				new HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(
@@ -275,17 +282,19 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		}
 
 		Set<PurchaseOrder> purchaseOrders = invoice.getPurchaseOrders();
-		assertThat(purchaseOrders).isNotEmpty();
-		assertThat(purchaseOrders).hasSize(datiOrdiniAcquisto.size());
+		assertThat(purchaseOrders).hasSize(3);
 		for(PurchaseOrder purchaseOrder : purchaseOrders) {
 			assertThat(purchaseOrder.getId().getInvoiceId()).isEqualTo(invoice.getNumber());
-			assertThat(purchaseOrder.getId().getDate().toString()).isEqualTo(datiOrdiniAcquisto.get(0).getData());
 			assertThat(purchaseOrder.getInvoice()).isSameAs(invoice);
-			assertThat(purchaseOrder.getCigCode()).isEqualTo(datiOrdiniAcquisto.get(0).getCodiceCIG());
-			assertThat(purchaseOrder.getPurchaseLine().getId().getInvoiceId()).isEqualTo(invoice.getNumber());
-			assertThat(purchaseOrder.getPurchaseLine().getId().getNumber()).isEqualTo(dettaglioLinee.get(0).getNumeroLinea());
+			
+			if(purchaseOrderWithCigAndPurchaseLineNumberDate.equals(purchaseOrder.getId().getDate())
+					&& purchaseOrderWithCigAndPurchaseLineNumberDocumentId.equals(purchaseOrder.getId().getId())) {
+				assertThat(purchaseOrder.getCigCode()).isEqualTo(datiOrdiniAcquisto.get(0).getCodiceCIG());
+				assertThat(purchaseOrder.getPurchaseLine().getId().getInvoiceId()).isEqualTo(invoice.getNumber());
+				assertThat(purchaseOrder.getPurchaseLine().getId().getNumber()).isEqualTo(purchaseLineNumber);
+			}
 		}
-
+		
 		assertThat(invoice.getSoggettoEmittente()).isEqualTo(fatturaElettronicaHeader.getSoggettoEmittente());
 		assertThat(invoice.getSoggettoEmittenteName()).isEqualTo(fatturaElettronicaHeader.getTerzoIntermediarioOSoggettoEmittente().getDatiAnagrafici().getAnagrafica().getDenominazione());
 		assertThat(Double.toString(invoice.getTaxableAmount())).isEqualTo(datiRiepilogo.getImponibileImporto());

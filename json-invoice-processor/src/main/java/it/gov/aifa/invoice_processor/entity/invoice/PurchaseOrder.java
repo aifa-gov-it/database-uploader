@@ -34,6 +34,7 @@ public class PurchaseOrder extends LinkedInvoice{
 		return new EqualsBuilder()
 				.append(cigCode, rhs.cigCode)
 				.append(purchaseLine, rhs.purchaseLine)
+				.appendSuper(super.equals(other))
 				.isEquals();
 	}
 
@@ -50,6 +51,7 @@ public class PurchaseOrder extends LinkedInvoice{
 		return new HashCodeBuilder()
 				.append(cigCode)
 				.append(purchaseLine)
+				.appendSuper(super.hashCode())
 				.toHashCode();
 	}
 	
