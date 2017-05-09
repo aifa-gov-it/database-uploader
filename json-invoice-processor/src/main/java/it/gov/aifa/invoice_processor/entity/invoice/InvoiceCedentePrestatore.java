@@ -46,7 +46,8 @@ public class InvoiceCedentePrestatore extends InvoiceParticipant {
 				.append(shareCapital, rhs.shareCapital)
 				.append(soleStakeholder, rhs.soleStakeholder)
 				.append(taxSystem, rhs.taxSystem)
-				.isEquals() && super.equals(other);
+				.appendSuper(super.equals(other))
+				.isEquals();
 	}
 	
 	public String getClearanceState() {
