@@ -75,7 +75,7 @@ public class JsonToDbUploaderImpl extends AbstractFilesystemCrawler implements J
 		Invoice invoice;
 		try {
 			invoice = invoiceMappingToEntityConverter.convert(invoiceMapping);
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			StringBuilder message = new StringBuilder();
 			message.append("Error while converting mapping object to entity. Path: ");
 			message.append(filePath);
