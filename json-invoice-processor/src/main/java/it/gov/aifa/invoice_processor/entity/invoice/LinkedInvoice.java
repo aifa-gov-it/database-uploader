@@ -7,6 +7,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -18,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class LinkedInvoice {
 	@EmbeddedId
+	@NotNull
 	private DocumentIdDatePrimaryKey id;
 	
 	@JoinColumn(name = "invoiceId", referencedColumnName = "number")
