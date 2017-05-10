@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -312,8 +313,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 
 		Set<PurchaseOrder> purchaseOrders = invoice.getPurchaseOrders();
 		assertThat(purchaseOrders).hasSize(datiOrdiniAcquisto.size());
+		Set<String> purchaseOrderIds = new HashSet<>();
 		for(PurchaseOrder purchaseOrder : purchaseOrders) {
+			purchaseOrderIds.add(purchaseOrder.getId().getId());
 			assertThat(purchaseOrder.getInvoice()).isSameAs(invoice);
+			assertThat(purchaseOrder.getId().getInvoiceId()).isEqualTo(invoice.getNumber());
 
 			Set<DatiOrdineAcquisto> relatedDatiOrdiniAcquisto = datiOrdiniAcquisto.stream()
 					.filter(c -> c.getData().equals(purchaseOrder.getDate().toString())	&& c.getIdDocumento().equals(purchaseOrder.getDocumentId()))
@@ -343,6 +347,8 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 				assertThat(purchaseOrder.getPurchaseLine().getId().getId()).isEqualTo(datiOrdineAcquisto.getRiferimentoNumeroLinea());
 			}
 		}
+		// Check that there are no duplicate ids
+		assertThat(purchaseOrderIds).hasSize(purchaseOrders.size());
 
 		assertThat(invoice.getSoggettoEmittente()).isEqualTo(fatturaElettronicaHeader.getSoggettoEmittente());
 		assertThat(invoice.getSoggettoEmittenteName()).isEqualTo(fatturaElettronicaHeader.getTerzoIntermediarioOSoggettoEmittente().getDatiAnagrafici().getAnagrafica().getDenominazione());
