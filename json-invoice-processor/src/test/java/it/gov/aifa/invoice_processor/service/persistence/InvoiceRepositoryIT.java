@@ -57,7 +57,8 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getPurchaseOrders()).isNotEmpty();
 		for(PurchaseOrder purchaseOrder : invoice.getPurchaseOrders()) {
 			assertThat(purchaseOrder.getInvoice()).isEqualTo(invoice);
-			assertThat(purchaseOrder.getPurchaseLine()).isIn(invoice.getPurchaseLines());
+			if(purchaseOrder.getPurchaseLine() != null)
+				assertThat(purchaseOrder.getPurchaseLine()).isIn(invoice.getPurchaseLines());
 		}
 		assertThat(invoice.getSoggettoEmittente()).isNotBlank();
 		assertThat(invoice.getSoggettoEmittenteName()).isNotBlank();
