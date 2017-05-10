@@ -83,6 +83,7 @@ public class InvoiceCedentePrestatore extends InvoiceParticipant {
 				.append(shareCapital)
 				.append(soleStakeholder)
 				.append(taxSystem)
+				.appendSuper(super.hashCode())
 				.toHashCode();
 	}
 
