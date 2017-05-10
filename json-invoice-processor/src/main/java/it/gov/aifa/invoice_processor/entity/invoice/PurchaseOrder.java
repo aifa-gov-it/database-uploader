@@ -70,23 +70,25 @@ public class PurchaseOrder extends AbstractInvoiceReferenceDocument{
 	public IdAndInvoiceIdPrimaryKey getId() {
 		if(id == null) {
 			StringBuilder builder = new StringBuilder();
-			builder.append(StringUtils.defaultString(cigCode));
+			if(!StringUtils.isBlank(cigCode)) {
+				builder.append(StringUtils.defaultString(cigCode));
+				builder.append(StringUtils.defaultString("_"));
+			}
+			
 			if(date != null) {
-				builder.append("_");
 				builder.append(date.toString());
+				builder.append("_");
 			}
 			
 			if(!StringUtils.isBlank(documentId)) {
-				builder.append(StringUtils.defaultString("_"));
 				builder.append(StringUtils.defaultString(documentId));
+				builder.append(StringUtils.defaultString("_"));
 			}
 			
 			if(purchaseLine != null) {
-				builder.append(StringUtils.defaultString("_"));
 				builder.append(StringUtils.defaultString(purchaseLine.getId().getInvoiceId()));
 				builder.append(StringUtils.defaultString("_"));
 				builder.append(StringUtils.defaultString(purchaseLine.getId().getId()));
-				builder.append(StringUtils.defaultString("_"));
 			}
 			id = new IdAndInvoiceIdPrimaryKey(getInvoice().getNumber(), builder.toString());
 		}
