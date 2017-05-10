@@ -402,18 +402,19 @@ databaseChangeLog:
                   name: date
                   type: dateTime
                   constraints:
-                    primaryKey: true
+                      primaryKey: true
             - column:
                   name: id
                   type: varchar(255)
                   constraints:
-                    primaryKey: true
+                      primaryKey: true
             - column:
                   name: invoice_id
                   type: varchar(255)
                   constraints:
                       foreignKeyName: fk_purchase_order_invoice
                       nullable: false
+                      primaryKey: true
                       references: invoice(number)
             - column:
                   name: purchase_line_invoice_id
