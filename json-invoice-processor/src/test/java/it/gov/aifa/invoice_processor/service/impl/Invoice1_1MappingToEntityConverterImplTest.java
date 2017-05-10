@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
 import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
@@ -315,18 +316,32 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 			assertThat(purchaseOrder.getInvoice()).isSameAs(invoice);
 
 			Set<DatiOrdineAcquisto> relatedDatiOrdiniAcquisto = datiOrdiniAcquisto.stream()
-					.filter(c -> 
-					c.getCodiceCIG().equals(purchaseOrder.getCigCode())
-					&& c.getData().equals(purchaseOrder.getDate().toString())
-					&& c.getIdDocumento().equals(purchaseOrder.getId().getId())
-					&& c.getRiferimentoNumeroLinea().equals(purchaseOrder.getPurchaseLine().getId().getId()))
+					.filter(c -> c.getData().equals(purchaseOrder.getDate().toString())	&& c.getIdDocumento().equals(purchaseOrder.getDocumentId()))
 					.collect(Collectors.toSet());
+			if(!StringUtils.isBlank(purchaseOrder.getCigCode()))
+				relatedDatiOrdiniAcquisto = relatedDatiOrdiniAcquisto.stream()
+						.filter(c -> !StringUtils.isBlank(c.getCodiceCIG()) && c.getCodiceCIG().equals(purchaseOrder.getCigCode()))
+						.collect(Collectors.toSet());
+			else
+				relatedDatiOrdiniAcquisto = relatedDatiOrdiniAcquisto.stream()
+				.filter(c -> StringUtils.isBlank(c.getCodiceCIG()))
+				.collect(Collectors.toSet());
+			if(!StringUtils.isBlank(purchaseOrder.getCigCode()))
+				relatedDatiOrdiniAcquisto = relatedDatiOrdiniAcquisto.stream()
+						.filter(c -> !StringUtils.isBlank(c.getRiferimentoNumeroLinea()) && c.getRiferimentoNumeroLinea().equals(purchaseOrder.getPurchaseLine().getId().getId()))
+						.collect(Collectors.toSet());
+			else
+				relatedDatiOrdiniAcquisto = relatedDatiOrdiniAcquisto.stream()
+				.filter(c -> StringUtils.isBlank(c.getRiferimentoNumeroLinea()))
+				.collect(Collectors.toSet());
 			assertThat(relatedDatiOrdiniAcquisto).hasSize(1);
 			DatiOrdineAcquisto datiOrdineAcquisto = relatedDatiOrdiniAcquisto.iterator().next();
 
 			assertThat(purchaseOrder.getCigCode()).isEqualTo(datiOrdineAcquisto.getCodiceCIG());
-			assertThat(purchaseOrder.getPurchaseLine().getId().getInvoiceId()).isEqualTo(invoice.getNumber());
-			assertThat(purchaseOrder.getPurchaseLine().getId().getId()).isEqualTo(datiOrdineAcquisto.getRiferimentoNumeroLinea());
+			if(purchaseOrder.getPurchaseLine() != null) {
+				assertThat(purchaseOrder.getPurchaseLine().getId().getInvoiceId()).isEqualTo(invoice.getNumber());
+				assertThat(purchaseOrder.getPurchaseLine().getId().getId()).isEqualTo(datiOrdineAcquisto.getRiferimentoNumeroLinea());
+			}
 		}
 
 		assertThat(invoice.getSoggettoEmittente()).isEqualTo(fatturaElettronicaHeader.getSoggettoEmittente());
