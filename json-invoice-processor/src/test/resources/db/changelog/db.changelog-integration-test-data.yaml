@@ -266,10 +266,10 @@ databaseChangeLog:
                   value: "2017-05-06"
             - column:
                   name: document_id
-                  value: "cigCode_2017-05-06_purchaseOrderId_1234567890_1"
+                  value: "purchaseOrderId"
             - column:
                   name: id
-                  value: "purchaseOrderId"
+                  value: "cigCode_2017-05-06_purchaseOrderId_1234567890_1"
             - column:
                   name: invoice_id
                   value: "1234567890"
@@ -279,4 +279,19 @@ databaseChangeLog:
             - column:
                   name: purchase_line_number
                   value: "1"
+            tableName: purchase_order
+        - insert:
+            columns:
+            - column:
+                  name: date
+                  value: "2017-05-06"
+            - column:
+                  name: document_id
+                  value: "purchaseOrderId"
+            - column:
+                  name: id
+                  value: "2017-05-06_purchaseOrderId_1234567890_1"
+            - column:
+                  name: invoice_id
+                  value: "1234567890"
             tableName: purchase_order
