@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
@@ -15,6 +16,7 @@ import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
+import it.gov.aifa.invoice_processor.entity.invoice.PurchaseOrder;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Anagrafica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
@@ -193,9 +195,11 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 
 		HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica fatturaElettronica = source.getHttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica();
 		FatturaElettronicaBody fatturaElettronicaBody = fatturaElettronica.getFatturaElettronicaBody();
+		FatturaElettronicaHeader fatturaElettronicaHeader = fatturaElettronica.getFatturaElettronicaHeader();
 
 		DatiGenerali datiGenerali = fatturaElettronicaBody.getDatiGenerali();
 		DatiGeneraliDocumento datiGeneraliDocumento = datiGenerali.getDatiGeneraliDocumento();
+		DatiDDT datiDDT = datiGenerali.getDatiDDT();
 
 		DatiPagamento datiPagamento = fatturaElettronicaBody.getDatiPagamento();
 		DettaglioPagamento dettaglioPagamento = datiPagamento.getDettaglioPagamento();
@@ -315,14 +319,14 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 					c.getCodiceCIG().equals(purchaseOrder.getCigCode())
 					&& c.getData().equals(purchaseOrder.getDate().toString())
 					&& c.getIdDocumento().equals(purchaseOrder.getId().getId())
-					&& c.getRiferimentoNumeroLinea().equals(purchaseOrder.getPurchaseLine().getId().getId()))))
+					&& c.getRiferimentoNumeroLinea().equals(purchaseOrder.getPurchaseLine().getId().getId()))
 					.collect(Collectors.toSet());
-			assertThat(relatedOrdiniAcquisto).hasSize(1);
-			DatiOrdineAcquisto datiOrdineAcquisto = relatedOrdiniAcquisto.iterator().next();
+			assertThat(relatedDatiOrdiniAcquisto).hasSize(1);
+			DatiOrdineAcquisto datiOrdineAcquisto = relatedDatiOrdiniAcquisto.iterator().next();
 
-			assertThat(purchaseOrder.getCigCode()).isEqualTo(datiOrdiniAcquisto.get(i).getCodiceCIG());
+			assertThat(purchaseOrder.getCigCode()).isEqualTo(datiOrdineAcquisto.getCodiceCIG());
 			assertThat(purchaseOrder.getPurchaseLine().getId().getInvoiceId()).isEqualTo(invoice.getNumber());
-			assertThat(purchaseOrder.getPurchaseLine().getId().getId()).isEqualTo(datiOrdiniAcquisto.get(i).getRiferimentoNumeroLinea());
+			assertThat(purchaseOrder.getPurchaseLine().getId().getId()).isEqualTo(datiOrdineAcquisto.getRiferimentoNumeroLinea());
 		}
 
 		assertThat(invoice.getSoggettoEmittente()).isEqualTo(fatturaElettronicaHeader.getSoggettoEmittente());
