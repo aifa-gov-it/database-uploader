@@ -220,7 +220,7 @@ databaseChangeLog:
                   name: quantity
                   value: "10"
               - column:
-                  name: number
+                  name: id
                   value: "1"
               - column:
                   name: item_code
@@ -260,13 +260,16 @@ databaseChangeLog:
             columns:
             - column:
                   name: cig_code
-                  value: "CIG code"
+                  value: "cigCode"
             - column:
                   name: date
                   value: "2017-05-06"
             - column:
+                  name: document_id
+                  value: "cigCode_2017-05-06_purchaseOrderId_1234567890_1"
+            - column:
                   name: id
-                  value: "1234567890123456"
+                  value: "purchaseOrderId"
             - column:
                   name: invoice_id
                   value: "1234567890"

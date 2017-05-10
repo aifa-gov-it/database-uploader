@@ -2,10 +2,6 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -16,16 +12,10 @@ import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Validated
-public class PurchaseLine {
+public class PurchaseLine extends AbstractInvoiceReferenceDocument{
 	@EmbeddedId
-	@Id
 	@NotNull
-	private PurchaseLinePrimaryKey id;
-	
-    @JoinColumn(name = "invoiceId", referencedColumnName = "number")
-    @ManyToOne
-    @MapsId("invoiceId")
-	private Invoice invoice;
+	private IdAndInvoiceIdPrimaryKey id;
 	
 	@NotBlank
 	private String itemCode;
@@ -68,14 +58,10 @@ public class PurchaseLine {
 				.isEquals();
 	}
 
-	public PurchaseLinePrimaryKey getId() {
+	public IdAndInvoiceIdPrimaryKey getId() {
 		return id;
 	}
 
-	public Invoice getInvoice() {
-		return invoice;
-	}
-	
 	public String getItemCode() {
 		return itemCode;
 	}
@@ -122,12 +108,8 @@ public class PurchaseLine {
 				.toHashCode();
 	}
 
-	public void setId(PurchaseLinePrimaryKey id) {
+	public void setId(IdAndInvoiceIdPrimaryKey id) {
 		this.id = id;
-	}
-
-	public void setInvoice(Invoice invoice) {
-		this.invoice = invoice;
 	}
 
 	public void setItemCode(String itemCode) {

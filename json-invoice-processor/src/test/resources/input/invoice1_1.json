@@ -108,6 +108,12 @@
                         "IdDocumento": "1234567891/3CC",
                         "Data": "2016-01-04",
                         "CodiceCIG": "12345678B0"
+                    },
+                    {
+                        "RiferimentoNumeroLinea": "20",
+                        "IdDocumento": "1234567891/3CC",
+                        "Data": "2016-01-04",
+                        "CodiceCIG": "4567891423"
                     }
                 ],
                 "DatiFattureCollegate": [

@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.gov.aifa.invoice_processor.entity.invoice.CountryAndCodePrimaryKey;
-import it.gov.aifa.invoice_processor.entity.invoice.DocumentIdDatePrimaryKey;
-import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLinePrimaryKey;
+import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoicePrimaryKey;
+import it.gov.aifa.invoice_processor.entity.invoice.IdAndInvoiceIdPrimaryKey;
 
 public final class TestConstant {
 	private static final Logger log = LoggerFactory.getLogger(TestConstant.class);
@@ -26,9 +26,9 @@ public final class TestConstant {
 	public static final String BOOTSTRAP_INVOICE_ID = "1234567890";
 	public static final CountryAndCodePrimaryKey BOOTSTRAP_INVOICE_PARTICIPANT_ID = new CountryAndCodePrimaryKey("123456789", "IT");
 	public static final Long BOOTSTRAP_INVOICE_TAX_ID = 321L;
-	public static final DocumentIdDatePrimaryKey BOOTSTRAP_LINKED_INVOICE_ID = new DocumentIdDatePrimaryKey(LocalDate.of(2017, 5, 5),"321654", BOOTSTRAP_INVOICE_ID);
-	public static final PurchaseLinePrimaryKey BOOTSTRAP_PURCHASE_LINE_ID = new PurchaseLinePrimaryKey(BOOTSTRAP_INVOICE_ID, "1");
-	public static final DocumentIdDatePrimaryKey BOOTSTRAP_PURCHASE_ORDER_ID = new DocumentIdDatePrimaryKey(LocalDate.of(2017, 5, 6),"1234567890123456", BOOTSTRAP_INVOICE_ID);
+	public static final LinkedInvoicePrimaryKey BOOTSTRAP_LINKED_INVOICE_ID = new LinkedInvoicePrimaryKey(LocalDate.of(2017, 5, 5),"321654", BOOTSTRAP_INVOICE_ID);
+	public static final IdAndInvoiceIdPrimaryKey BOOTSTRAP_PURCHASE_LINE_ID = new IdAndInvoiceIdPrimaryKey(BOOTSTRAP_INVOICE_ID, "1");
+	public static final String BOOTSTRAP_PURCHASE_ORDER_ID = "cigCode_2017-05-06_purchaseOrderId_1234567890_1";
 	
 	public static final String TEST_DIRECTORY_NAME = "input";
 	public static final Path TEST_DIRECTORY_PATH = getPath(TEST_DIRECTORY_NAME);

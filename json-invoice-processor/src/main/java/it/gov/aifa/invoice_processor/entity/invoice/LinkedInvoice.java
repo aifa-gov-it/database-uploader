@@ -2,11 +2,6 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,17 +10,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Validated
-public class LinkedInvoice {
+public class LinkedInvoice extends AbstractInvoiceReferenceDocument{
 	@EmbeddedId
 	@NotNull
-	private DocumentIdDatePrimaryKey id;
-	
-	@JoinColumn(name = "invoiceId", referencedColumnName = "number")
-    @ManyToOne
-    @MapsId("invoiceId")
-	private Invoice invoice;
+	private LinkedInvoicePrimaryKey id;
 	
 	@Override
 	public boolean equals(Object other) {
@@ -38,15 +27,11 @@ public class LinkedInvoice {
 		LinkedInvoice rhs = ((LinkedInvoice) other);
 		return new EqualsBuilder()
 				.append(id, rhs.id)
-				.append(invoice, rhs.invoice)
 				.isEquals();
 	}
 
-	public DocumentIdDatePrimaryKey getId() {
+	public LinkedInvoicePrimaryKey getId() {
 		return id;
-	}
-	public Invoice getInvoice() {
-		return invoice;
 	}
 
 	@Override
@@ -56,12 +41,8 @@ public class LinkedInvoice {
 				.toHashCode();
 	}
 
-	public void setId(DocumentIdDatePrimaryKey id) {
+	public void setId(LinkedInvoicePrimaryKey id) {
 		this.id = id;
-	}
-
-	public void setInvoice(Invoice invoice) {
-		this.invoice = invoice;
 	}
 
 	@Override

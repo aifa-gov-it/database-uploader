@@ -72,7 +72,7 @@ databaseChangeLog:
                   constraints:
                       nullable: false
               - column:
-                  name: number
+                  name: id
                   type: number
                   constraints:
                     primaryKey: true
@@ -379,18 +379,18 @@ databaseChangeLog:
                   name: date
                   type: dateTime
                   constraints:
-                    nullable: false
+                    primary_key: true
             - column:
                   name: id
                   type: varchar(255)
                   constraints:
-                    nullable: false
+                    primary_key: true
             - column:
                   name: invoice_id
                   type: varchar(255)
                   constraints:
                       foreignKeyName: fk_linked_invoice_invoice
-                      nullable: false
+                      primary_key: true
                       references: invoice(number)
         - createTable:
             tableName: purchase_order
@@ -402,7 +402,12 @@ databaseChangeLog:
                   name: date
                   type: dateTime
                   constraints:
-                      primaryKey: true
+                      nullable: false
+            - column:
+                  name: document_id
+                  type: varchar(255)
+                  constraints:
+                      nullable: false
             - column:
                   name: id
                   type: varchar(255)
@@ -414,7 +419,6 @@ databaseChangeLog:
                   constraints:
                       foreignKeyName: fk_purchase_order_invoice
                       nullable: false
-                      primaryKey: true
                       references: invoice(number)
             - column:
                   name: purchase_line_invoice_id
@@ -450,5 +454,5 @@ databaseChangeLog:
             baseColumnNames: purchase_line_invoice_id,purchase_line_number
             baseTableName: purchase_order
             constraintName: fk_purchase_order_purchase_line
-            referencedColumnNames: invoice_id,number
+            referencedColumnNames: invoice_id,id
             referencedTableName: purchase_line

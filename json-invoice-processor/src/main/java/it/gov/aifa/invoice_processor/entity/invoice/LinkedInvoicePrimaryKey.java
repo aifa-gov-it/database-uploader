@@ -1,8 +1,10 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,62 +14,75 @@ import org.springframework.validation.annotation.Validated;
 
 @Embeddable
 @Validated
-public class PurchaseLinePrimaryKey implements Serializable{
-	private static final long serialVersionUID = 4169358380087358121L;
+public class LinkedInvoicePrimaryKey implements Serializable{
+	private static final long serialVersionUID = 7120951809313839861L;
+	
+	@NotNull
+	private LocalDate date;
 
+	@NotBlank
+	private String id;
+	
 	@NotBlank
 	private String invoiceId;
 	
-	@NotBlank
-	private String number;
-	
-	
-	public PurchaseLinePrimaryKey() {
+	public LinkedInvoicePrimaryKey() {
+		super();
 	}
-
-	public PurchaseLinePrimaryKey(String invoiceId, String number) {
-		this();
+	
+	public LinkedInvoicePrimaryKey(LocalDate date, String id, String invoiceId) {
+		this.date = date;
+		this.id = id;
 		this.invoiceId = invoiceId;
-		this.number = number;
 	}
-
+	
 	@Override
 	public boolean equals(Object other) {
 		if (other == this) {
 			return true;
 		}
-		if ((other instanceof PurchaseLinePrimaryKey) == false) {
+		if ((other instanceof LinkedInvoicePrimaryKey) == false) {
 			return false;
 		}
-		PurchaseLinePrimaryKey rhs = ((PurchaseLinePrimaryKey) other);
+		LinkedInvoicePrimaryKey rhs = ((LinkedInvoicePrimaryKey) other);
 		return new EqualsBuilder()
+				.append(date, rhs.date)
+				.append(id, rhs.id)
 				.append(invoiceId, rhs.invoiceId)
-				.append(number, rhs.number)
 				.isEquals();
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getInvoiceId() {
 		return invoiceId;
 	}
-	
-	public String getNumber() {
-		return number;
-	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
+				.append(date)
+				.append(id)
 				.append(invoiceId)
-				.append(number)
 				.toHashCode();
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public void setInvoice(String invoiceId) {
 		this.invoiceId = invoiceId;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
 	}
 
 	@Override

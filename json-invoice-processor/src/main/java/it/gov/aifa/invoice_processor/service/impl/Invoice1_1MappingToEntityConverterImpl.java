@@ -10,20 +10,19 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.invoice.CountryAndCodePrimaryKey;
-import it.gov.aifa.invoice_processor.entity.invoice.DocumentIdDatePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceVersion;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
+import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoicePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
-import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLinePrimaryKey;
+import it.gov.aifa.invoice_processor.entity.invoice.IdAndInvoiceIdPrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseOrder;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
@@ -139,44 +138,18 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 
 		return invoice;
 	}
-
+	
 	private Set<PurchaseOrder> buildPurchaseOrders(List<DatiOrdineAcquisto> datiOrdiniAcquisto, Invoice parentInvoice) {
 		Set<PurchaseOrder> purchaseOrders = new HashSet<>(datiOrdiniAcquisto.size());
 		for(DatiOrdineAcquisto datiOrdineAcquisto : datiOrdiniAcquisto) {
-			// Check if a PurchaseOrder with the same ID has been already added to the Set
-			List<PurchaseOrder> alreadyCreatedPurchaseOrders = purchaseOrders.stream()
-					.filter(c -> 
-					(c.getId().getId().equals(datiOrdineAcquisto.getIdDocumento())
-							&& c.getId().getDate().equals(LocalDate.parse(datiOrdineAcquisto.getData(), dateTimeFormatter))))
-					.collect(Collectors.toList());
-			PurchaseOrder purchaseOrder;
-			if(alreadyCreatedPurchaseOrders.isEmpty()) {
-				purchaseOrder = new PurchaseOrder();
-				purchaseOrder.setId(new DocumentIdDatePrimaryKey(
-						LocalDate.parse(datiOrdineAcquisto.getData(), dateTimeFormatter)
-						, datiOrdineAcquisto.getIdDocumento()
-						, parentInvoice.getNumber()));
-				purchaseOrder.setInvoice(parentInvoice);
-			}else {
-				if(alreadyCreatedPurchaseOrders.size() > 1)
-					throw new RuntimeException(
-							"More than one Purchase Order found for Document ID: " + datiOrdineAcquisto.getIdDocumento()
-							+ " Date: " + datiOrdineAcquisto.getData());
-				purchaseOrder = alreadyCreatedPurchaseOrders.get(0);
-				purchaseOrders.remove(purchaseOrder);
-			}
-			
-			if(StringUtils.isBlank(purchaseOrder.getCigCode())) {
-				purchaseOrder.setCigCode(datiOrdineAcquisto.getCodiceCIG());
-			}else if(purchaseOrder.getCigCode() != null
-					&& datiOrdineAcquisto.getCodiceCIG() != null
-					&& !purchaseOrder.getCigCode().equals(datiOrdineAcquisto.getCodiceCIG())){
-				throw new RuntimeException("Cannot set two different CIG codes for the same purchase order");
-			}
-			
+			PurchaseOrder purchaseOrder = new PurchaseOrder();
+			purchaseOrder.setCigCode(datiOrdineAcquisto.getCodiceCIG());
+			purchaseOrder.setDate(LocalDate.parse(datiOrdineAcquisto.getData(), dateTimeFormatter));
+			purchaseOrder.setDocumentId(datiOrdineAcquisto.getIdDocumento());
+			purchaseOrder.setInvoice(parentInvoice);
 			List<PurchaseLine> relatedPurchaseLines = parentInvoice.getPurchaseLines().stream()
 					.filter(c -> c.getId().getInvoiceId().equals(parentInvoice.getNumber())
-							&& c.getId().getNumber().equals(datiOrdineAcquisto.getRiferimentoNumeroLinea()))
+							&& c.getId().getId().equals(datiOrdineAcquisto.getRiferimentoNumeroLinea()))
 					.collect(Collectors.toList());
 			if(relatedPurchaseLines != null) {
 				if(relatedPurchaseLines.size() > 1)
@@ -199,7 +172,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		Set<PurchaseLine> purchaseLines = new HashSet<>(dettaglioLinee.size());
 		for(DettaglioLinee dettaglioLinea : dettaglioLinee) {
 			PurchaseLine purchaseLine = new PurchaseLine();
-			purchaseLine.setId(new PurchaseLinePrimaryKey(parentInvoice.getNumber(), dettaglioLinea.getNumeroLinea()));
+			purchaseLine.setId(new IdAndInvoiceIdPrimaryKey(parentInvoice.getNumber(), dettaglioLinea.getNumeroLinea()));
 			purchaseLine.setInvoice(parentInvoice);
 			purchaseLine.setItemCode(dettaglioLinea.getCodiceArticolo().getCodiceValore());
 			purchaseLine.setItemCodeType(dettaglioLinea.getCodiceArticolo().getCodiceTipo());
@@ -270,7 +243,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		Set<LinkedInvoice> linkedInvoices = new HashSet<>(datiFattureCollegate.size());
 		for(DatiFattureCollegate fatturaCollegata : datiFattureCollegate) {
 			LinkedInvoice linkedInvoice = new LinkedInvoice();
-			linkedInvoice.setId(new DocumentIdDatePrimaryKey(LocalDate.parse(fatturaCollegata.getData(), dateTimeFormatter), fatturaCollegata.getIdDocumento(), parentInvoice.getNumber()));
+			linkedInvoice.setId(new LinkedInvoicePrimaryKey(LocalDate.parse(fatturaCollegata.getData(), dateTimeFormatter), fatturaCollegata.getIdDocumento(), parentInvoice.getNumber()));
 			linkedInvoice.setInvoice(parentInvoice);
 			linkedInvoices.add(linkedInvoice);
 		}

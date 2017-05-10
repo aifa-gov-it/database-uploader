@@ -25,6 +25,7 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 	@Test
 	public void findOneTest() {
 		Invoice invoice = repository.findOne(TestConstant.BOOTSTRAP_INVOICE_ID);
+		// TODO: check if these assertions are needed (we already perform validation)
 		assertThat(invoice.getCedentePrestatore()).isNotNull();
 		assertThat(invoice.getCessionarioCommittente()).isNotNull();
 		assertThat(invoice.getCurrency()).isNotBlank();
@@ -43,7 +44,7 @@ public class InvoiceRepositoryIT extends AbstractComponentIT{
 		assertThat(invoice.getInvoiceVersion().getVersion()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_VERSION);
 		assertThat(invoice.getLinkedInvoices()).isNotEmpty();
 		for(LinkedInvoice linkedInvoice : invoice.getLinkedInvoices())
-			assertThat(linkedInvoice.getInvoice()).isEqualTo(invoice);
+			assertThat(linkedInvoice.getId()).isEqualTo(TestConstant.BOOTSTRAP_LINKED_INVOICE_ID);
 		assertThat(invoice.getNumber()).isEqualTo(TestConstant.BOOTSTRAP_INVOICE_ID);
 		assertThat(invoice.getPaymentAmount()).isGreaterThan(0);
 		assertThat(invoice.getPaymentConditions()).isNotBlank();
