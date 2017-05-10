@@ -82,10 +82,10 @@ public class PurchaseOrder extends AbstractInvoiceReferenceDocument{
 			
 			if(!StringUtils.isBlank(documentId)) {
 				builder.append(StringUtils.defaultString(documentId));
-				builder.append(StringUtils.defaultString("_"));
 			}
 			
 			if(purchaseLine != null) {
+				builder.append(StringUtils.defaultString("_"));
 				builder.append(StringUtils.defaultString(purchaseLine.getId().getInvoiceId()));
 				builder.append(StringUtils.defaultString("_"));
 				builder.append(StringUtils.defaultString(purchaseLine.getId().getId()));
