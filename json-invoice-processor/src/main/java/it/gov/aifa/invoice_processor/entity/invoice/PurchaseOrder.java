@@ -70,6 +70,8 @@ public class PurchaseOrder extends AbstractInvoiceReferenceDocument{
 	public IdAndInvoiceIdPrimaryKey getId() {
 		if(id == null) {
 			StringBuilder builder = new StringBuilder();
+			builder.append(getInvoice().getNumber());
+			builder.append("_");
 			if(!StringUtils.isBlank(cigCode)) {
 				builder.append(StringUtils.defaultString(cigCode));
 				builder.append(StringUtils.defaultString("_"));
