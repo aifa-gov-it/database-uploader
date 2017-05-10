@@ -30,13 +30,9 @@ public final class TestConstant {
 	public static final PurchaseLinePrimaryKey BOOTSTRAP_PURCHASE_LINE_ID = new PurchaseLinePrimaryKey(BOOTSTRAP_INVOICE_ID, "1");
 	public static final DocumentIdDatePrimaryKey BOOTSTRAP_PURCHASE_ORDER_ID = new DocumentIdDatePrimaryKey(LocalDate.of(2017, 5, 6),"1234567890123456", BOOTSTRAP_INVOICE_ID);
 	
-	public static final String INVOICE_SHORT_VERSION = "1.1";
-	public static final String INVOICE_ROOT = "{http://www.fatturapa.gov.it/sdi/fatturapa/v" + INVOICE_SHORT_VERSION + "}FatturaElettronica";
 	public static final String TEST_DIRECTORY_NAME = "input";
 	public static final Path TEST_DIRECTORY_PATH = getPath(TEST_DIRECTORY_NAME);
-	public static final long TEST_ITEM_COUNT = 1;
-	public static final String TEST_FILE_NAME_INVOICE1_1 = "invoice1_1.json";
-	public static final Path TEST_FILE_PATH_INVOICE1_1 = getPath(TEST_DIRECTORY_NAME + File.separator + TEST_FILE_NAME_INVOICE1_1);
+	public static final Path TEST_FILE_PATH_INVOICE1_1 = getPath(TEST_DIRECTORY_NAME + File.separator + "invoice1_1.json");
 	
 	public static final String INVOICE1_1_JSON = getInvoiceJson(TEST_FILE_PATH_INVOICE1_1);
 
