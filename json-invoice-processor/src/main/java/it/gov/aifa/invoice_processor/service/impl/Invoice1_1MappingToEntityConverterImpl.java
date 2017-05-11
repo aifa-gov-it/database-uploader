@@ -1,10 +1,8 @@
 package it.gov.aifa.invoice_processor.service.impl;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
+import it.gov.aifa.invoice_processor.entity.invoice.IdAndInvoiceIdPrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
@@ -22,7 +21,6 @@ import it.gov.aifa.invoice_processor.entity.invoice.InvoiceVersion;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoice;
 import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoicePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
-import it.gov.aifa.invoice_processor.entity.invoice.IdAndInvoiceIdPrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseOrder;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Anagrafica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
@@ -55,13 +53,6 @@ import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 @Validated
 public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToEntityConverter<Invoice1_1, Invoice> {
 
-	private DateTimeFormatter dateTimeFormatter;
-
-	public Invoice1_1MappingToEntityConverterImpl() {
-		dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
-		dateTimeFormatter = dateTimeFormatter.withLocale(Locale.ITALIAN);
-	}
-
 	@Override
 	public Invoice convert(Invoice1_1 source) {
 		Invoice invoice = new Invoice();
@@ -78,7 +69,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setCurrency(datiGeneraliDocumento.getDivisa());
 		
 		if(datiGeneraliDocumento.getData() != null)
-			invoice.setDate(LocalDate.parse(datiGeneraliDocumento.getData(), dateTimeFormatter));
+			invoice.setDate(LocalDate.parse(datiGeneraliDocumento.getData()));
 		else
 			throw new RuntimeException("Invoice date cannot be empty");
 
@@ -126,7 +117,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 
 		invoice.setPaymentAmount(Double.parseDouble(dettaglioPagamento.getImportoPagamento()));
 		invoice.setPaymentConditions(datiPagamento.getCondizioniPagamento());
-		invoice.setPaymentExpirationDate(LocalDate.parse(dettaglioPagamento.getDataScadenzaPagamento(), dateTimeFormatter));
+		invoice.setPaymentExpirationDate(LocalDate.parse(dettaglioPagamento.getDataScadenzaPagamento()));
 		invoice.setPaymentMode(dettaglioPagamento.getModalitaPagamento());
 		invoice.setPaymentTermDays(Integer.parseInt(dettaglioPagamento.getGiorniTerminiPagamento()));
 		
@@ -151,7 +142,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		for(DatiOrdineAcquisto datiOrdineAcquisto : datiOrdiniAcquisto) {
 			PurchaseOrder purchaseOrder = new PurchaseOrder();
 			purchaseOrder.setCigCode(datiOrdineAcquisto.getCodiceCIG());
-			purchaseOrder.setDate(LocalDate.parse(datiOrdineAcquisto.getData(), dateTimeFormatter));
+			purchaseOrder.setDate(LocalDate.parse(datiOrdineAcquisto.getData()));
 			purchaseOrder.setDocumentId(datiOrdineAcquisto.getIdDocumento());
 			purchaseOrder.setInvoice(parentInvoice);
 			List<PurchaseLine> relatedPurchaseLines = parentInvoice.getPurchaseLines().stream()
@@ -300,7 +291,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		Set<LinkedInvoice> linkedInvoices = new HashSet<>(datiFattureCollegate.size());
 		for(DatiFattureCollegate fatturaCollegata : datiFattureCollegate) {
 			LinkedInvoice linkedInvoice = new LinkedInvoice();
-			linkedInvoice.setId(new LinkedInvoicePrimaryKey(LocalDate.parse(fatturaCollegata.getData(), dateTimeFormatter), fatturaCollegata.getIdDocumento(), parentInvoice.getNumber()));
+			linkedInvoice.setId(new LinkedInvoicePrimaryKey(LocalDate.parse(fatturaCollegata.getData()), fatturaCollegata.getIdDocumento(), parentInvoice.getNumber()));
 			linkedInvoice.setInvoice(parentInvoice);
 			linkedInvoices.add(linkedInvoice);
 		}
@@ -309,7 +300,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 	
 	private void buildTransportDocument(DatiDDT datiDDT, Invoice parentInvoice) {
 		if(datiDDT != null) {
-			parentInvoice.setTransportDocumentDate(LocalDate.parse(datiDDT.getDataDDT(), dateTimeFormatter));
+			parentInvoice.setTransportDocumentDate(LocalDate.parse(datiDDT.getDataDDT()));
 			parentInvoice.setTransportDocumentId(datiDDT.getNumeroDDT());
 		}
 	}
