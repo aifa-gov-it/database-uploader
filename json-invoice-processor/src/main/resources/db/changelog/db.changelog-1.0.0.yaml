@@ -325,13 +325,9 @@ databaseChangeLog:
             - column:
                   name: tax_code
                   type: varchar(255)
-                  constraints:
-                    nullable: false
             - column:
                   name: tax_country_code
                   type: varchar(8)
-                  constraints:
-                    nullable: false
             - column:
                   name: zip_code
                   type: varchar(10)

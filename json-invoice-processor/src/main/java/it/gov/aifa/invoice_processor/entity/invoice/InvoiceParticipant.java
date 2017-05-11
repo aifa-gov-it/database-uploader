@@ -38,10 +38,8 @@ public class InvoiceParticipant {
 	@NotBlank
 	private String streetAddress;
 	
-	@NotBlank
 	private String taxCode;
 
-	@NotBlank
 	private String taxCountryCode;
 	
 	@NotBlank
