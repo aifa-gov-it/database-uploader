@@ -461,3 +461,100 @@ databaseChangeLog:
             constraintName: fk_invoice_invoice_participant_cessionario_committente
             referencedColumnNames: social_security_number
             referencedTableName: invoice_participant
+  - changeSet:
+      id: 10
+      author: ferrarim
+      changes:
+        - createTable:
+            tableName: movement
+            columns:
+              - column:
+                  name: account_holder_code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: account_holder_type_code
+                  type: varchar(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: aic
+                  type: varchar(9)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: customer_code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: customer_type_code
+                  type: varchar(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: document_number
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: document_type_code
+                  type: varchar(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expiration_date
+                  type: dateTime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: lot
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: movement_code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recipient_code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recipient_type_code
+                  type: varchar(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sender_code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sender_type_code
+                  type: varchar(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transmission_date_time
+                  type: dateTime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: decimal
+                  constraints:
+                    nullable: false

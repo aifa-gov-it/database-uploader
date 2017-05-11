@@ -3,7 +3,7 @@ databaseChangeLog:
     - preConditions:
       - dbms:
           type: h2
-      id: 2
+      id: 1
       author: ferrarim
       changes:
         - insert:
@@ -291,3 +291,66 @@ databaseChangeLog:
             - column:
                   name: invoice_id
                   value: "1234567890"
+  - changeSet:
+      id: 2
+      author: ferrarim
+      changes:
+        - insert:
+            dbms: h2
+            tableName: movement
+            columns:
+              - column:
+                  name: account_holder_code
+                  value: "accountHolderCode"
+              - column:
+                  name: account_holder_type_code
+                  value: "A"
+              - column:
+                  name: aic
+                  value: "aic"
+              - column:
+                  name: customer_code
+                  value: "customerCode"
+              - column:
+                  name: customer_type_code
+                  value: "C"
+              - column:
+                  name: document_number
+                  value: "documentNumber"
+              - column:
+                  name: document_type_code
+                  value: "D"
+              - column:
+                  name: expiration_date
+                  value: "2018-03-10T14:16:17"
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: lot
+                  value: "lot"
+              - column:
+                  name: movement_code
+                  value: "movementCode"
+              - column:
+                  name: quantity
+                  value: "10.1"
+              - column:
+                  name: recipient_code
+                  value: "recipientCode"
+              - column:
+                  name: recipient_type_code
+                  value: "R"
+              - column:
+                  name: sender_code
+                  value: "senderCode"
+              - column:
+                  name: sender_type_code
+                  value: "S"
+              - column:
+                  name: transmission_date_time
+                  value: "2017-05-1T13:14:15"
+              - column:
+                  name: value
+                  value: "11.1"
+                  
