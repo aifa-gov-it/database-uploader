@@ -32,7 +32,6 @@ public class PurchaseLine extends AbstractInvoiceReferenceDocument{
 	
 	private double totalPrice;
 
-	@NotBlank
 	private String unitOfMeasureDescription;
 
 	private double unitPrice;

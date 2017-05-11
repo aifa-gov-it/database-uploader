@@ -117,7 +117,6 @@ public class Invoice {
 	@NotBlank
 	private String taxDue;
 	
-	@NotBlank
 	private String taxLawReference;
 
 	private double taxRate;

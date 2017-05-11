@@ -188,8 +188,6 @@ databaseChangeLog:
               - column:
                     name: tax_law_reference
                     type: varchar(255)
-                    constraints:
-                      nullable: false
               - column:
                     name: tax_rate
                     type: decimal
@@ -268,8 +266,6 @@ databaseChangeLog:
               - column:
                   name: unit_of_measure_description
                   type: varchar(50)
-                  constraints:
-                    nullable: false
               - column:
                   name: unit_price
                   type: decimal
