@@ -203,13 +203,9 @@ databaseChangeLog:
               - column:
                     name: transport_document_date
                     type: dateTime
-                    constraints:
-                      nullable: false
               - column:
                     name: transport_document_id
-                    type: varchar(20)
-                    constraints:
-                      nullable: false
+                    type: varchar(30)
               - column:
                     name: version
                     type: varchar(255)

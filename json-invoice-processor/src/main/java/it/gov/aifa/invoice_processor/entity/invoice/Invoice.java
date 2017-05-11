@@ -124,10 +124,8 @@ public class Invoice {
 
 	private double totalAmount;
 
-	@NotNull
 	private LocalDate transportDocumentDate;
 
-	@NotBlank
 	private String transportDocumentId;
 
 	private Boolean virtualStamp;
