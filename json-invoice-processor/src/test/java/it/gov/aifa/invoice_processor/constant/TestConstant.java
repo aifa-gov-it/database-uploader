@@ -33,10 +33,11 @@ public final class TestConstant {
 	public static final String TEST_DIRECTORY_NAME = "input";
 	public static final Path TEST_DIRECTORY_PATH = getPath(TEST_DIRECTORY_NAME);
 	public static final Path TEST_FILE_PATH_INVOICE1_1 = getPath(TEST_DIRECTORY_NAME + File.separator + "invoice1_1.json");
+	public static final String TEST_FILE_PATH_MOVEMENT_DSV = "src/test/resources/input-dsv/movements.dsv";
 	
 	public static final String INVOICE1_1_JSON = getInvoiceJson(TEST_FILE_PATH_INVOICE1_1);
 
-	private static Path getPath(String path){
+	public static Path getPath(String path){
 		try {
 			return Paths.get(TestConstant.class.getClassLoader().getResource(path).toURI());
 		} catch (URISyntaxException e) {

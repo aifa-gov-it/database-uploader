@@ -37,7 +37,7 @@ public class JsonToDbUploaderIT extends AbstractComponentIT{
 	@Test
 	public void runTest(){
 		Properties properties = new Properties();
-		properties.setProperty(CommandLineArgumentKey.PATH, TestConstant.TEST_DIRECTORY_PATH.toString());
+		properties.setProperty(CommandLineArgumentKey.PATH_WITH_PREFIX, TestConstant.TEST_DIRECTORY_PATH.toString());
 		jsonToDbUploader.setArguments(properties);
 		assertThat(invoiceRepository.count()).isEqualTo(0L);
 		jsonToDbUploader.run();

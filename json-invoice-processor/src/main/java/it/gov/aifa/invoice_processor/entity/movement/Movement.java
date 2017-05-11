@@ -2,17 +2,19 @@ package it.gov.aifa.invoice_processor.entity.movement;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -44,9 +46,10 @@ public class Movement {
 	@NotNull
 	private LocalDate expirationDate;
 	
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@GeneratedValue(generator="system-uuid")
 	@Id
-	private Long id;
+	private String id;
 	
 	@NotBlank
 	private String lot;
@@ -58,19 +61,29 @@ public class Movement {
 	private double quantity;
 	
 	@NotBlank
-	private String recipientCode;
+	@Transient
+	private String rawExpirationDate;
 	
 	@NotBlank
+	private String recipientCode;
+
+	@NotBlank
 	private String recipientTypeCode;
-	
+
 	@NotBlank
 	private String senderCode;
 	
 	@NotBlank
 	private String senderTypeCode;
 	
+	@Transient
+	private String transmissionDate;
+	
 	@NotNull
 	private LocalDateTime transmissionDateTime;
+	
+	@Transient
+	private String transmissionTime;
 	
 	@DecimalMin(inclusive = false, value = "0")
 	private double value;
@@ -110,7 +123,7 @@ public class Movement {
 	public String getAccountHolderCode() {
 		return accountHolderCode;
 	}
-	
+
 	public String getAccountHolderTypeCode() {
 		return accountHolderTypeCode;
 	}
@@ -126,20 +139,20 @@ public class Movement {
 	public String getCustomerTypeCode() {
 		return customerTypeCode;
 	}
-
+	
 	public String getDocumentNumber() {
 		return documentNumber;
 	}
-
+	
 	public String getDocumentTypeCode() {
 		return documentTypeCode;
 	}
-
+	
 	public LocalDate getExpirationDate() {
 		return expirationDate;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -153,6 +166,10 @@ public class Movement {
 
 	public double getQuantity() {
 		return quantity;
+	}
+
+	public String getRawExpirationDate() {
+		return rawExpirationDate;
 	}
 
 	public String getRecipientCode() {
@@ -171,8 +188,16 @@ public class Movement {
 		return senderTypeCode;
 	}
 
+	public String getTransmissionDate() {
+		return transmissionDate;
+	}
+
 	public LocalDateTime getTransmissionDateTime() {
 		return transmissionDateTime;
+	}
+
+	public String getTransmissionTime() {
+		return transmissionTime;
 	}
 
 	public double getValue() {
@@ -235,7 +260,7 @@ public class Movement {
 		this.expirationDate = expirationDate;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -249,6 +274,10 @@ public class Movement {
 
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
+	}
+
+	public void setRawExpirationDate(String rawExpirationDate) {
+		this.rawExpirationDate = rawExpirationDate;
 	}
 
 	public void setRecipientCode(String recipientCode) {
@@ -267,8 +296,16 @@ public class Movement {
 		this.senderTypeCode = senderTypeCode;
 	}
 
+	public void setTransmissionDate(String transmissionDate) {
+		this.transmissionDate = transmissionDate;
+	}
+
 	public void setTransmissionDateTime(LocalDateTime transmissionDateTime) {
 		this.transmissionDateTime = transmissionDateTime;
+	}
+
+	public void setTransmissionTime(String transmissionTime) {
+		this.transmissionTime = transmissionTime;
 	}
 
 	public void setValue(double value) {

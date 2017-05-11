@@ -46,7 +46,7 @@ public class JsonToDbUploaderImplTest {
 		when(invoiceMappingToEntityConverter.convert(invoiceMapping)).thenReturn(invoiceEntity);
 		JsonToDbUploader jsonToDbUploader = new JsonToDbUploaderImpl(invoiceMappingToEntityConverter, repository, invoiceMappingFactory);
 		Properties properties = new Properties();
-		properties.setProperty(CommandLineArgumentKey.PATH, TestConstant.TEST_DIRECTORY_PATH.toString());
+		properties.setProperty(CommandLineArgumentKey.PATH_WITH_PREFIX, TestConstant.TEST_DIRECTORY_PATH.toString());
 		jsonToDbUploader.setArguments(properties);
 		jsonToDbUploader.run();
 		verify(invoiceMappingFactory, times(1)).buildFromJson(TestConstant.INVOICE1_1_JSON, Invoice1_1.class);

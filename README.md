@@ -57,3 +57,4 @@ To start an instance of the Invoices Processor:
 1. Build from source as instructed
 1. Run `java -jar <jar-name>-exec.jar` (note the **-exec** suffix) with one of the following options:
     1. `--upload-json-to-db --path=path_to_crawl`: write in the database all the invoices in JSON format in `path_to_crawl` directory
+    1. `--import-mov-delimited-file --path=file_path`: load lines from the specified DSV (delimiter separated values, with delimiter set to `;`) file in the database

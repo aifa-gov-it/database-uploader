@@ -18,7 +18,7 @@ public abstract class AbstractFilesystemCrawler extends AbstractCliRunner {
 	
 	@Override
 	public void run(){
-		String pathToCrawl = arguments.getProperty(CommandLineArgumentKey.PATH);
+		String pathToCrawl = arguments.getProperty(CommandLineArgumentKey.PATH_WITH_PREFIX);
 		if(StringUtils.isBlank(pathToCrawl))
 			throw new IllegalArgumentException("Path to crawl argument cannot be null nor empty");
 		log.info("Crawling {}", pathToCrawl);
