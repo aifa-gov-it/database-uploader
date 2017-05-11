@@ -51,3 +51,9 @@ Run the build container, from the root of the project: `docker run -it -v $(pwd)
 #### Generate the SQL to update the DB
 
 Run the `liquibase:updateSQL` Maven goal to generate an SQL script with the changes to apply to the database. The script will be in `target/liquibase/migrate.sql`
+
+#### Run modes
+To start an instance of the Invoices Processor:
+1. Build from source as instructed
+1. Run `java -jar <jar-name>-exec.jar` (note the **-exec** suffix) with one of the following options:
+    1. `--upload-json-to-db --path=path_to_crawl`: write in the database all the invoices in JSON format in `path_to_crawl` directory
