@@ -2,7 +2,6 @@ package it.gov.aifa.invoice_processor.entity.movement;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
