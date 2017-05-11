@@ -76,8 +76,11 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		DatiGeneraliDocumento datiGeneraliDocumento = datiGenerali.getDatiGeneraliDocumento();
 
 		invoice.setCurrency(datiGeneraliDocumento.getDivisa());
-
-		invoice.setDate(LocalDate.parse(datiGeneraliDocumento.getData(), dateTimeFormatter));
+		
+		if(datiGeneraliDocumento.getData() != null)
+			invoice.setDate(LocalDate.parse(datiGeneraliDocumento.getData(), dateTimeFormatter));
+		else
+			throw new RuntimeException("Invoice date cannot be empty");
 
 		invoice.setDescription(String.join("", datiGeneraliDocumento.getCausale()));
 
@@ -119,9 +122,7 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 
 		invoice.setNumber(datiGeneraliDocumento.getNumero());
 
-		List<DatiFattureCollegate> datiFattureCollegate = datiGenerali.getDatiFattureCollegate();
-		if(datiFattureCollegate != null)
-			invoice.setLinkedInvoices(buildLinkedInvoices(datiFattureCollegate, invoice));
+		invoice.setLinkedInvoices(buildLinkedInvoices(datiGenerali.getDatiFattureCollegate(), invoice));
 
 		invoice.setPaymentAmount(Double.parseDouble(dettaglioPagamento.getImportoPagamento()));
 		invoice.setPaymentConditions(datiPagamento.getCondizioniPagamento());
@@ -129,11 +130,8 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setPaymentMode(dettaglioPagamento.getModalitaPagamento());
 		invoice.setPaymentTermDays(Integer.parseInt(dettaglioPagamento.getGiorniTerminiPagamento()));
 		
-		if(datiBeniServizi.getDettaglioLinee() != null)
-			invoice.setPurchaseLines(buildPurchaseLines(datiBeniServizi.getDettaglioLinee(), invoice));
-		
-		if(datiGenerali.getDatiOrdineAcquisto() != null)
-			invoice.setPurchaseOrders(buildPurchaseOrders(datiGenerali.getDatiOrdineAcquisto(), invoice));
+		invoice.setPurchaseLines(buildPurchaseLines(datiBeniServizi.getDettaglioLinee(), invoice));
+		invoice.setPurchaseOrders(buildPurchaseOrders(datiGenerali.getDatiOrdineAcquisto(), invoice));
 		
 		invoice.setSoggettoEmittente(header.getSoggettoEmittente());
 		invoice.setSoggettoEmittenteName(header.getTerzoIntermediarioOSoggettoEmittente().getDatiAnagrafici().getAnagrafica().getDenominazione());
@@ -141,14 +139,14 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setTaxDue(datiRiepilogo.getEsigibilitaIVA());
 		invoice.setTotalAmount(Double.parseDouble(datiGeneraliDocumento.getImportoTotaleDocumento()));
 		
-		DatiDDT datiDDT = datiGenerali.getDatiDDT();
-		invoice.setTransportDocumentDate(LocalDate.parse(datiDDT.getDataDDT(), dateTimeFormatter));
-		invoice.setTransportDocumentId(datiDDT.getNumeroDDT());
+		buildTransportDocument(datiGenerali.getDatiDDT(), invoice);
 
 		return invoice;
 	}
 	
 	private Set<PurchaseOrder> buildPurchaseOrders(List<DatiOrdineAcquisto> datiOrdiniAcquisto, Invoice parentInvoice) {
+		if(datiOrdiniAcquisto == null)
+			return null;
 		Set<PurchaseOrder> purchaseOrders = new HashSet<>(datiOrdiniAcquisto.size());
 		for(DatiOrdineAcquisto datiOrdineAcquisto : datiOrdiniAcquisto) {
 			PurchaseOrder purchaseOrder = new PurchaseOrder();
@@ -178,6 +176,8 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 	}
 
 	private Set<PurchaseLine> buildPurchaseLines(List<DettaglioLinee> dettaglioLinee, Invoice parentInvoice) {
+		if(dettaglioLinee == null)
+			return null;
 		Set<PurchaseLine> purchaseLines = new HashSet<>(dettaglioLinee.size());
 		for(DettaglioLinee dettaglioLinea : dettaglioLinee) {
 			PurchaseLine purchaseLine = new PurchaseLine();
@@ -295,6 +295,8 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 	}
 
 	private Set<LinkedInvoice> buildLinkedInvoices(List<DatiFattureCollegate> datiFattureCollegate, Invoice parentInvoice) {
+		if(datiFattureCollegate == null)
+			return null;
 		Set<LinkedInvoice> linkedInvoices = new HashSet<>(datiFattureCollegate.size());
 		for(DatiFattureCollegate fatturaCollegata : datiFattureCollegate) {
 			LinkedInvoice linkedInvoice = new LinkedInvoice();
@@ -303,6 +305,13 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 			linkedInvoices.add(linkedInvoice);
 		}
 		return linkedInvoices;
+	}
+	
+	private void buildTransportDocument(DatiDDT datiDDT, Invoice parentInvoice) {
+		if(datiDDT != null) {
+			parentInvoice.setTransportDocumentDate(LocalDate.parse(datiDDT.getDataDDT(), dateTimeFormatter));
+			parentInvoice.setTransportDocumentId(datiDDT.getNumeroDDT());
+		}
 	}
 
 }
