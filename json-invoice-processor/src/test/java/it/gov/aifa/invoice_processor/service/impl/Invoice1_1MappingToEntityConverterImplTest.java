@@ -215,8 +215,6 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoiceCedentePrestatore.getClearanceState()).isEqualTo(clearanceState);
 		assertThat(invoiceCedentePrestatore.getCountry()).isEqualTo(country);
 		assertThat(invoiceCedentePrestatore.getDistrict()).isEqualTo(district);
-		assertThat(invoiceCedentePrestatore.getId().getCountryCode()).isEqualTo(countryId);
-		assertThat(invoiceCedentePrestatore.getId().getCode()).isEqualTo(codeId);
 		assertThat(invoiceCedentePrestatore.getName()).isEqualTo(name);
 		assertThat(invoiceCedentePrestatore.getPhoneNumber()).isEqualTo(phoneNumber);
 		assertThat(invoiceCedentePrestatore.getReaNumber()).isEqualTo(reaNumber);
@@ -224,6 +222,8 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoiceCedentePrestatore.getShareCapital()).isEqualTo(shareCapital);
 		assertThat(invoiceCedentePrestatore.getSoleStakeholder()).isEqualTo(soleStakeholder);
 		assertThat(invoiceCedentePrestatore.getStreetAddress()).isEqualTo(streetAddress);
+		assertThat(invoiceCedentePrestatore.getTaxCode()).isEqualTo(codeId);
+		assertThat(invoiceCedentePrestatore.getTaxCountryCode()).isEqualTo(countryId);
 		assertThat(invoiceCedentePrestatore.getTaxSystem()).isEqualTo(taxSystem);
 		assertThat(invoiceCedentePrestatore.getZipCode()).isEqualTo(zipCode);
 
@@ -233,12 +233,12 @@ public class Invoice1_1MappingToEntityConverterImplTest{
 		assertThat(invoiceCessionarioCommittente.getCountry()).isEqualTo(country);
 		assertThat(invoiceCessionarioCommittente.getDistrict()).isEqualTo(district);
 		assertThat(invoiceCessionarioCommittente.getEmailAddress()).isNull();
-		assertThat(invoiceCessionarioCommittente.getId().getCountryCode()).isEqualTo(countryId);
-		assertThat(invoiceCessionarioCommittente.getId().getCode()).isEqualTo(codeId);
 		assertThat(invoiceCessionarioCommittente.getName()).isEqualTo(name);
 		assertThat(invoiceCessionarioCommittente.getPhoneNumber()).isNull();
 		assertThat(invoiceCessionarioCommittente.getSocialSecurityNumber()).isEqualTo(ssn);
 		assertThat(invoiceCessionarioCommittente.getStreetAddress()).isEqualTo(streetAddress);
+		assertThat(invoiceCessionarioCommittente.getTaxCode()).isEqualTo(codeId);
+		assertThat(invoiceCessionarioCommittente.getTaxCountryCode()).isEqualTo(countryId);
 		assertThat(invoiceCessionarioCommittente.getZipCode()).isEqualTo(zipCode);
 
 		assertThat(invoice.getCurrency()).isEqualTo(currency);

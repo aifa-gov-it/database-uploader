@@ -7,6 +7,8 @@ databaseChangeLog:
       author: ferrarim
       changes:
         - insert:
+            dbms: h2
+            tableName: invoice_version
             columns:
               - column:
                   name: version
@@ -14,22 +16,16 @@ databaseChangeLog:
               - column:
                   name: validity_start_date
                   value: "2017-05-02T08:30:00"
-            dbms: h2
-            tableName: invoice_version
         - insert:
+            dbms: h2
+            tableName: invoice_participant
             columns:
             - column:
                   name: city
                   value: "Rome"
             - column:
-                  name: code
-                  value: "123456789"
-            - column:
                   name: country
                   value: "Italy"
-            - column:
-                  name: country_code
-                  value: "IT"
             - column:
                   name: district
                   value: "RM"
@@ -44,26 +40,26 @@ databaseChangeLog:
                   value: "+39123456789"
             - column:
                   name: social_security_number
-                  value: "1234567890123456789"
+                  value: "invoiceParticipantId"
             - column:
                   name: street_address
                   value: "Via del Corso, 1"
             - column:
+                  name: tax_code
+                  value: "123456789"
+            - column:
+                  name: tax_country_code
+                  value: "IT"
+            - column:
                   name: zip_code
                   value: "12345"
-            dbms: h2
-            tableName: invoice_participant
         - insert:
+            dbms: h2
+            tableName: invoice_cedente_prestatore
             columns:
             - column:
                   name: clearance_state
                   value: "CL"
-            - column:
-                  name: code
-                  value: "123456789"
-            - column:
-                  name: country_code
-                  value: "IT"
             - column:
                   name: rea_number
                   value: "12345"
@@ -74,14 +70,17 @@ databaseChangeLog:
                   name: share_capital
                   value: "1.2"
             - column:
+                  name: social_security_number
+                  value: "invoiceParticipantId"
+            - column:
                   name: sole_stakeholder
                   value: "SU"
             - column:
                   name: tax_system
                   value: "TS1"
-            dbms: h2
-            tableName: invoice_cedente_prestatore
         - insert:
+            dbms: h2
+            tableName: "financial_institution"
             columns:
               - column:
                   name: iban
@@ -98,21 +97,16 @@ databaseChangeLog:
               - column:
                   name: name
                   value: "Name 123"
-            tableName: "financial_institution"
         - insert:
+            dbms: h2
+            tableName: invoice
             columns:
               - column:
-                    name: cedente_prestatore_code
-                    value: "123456789"
+                    name: cedente_prestatore_ssn
+                    value: "invoiceParticipantId"
               - column:
-                    name: cedente_prestatore_country_code
-                    value: "IT"
-              - column:
-                    name: cessionario_committente_code
-                    value: "123456789"
-              - column:
-                    name: cessionario_committente_country_code
-                    value: "IT"
+                    name: cessionario_committente_ssn
+                    value: "invoiceParticipantId"
               - column:
                     name: currency
                     value: "EUR"
@@ -209,9 +203,9 @@ databaseChangeLog:
               - column:
                     name: virtual_stamp
                     value: "1"
-            dbms: h2
-            tableName: invoice
         - insert:
+            dbms: h2
+            tableName: purchase_line
             columns:
               - column:
                   name: invoice_id
@@ -243,8 +237,9 @@ databaseChangeLog:
               - column:
                   name: unit_price
                   value: "10.023"
-            tableName: purchase_line
         - insert:
+            dbms: h2
+            tableName: linked_invoice       
             columns:
             - column:
                   name: date
@@ -255,8 +250,9 @@ databaseChangeLog:
             - column:
                   name: invoice_id
                   value: "1234567890"
-            tableName: linked_invoice
         - insert:
+            dbms: h2
+            tableName: purchase_order
             columns:
             - column:
                   name: cig_code
@@ -279,8 +275,9 @@ databaseChangeLog:
             - column:
                   name: purchase_line_number
                   value: "1"
-            tableName: purchase_order
         - insert:
+            dbms: h2
+            tableName: purchase_order
             columns:
             - column:
                   name: date
@@ -294,4 +291,3 @@ databaseChangeLog:
             - column:
                   name: invoice_id
                   value: "1234567890"
-            tableName: purchase_order

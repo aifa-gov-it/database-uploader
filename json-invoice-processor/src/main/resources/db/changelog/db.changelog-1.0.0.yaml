@@ -17,6 +17,10 @@ databaseChangeLog:
               - column:
                   name: validity_start_date
                   type: dateTime
+  - changeSet:
+      id: 2
+      author: ferrarim
+      changes:
         - createTable:
             tableName: financial_institution
             columns:
@@ -43,80 +47,21 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
-        - createTable:
-            tableName: purchase_line
-            columns:
-              - column:
-                  name: invoice_id
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: item_code
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: item_code_type
-                  type: varchar(10)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: item_description
-                  type: varchar(255)
-                  constraints:
-                    nullable: false                    
-              - column: 
-                  name: quantity
-                  type: number
-                  constraints:
-                      nullable: false
-              - column:
-                  name: id
-                  type: number
-                  constraints:
-                    nullable: false
-              - column:
-                  name: tax_rate
-                  type: decimal
-                  constraints:
-                    nullable: false
-              - column:
-                  name: total_price
-                  type: decimal
-                  constraints:
-                    nullable: false
-              - column:
-                  name: unit_of_measure_description
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: unit_price
-                  type: decimal
-                  constraints:
-                    nullable: false
+  - changeSet:
+      id: 3
+      author: ferrarim
+      changes:
         - createTable:
             tableName: invoice
             columns:
               - column:
-                    name: cedente_prestatore_code
+                    name: cedente_prestatore_ssn
                     type: varchar(255)
                     constraints:
                       nullable: false
               - column:
-                    name: cedente_prestatore_country_code
-                    type: varchar(8)
-                    constraints:
-                      nullable: false
-              - column:
-                    name: cessionario_committente_code
+                    name: cessionario_committente_ssn
                     type: varchar(255)
-                    constraints:
-                      nullable: false
-              - column:
-                    name: cessionario_committente_country_code
-                    type: varchar(8)
                     constraints:
                       nullable: false
               - column:
@@ -275,6 +220,69 @@ databaseChangeLog:
               - column:
                     name: virtual_stamp
                     type: integer
+  - changeSet:
+      id: 4
+      author: ferrarim
+      changes:
+        - createTable:
+            tableName: purchase_line
+            columns:
+              - column:
+                  name: invoice_id
+                  type: varchar(255)
+                  constraints:
+                    foreignKeyName: fk_purchase_line_invoice
+                    nullable: false
+                    references: invoice(number)
+              - column:
+                  name: item_code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: item_code_type
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: item_description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false                    
+              - column: 
+                  name: quantity
+                  type: number
+                  constraints:
+                      nullable: false
+              - column:
+                  name: id
+                  type: number
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tax_rate
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_price
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_of_measure_description
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_price
+                  type: decimal
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 5
+      author: ferrarim
+      changes:
         - createTable:
             tableName: invoice_participant
             columns:
@@ -284,18 +292,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
             - column:
-                  name: code
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-            - column:
                   name: country
                   type: varchar(30)
-                  constraints:
-                    nullable: false
-            - column:
-                  name: country_code
-                  type: varchar(8)
                   constraints:
                     nullable: false
             - column:
@@ -318,10 +316,20 @@ databaseChangeLog:
                   name: social_security_number
                   type: varchar(255)
                   constraints:
-                    nullable: false
+                    primary_key: true
             - column:
                   name: street_address
                   type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: tax_code
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            - column:
+                  name: tax_country_code
+                  type: varchar(8)
                   constraints:
                     nullable: false
             - column:
@@ -329,22 +337,16 @@ databaseChangeLog:
                   type: varchar(10)
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 6
+      author: ferrarim
+      changes:
         - createTable:
             tableName: invoice_cedente_prestatore
             columns:
             - column:
                   name: clearance_state
                   type: varchar(10)
-                  constraints:
-                    nullable: false
-            - column:
-                  name: code
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-            - column:
-                  name: country_code
-                  type: varchar(8)
                   constraints:
                     nullable: false
             - column:
@@ -368,10 +370,21 @@ databaseChangeLog:
                   constraints:
                     nullable: false
             - column:
+                  name: social_security_number
+                  type: varchar(255)
+                  constraints:
+                    foreignKeyName: fk_invoice_cedente_prestatore_invoice_participant
+                    primaryKey: true
+                    references: invoice_participant(social_security_number)
+            - column:
                   name: tax_system
                   type: varchar(20)
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 7
+      author: ferrarim
+      changes:
         - createTable:
             tableName: linked_invoice
             columns:
@@ -392,6 +405,10 @@ databaseChangeLog:
                       foreignKeyName: fk_linked_invoice_invoice
                       nullable: false
                       references: invoice(number)
+  - changeSet:
+      id: 8
+      author: ferrarim
+      changes:
         - createTable:
             tableName: purchase_order
             columns:
@@ -426,49 +443,33 @@ databaseChangeLog:
             - column:
                   name: purchase_line_number
                   type: varchar(255)
+  - changeSet:
+      id: 9
+      author: ferrarim
+      changes:
         - addPrimaryKey:
             columnNames: invoice_id,id
             constraintName: purchase_line_pk
             tableName: purchase_line
         - addPrimaryKey:
-            columnNames: country_code,code
-            constraintName: invoice_participant_pk
-            tableName: invoice_participant
-        - addPrimaryKey:
-            columnNames: country_code,code
-            constraintName: invoice_cedente_prestatore_pk
-            tableName: invoice_cedente_prestatore
-        - addPrimaryKey:
             columnNames: invoice_id,date,id
             constraintName: linked_invoice_pk
             tableName: linked_invoice
-        - addForeignKeyConstraint:
-            baseColumnNames: code,country_code
-            baseTableName: invoice_cedente_prestatore
-            constraintName: fk_invoice_participant_invoice_cedente_prestatore
-            referencedColumnNames: code,country_code
-            referencedTableName: invoice_participant
-        - addForeignKeyConstraint:
-            baseColumnNames: cedente_prestatore_code,cedente_prestatore_country_code
-            baseTableName: invoice
-            constraintName: fk_invoice_invoice_cedente_prestatore
-            referencedColumnNames: code,country_code
-            referencedTableName: invoice_cedente_prestatore
-        - addForeignKeyConstraint:
-            baseColumnNames: cessionario_committente_code,cessionario_committente_country_code
-            baseTableName: invoice
-            constraintName: fk_invoice_invoice_cessionario_committente
-            referencedColumnNames: code,country_code
-            referencedTableName: invoice_participant
-        - addForeignKeyConstraint:
-            baseColumnNames: invoice_id
-            baseTableName: purchase_line
-            constraintName: fk_purchase_line_invoice
-            referencedColumnNames: number
-            referencedTableName: invoice
         - addForeignKeyConstraint:
             baseColumnNames: purchase_line_invoice_id,purchase_line_number
             baseTableName: purchase_order
             constraintName: fk_purchase_order_purchase_line
             referencedColumnNames: invoice_id,id
             referencedTableName: purchase_line
+        - addForeignKeyConstraint:
+            baseColumnNames: cedente_prestatore_ssn
+            baseTableName: invoice
+            constraintName: fk_invoice_invoice_cedente_prestatore
+            referencedColumnNames: social_security_number
+            referencedTableName: invoice_cedente_prestatore
+        - addForeignKeyConstraint:
+            baseColumnNames: cessionario_committente_ssn
+            baseTableName: invoice
+            constraintName: fk_invoice_invoice_participant_cessionario_committente
+            referencedColumnNames: social_security_number
+            referencedTableName: invoice_participant

@@ -12,9 +12,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import it.gov.aifa.invoice_processor.entity.invoice.CountryAndCodePrimaryKey;
-import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoicePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.IdAndInvoiceIdPrimaryKey;
+import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoicePrimaryKey;
 
 public final class TestConstant {
 	private static final Logger log = LoggerFactory.getLogger(TestConstant.class);
@@ -24,7 +23,7 @@ public final class TestConstant {
 	public static final Long BOOTSTRAP_INVOICE_ITEM_ID = 456L;
 	public static final String BOOTSTRAP_INVOICE_VERSION = "0.1";
 	public static final String BOOTSTRAP_INVOICE_ID = "1234567890";
-	public static final CountryAndCodePrimaryKey BOOTSTRAP_INVOICE_PARTICIPANT_ID = new CountryAndCodePrimaryKey("123456789", "IT");
+	public static final String BOOTSTRAP_INVOICE_PARTICIPANT_ID = "invoiceParticipantId";
 	public static final Long BOOTSTRAP_INVOICE_TAX_ID = 321L;
 	public static final LinkedInvoicePrimaryKey BOOTSTRAP_LINKED_INVOICE_ID = new LinkedInvoicePrimaryKey(LocalDate.of(2017, 5, 5),"321654", BOOTSTRAP_INVOICE_ID);
 	public static final IdAndInvoiceIdPrimaryKey BOOTSTRAP_PURCHASE_LINE_ID = new IdAndInvoiceIdPrimaryKey(BOOTSTRAP_INVOICE_ID, "1");

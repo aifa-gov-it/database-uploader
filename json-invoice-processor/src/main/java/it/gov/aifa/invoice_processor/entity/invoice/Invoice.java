@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -22,20 +21,14 @@ import org.springframework.validation.annotation.Validated;
 @Entity
 @Validated
 public class Invoice {
-
+	
+	@JoinColumn(name = "cedentePrestatoreSsn", referencedColumnName = "social_security_number")
 	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumns({
-		@JoinColumn(name = "cedentePrestatoreCode", referencedColumnName = "code")
-		, @JoinColumn(name = "cedentePrestatoreCountryCode", referencedColumnName = "country_code")
-	})
 	@NotNull
 	private InvoiceCedentePrestatore cedentePrestatore;
 
+	@JoinColumn(name = "cessionarioCommittenteSsn", referencedColumnName = "socialSecurityNumber")
 	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumns({
-		@JoinColumn(name = "cessionarioCommittenteCode", referencedColumnName = "code")
-		, @JoinColumn(name = "cessionarioCommittenteCountryCode", referencedColumnName = "countryCode")
-	})
 	@NotNull
 	private InvoiceParticipant cessionarioCommittente;
 

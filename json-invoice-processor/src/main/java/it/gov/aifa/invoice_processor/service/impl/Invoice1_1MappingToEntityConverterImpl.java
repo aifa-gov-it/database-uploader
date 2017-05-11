@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import it.gov.aifa.invoice_processor.entity.invoice.CountryAndCodePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
@@ -24,8 +24,11 @@ import it.gov.aifa.invoice_processor.entity.invoice.LinkedInvoicePrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
 import it.gov.aifa.invoice_processor.entity.invoice.IdAndInvoiceIdPrimaryKey;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseOrder;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.Anagrafica;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CedentePrestatore;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.CessionarioCommittente;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.Contatti;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiAnagrafici;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBeniServizi;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiBollo;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.DatiDDT;
@@ -41,8 +44,11 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_1.DettaglioPagamento;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaBody;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.FatturaElettronicaHeader;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.IdFiscaleIVA;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.Invoice1_1;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.IscrizioneREA;
 import it.gov.aifa.invoice_processor.mapping.invoice1_1.ScontoMaggiorazione;
+import it.gov.aifa.invoice_processor.mapping.invoice1_1.Sede;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
 @Service
@@ -187,44 +193,90 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		return purchaseLines;
 	}
 
+	// This method has something in common with buildCessionarioCommittente.
+	// It's necessary because the automatically generated CedentePrestatore 
+	// and CessionarioCommittente classes don't have any relation.
+	// If there was a common superclass it would be trivially easy to avoid
+	// repetitions. Also I prefer not to edit the automatically generated classes
+	// too much.
 	private InvoiceCedentePrestatore buildCedentePrestatore(@NotNull CedentePrestatore cedentePrestatore) {
 		InvoiceCedentePrestatore invoiceCedentePrestatore = new InvoiceCedentePrestatore();
-		invoiceCedentePrestatore.setCity(cedentePrestatore.getSede().getComune());
-		invoiceCedentePrestatore.setClearanceState(cedentePrestatore.getIscrizioneREA().getStatoLiquidazione());
-		invoiceCedentePrestatore.setCountry(cedentePrestatore.getSede().getNazione());
-		invoiceCedentePrestatore.setDistrict(cedentePrestatore.getSede().getProvincia());
+		
+		Sede office = cedentePrestatore.getSede();
+		if(office != null) {
+			invoiceCedentePrestatore.setCity(office.getComune());
+			invoiceCedentePrestatore.setCountry(office.getNazione());
+			invoiceCedentePrestatore.setDistrict(office.getProvincia());
+			invoiceCedentePrestatore.setStreetAddress(office.getIndirizzo());
+			invoiceCedentePrestatore.setZipCode(office.getCap());
+		}
+		
+		IscrizioneREA reaRegistration = cedentePrestatore.getIscrizioneREA();
+		if(reaRegistration != null) {
+			invoiceCedentePrestatore.setClearanceState(reaRegistration.getStatoLiquidazione());
+			invoiceCedentePrestatore.setReaNumber(reaRegistration.getNumeroREA());
+			invoiceCedentePrestatore.setReaOffice(reaRegistration.getUfficio());
+			invoiceCedentePrestatore.setShareCapital(reaRegistration.getCapitaleSociale());
+			invoiceCedentePrestatore.setSoleStakeholder(reaRegistration.getSocioUnico());
+		}
+		
+		DatiAnagrafici biographicalData = cedentePrestatore.getDatiAnagrafici();
+		if(biographicalData != null) {
+			String ssn = biographicalData.getCodiceFiscale();
+			if(StringUtils.isBlank(ssn))
+				throw new RuntimeException("Error while converting CedentePrestatore instance to InvoiceCedentePrestatore: ID (ssn) is null");
+			invoiceCedentePrestatore.setSocialSecurityNumber(biographicalData.getCodiceFiscale());
+			Anagrafica biographicalDataDetails = biographicalData.getAnagrafica();
+			if(biographicalDataDetails != null)
+				invoiceCedentePrestatore.setName(biographicalDataDetails.getDenominazione());
+			IdFiscaleIVA taxId = biographicalData.getIdFiscaleIVA();
+			if(taxId != null) {
+				invoiceCedentePrestatore.setTaxCode(taxId.getIdCodice());
+				invoiceCedentePrestatore.setTaxCountryCode(taxId.getIdPaese());
+			}
+			invoiceCedentePrestatore.setTaxSystem(biographicalData.getRegimeFiscale());
+		}
+		
 		invoiceCedentePrestatore.setEmailAddress(null);
-		invoiceCedentePrestatore.setId(new CountryAndCodePrimaryKey(
-				cedentePrestatore.getDatiAnagrafici().getIdFiscaleIVA().getIdCodice()
-				, cedentePrestatore.getDatiAnagrafici().getIdFiscaleIVA().getIdPaese()));
-		invoiceCedentePrestatore.setName(cedentePrestatore.getDatiAnagrafici().getAnagrafica().getDenominazione());
-		invoiceCedentePrestatore.setPhoneNumber(cedentePrestatore.getContatti().getTelefono());
-		invoiceCedentePrestatore.setReaNumber(cedentePrestatore.getIscrizioneREA().getNumeroREA());
-		invoiceCedentePrestatore.setReaOffice(cedentePrestatore.getIscrizioneREA().getUfficio());
-		invoiceCedentePrestatore.setShareCapital(cedentePrestatore.getIscrizioneREA().getCapitaleSociale());
-		invoiceCedentePrestatore.setSocialSecurityNumber(cedentePrestatore.getDatiAnagrafici().getCodiceFiscale());
-		invoiceCedentePrestatore.setSoleStakeholder(cedentePrestatore.getIscrizioneREA().getSocioUnico());
-		invoiceCedentePrestatore.setStreetAddress(cedentePrestatore.getSede().getIndirizzo());
-		invoiceCedentePrestatore.setTaxSystem(cedentePrestatore.getDatiAnagrafici().getRegimeFiscale());
-		invoiceCedentePrestatore.setZipCode(cedentePrestatore.getSede().getCap());
+		
+		Contatti contacts = cedentePrestatore.getContatti();
+		if(contacts != null)
+			invoiceCedentePrestatore.setPhoneNumber(contacts.getTelefono());
+		
 		return invoiceCedentePrestatore;
 	}
-
+	
 	private InvoiceParticipant buildCessionarioCommittente(@NotNull CessionarioCommittente cessionarioCommittente) {
 		InvoiceParticipant invoiceParticipant = new InvoiceParticipant();
-		invoiceParticipant.setCity(cessionarioCommittente.getSede().getComune());
-		invoiceParticipant.setCountry(cessionarioCommittente.getSede().getNazione());
-		invoiceParticipant.setDistrict(cessionarioCommittente.getSede().getProvincia());
-		invoiceParticipant.setId(new CountryAndCodePrimaryKey(
-				cessionarioCommittente.getDatiAnagrafici().getIdFiscaleIVA().getIdCodice()
-				, cessionarioCommittente.getDatiAnagrafici().getIdFiscaleIVA().getIdPaese()));
-		invoiceParticipant.setName(cessionarioCommittente.getDatiAnagrafici().getAnagrafica().getDenominazione());
-		invoiceParticipant.setSocialSecurityNumber(cessionarioCommittente.getDatiAnagrafici().getCodiceFiscale());
-		invoiceParticipant.setStreetAddress(cessionarioCommittente.getSede().getIndirizzo());
-		invoiceParticipant.setZipCode(cessionarioCommittente.getSede().getCap());
+		
+		Sede office = cessionarioCommittente.getSede();
+		if(office != null) {
+			invoiceParticipant.setCity(office.getComune());
+			invoiceParticipant.setCountry(office.getNazione());
+			invoiceParticipant.setDistrict(office.getProvincia());
+			invoiceParticipant.setStreetAddress(office.getIndirizzo());
+			invoiceParticipant.setZipCode(office.getCap());
+		}
+		
+		DatiAnagrafici biographicalData = cessionarioCommittente.getDatiAnagrafici();
+		if(biographicalData != null) {
+			String ssn = biographicalData.getCodiceFiscale();
+			if(StringUtils.isBlank(ssn))
+				throw new RuntimeException("Error while converting CedentePrestatore instance to InvoiceCedentePrestatore: ID (ssn) is null");
+			invoiceParticipant.setSocialSecurityNumber(biographicalData.getCodiceFiscale());
+			Anagrafica biographicalDataDetails = biographicalData.getAnagrafica();
+			if(biographicalDataDetails != null)
+				invoiceParticipant.setName(biographicalDataDetails.getDenominazione());
+			IdFiscaleIVA taxId = biographicalData.getIdFiscaleIVA();
+			if(taxId != null) {
+				invoiceParticipant.setTaxCode(taxId.getIdCodice());
+				invoiceParticipant.setTaxCountryCode(taxId.getIdPaese());
+			}
+		}
+		
 		return invoiceParticipant;
 	}
-
+	
 	private FinancialInstitution buildFinancialInstitution(DettaglioPagamento dettaglioPagamento) {
 		FinancialInstitution financialInstitution = new FinancialInstitution();
 		financialInstitution.setAbi(dettaglioPagamento.getABI());
