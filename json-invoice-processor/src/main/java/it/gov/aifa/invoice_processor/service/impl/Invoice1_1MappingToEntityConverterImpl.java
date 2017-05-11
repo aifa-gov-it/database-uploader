@@ -120,17 +120,20 @@ public class Invoice1_1MappingToEntityConverterImpl implements InvoiceMappingToE
 		invoice.setNumber(datiGeneraliDocumento.getNumero());
 
 		List<DatiFattureCollegate> datiFattureCollegate = datiGenerali.getDatiFattureCollegate();
-		invoice.setLinkedInvoices(buildLinkedInvoices(datiFattureCollegate, invoice));
+		if(datiFattureCollegate != null)
+			invoice.setLinkedInvoices(buildLinkedInvoices(datiFattureCollegate, invoice));
 
 		invoice.setPaymentAmount(Double.parseDouble(dettaglioPagamento.getImportoPagamento()));
 		invoice.setPaymentConditions(datiPagamento.getCondizioniPagamento());
 		invoice.setPaymentExpirationDate(LocalDate.parse(dettaglioPagamento.getDataScadenzaPagamento(), dateTimeFormatter));
 		invoice.setPaymentMode(dettaglioPagamento.getModalitaPagamento());
 		invoice.setPaymentTermDays(Integer.parseInt(dettaglioPagamento.getGiorniTerminiPagamento()));
-
-		invoice.setPurchaseLines(buildPurchaseLines(datiBeniServizi.getDettaglioLinee(), invoice));
-
-		invoice.setPurchaseOrders(buildPurchaseOrders(datiGenerali.getDatiOrdineAcquisto(), invoice));
+		
+		if(datiBeniServizi.getDettaglioLinee() != null)
+			invoice.setPurchaseLines(buildPurchaseLines(datiBeniServizi.getDettaglioLinee(), invoice));
+		
+		if(datiGenerali.getDatiOrdineAcquisto() != null)
+			invoice.setPurchaseOrders(buildPurchaseOrders(datiGenerali.getDatiOrdineAcquisto(), invoice));
 		
 		invoice.setSoggettoEmittente(header.getSoggettoEmittente());
 		invoice.setSoggettoEmittenteName(header.getTerzoIntermediarioOSoggettoEmittente().getDatiAnagrafici().getAnagrafica().getDenominazione());
