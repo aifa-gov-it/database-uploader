@@ -83,8 +83,7 @@ public class Movement {
 	@Transient
 	private String transmissionTime;
 	
-	@DecimalMin(inclusive = false, value = "0")
-	private double value;
+	private Double value;
 	
 	@Override
 	public boolean equals(Object other) {
@@ -224,7 +223,7 @@ public class Movement {
 		return transmissionTime;
 	}
 
-	public double getValue() {
+	public Double getValue() {
 		return value;
 	}
 
@@ -337,7 +336,7 @@ public class Movement {
 		this.transmissionTime = transmissionTime;
 	}
 
-	public void setValue(double value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 

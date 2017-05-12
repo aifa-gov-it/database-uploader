@@ -562,5 +562,3 @@ databaseChangeLog:
               - column:
                   name: value
                   type: decimal
-                  constraints:
-                    nullable: false
