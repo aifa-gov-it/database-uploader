@@ -3,6 +3,7 @@ package it.gov.aifa.invoice_processor.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,13 @@ public class MovementProcessorImpl implements MovementProcessor {
 	@Override
 	public Movement process(final Movement movement) throws Exception {
 		log.info("Processing movement: {}", movement);
-		StringBuilder expirationDate = new StringBuilder(movement.getTransmissionDate().length() + movement.getTransmissionTime().length() + 1);
-		expirationDate.append(movement.getTransmissionDate());
-		expirationDate.append("T");
-		expirationDate.append(movement.getTransmissionTime());
-		movement.setTransmissionDateTime(LocalDateTime.parse(expirationDate));
-		movement.setExpirationDate(LocalDate.parse(movement.getRawExpirationDate()));
+		StringBuilder transmissionDate = new StringBuilder(movement.getTransmissionDate().length() + movement.getTransmissionTime().length() + 1);
+		transmissionDate.append(movement.getTransmissionDate());
+		transmissionDate.append("T");
+		transmissionDate.append(movement.getTransmissionTime());
+		movement.setTransmissionDateTime(LocalDateTime.parse(transmissionDate));
+		if(!StringUtils.isBlank(movement.getRawExpirationDate()))
+			movement.setExpirationDate(LocalDate.parse(movement.getRawExpirationDate()));
 		return movement;
 	}
-
 }

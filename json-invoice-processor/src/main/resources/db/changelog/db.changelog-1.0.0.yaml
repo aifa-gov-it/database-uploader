@@ -511,8 +511,6 @@ databaseChangeLog:
               - column:
                   name: expiration_date
                   type: dateTime
-                  constraints:
-                    nullable: false
               - column:
                   name: id
                   type: varchar(255)
@@ -526,8 +524,6 @@ databaseChangeLog:
               - column:
                   name: lot
                   type: varchar(32)
-                  constraints:
-                    nullable: false
               - column:
                   name: movement_code
                   type: varchar(20)

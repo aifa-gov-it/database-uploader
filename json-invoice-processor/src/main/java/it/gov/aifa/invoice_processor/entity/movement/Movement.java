@@ -44,7 +44,6 @@ public class Movement {
 	@NotBlank
 	private String documentTypeCode;
 	
-	@NotNull
 	private LocalDate expirationDate;
 	
 	// This field is mapped via it's property
@@ -52,7 +51,6 @@ public class Movement {
 	
 	private LocalDateTime importDate = LocalDateTime.now();
 	
-	@NotBlank
 	private String lot;
 
 	@NotBlank
