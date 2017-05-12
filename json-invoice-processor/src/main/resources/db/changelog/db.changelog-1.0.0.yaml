@@ -476,13 +476,9 @@ databaseChangeLog:
               - column:
                   name: account_holder_code
                   type: varchar(20)
-                  constraints:
-                    nullable: false
               - column:
                   name: account_holder_type_code
-                  type: varchar(1)
-                  constraints:
-                    nullable: false
+                  type: varchar(3)
               - column:
                   name: aic
                   type: varchar(9)
@@ -495,7 +491,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: customer_type_code
-                  type: varchar(1)
+                  type: varchar(3)
                   constraints:
                     nullable: false
               - column:
@@ -505,7 +501,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: document_type_code
-                  type: varchar(1)
+                  type: varchar(3)
                   constraints:
                     nullable: false
               - column:
@@ -541,7 +537,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: recipient_type_code
-                  type: varchar(1)
+                  type: varchar(3)
                   constraints:
                     nullable: false
               - column:
@@ -551,7 +547,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: sender_type_code
-                  type: varchar(1)
+                  type: varchar(3)
                   constraints:
                     nullable: false
               - column:

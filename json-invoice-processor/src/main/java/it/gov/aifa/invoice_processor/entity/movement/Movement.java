@@ -23,10 +23,8 @@ import org.springframework.validation.annotation.Validated;
 @Entity
 @Validated
 public class Movement {
-	@NotBlank
 	private String accountHolderCode;
-	
-	@NotBlank
+
 	private String accountHolderTypeCode;
 	
 	@NotBlank
