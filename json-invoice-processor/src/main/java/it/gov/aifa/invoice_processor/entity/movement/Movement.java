@@ -79,7 +79,7 @@ public class Movement {
 	@Transient
 	private String transmissionTime;
 	
-	private double value;
+	private Double value;
 	
 	@Override
 	public boolean equals(Object other) {
