@@ -54,8 +54,7 @@ public class Movement {
 	@NotBlank
 	private String movementCode;
 
-	@DecimalMin(inclusive = false, value = "0")
-	private double quantity;
+	private Double quantity;
 	
 	@Transient
 	private String rawExpirationDate;
