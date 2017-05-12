@@ -132,6 +132,9 @@ databaseChangeLog:
                     name: financial_institution_id
                     value: "IT123"
               - column:
+                    name: import_date
+                    value: "2017-05-02T09:30:00"
+              - column:
                     name: invoice_recipient_code
                     value: "QWERTY1"
               - column:
@@ -326,6 +329,9 @@ databaseChangeLog:
               - column:
                   name: id
                   value: "1"
+              - column:
+                    name: import_date
+                    value: "2017-05-02T10:30:00"
               - column:
                   name: lot
                   value: "lot"

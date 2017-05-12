@@ -26,7 +26,7 @@ public final class TestConstant {
 	public static final String BOOTSTRAP_INVOICE_PARTICIPANT_ID = "invoiceParticipantId";
 	public static final Long BOOTSTRAP_INVOICE_TAX_ID = 321L;
 	public static final LinkedInvoicePrimaryKey BOOTSTRAP_LINKED_INVOICE_ID = new LinkedInvoicePrimaryKey(LocalDate.of(2017, 5, 5),"321654", BOOTSTRAP_INVOICE_ID);
-	public static final Long BOOTSTRAP_MOVEMENT_ID = 1L;
+	public static final String BOOTSTRAP_MOVEMENT_ID = "1";
 	public static final IdAndInvoiceIdPrimaryKey BOOTSTRAP_PURCHASE_LINE_ID = new IdAndInvoiceIdPrimaryKey(BOOTSTRAP_INVOICE_ID, "1");
 	public static final String BOOTSTRAP_PURCHASE_ORDER_ID = "cigCode_2017-05-06_purchaseOrderId_1234567890_1";
 	

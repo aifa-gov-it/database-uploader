@@ -3,24 +3,26 @@ package it.gov.aifa.invoice_processor.entity.movement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.GenericGenerator;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
+@Access(AccessType.FIELD)
 @Entity
 @Validated
 public class Movement {
-	
 	@NotBlank
 	private String accountHolderCode;
 	
@@ -45,36 +47,35 @@ public class Movement {
 	@NotNull
 	private LocalDate expirationDate;
 	
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-	@GeneratedValue(generator="system-uuid")
-	@Id
+	// This field is mapped via it's property
 	private String id;
+	
+	private LocalDateTime importDate = LocalDateTime.now();
 	
 	@NotBlank
 	private String lot;
-	
+
 	@NotBlank
 	private String movementCode;
-	
+
 	@DecimalMin(inclusive = false, value = "0")
 	private double quantity;
 	
-	@NotBlank
 	@Transient
 	private String rawExpirationDate;
 	
 	@NotBlank
 	private String recipientCode;
-
+	
 	@NotBlank
 	private String recipientTypeCode;
-
+	
 	@NotBlank
 	private String senderCode;
-	
+
 	@NotBlank
 	private String senderTypeCode;
-	
+
 	@Transient
 	private String transmissionDate;
 	
@@ -106,6 +107,7 @@ public class Movement {
 				.append(documentTypeCode, rhs.documentTypeCode)
 				.append(expirationDate, rhs.expirationDate)
 				.append(id, rhs.id)
+				.append(importDate, rhs.importDate)
 				.append(lot, rhs.lot)
 				.append(movementCode, rhs.movementCode)
 				.append(quantity, rhs.quantity)
@@ -122,11 +124,11 @@ public class Movement {
 	public String getAccountHolderCode() {
 		return accountHolderCode;
 	}
-
+	
 	public String getAccountHolderTypeCode() {
 		return accountHolderTypeCode;
 	}
-
+	
 	public String getAic() {
 		return aic;
 	}
@@ -138,11 +140,11 @@ public class Movement {
 	public String getCustomerTypeCode() {
 		return customerTypeCode;
 	}
-	
+
 	public String getDocumentNumber() {
 		return documentNumber;
 	}
-	
+
 	public String getDocumentTypeCode() {
 		return documentTypeCode;
 	}
@@ -150,11 +152,36 @@ public class Movement {
 	public LocalDate getExpirationDate() {
 		return expirationDate;
 	}
-
+	
+	@Access(AccessType.PROPERTY)
+	@Id
+	@NotBlank
 	public String getId() {
+		if(StringUtils.isBlank(id)) {
+			StringBuilder builder = new StringBuilder();
+			FieldUtils.getAllFieldsList(this.getClass()).stream()
+				.forEach(f -> {
+					try {
+						Object value = FieldUtils.readField(f, this, true);
+						if(value != null)
+							builder.append(value.toString());
+					} catch (IllegalAccessException e) {
+						// Let's reuse the StringBuilder
+						builder.setLength(0);
+						builder.append("Cannot build id for ");
+						builder.append(this.toString());
+						throw new RuntimeException(builder.toString(), e);
+					}
+				});
+			id = builder.toString();
+		}
 		return id;
 	}
-
+	
+	public LocalDateTime getImportDate() {
+		return importDate;
+	}
+	
 	public String getLot() {
 		return lot;
 	}
@@ -215,6 +242,7 @@ public class Movement {
 				.append(documentTypeCode)
 				.append(expirationDate)
 				.append(id)
+				.append(importDate)
 				.append(lot)
 				.append(movementCode)
 				.append(quantity)
@@ -261,6 +289,10 @@ public class Movement {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public void setImportDate(LocalDateTime importDate) {
+		this.importDate = importDate;
 	}
 
 	public void setLot(String lot) {

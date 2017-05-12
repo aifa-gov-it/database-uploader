@@ -1,6 +1,7 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -52,9 +53,11 @@ public class Invoice {
 	@NotNull
 	private FinancialInstitution financialInstitution;
 	
+	private LocalDateTime importDate = LocalDateTime.now();
+	
 	@NotBlank
 	private String invoiceRecipientCode;
-	
+
 	@NotBlank
 	private String invoiceSenderCode;
 
@@ -63,7 +66,7 @@ public class Invoice {
 	
 	@NotBlank
 	private String invoiceSenderEmailAddress;
-	
+
 	@NotBlank
 	private String invoiceSendingFormat;
 	
@@ -82,15 +85,15 @@ public class Invoice {
 	@Id
 	@NotBlank
 	private String number;
-
+	
 	private double paymentAmount;
-
+	
 	@NotBlank
 	private String paymentConditions;
-	
+
 	@NotNull
 	private LocalDate paymentExpirationDate;
-	
+
 	@NotBlank
 	private String paymentMode;
 	
@@ -106,21 +109,21 @@ public class Invoice {
 	
 	@NotBlank
 	private String soggettoEmittente;
-
+	
 	@NotBlank
 	private String soggettoEmittenteName;
-
+	
 	private double stampAmount;
-	
+
 	private double taxableAmount;
-	
+
 	@NotBlank
 	private String taxDue;
 	
 	private String taxLawReference;
-
+	
 	private double taxRate;
-
+	
 	private double totalAmount;
 
 	private LocalDate transportDocumentDate;
@@ -136,7 +139,7 @@ public class Invoice {
 		this();
 		this.number = number;
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
 		if (other == this) {
@@ -155,6 +158,7 @@ public class Invoice {
 				.append(discountAmount, rhs.discountAmount)
 				.append(documentTypeCode, rhs.documentTypeCode)
 				.append(financialInstitution, rhs.financialInstitution)
+				.append(importDate, rhs.importDate)
 				.append(invoiceSenderCode, rhs.invoiceSenderCode)
 				.append(invoiceSenderCountryCode, rhs.invoiceSenderCountryCode)
 				.append(invoiceSenderEmailAddress, rhs.invoiceSenderEmailAddress)
@@ -181,10 +185,11 @@ public class Invoice {
 				.append(virtualStamp, rhs.virtualStamp)
 				.isEquals();
 	}
-	
+
 	public InvoiceCedentePrestatore getCedentePrestatore() {
 		return cedentePrestatore;
 	}
+	
 	public InvoiceParticipant getCessionarioCommittente() {
 		return cessionarioCommittente;
 	}
@@ -192,7 +197,6 @@ public class Invoice {
 	public String getCurrency() {
 		return currency;
 	}
-	
 	public LocalDate getDate() {
 		return date;
 	}
@@ -217,6 +221,10 @@ public class Invoice {
 		return financialInstitution;
 	}
 	
+	public LocalDateTime getImportDate() {
+		return importDate;
+	}
+	
 	public String getInvoiceRecipientCode() {
 		return invoiceRecipientCode;
 	}
@@ -224,7 +232,7 @@ public class Invoice {
 	public String getInvoiceSenderCode() {
 		return invoiceSenderCode;
 	}
-
+	
 	public String getInvoiceSenderCountryCode() {
 		return invoiceSenderCountryCode;
 	}
@@ -336,6 +344,7 @@ public class Invoice {
 				.append(discountAmount)
 				.append(documentTypeCode)
 				.append(financialInstitution)
+				.append(importDate)
 				.append(invoiceSenderCode)
 				.append(invoiceSenderCountryCode)
 				.append(invoiceSenderEmailAddress)
@@ -399,6 +408,10 @@ public class Invoice {
 
 	public void setFinancialInstitution(FinancialInstitution financialInstitution) {
 		this.financialInstitution = financialInstitution;
+	}
+
+	public void setImportDate(LocalDateTime importDate) {
+		this.importDate = importDate;
 	}
 
 	public void setInvoiceRecipientCode(String invoiceRecipientCode) {

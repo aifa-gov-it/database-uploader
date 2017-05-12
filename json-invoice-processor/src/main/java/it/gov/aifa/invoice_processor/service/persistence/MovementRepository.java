@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import it.gov.aifa.invoice_processor.entity.movement.Movement;
 
-public interface MovementRepository extends CrudRepository<Movement, Long> {
+public interface MovementRepository extends CrudRepository<Movement, String> {
 
 }
