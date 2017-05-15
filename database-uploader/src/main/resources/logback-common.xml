@@ -33,13 +33,17 @@
 
 	<!-- Commonly used loggers -->
 	<logger name="org.springframework" level="WARN"/>
+	<logger name="org.springframework.boot.autoconfigure.batch" level="ERROR"/>
+	<logger name="org.springframework.context.annotation.ConfigurationClassEnhancer" level="ERROR"/>
 	<logger name="org.hibernate" level="WARN"/>
+	<logger name="org.hibernate.ejb.internal" level="ERROR"/>
 	<logger name="org.hibernate.type" level="WARN"/>
 	<logger name="org.hibernate.SQL" level="WARN"/>
 	<logger name="net.sf.ehcache" level="WARN"/>
 
 	<!-- Application loggers -->
 	<logger name="it.gov.aifa" level="INFO"/>
+	<logger name="it.gov.aifa.invoice_processor.ContextConfig" level="ERROR"/>
 
 	<!-- Trace method calls -->
 	<logger name="org.springframework.aop.interceptor.CustomizableTraceInterceptor" level="NONE"/>
