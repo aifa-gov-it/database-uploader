@@ -26,8 +26,8 @@ public class CommandLineRunnerImpl implements CommandLineRunner{
 
 	public boolean checkIfShouldRun(String[] args, CommandLineTask task) throws Exception {
 		String argumentKey = task.getArgumentKey();
-		log.info("Checking if {} runner should run.", argumentKey);
-		return args != null 
+		log.debug("Checking if {} runner should run.", argumentKey);
+		return args != null
 				&& (ArrayUtils.contains(args, argumentKey)
 						|| (arguments != null && arguments.containsKey(argumentKey)));
 	}
@@ -42,7 +42,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner{
 
 		for(CommandLineTask task : CommandLineTask.values()){
 			if(checkIfShouldRun(args, task)){
-				log.info("Running {} runner with args: {}", task.getArgumentKey(), args);
+				log.debug("Running {} runner with args: {}", task.getArgumentKey(), args);
 				if(task.getCliRunnerClass() != null) {
 					CliRunner cliRunner = applicationContext.getBean(task.getCliRunnerClass());
 					cliRunner.setArguments(arguments);
@@ -50,7 +50,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner{
 				}else
 					log.debug("{} runner does not have a custom implementation so there is no need to instantiate it manually", task.getArgumentKey());
 			}else{
-				log.info("Skipped {} runner.", task.getArgumentKey());
+				log.debug("Skipped {} runner.", task.getArgumentKey());
 			}
 		}
 	}
