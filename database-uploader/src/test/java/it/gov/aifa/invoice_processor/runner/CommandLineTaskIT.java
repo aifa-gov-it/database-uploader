@@ -11,7 +11,8 @@ public class CommandLineTaskIT extends AbstractIT{
 	@Test
 	public void checkTaskImplementationTest() throws Exception{
 		for(CommandLineTask task : CommandLineTask.values()){
-			assertThat(applicationContext.getBean(task.getCliRunnerClass())).isNotNull();
+			if(task.getCliRunnerClass() != null)
+				assertThat(applicationContext.getBean(task.getCliRunnerClass())).isNotNull();
 		}
 	}
 }

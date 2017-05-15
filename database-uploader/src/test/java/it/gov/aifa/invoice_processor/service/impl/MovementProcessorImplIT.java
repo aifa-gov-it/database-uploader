@@ -15,7 +15,7 @@ import it.gov.aifa.invoice_processor.constant.TestConstant;
 import it.gov.aifa.invoice_processor.entity.movement.Movement;
 import it.gov.aifa.invoice_processor.service.persistence.MovementRepository;
 
-@TestPropertySource(properties = { CommandLineArgumentKey.IMPORT_MOV_CSV + "=", CommandLineArgumentKey.PATH + "=" + TestConstant.TEST_FILE_PATH_MOVEMENT_DSV })
+@TestPropertySource(properties = { CommandLineArgumentKey.IMPORT_MOV_DSV + "=", CommandLineArgumentKey.PATH + "=" + TestConstant.TEST_FILE_PATH_MOVEMENT_DSV })
 public class MovementProcessorImplIT extends AbstractIT{
 	
 	@Autowired

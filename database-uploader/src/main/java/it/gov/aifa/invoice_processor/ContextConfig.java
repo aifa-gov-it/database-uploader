@@ -55,7 +55,7 @@ public class ContextConfig{
 	private ApplicationContext applicationContext;
 	
     @Bean
-    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_CSV)
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public FlatFileItemReader<Movement> movementReader(@Value("${" + CommandLineArgumentKey.PATH + "}") String filePath) {
         FlatFileItemReader<Movement> reader = new FlatFileItemReader<Movement>();
         reader.setLinesToSkip(1);
@@ -91,7 +91,7 @@ public class ContextConfig{
     }
     
     @Bean
-    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_CSV)
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public RepositoryItemWriter<Movement> movementWriter(MovementRepository movementRepository) {
     	RepositoryItemWriter<Movement> writer = new RepositoryItemWriter<>();
     	writer.setRepository(movementRepository);
@@ -100,7 +100,7 @@ public class ContextConfig{
     }
 
     @Bean
-    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_CSV)
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public Job importMovementJob(JobBuilderFactory jobBuilderFactory, Step step1MovementProcessing) {
         return jobBuilderFactory.get("importUserJob")
                 .incrementer(new RunIdIncrementer())
@@ -110,7 +110,7 @@ public class ContextConfig{
     }
     
     @Bean
-    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_CSV)
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public Step step1MovementProcessing(MovementProcessor movementProcessor, FlatFileItemReader<Movement> movementReader, RepositoryItemWriter<Movement> movementWriter, StepBuilderFactory stepBuilderFactory) {
         return stepBuilderFactory.get("step1MovementProcessing")
                 .<Movement, Movement> chunk(10)
