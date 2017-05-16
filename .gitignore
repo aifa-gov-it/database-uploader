@@ -1,6 +1,4 @@
 **/json/*.json
-**/xml/*.xml
-*.xsd
 /.project
 
 # Ignore SVN leftovers
