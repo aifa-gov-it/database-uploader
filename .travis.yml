@@ -1,0 +1,6 @@
+---
+script:
+  - cd $TRAVIS_BUILD_DIR/invoices-xsd-generator && docker build --rm -t ferrarimarco/invoices-xsd-generator:latest .
+services:
+  - docker
+sudo: required
