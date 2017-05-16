@@ -7,7 +7,7 @@ RUN pip install https://github.com/hay/xml2json/zipball/master \
 ENV WORKING_DIRECTORY /usr/invoices-converter
 RUN mkdir -p $WORKING_DIRECTORY/json \
   && mkdir -p $WORKING_DIRECTORY/xml
-ADD usr/invoices-converter/ $WORKING_DIRECTORY
+COPY usr/invoices-converter/ $WORKING_DIRECTORY
 WORKDIR $WORKING_DIRECTORY
 
 RUN chmod a+x $WORKING_DIRECTORY/script/convert-all-xml.sh
