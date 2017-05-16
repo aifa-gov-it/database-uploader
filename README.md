@@ -9,15 +9,6 @@
 
 ## How to run
 
-1. Generate a XSD from the XML files: when running the container, mount the directories where you want to store the XSD output and containing the XML input:
-
-    ```
-    docker run --rm -it \
-      -v /path/to/xml/files/directory/:/usr/invoices-xsd-generator/xml \
-      -v /path/to/xsd/output/directory/:/usr/invoices-xsd-generator/xsd \
-      aifa-gov-it/invoices-xsd-generator:latest
-    ```
-
 1. Validate XML files using the generated XSD: when running the container, mount the directories containing the XML and XSD input:
 
     ```
