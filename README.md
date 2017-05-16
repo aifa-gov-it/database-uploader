@@ -32,7 +32,7 @@
     ```
     docker run --rm -it \
       -v /path/to/json/output/directory:/usr/invoices-converter/json \
-      -v /path/to/xml/files/directory/:/usr/invoices-converter/xml
+      -v /path/to/xml/files/directory/:/usr/invoices-converter/xml \
       aifa-gov-it/invoices-xml-json:latest
     ```
 
