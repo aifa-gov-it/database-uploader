@@ -47,12 +47,12 @@
           mvn clean install -s settings.xml
         ```
 
-        1. Run the application with no arguments to show the help text (note that when running the container you may want to mount additional volumes according to the options you specify):
+    1. Run the application with no arguments to show the help text (note that when running the container you may want to mount additional volumes according to the options you specify):
 
-      ```
-      docker run --rm -it \
-        -v /path/to/database-uploader-exec.jar:/usr/app/database-uploader-exec.jar \
-        -w /usr/app \
-        -t openjdk:8u121-jdk-alpine \
-        java -jar database-uploader-exec.jar
-      ```
+        ```
+        docker run --rm -it \
+          -v /path/to/database-uploader-exec.jar:/usr/app/database-uploader-exec.jar \
+          -w /usr/app \
+          -t openjdk:8u121-jdk-alpine \
+          java -jar database-uploader-exec.jar
+        ```
