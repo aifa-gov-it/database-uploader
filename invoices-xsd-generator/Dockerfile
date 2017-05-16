@@ -16,6 +16,4 @@ RUN wget https://github.com/relaxng/jing-trang/archive/$TRANG_FILE_NAME \
 ENV TRANG_DIRECTORY jing-trang-20151127
 RUN chmod a+x ./$TRANG_DIRECTORY/ant && ./$TRANG_DIRECTORY/ant
 
-RUN mkdir -p $WORKING_DIRECTORY/xml/xsd
-
 CMD ["/bin/sh", "-c", "java -jar jing-trang-20151127/build/trang.jar -I xml -O xsd ./xml/*.xml ./xsd/schema.xsd"]
