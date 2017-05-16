@@ -36,7 +36,7 @@
     ```
 
 1. Upload data with dabase-uploader:
-  1. Build the application (you'll need a properly configured `/.m2/settings-security.xml` containing the master password to decrypt the ones in `settings.xml`):
+    1. Build the application (you'll need a properly configured `/.m2/settings-security.xml` containing the master password to decrypt the ones in `settings.xml`):
 
         ```
         docker run --rm -it \
@@ -47,7 +47,7 @@
           mvn clean install -s settings.xml
         ```
 
-  1. Run the application with no arguments to show the help text:
+        1. Run the application with no arguments to show the help text (note that when running the container you may want to mount additional volumes according to the options you specify):
 
       ```
       docker run --rm -it \
@@ -56,5 +56,3 @@
         -t openjdk:8u121-jdk-alpine \
         java -jar database-uploader-exec.jar
       ```
-
-    Note that when running the container you may want to mount additional volumes according to the options you specify.
