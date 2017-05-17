@@ -5,60 +5,27 @@
 // Generated on: 2017.05.16 at 02:40:54 PM UTC 
 //
 
-
 package it.gov.aifa.invoice_processor.mapping.invoice1_2;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for EsigibilitaIVAType.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
- * <pre>
- * &lt;simpleType name="EsigibilitaIVAType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;minLength value="1"/>
- *     &lt;maxLength value="1"/>
- *     &lt;enumeration value="D"/>
- *     &lt;enumeration value="I"/>
- *     &lt;enumeration value="S"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
- * </pre>
- * 
- */
 @XmlType(name = "EsigibilitaIVAType")
 @XmlEnum
 public enum EsigibilitaIVAType {
 
+	D,
 
-    /**
-     * esigibilità differita
-     * 
-     */
-    D,
+	I,
 
-    /**
-     * esigibilità immediata
-     * 
-     */
-    I,
+	S;
 
-    /**
-     * scissione dei pagamenti
-     * 
-     */
-    S;
+	public String value() {
+		return name();
+	}
 
-    public String value() {
-        return name();
-    }
-
-    public static EsigibilitaIVAType fromValue(String v) {
-        return valueOf(v);
-    }
+	public static EsigibilitaIVAType fromValue(String v) {
+		return valueOf(v);
+	}
 
 }

@@ -37,21 +37,9 @@ public class DatiTrasmissione implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -183221925744974485L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiTrasmissione() {
 	}
 
-	/**
-	 * 
-	 * @param progressivoInvio
-	 * @param codiceDestinatario
-	 * @param formatoTrasmissione
-	 * @param idTrasmittente
-	 * @param contattiTrasmittente
-	 */
 	public DatiTrasmissione(IdTrasmittente idTrasmittente, String progressivoInvio, String formatoTrasmissione,
 			String codiceDestinatario, ContattiTrasmittente contattiTrasmittente) {
 		super();

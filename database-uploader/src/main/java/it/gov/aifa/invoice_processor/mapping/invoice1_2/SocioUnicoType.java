@@ -5,51 +5,25 @@
 // Generated on: 2017.05.16 at 02:40:54 PM UTC 
 //
 
-
 package it.gov.aifa.invoice_processor.mapping.invoice1_2;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for SocioUnicoType.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
- * <pre>
- * &lt;simpleType name="SocioUnicoType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="SU"/>
- *     &lt;enumeration value="SM"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
- * </pre>
- * 
- */
 @XmlType(name = "SocioUnicoType")
 @XmlEnum
 public enum SocioUnicoType {
 
+	SU,
 
-    /**
-     * socio unico
-     * 
-     */
-    SU,
+	SM;
 
-    /**
-     * più soci
-     * 
-     */
-    SM;
+	public String value() {
+		return name();
+	}
 
-    public String value() {
-        return name();
-    }
-
-    public static SocioUnicoType fromValue(String v) {
-        return valueOf(v);
-    }
+	public static SocioUnicoType fromValue(String v) {
+		return valueOf(v);
+	}
 
 }

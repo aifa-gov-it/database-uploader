@@ -32,17 +32,9 @@ public class Invoice1_1 implements Invoice<String>, Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -2484260940952002057L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public Invoice1_1() {
 	}
 
-	/**
-	 * 
-	 * @param httpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica
-	 */
 	public Invoice1_1(
 			HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica httpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica) {
 		super();

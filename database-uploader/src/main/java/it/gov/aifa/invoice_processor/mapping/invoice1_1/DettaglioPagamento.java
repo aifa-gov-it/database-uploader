@@ -43,25 +43,9 @@ public class DettaglioPagamento implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 1217256037016190488L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DettaglioPagamento() {
 	}
 
-	/**
-	 * 
-	 * @param aBI
-	 * @param importoPagamento
-	 * @param iBAN
-	 * @param bIC
-	 * @param giorniTerminiPagamento
-	 * @param cAB
-	 * @param istitutoFinanziario
-	 * @param dataScadenzaPagamento
-	 * @param modalitaPagamento
-	 */
 	public DettaglioPagamento(String modalitaPagamento, String giorniTerminiPagamento, String dataScadenzaPagamento,
 			String importoPagamento, String istitutoFinanziario, String iBAN, String aBI, String cAB, String bIC) {
 		super();

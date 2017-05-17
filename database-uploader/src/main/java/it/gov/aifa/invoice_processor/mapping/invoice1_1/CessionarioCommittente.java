@@ -30,18 +30,9 @@ public class CessionarioCommittente implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -3321839713721628133L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public CessionarioCommittente() {
 	}
 
-	/**
-	 * 
-	 * @param datiAnagrafici
-	 * @param sede
-	 */
 	public CessionarioCommittente(DatiAnagrafici datiAnagrafici, Sede sede) {
 		super();
 		this.datiAnagrafici = datiAnagrafici;

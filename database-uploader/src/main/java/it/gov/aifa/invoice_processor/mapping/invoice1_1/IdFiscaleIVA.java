@@ -28,18 +28,9 @@ public class IdFiscaleIVA implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 3830463942248346268L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public IdFiscaleIVA() {
 	}
 
-	/**
-	 * 
-	 * @param idPaese
-	 * @param idCodice
-	 */
 	public IdFiscaleIVA(String idPaese, String idCodice) {
 		super();
 		this.idPaese = idPaese;

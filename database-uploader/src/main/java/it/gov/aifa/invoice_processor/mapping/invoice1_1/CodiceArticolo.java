@@ -28,18 +28,9 @@ public class CodiceArticolo implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 7159056622265352853L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public CodiceArticolo() {
 	}
 
-	/**
-	 * 
-	 * @param codiceTipo
-	 * @param codiceValore
-	 */
 	public CodiceArticolo(String codiceTipo, String codiceValore) {
 		super();
 		this.codiceTipo = codiceTipo;

@@ -29,18 +29,9 @@ public class DatiPagamento implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 4423954170645197421L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiPagamento() {
 	}
 
-	/**
-	 * 
-	 * @param dettaglioPagamento
-	 * @param condizioniPagamento
-	 */
 	public DatiPagamento(String condizioniPagamento, DettaglioPagamento dettaglioPagamento) {
 		super();
 		this.condizioniPagamento = condizioniPagamento;

@@ -28,18 +28,9 @@ public class IdTrasmittente implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -1635478040296071039L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public IdTrasmittente() {
 	}
 
-	/**
-	 * 
-	 * @param idPaese
-	 * @param idCodice
-	 */
 	public IdTrasmittente(String idPaese, String idCodice) {
 		super();
 		this.idPaese = idPaese;

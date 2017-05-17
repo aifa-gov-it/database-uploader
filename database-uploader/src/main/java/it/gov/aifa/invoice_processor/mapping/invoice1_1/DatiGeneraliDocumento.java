@@ -54,22 +54,9 @@ public class DatiGeneraliDocumento implements Serializable {
 	@JsonProperty("TipoDocumento")
 	private String tipoDocumento;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiGeneraliDocumento() {
 	}
 
-	/**
-	 * 
-	 * @param divisa
-	 * @param data
-	 * @param tipoDocumento
-	 * @param importoTotaleDocumento
-	 * @param causale
-	 * @param numero
-	 */
 	public DatiGeneraliDocumento(String tipoDocumento, String divisa, String data, String numero,
 			String importoTotaleDocumento, DatiBollo datiBollo, ScontoMaggiorazione scontoMaggiorazione, List<String> causale) {
 		super();

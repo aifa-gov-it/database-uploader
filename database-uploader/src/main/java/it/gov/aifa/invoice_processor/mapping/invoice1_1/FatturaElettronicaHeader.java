@@ -39,21 +39,9 @@ public class FatturaElettronicaHeader implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -8924986684026906725L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public FatturaElettronicaHeader() {
 	}
 
-	/**
-	 * 
-	 * @param terzoIntermediarioOSoggettoEmittente
-	 * @param cessionarioCommittente
-	 * @param soggettoEmittente
-	 * @param cedentePrestatore
-	 * @param datiTrasmissione
-	 */
 	public FatturaElettronicaHeader(DatiTrasmissione datiTrasmissione, CedentePrestatore cedentePrestatore,
 			CessionarioCommittente cessionarioCommittente,
 			TerzoIntermediarioOSoggettoEmittente terzoIntermediarioOSoggettoEmittente, String soggettoEmittente) {

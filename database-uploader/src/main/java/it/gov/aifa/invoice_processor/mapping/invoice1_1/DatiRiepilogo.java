@@ -34,21 +34,9 @@ public class DatiRiepilogo implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 2474686790228474053L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiRiepilogo() {
 	}
 
-	/**
-	 * 
-	 * @param riferimentoNormativo
-	 * @param imposta
-	 * @param imponibileImporto
-	 * @param aliquotaIVA
-	 * @param esigibilitaIVA
-	 */
 	public DatiRiepilogo(String aliquotaIVA, String imponibileImporto, String imposta, String esigibilitaIVA,
 			String riferimentoNormativo) {
 		super();

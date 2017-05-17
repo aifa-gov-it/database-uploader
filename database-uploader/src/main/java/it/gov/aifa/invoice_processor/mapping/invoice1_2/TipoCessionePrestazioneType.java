@@ -5,66 +5,29 @@
 // Generated on: 2017.05.16 at 02:40:54 PM UTC 
 //
 
-
 package it.gov.aifa.invoice_processor.mapping.invoice1_2;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for TipoCessionePrestazioneType.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
- * <pre>
- * &lt;simpleType name="TipoCessionePrestazioneType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;length value="2"/>
- *     &lt;enumeration value="SC"/>
- *     &lt;enumeration value="PR"/>
- *     &lt;enumeration value="AB"/>
- *     &lt;enumeration value="AC"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
- * </pre>
- * 
- */
 @XmlType(name = "TipoCessionePrestazioneType")
 @XmlEnum
 public enum TipoCessionePrestazioneType {
 
+	SC,
 
-    /**
-     * Sconto
-     * 
-     */
-    SC,
+	PR,
 
-    /**
-     * Premio
-     * 
-     */
-    PR,
+	AB,
 
-    /**
-     * Abbuono
-     * 
-     */
-    AB,
+	AC;
 
-    /**
-     * Spesa accessoria
-     * 
-     */
-    AC;
+	public String value() {
+		return name();
+	}
 
-    public String value() {
-        return name();
-    }
-
-    public static TipoCessionePrestazioneType fromValue(String v) {
-        return valueOf(v);
-    }
+	public static TipoCessionePrestazioneType fromValue(String v) {
+		return valueOf(v);
+	}
 
 }

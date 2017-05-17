@@ -34,20 +34,9 @@ public class DatiAnagrafici implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -320967289236174221L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiAnagrafici() {
 	}
 
-	/**
-	 * 
-	 * @param anagrafica
-	 * @param regimeFiscale
-	 * @param codiceFiscale
-	 * @param idFiscaleIVA
-	 */
 	public DatiAnagrafici(IdFiscaleIVA idFiscaleIVA, String codiceFiscale, Anagrafica anagrafica,
 			String regimeFiscale) {
 		super();

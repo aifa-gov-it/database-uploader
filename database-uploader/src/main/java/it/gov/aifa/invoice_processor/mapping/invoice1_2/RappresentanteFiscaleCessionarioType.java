@@ -5,7 +5,6 @@
 // Generated on: 2017.05.16 at 02:40:54 PM UTC 
 //
 
-
 package it.gov.aifa.invoice_processor.mapping.invoice1_2;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,153 +15,56 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
-/**
- * <p>Java class for RappresentanteFiscaleCessionarioType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="RappresentanteFiscaleCessionarioType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="IdFiscaleIVA" type="{http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2}IdFiscaleType"/>
- *         &lt;choice>
- *           &lt;sequence>
- *             &lt;element name="Denominazione" type="{http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2}String80LatinType"/>
- *           &lt;/sequence>
- *           &lt;sequence>
- *             &lt;element name="Nome" type="{http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2}String60LatinType"/>
- *             &lt;element name="Cognome" type="{http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2}String60LatinType"/>
- *           &lt;/sequence>
- *         &lt;/choice>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RappresentanteFiscaleCessionarioType", propOrder = {
-    "idFiscaleIVA",
-    "denominazione",
-    "nome",
-    "cognome"
-})
+@XmlType(name = "RappresentanteFiscaleCessionarioType", propOrder = { "idFiscaleIVA", "denominazione", "nome",
+		"cognome" })
 public class RappresentanteFiscaleCessionarioType {
 
-    @XmlElement(name = "IdFiscaleIVA", required = true)
-    protected IdFiscaleType idFiscaleIVA;
-    @XmlElement(name = "Denominazione")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    @XmlSchemaType(name = "normalizedString")
-    protected String denominazione;
-    @XmlElement(name = "Nome")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    @XmlSchemaType(name = "normalizedString")
-    protected String nome;
-    @XmlElement(name = "Cognome")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    @XmlSchemaType(name = "normalizedString")
-    protected String cognome;
+	@XmlElement(name = "IdFiscaleIVA", required = true)
+	protected IdFiscaleType idFiscaleIVA;
+	@XmlElement(name = "Denominazione")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String denominazione;
+	@XmlElement(name = "Nome")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String nome;
+	@XmlElement(name = "Cognome")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String cognome;
 
-    /**
-     * Gets the value of the idFiscaleIVA property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link IdFiscaleType }
-     *     
-     */
-    public IdFiscaleType getIdFiscaleIVA() {
-        return idFiscaleIVA;
-    }
+	public IdFiscaleType getIdFiscaleIVA() {
+		return idFiscaleIVA;
+	}
 
-    /**
-     * Sets the value of the idFiscaleIVA property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link IdFiscaleType }
-     *     
-     */
-    public void setIdFiscaleIVA(IdFiscaleType value) {
-        this.idFiscaleIVA = value;
-    }
+	public void setIdFiscaleIVA(IdFiscaleType value) {
+		this.idFiscaleIVA = value;
+	}
 
-    /**
-     * Gets the value of the denominazione property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDenominazione() {
-        return denominazione;
-    }
+	public String getDenominazione() {
+		return denominazione;
+	}
 
-    /**
-     * Sets the value of the denominazione property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDenominazione(String value) {
-        this.denominazione = value;
-    }
+	public void setDenominazione(String value) {
+		this.denominazione = value;
+	}
 
-    /**
-     * Gets the value of the nome property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNome() {
-        return nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    /**
-     * Sets the value of the nome property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNome(String value) {
-        this.nome = value;
-    }
+	public void setNome(String value) {
+		this.nome = value;
+	}
 
-    /**
-     * Gets the value of the cognome property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCognome() {
-        return cognome;
-    }
+	public String getCognome() {
+		return cognome;
+	}
 
-    /**
-     * Sets the value of the cognome property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCognome(String value) {
-        this.cognome = value;
-    }
+	public void setCognome(String value) {
+		this.cognome = value;
+	}
 
 }

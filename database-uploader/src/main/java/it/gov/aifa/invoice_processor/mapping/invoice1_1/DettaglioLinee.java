@@ -42,24 +42,9 @@ public class DettaglioLinee implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -4390389506146406558L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DettaglioLinee() {
 	}
 
-	/**
-	 * 
-	 * @param descrizione
-	 * @param prezzoTotale
-	 * @param aliquotaIVA
-	 * @param prezzoUnitario
-	 * @param numeroLinea
-	 * @param unitaMisura
-	 * @param quantita
-	 * @param codiceArticolo
-	 */
 	public DettaglioLinee(String numeroLinea, CodiceArticolo codiceArticolo, String descrizione, String quantita,
 			String unitaMisura, String prezzoUnitario, String prezzoTotale, String aliquotaIVA) {
 		super();

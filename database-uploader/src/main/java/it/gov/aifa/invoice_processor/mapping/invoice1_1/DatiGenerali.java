@@ -37,20 +37,9 @@ public class DatiGenerali implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -4879949795987171126L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiGenerali() {
 	}
 
-	/**
-	 * 
-	 * @param datiGeneraliDocumento
-	 * @param datiDDT
-	 * @param datiFattureCollegate
-	 * @param datiOrdineAcquisto
-	 */
 	public DatiGenerali(DatiGeneraliDocumento datiGeneraliDocumento, List<DatiOrdineAcquisto> datiOrdineAcquisto,
 			List<DatiFattureCollegate> datiFattureCollegate, DatiDDT datiDDT) {
 		super();

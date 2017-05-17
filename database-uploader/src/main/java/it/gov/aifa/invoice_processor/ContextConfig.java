@@ -129,9 +129,7 @@ public class ContextConfig{
 		echoApplicationConfiguration();
 	}
 	
-	/**
-	 * Load the configuration and echoes it.
-	 */
+	
 	private void echoApplicationConfiguration(){
 		log.debug("Searching for beans with @ConfigurationProperties annotation");
 		Map<String,Object> beans = applicationContext.getBeansWithAnnotation(ConfigurationProperties.class);

@@ -34,21 +34,9 @@ public class Sede implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -1683080394837067438L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public Sede() {
 	}
 
-	/**
-	 * 
-	 * @param nazione
-	 * @param indirizzo
-	 * @param provincia
-	 * @param comune
-	 * @param cap
-	 */
 	public Sede(String indirizzo, String cap, String comune, String provincia, String nazione) {
 		super();
 		this.indirizzo = indirizzo;

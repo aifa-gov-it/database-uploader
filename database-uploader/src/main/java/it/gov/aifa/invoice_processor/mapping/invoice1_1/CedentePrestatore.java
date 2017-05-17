@@ -36,20 +36,9 @@ public class CedentePrestatore implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 7721985433270846175L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public CedentePrestatore() {
 	}
 
-	/**
-	 * 
-	 * @param datiAnagrafici
-	 * @param iscrizioneREA
-	 * @param sede
-	 * @param contatti
-	 */
 	public CedentePrestatore(DatiAnagrafici datiAnagrafici, Sede sede, IscrizioneREA iscrizioneREA, Contatti contatti) {
 		super();
 		this.datiAnagrafici = datiAnagrafici;

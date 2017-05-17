@@ -33,17 +33,9 @@ public class ScontoMaggiorazione implements Serializable{
 	@JsonProperty("Tipo")
 	private String tipo;
 	
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public ScontoMaggiorazione() {
 	}
-	/**
-	 * 
-	 * @param tipo
-	 * @param importo
-	 */
+	
 	public ScontoMaggiorazione(String tipo, String importo) {
 		this.tipo = tipo;
 		this.importo = importo;

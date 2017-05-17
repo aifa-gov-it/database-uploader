@@ -26,17 +26,9 @@ public class Contatti implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 8690514561638339377L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public Contatti() {
 	}
 
-	/**
-	 * 
-	 * @param telefono
-	 */
 	public Contatti(String telefono) {
 		super();
 		this.telefono = telefono;

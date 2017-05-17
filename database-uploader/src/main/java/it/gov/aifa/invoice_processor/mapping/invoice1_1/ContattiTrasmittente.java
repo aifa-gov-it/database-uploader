@@ -26,17 +26,9 @@ public class ContattiTrasmittente implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 2819968633458134251L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public ContattiTrasmittente() {
 	}
 
-	/**
-	 * 
-	 * @param email
-	 */
 	public ContattiTrasmittente(String email) {
 		super();
 		this.email = email;

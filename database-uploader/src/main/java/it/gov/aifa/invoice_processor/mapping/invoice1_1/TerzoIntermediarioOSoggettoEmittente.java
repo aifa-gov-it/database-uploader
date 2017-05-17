@@ -27,17 +27,9 @@ public class TerzoIntermediarioOSoggettoEmittente implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -865964892653361806L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public TerzoIntermediarioOSoggettoEmittente() {
 	}
 
-	/**
-	 * 
-	 * @param datiAnagrafici
-	 */
 	public TerzoIntermediarioOSoggettoEmittente(DatiAnagrafici datiAnagrafici) {
 		super();
 		this.datiAnagrafici = datiAnagrafici;

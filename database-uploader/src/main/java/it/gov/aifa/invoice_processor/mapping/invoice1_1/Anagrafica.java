@@ -26,17 +26,9 @@ public class Anagrafica implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 217794525618922642L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public Anagrafica() {
 	}
 
-	/**
-	 * 
-	 * @param denominazione
-	 */
 	public Anagrafica(String denominazione) {
 		super();
 		this.denominazione = denominazione;

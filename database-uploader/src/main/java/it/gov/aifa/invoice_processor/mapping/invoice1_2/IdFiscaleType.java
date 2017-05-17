@@ -5,7 +5,6 @@
 // Generated on: 2017.05.16 at 02:40:54 PM UTC 
 //
 
-
 package it.gov.aifa.invoice_processor.mapping.invoice1_2;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,85 +12,29 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for IdFiscaleType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="IdFiscaleType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="IdPaese" type="{http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2}NazioneType"/>
- *         &lt;element name="IdCodice" type="{http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2}CodiceType"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "IdFiscaleType", propOrder = {
-    "idPaese",
-    "idCodice"
-})
+@XmlType(name = "IdFiscaleType", propOrder = { "idPaese", "idCodice" })
 public class IdFiscaleType {
 
-    @XmlElement(name = "IdPaese", required = true)
-    protected String idPaese;
-    @XmlElement(name = "IdCodice", required = true)
-    protected String idCodice;
+	@XmlElement(name = "IdPaese", required = true)
+	protected String idPaese;
+	@XmlElement(name = "IdCodice", required = true)
+	protected String idCodice;
 
-    /**
-     * Gets the value of the idPaese property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getIdPaese() {
-        return idPaese;
-    }
+	public String getIdPaese() {
+		return idPaese;
+	}
 
-    /**
-     * Sets the value of the idPaese property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setIdPaese(String value) {
-        this.idPaese = value;
-    }
+	public void setIdPaese(String value) {
+		this.idPaese = value;
+	}
 
-    /**
-     * Gets the value of the idCodice property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getIdCodice() {
-        return idCodice;
-    }
+	public String getIdCodice() {
+		return idCodice;
+	}
 
-    /**
-     * Sets the value of the idCodice property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setIdCodice(String value) {
-        this.idCodice = value;
-    }
+	public void setIdCodice(String value) {
+		this.idCodice = value;
+	}
 
 }

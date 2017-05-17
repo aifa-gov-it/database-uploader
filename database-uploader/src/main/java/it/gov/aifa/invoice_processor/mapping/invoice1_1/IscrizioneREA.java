@@ -34,21 +34,9 @@ public class IscrizioneREA implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 4350821463523555194L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public IscrizioneREA() {
 	}
 
-	/**
-	 * 
-	 * @param socioUnico
-	 * @param statoLiquidazione
-	 * @param ufficio
-	 * @param capitaleSociale
-	 * @param numeroREA
-	 */
 	public IscrizioneREA(String ufficio, String numeroREA, String capitaleSociale, String socioUnico,
 			String statoLiquidazione) {
 		super();

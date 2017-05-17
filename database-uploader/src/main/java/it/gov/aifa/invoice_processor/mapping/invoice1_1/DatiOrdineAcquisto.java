@@ -32,20 +32,9 @@ public class DatiOrdineAcquisto implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 1818931439726761437L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiOrdineAcquisto() {
 	}
 
-	/**
-	 * 
-	 * @param codiceCIG
-	 * @param data
-	 * @param riferimentoNumeroLinea
-	 * @param idDocumento
-	 */
 	public DatiOrdineAcquisto(String idDocumento, String data, String riferimentoNumeroLinea, String codiceCIG) {
 		super();
 		this.idDocumento = idDocumento;

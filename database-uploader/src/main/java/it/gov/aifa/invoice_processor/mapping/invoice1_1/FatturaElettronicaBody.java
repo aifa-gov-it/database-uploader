@@ -33,19 +33,9 @@ public class FatturaElettronicaBody implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -8404751969585509053L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public FatturaElettronicaBody() {
 	}
 
-	/**
-	 * 
-	 * @param datiGenerali
-	 * @param datiPagamento
-	 * @param datiBeniServizi
-	 */
 	public FatturaElettronicaBody(DatiGenerali datiGenerali, DatiBeniServizi datiBeniServizi,
 			DatiPagamento datiPagamento) {
 		super();

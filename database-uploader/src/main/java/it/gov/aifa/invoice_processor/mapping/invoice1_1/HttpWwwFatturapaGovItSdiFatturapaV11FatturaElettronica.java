@@ -31,19 +31,9 @@ public class HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica implements S
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = 6121622310721955350L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica() {
 	}
 
-	/**
-	 * 
-	 * @param fatturaElettronicaHeader
-	 * @param versione
-	 * @param fatturaElettronicaBody
-	 */
 	public HttpWwwFatturapaGovItSdiFatturapaV11FatturaElettronica(String versione,
 			FatturaElettronicaHeader fatturaElettronicaHeader, FatturaElettronicaBody fatturaElettronicaBody) {
 		super();

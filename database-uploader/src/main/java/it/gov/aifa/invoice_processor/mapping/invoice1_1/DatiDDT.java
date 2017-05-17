@@ -28,18 +28,9 @@ public class DatiDDT implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -2273787351185913261L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiDDT() {
 	}
 
-	/**
-	 * 
-	 * @param numeroDDT
-	 * @param dataDDT
-	 */
 	public DatiDDT(String numeroDDT, String dataDDT) {
 		super();
 		this.numeroDDT = numeroDDT;

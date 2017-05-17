@@ -28,18 +28,9 @@ public class DatiFattureCollegate implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -8614262330740637689L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiFattureCollegate() {
 	}
 
-	/**
-	 * 
-	 * @param data
-	 * @param idDocumento
-	 */
 	public DatiFattureCollegate(String idDocumento, String data) {
 		super();
 		this.idDocumento = idDocumento;

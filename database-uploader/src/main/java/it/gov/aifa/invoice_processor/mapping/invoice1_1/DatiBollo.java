@@ -33,18 +33,9 @@ public class DatiBollo implements Serializable {
 	@JsonProperty("ImportoBollo")
 	private String importoBollo;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiBollo() {
 	}
 
-	/**
-	 * 
-	 * @param bolloVirtuale
-	 * @param importoBollo
-	 */
 	public DatiBollo(String bolloVirtuale, String importoBollo) {
 		this.bolloVirtuale = bolloVirtuale;
 		this.importoBollo = importoBollo;

@@ -34,18 +34,9 @@ public class DatiBeniServizi implements Serializable {
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	private final static long serialVersionUID = -7585068687936918402L;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public DatiBeniServizi() {
 	}
 
-	/**
-	 * 
-	 * @param datiRiepilogo
-	 * @param dettaglioLinee
-	 */
 	public DatiBeniServizi(List<DettaglioLinee> dettaglioLinee, DatiRiepilogo datiRiepilogo) {
 		super();
 		this.dettaglioLinee = dettaglioLinee;
