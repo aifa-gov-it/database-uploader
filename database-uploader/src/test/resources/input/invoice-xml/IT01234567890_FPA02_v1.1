@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<NS1:FatturaElettronica xmlns:NS1="http://www.fatturapa.gov.it/sdi/fatturapa/v1.1" versione="1.1">
+<p:FatturaElettronica versione="1.1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:p="http://www.fatturapa.gov.it/sdi/fatturapa/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.fatturapa.gov.it/sdi/fatturapa/v1.1 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.1/Schema_del_file_xml_FatturaPA_versione_1.1.xsd">
     <FatturaElettronicaHeader>
         <DatiTrasmissione>
             <IdTrasmittente>
                 <IdPaese>IT</IdPaese>
                 <IdCodice>01234567890</IdCodice>
             </IdTrasmittente>
-            <ProgressivoInvio>01234567890</ProgressivoInvio>
+            <ProgressivoInvio>0123456789</ProgressivoInvio>
             <FormatoTrasmissione>SDI11</FormatoTrasmissione>
-            <CodiceDestinatario>RECIPIENT</CodiceDestinatario>
+            <CodiceDestinatario>RECIP1</CodiceDestinatario>
             <ContattiTrasmittente>
                 <Email>italy.bhc.invoice.not.sent@domain.com</Email>
             </ContattiTrasmittente>
@@ -124,7 +124,7 @@
                 <AliquotaIVA>10.00</AliquotaIVA>
                 <ImponibileImporto>6429.40</ImponibileImporto>
                 <Imposta>642.94</Imposta>
-                <EsigibilitaIVA>S</EsigibilitaIVA>
+                <EsigibilitaIVA>D</EsigibilitaIVA>
                 <RiferimentoNormativo>IVA 10% Scissione  dei  pagamenti</RiferimentoNormativo>
             </DatiRiepilogo>
         </DatiBeniServizi>
@@ -136,11 +136,11 @@
                 <DataScadenzaPagamento>2016-03-04</DataScadenzaPagamento>
                 <ImportoPagamento>6429.40</ImportoPagamento>
                 <IstitutoFinanziario>BANCA NAZIONALE DEL LAVORO S.P.A.</IstitutoFinanziario>
-                <IBAN>IT456123456123456123</IBAN>
+                <IBAN>It01Ab123456789987654321123</IBAN>
                 <ABI>10000</ABI>
                 <CAB>20000</CAB>
                 <BIC>BNLIITRR</BIC>
             </DettaglioPagamento>
         </DatiPagamento>
     </FatturaElettronicaBody>
-</NS1:FatturaElettronica>
+</p:FatturaElettronica>
