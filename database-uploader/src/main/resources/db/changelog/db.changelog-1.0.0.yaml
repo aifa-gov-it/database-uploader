@@ -26,7 +26,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: iban
-                  type: varchar(255)
+                  type: varchar(34)
                   constraints:
                     primaryKey: true
               - column:
@@ -105,6 +105,9 @@ databaseChangeLog:
                     type: dateTime
                     constraints:
                       nullable: false
+              - column:
+                    name: invoice_recipient_certified_email_address
+                    type: varchar(255)
               - column:
                     name: invoice_recipient_code
                     type: varchar(50)
@@ -307,6 +310,24 @@ databaseChangeLog:
                   constraints:
                     nullable: false
             - column:
+                  name: permanent_establishment_city
+                  type: varchar(100)
+            - column:
+                  name: permanent_establishment_country
+                  type: varchar(100)
+            - column:
+                  name: permanent_establishment_district
+                  type: varchar(100)
+            - column:
+                  name: permanent_establishment_street_address
+                  type: varchar(255)
+            - column:
+                  name: permanent_establishment_street_number
+                  type: varchar(10)
+            - column:
+                  name: permanent_establishment_zip_code
+                  type: varchar(10)
+            - column:
                   name: phone_number
                   type: varchar(255)
             - column:
@@ -325,6 +346,21 @@ databaseChangeLog:
             - column:
                   name: tax_country_code
                   type: varchar(8)
+            - column:
+                  name: tax_representative_country_id
+                  type: varchar(255)
+            - column:
+                  name: tax_representative_first_name
+                  type: varchar(255)
+            - column:
+                  name: tax_representative_id_code
+                  type: varchar(255)
+            - column:
+                  name: tax_representative_last_name
+                  type: varchar(255)
+            - column:
+                  name: tax_representative_name
+                  type: varchar(255)
             - column:
                   name: zip_code
                   type: varchar(10)

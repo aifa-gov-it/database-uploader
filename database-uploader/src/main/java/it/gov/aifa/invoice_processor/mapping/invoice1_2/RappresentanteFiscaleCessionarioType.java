@@ -20,51 +20,62 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 		"cognome" })
 public class RappresentanteFiscaleCessionarioType {
 
-	@XmlElement(name = "IdFiscaleIVA", required = true)
-	protected IdFiscaleType idFiscaleIVA;
-	@XmlElement(name = "Denominazione")
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String denominazione;
-	@XmlElement(name = "Nome")
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String nome;
 	@XmlElement(name = "Cognome")
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
 	protected String cognome;
 
-	public IdFiscaleType getIdFiscaleIVA() {
-		return idFiscaleIVA;
-	}
+	@XmlElement(name = "Denominazione")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String denominazione;
 
-	public void setIdFiscaleIVA(IdFiscaleType value) {
-		this.idFiscaleIVA = value;
+	@XmlElement(name = "IdFiscaleIVA", required = true)
+	protected IdFiscaleType idFiscaleIVA;
+	@XmlElement(name = "Nome")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String nome;
+	public RappresentanteFiscaleCessionarioType() {
 	}
-
-	public String getDenominazione() {
-		return denominazione;
-	}
-
-	public void setDenominazione(String value) {
-		this.denominazione = value;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String value) {
-		this.nome = value;
+	public RappresentanteFiscaleCessionarioType(String cognome, String denominazione, IdFiscaleType idFiscaleIVA,
+			String nome) {
+		this.cognome = cognome;
+		this.denominazione = denominazione;
+		this.idFiscaleIVA = idFiscaleIVA;
+		this.nome = nome;
 	}
 
 	public String getCognome() {
 		return cognome;
 	}
 
+	public String getDenominazione() {
+		return denominazione;
+	}
+
+	public IdFiscaleType getIdFiscaleIVA() {
+		return idFiscaleIVA;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
 	public void setCognome(String value) {
 		this.cognome = value;
+	}
+
+	public void setDenominazione(String value) {
+		this.denominazione = value;
+	}
+
+	public void setIdFiscaleIVA(IdFiscaleType value) {
+		this.idFiscaleIVA = value;
+	}
+
+	public void setNome(String value) {
+		this.nome = value;
 	}
 
 }

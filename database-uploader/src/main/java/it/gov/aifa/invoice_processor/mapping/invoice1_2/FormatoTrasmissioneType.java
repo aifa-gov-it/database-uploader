@@ -20,6 +20,15 @@ public enum FormatoTrasmissioneType {
 
 	@XmlEnumValue("FPR12")
 	FPR_12("FPR12");
+	public static FormatoTrasmissioneType fromValue(String v) {
+		for (FormatoTrasmissioneType c : FormatoTrasmissioneType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
+
 	private final String value;
 
 	FormatoTrasmissioneType(String v) {
@@ -28,15 +37,6 @@ public enum FormatoTrasmissioneType {
 
 	public String value() {
 		return value;
-	}
-
-	public static FormatoTrasmissioneType fromValue(String v) {
-		for (FormatoTrasmissioneType c : FormatoTrasmissioneType.values()) {
-			if (c.value.equals(v)) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(v);
 	}
 
 }

@@ -19,6 +19,13 @@ public class TerzoIntermediarioSoggettoEmittenteType {
 	@XmlElement(name = "DatiAnagrafici", required = true)
 	protected DatiAnagraficiTerzoIntermediarioType datiAnagrafici;
 
+	public TerzoIntermediarioSoggettoEmittenteType() {
+	}
+
+	public TerzoIntermediarioSoggettoEmittenteType(DatiAnagraficiTerzoIntermediarioType datiAnagrafici) {
+		this.datiAnagrafici = datiAnagrafici;
+	}
+
 	public DatiAnagraficiTerzoIntermediarioType getDatiAnagrafici() {
 		return datiAnagrafici;
 	}

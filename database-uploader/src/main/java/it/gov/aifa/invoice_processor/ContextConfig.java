@@ -18,11 +18,14 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,12 +37,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import it.gov.aifa.invoice_processor.constant.CommandLineArgumentKey;
+import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.movement.Movement;
+import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
+import it.gov.aifa.invoice_processor.service.InvoiceMappingProcessor;
 import it.gov.aifa.invoice_processor.service.MovementProcessor;
+import it.gov.aifa.invoice_processor.service.persistence.InvoiceRepository;
 import it.gov.aifa.invoice_processor.service.persistence.MovementRepository;
 
 @EnableBatchProcessing
@@ -54,8 +63,55 @@ public class ContextConfig{
 	
 	private ApplicationContext applicationContext;
 	
+	@Bean
+	public ItemReader<InvoiceMapping<String>> invoiceMappingMultiReader(
+			@Value("${" + CommandLineArgumentKey.PATH + "}") String directoryPath){
+		StaxEventItemReader<InvoiceMapping<String>> invoiceMappingReader = new StaxEventItemReader<>();
+		Jaxb2Marshaller unmarshaller = new Jaxb2Marshaller();
+		unmarshaller.setPackagesToScan(
+				it.gov.aifa.invoice_processor.mapping.invoice1_2.ObjectFactory.class.getPackage().getName()
+				,it.gov.aifa.invoice_processor.mapping.org.w3._2000._09.xmldsig_.ObjectFactory.class.getPackage().getName());
+		invoiceMappingReader.setUnmarshaller(unmarshaller);
+		MultiResourceItemReader<InvoiceMapping<String>> multiResourceItemReader = new MultiResourceItemReader<>();
+		multiResourceItemReader.setDelegate(invoiceMappingReader);
+		Resource[] resources = { new FileSystemResource(directoryPath) };
+		multiResourceItemReader.setResources(resources);
+		return multiResourceItemReader;
+	}
+	
+	@Bean
+    public RepositoryItemWriter<Invoice> invoiceWriter(InvoiceRepository invoiceRepository) {
+    	RepositoryItemWriter<Invoice> writer = new RepositoryItemWriter<>();
+    	writer.setRepository(invoiceRepository);
+    	writer.setMethodName("save");
+        return writer;
+    }
+	
     @Bean
-    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
+    @ConditionalOnProperty(CommandLineArgumentKey.UPLOAD_INVOICES_TO_DB_WITH_PREFIX)
+    public Job importInvoiceJob(JobBuilderFactory jobBuilderFactory, Step step1InvoiceProcessing) {
+        return jobBuilderFactory.get("importUserJob")
+                .incrementer(new RunIdIncrementer())
+                .flow(step1InvoiceProcessing)
+                .end()
+                .build();
+    }
+    
+    @Bean
+    public Step step1InvoiceProcessing(
+    		InvoiceMappingProcessor<InvoiceMapping<String>, Invoice> invoiceProcessor
+    		, ItemReader<InvoiceMapping<String>> invoiceMappingMultiReader
+    		, RepositoryItemWriter<Invoice> invoiceWriter
+    		, StepBuilderFactory stepBuilderFactory) {
+        return stepBuilderFactory.get("step1InvoiceProcessing")
+                .<InvoiceMapping<String>, Invoice> chunk(10)
+                .reader(invoiceMappingMultiReader)
+                .processor(invoiceProcessor)
+                .writer(invoiceWriter)
+                .build();
+    }
+	
+    @Bean
     public FlatFileItemReader<Movement> movementReader(@Value("${" + CommandLineArgumentKey.PATH + "}") String filePath) {
         FlatFileItemReader<Movement> reader = new FlatFileItemReader<Movement>();
         reader.setLinesToSkip(1);
@@ -91,7 +147,6 @@ public class ContextConfig{
     }
     
     @Bean
-    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public RepositoryItemWriter<Movement> movementWriter(MovementRepository movementRepository) {
     	RepositoryItemWriter<Movement> writer = new RepositoryItemWriter<>();
     	writer.setRepository(movementRepository);
@@ -110,7 +165,6 @@ public class ContextConfig{
     }
     
     @Bean
-    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public Step step1MovementProcessing(MovementProcessor movementProcessor, FlatFileItemReader<Movement> movementReader, RepositoryItemWriter<Movement> movementWriter, StepBuilderFactory stepBuilderFactory) {
         return stepBuilderFactory.get("step1MovementProcessing")
                 .<Movement, Movement> chunk(10)

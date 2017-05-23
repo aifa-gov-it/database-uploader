@@ -14,20 +14,20 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum TipoCessionePrestazioneType {
 
-	SC,
+	AB,
+
+	AC,
 
 	PR,
 
-	AB,
-
-	AC;
-
-	public String value() {
-		return name();
-	}
+	SC;
 
 	public static TipoCessionePrestazioneType fromValue(String v) {
 		return valueOf(v);
+	}
+
+	public String value() {
+		return name();
 	}
 
 }

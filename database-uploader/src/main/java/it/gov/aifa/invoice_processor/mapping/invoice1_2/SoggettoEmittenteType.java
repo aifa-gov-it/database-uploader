@@ -18,12 +18,12 @@ public enum SoggettoEmittenteType {
 
 	TZ;
 
-	public String value() {
-		return name();
-	}
-
 	public static SoggettoEmittenteType fromValue(String v) {
 		return valueOf(v);
+	}
+
+	public String value() {
+		return name();
 	}
 
 }

@@ -1,21 +1,18 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import javax.persistence.Entity;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Validated
-public class PurchaseLine extends AbstractInvoiceReferenceDocument{
-	@EmbeddedId
-	@NotNull
-	private IdAndInvoiceIdPrimaryKey id;
+public class PurchaseLine extends DocumentoCorrelato{
+	
+	private String administrativeReference;
 	
 	@NotBlank
 	private String itemCode;
@@ -25,46 +22,56 @@ public class PurchaseLine extends AbstractInvoiceReferenceDocument{
 	
 	@NotBlank
 	private String itemDescription;
-
-	private double quantity;
-
-	private double taxRate;
 	
-	private double totalPrice;
+	private String kind;
+	
+	private String otherManagementDataDataType;
+	
+	private LocalDate otherManagementDataDate;
+	
+	private BigDecimal otherManagementDataReferenceNumber;
+
+	private String otherManagementDataReferenceText;
+
+	private LocalDate periodEndDate;
+
+	private LocalDate periodStartDate;
+
+	private BigDecimal quantity;
+
+	private String ritenuta;
+
+	private BigDecimal scontoMaggiorazioneAmount;
+
+	private BigDecimal scontoMaggiorazionePercentage;
+
+	private String scontoMaggiorazioneType;
+
+	private BigDecimal taxRate;
+
+	private String tipoCessazionePrestazione;
+
+	private BigDecimal totalPrice;
 
 	private String unitOfMeasureDescription;
 
-	private double unitPrice;
+	private BigDecimal unitPrice;
 
-	@Override
-	public boolean equals(Object other) {
-		if (other == this) {
-			return true;
-		}
-		if ((other instanceof PurchaseLine) == false) {
-			return false;
-		}
-		PurchaseLine rhs = ((PurchaseLine) other);
-		return new EqualsBuilder()
-				.append(id, rhs.id)
-				.append(itemCode, rhs.itemCode)
-				.append(itemCodeType, rhs.itemCodeType)
-				.append(itemDescription, rhs.itemDescription)
-				.append(taxRate, rhs.taxRate)
-				.append(totalPrice, rhs.totalPrice)
-				.append(unitOfMeasureDescription, rhs.unitOfMeasureDescription)
-				.append(unitPrice, rhs.unitPrice)
-				.isEquals();
+	public PurchaseLine() {
 	}
-
-	public IdAndInvoiceIdPrimaryKey getId() {
-		return id;
+	
+	public PurchaseLine(String purchaseLineNumber, Invoice invoice) {
+		super(purchaseLineNumber, invoice);
 	}
-
+	
+	public String getAdministrativeReference() {
+		return administrativeReference;
+	}
+	
 	public String getItemCode() {
 		return itemCode;
 	}
-	
+
 	public String getItemCodeType() {
 		return itemCodeType;
 	}
@@ -73,15 +80,63 @@ public class PurchaseLine extends AbstractInvoiceReferenceDocument{
 		return itemDescription;
 	}
 
-	public double getQuantity() {
+	public String getKind() {
+		return kind;
+	}
+
+	public String getOtherManagementDataDataType() {
+		return otherManagementDataDataType;
+	}
+
+	public LocalDate getOtherManagementDataDate() {
+		return otherManagementDataDate;
+	}
+
+	public BigDecimal getOtherManagementDataReferenceNumber() {
+		return otherManagementDataReferenceNumber;
+	}
+
+	public String getOtherManagementDataReferenceText() {
+		return otherManagementDataReferenceText;
+	}
+
+	public LocalDate getPeriodEndDate() {
+		return periodEndDate;
+	}
+
+	public LocalDate getPeriodStartDate() {
+		return periodStartDate;
+	}
+
+	public BigDecimal getQuantity() {
 		return quantity;
 	}
-
-	public double getTaxRate() {
-		return taxRate;
+	
+	public String getRitenuta() {
+		return ritenuta;
+	}
+	
+	public BigDecimal getScontoMaggiorazioneAmount() {
+		return scontoMaggiorazioneAmount;
 	}
 
-	public double getTotalPrice() {
+	public BigDecimal getScontoMaggiorazionePercentage() {
+		return scontoMaggiorazionePercentage;
+	}
+
+	public String getScontoMaggiorazioneType() {
+		return scontoMaggiorazioneType;
+	}
+	
+	public BigDecimal getTaxRate() {
+		return taxRate;
+	}
+	
+	public String getTipoCessazionePrestazione() {
+		return tipoCessazionePrestazione;
+	}
+	
+	public BigDecimal getTotalPrice() {
 		return totalPrice;
 	}
 
@@ -89,26 +144,12 @@ public class PurchaseLine extends AbstractInvoiceReferenceDocument{
 		return unitOfMeasureDescription;
 	}
 
-	public double getUnitPrice() {
+	public BigDecimal getUnitPrice() {
 		return unitPrice;
 	}
 
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(id)
-				.append(itemCode)
-				.append(itemCodeType)
-				.append(itemDescription)
-				.append(taxRate)
-				.append(totalPrice)
-				.append(unitOfMeasureDescription)
-				.append(unitPrice)
-				.toHashCode();
-	}
-
-	public void setId(IdAndInvoiceIdPrimaryKey id) {
-		this.id = id;
+	public void setAdministrativeReference(String administrativeReference) {
+		this.administrativeReference = administrativeReference;
 	}
 
 	public void setItemCode(String itemCode) {
@@ -122,28 +163,71 @@ public class PurchaseLine extends AbstractInvoiceReferenceDocument{
 	public void setItemDescription(String itemDescription) {
 		this.itemDescription = itemDescription;
 	}
+	
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
 
-	public void setQuantity(double quantity) {
+	public void setOtherManagementDataDataType(String otherManagementDataDataType) {
+		this.otherManagementDataDataType = otherManagementDataDataType;
+	}
+
+	public void setOtherManagementDataDate(LocalDate otherManagementDataDate) {
+		this.otherManagementDataDate = otherManagementDataDate;
+	}
+
+	public void setOtherManagementDataReferenceNumber(BigDecimal otherManagementDataReferenceNumber) {
+		this.otherManagementDataReferenceNumber = otherManagementDataReferenceNumber;
+	}
+
+	public void setOtherManagementDataReferenceText(String otherManagementDataReferenceText) {
+		this.otherManagementDataReferenceText = otherManagementDataReferenceText;
+	}
+
+	public void setPeriodEndDate(LocalDate periodEndDate) {
+		this.periodEndDate = periodEndDate;
+	}
+
+	public void setPeriodStartDate(LocalDate periodStartDate) {
+		this.periodStartDate = periodStartDate;
+	}
+
+	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
 	}
 
-	public void setTaxRate(double taxRate) {
+	public void setRitenuta(String ritenuta) {
+		this.ritenuta = ritenuta;
+	}
+
+	public void setScontoMaggiorazioneAmount(BigDecimal scontoMaggiorazioneAmount) {
+		this.scontoMaggiorazioneAmount = scontoMaggiorazioneAmount;
+	}
+
+	public void setScontoMaggiorazionePercentage(BigDecimal scontoMaggiorazionePercentage) {
+		this.scontoMaggiorazionePercentage = scontoMaggiorazionePercentage;
+	}
+
+	public void setScontoMaggiorazioneType(String scontoMaggiorazioneType) {
+		this.scontoMaggiorazioneType = scontoMaggiorazioneType;
+	}
+
+	public void setTaxRate(BigDecimal taxRate) {
 		this.taxRate = taxRate;
 	}
 
-	public void setTotalPrice(double totalPrice) {
+	public void setTipoCessazionePrestazione(String tipoCessazionePrestazione) {
+		this.tipoCessazionePrestazione = tipoCessazionePrestazione;
+	}
+
+	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 	public void setUnitOfMeasureDescription(String unitOfMeasureDescription) {
 		this.unitOfMeasureDescription = unitOfMeasureDescription;
 	}
 	
-	public void setUnitPrice(double unitPrice) {
+	public void setUnitPrice(BigDecimal unitPrice) {
 		this.unitPrice = unitPrice;
-	}
-	
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
 	}
 }

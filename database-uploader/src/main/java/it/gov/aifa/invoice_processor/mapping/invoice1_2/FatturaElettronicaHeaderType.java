@@ -19,66 +19,81 @@ import javax.xml.bind.annotation.XmlType;
 		"soggettoEmittente" })
 public class FatturaElettronicaHeaderType {
 
-	@XmlElement(name = "DatiTrasmissione", required = true)
-	protected DatiTrasmissioneType datiTrasmissione;
 	@XmlElement(name = "CedentePrestatore", required = true)
 	protected CedentePrestatoreType cedentePrestatore;
-	@XmlElement(name = "RappresentanteFiscale")
-	protected RappresentanteFiscaleType rappresentanteFiscale;
+
 	@XmlElement(name = "CessionarioCommittente", required = true)
 	protected CessionarioCommittenteType cessionarioCommittente;
-	@XmlElement(name = "TerzoIntermediarioOSoggettoEmittente")
-	protected TerzoIntermediarioSoggettoEmittenteType terzoIntermediarioOSoggettoEmittente;
+
+	@XmlElement(name = "DatiTrasmissione", required = true)
+	protected DatiTrasmissioneType datiTrasmissione;
+	@XmlElement(name = "RappresentanteFiscale")
+	protected RappresentanteFiscaleType rappresentanteFiscale;
 	@XmlElement(name = "SoggettoEmittente")
 	@XmlSchemaType(name = "string")
 	protected SoggettoEmittenteType soggettoEmittente;
-
-	public DatiTrasmissioneType getDatiTrasmissione() {
-		return datiTrasmissione;
+	@XmlElement(name = "TerzoIntermediarioOSoggettoEmittente")
+	protected TerzoIntermediarioSoggettoEmittenteType terzoIntermediarioOSoggettoEmittente;
+	public FatturaElettronicaHeaderType() {
 	}
-
-	public void setDatiTrasmissione(DatiTrasmissioneType value) {
-		this.datiTrasmissione = value;
+	public FatturaElettronicaHeaderType(CedentePrestatoreType cedentePrestatore,
+			CessionarioCommittenteType cessionarioCommittente, DatiTrasmissioneType datiTrasmissione,
+			RappresentanteFiscaleType rappresentanteFiscale, SoggettoEmittenteType soggettoEmittente,
+			TerzoIntermediarioSoggettoEmittenteType terzoIntermediarioOSoggettoEmittente) {
+		this.cedentePrestatore = cedentePrestatore;
+		this.cessionarioCommittente = cessionarioCommittente;
+		this.datiTrasmissione = datiTrasmissione;
+		this.rappresentanteFiscale = rappresentanteFiscale;
+		this.soggettoEmittente = soggettoEmittente;
+		this.terzoIntermediarioOSoggettoEmittente = terzoIntermediarioOSoggettoEmittente;
 	}
 
 	public CedentePrestatoreType getCedentePrestatore() {
 		return cedentePrestatore;
 	}
 
-	public void setCedentePrestatore(CedentePrestatoreType value) {
-		this.cedentePrestatore = value;
+	public CessionarioCommittenteType getCessionarioCommittente() {
+		return cessionarioCommittente;
+	}
+
+	public DatiTrasmissioneType getDatiTrasmissione() {
+		return datiTrasmissione;
 	}
 
 	public RappresentanteFiscaleType getRappresentanteFiscale() {
 		return rappresentanteFiscale;
 	}
 
-	public void setRappresentanteFiscale(RappresentanteFiscaleType value) {
-		this.rappresentanteFiscale = value;
-	}
-
-	public CessionarioCommittenteType getCessionarioCommittente() {
-		return cessionarioCommittente;
-	}
-
-	public void setCessionarioCommittente(CessionarioCommittenteType value) {
-		this.cessionarioCommittente = value;
+	public SoggettoEmittenteType getSoggettoEmittente() {
+		return soggettoEmittente;
 	}
 
 	public TerzoIntermediarioSoggettoEmittenteType getTerzoIntermediarioOSoggettoEmittente() {
 		return terzoIntermediarioOSoggettoEmittente;
 	}
 
-	public void setTerzoIntermediarioOSoggettoEmittente(TerzoIntermediarioSoggettoEmittenteType value) {
-		this.terzoIntermediarioOSoggettoEmittente = value;
+	public void setCedentePrestatore(CedentePrestatoreType value) {
+		this.cedentePrestatore = value;
 	}
 
-	public SoggettoEmittenteType getSoggettoEmittente() {
-		return soggettoEmittente;
+	public void setCessionarioCommittente(CessionarioCommittenteType value) {
+		this.cessionarioCommittente = value;
+	}
+
+	public void setDatiTrasmissione(DatiTrasmissioneType value) {
+		this.datiTrasmissione = value;
+	}
+
+	public void setRappresentanteFiscale(RappresentanteFiscaleType value) {
+		this.rappresentanteFiscale = value;
 	}
 
 	public void setSoggettoEmittente(SoggettoEmittenteType value) {
 		this.soggettoEmittente = value;
+	}
+
+	public void setTerzoIntermediarioOSoggettoEmittente(TerzoIntermediarioSoggettoEmittenteType value) {
+		this.terzoIntermediarioOSoggettoEmittente = value;
 	}
 
 }

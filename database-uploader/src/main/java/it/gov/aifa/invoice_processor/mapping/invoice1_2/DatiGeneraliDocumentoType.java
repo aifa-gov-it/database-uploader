@@ -18,114 +18,65 @@ import javax.xml.datatype.XMLGregorianCalendar;
 		"causale", "art73" })
 public class DatiGeneraliDocumentoType {
 
-	@XmlElement(name = "TipoDocumento", required = true)
-	@XmlSchemaType(name = "string")
-	protected TipoDocumentoType tipoDocumento;
-	@XmlElement(name = "Divisa", required = true)
-	protected String divisa;
-	@XmlElement(name = "Data", required = true)
-	@XmlSchemaType(name = "date")
-	protected XMLGregorianCalendar data;
-	@XmlElement(name = "Numero", required = true)
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String numero;
-	@XmlElement(name = "DatiRitenuta")
-	protected DatiRitenutaType datiRitenuta;
-	@XmlElement(name = "DatiBollo")
-	protected DatiBolloType datiBollo;
-	@XmlElement(name = "DatiCassaPrevidenziale")
-	protected List<DatiCassaPrevidenzialeType> datiCassaPrevidenziale;
-	@XmlElement(name = "ScontoMaggiorazione")
-	protected List<ScontoMaggiorazioneType> scontoMaggiorazione;
-	@XmlElement(name = "ImportoTotaleDocumento")
-	protected BigDecimal importoTotaleDocumento;
 	@XmlElement(name = "Arrotondamento")
 	protected BigDecimal arrotondamento;
-	@XmlElement(name = "Causale")
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected List<String> causale;
+
 	@XmlElement(name = "Art73")
 	@XmlSchemaType(name = "string")
 	protected Art73Type art73;
 
-	public TipoDocumentoType getTipoDocumento() {
-		return tipoDocumento;
+	@XmlElement(name = "Causale")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected List<String> causale;
+	@XmlElement(name = "Data", required = true)
+	@XmlSchemaType(name = "date")
+	protected XMLGregorianCalendar data;
+	@XmlElement(name = "DatiBollo")
+	protected DatiBolloType datiBollo;
+	@XmlElement(name = "DatiCassaPrevidenziale")
+	protected List<DatiCassaPrevidenzialeType> datiCassaPrevidenziale;
+	@XmlElement(name = "DatiRitenuta")
+	protected DatiRitenutaType datiRitenuta;
+	@XmlElement(name = "Divisa", required = true)
+	protected String divisa;
+	@XmlElement(name = "ImportoTotaleDocumento")
+	protected BigDecimal importoTotaleDocumento;
+	@XmlElement(name = "Numero", required = true)
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String numero;
+	@XmlElement(name = "ScontoMaggiorazione")
+	protected List<ScontoMaggiorazioneType> scontoMaggiorazione;
+	@XmlElement(name = "TipoDocumento", required = true)
+	@XmlSchemaType(name = "string")
+	protected TipoDocumentoType tipoDocumento;
+	public DatiGeneraliDocumentoType() {
 	}
-
-	public void setTipoDocumento(TipoDocumentoType value) {
-		this.tipoDocumento = value;
-	}
-
-	public String getDivisa() {
-		return divisa;
-	}
-
-	public void setDivisa(String value) {
-		this.divisa = value;
-	}
-
-	public XMLGregorianCalendar getData() {
-		return data;
-	}
-
-	public void setData(XMLGregorianCalendar value) {
-		this.data = value;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String value) {
-		this.numero = value;
-	}
-
-	public DatiRitenutaType getDatiRitenuta() {
-		return datiRitenuta;
-	}
-
-	public void setDatiRitenuta(DatiRitenutaType value) {
-		this.datiRitenuta = value;
-	}
-
-	public DatiBolloType getDatiBollo() {
-		return datiBollo;
-	}
-
-	public void setDatiBollo(DatiBolloType value) {
-		this.datiBollo = value;
-	}
-
-	public List<DatiCassaPrevidenzialeType> getDatiCassaPrevidenziale() {
-		if (datiCassaPrevidenziale == null) {
-			datiCassaPrevidenziale = new ArrayList<DatiCassaPrevidenzialeType>();
-		}
-		return this.datiCassaPrevidenziale;
-	}
-
-	public List<ScontoMaggiorazioneType> getScontoMaggiorazione() {
-		if (scontoMaggiorazione == null) {
-			scontoMaggiorazione = new ArrayList<ScontoMaggiorazioneType>();
-		}
-		return this.scontoMaggiorazione;
-	}
-
-	public BigDecimal getImportoTotaleDocumento() {
-		return importoTotaleDocumento;
-	}
-
-	public void setImportoTotaleDocumento(BigDecimal value) {
-		this.importoTotaleDocumento = value;
+	public DatiGeneraliDocumentoType(BigDecimal arrotondamento, Art73Type art73, List<String> causale,
+			XMLGregorianCalendar data, DatiBolloType datiBollo, List<DatiCassaPrevidenzialeType> datiCassaPrevidenziale,
+			DatiRitenutaType datiRitenuta, String divisa, BigDecimal importoTotaleDocumento, String numero,
+			List<ScontoMaggiorazioneType> scontoMaggiorazione, TipoDocumentoType tipoDocumento) {
+		this.arrotondamento = arrotondamento;
+		this.art73 = art73;
+		this.causale = causale;
+		this.data = data;
+		this.datiBollo = datiBollo;
+		this.datiCassaPrevidenziale = datiCassaPrevidenziale;
+		this.datiRitenuta = datiRitenuta;
+		this.divisa = divisa;
+		this.importoTotaleDocumento = importoTotaleDocumento;
+		this.numero = numero;
+		this.scontoMaggiorazione = scontoMaggiorazione;
+		this.tipoDocumento = tipoDocumento;
 	}
 
 	public BigDecimal getArrotondamento() {
 		return arrotondamento;
 	}
 
-	public void setArrotondamento(BigDecimal value) {
-		this.arrotondamento = value;
+	public Art73Type getArt73() {
+		return art73;
 	}
 
 	public List<String> getCausale() {
@@ -135,12 +86,82 @@ public class DatiGeneraliDocumentoType {
 		return this.causale;
 	}
 
-	public Art73Type getArt73() {
-		return art73;
+	public XMLGregorianCalendar getData() {
+		return data;
+	}
+
+	public DatiBolloType getDatiBollo() {
+		return datiBollo;
+	}
+
+	public List<DatiCassaPrevidenzialeType> getDatiCassaPrevidenziale() {
+		if (datiCassaPrevidenziale == null) {
+			datiCassaPrevidenziale = new ArrayList<DatiCassaPrevidenzialeType>();
+		}
+		return this.datiCassaPrevidenziale;
+	}
+
+	public DatiRitenutaType getDatiRitenuta() {
+		return datiRitenuta;
+	}
+
+	public String getDivisa() {
+		return divisa;
+	}
+
+	public BigDecimal getImportoTotaleDocumento() {
+		return importoTotaleDocumento;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public List<ScontoMaggiorazioneType> getScontoMaggiorazione() {
+		if (scontoMaggiorazione == null) {
+			scontoMaggiorazione = new ArrayList<ScontoMaggiorazioneType>();
+		}
+		return this.scontoMaggiorazione;
+	}
+
+	public TipoDocumentoType getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setArrotondamento(BigDecimal value) {
+		this.arrotondamento = value;
 	}
 
 	public void setArt73(Art73Type value) {
 		this.art73 = value;
+	}
+
+	public void setData(XMLGregorianCalendar value) {
+		this.data = value;
+	}
+
+	public void setDatiBollo(DatiBolloType value) {
+		this.datiBollo = value;
+	}
+
+	public void setDatiRitenuta(DatiRitenutaType value) {
+		this.datiRitenuta = value;
+	}
+
+	public void setDivisa(String value) {
+		this.divisa = value;
+	}
+
+	public void setImportoTotaleDocumento(BigDecimal value) {
+		this.importoTotaleDocumento = value;
+	}
+
+	public void setNumero(String value) {
+		this.numero = value;
+	}
+
+	public void setTipoDocumento(TipoDocumentoType value) {
+		this.tipoDocumento = value;
 	}
 
 }

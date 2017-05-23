@@ -2,26 +2,23 @@ package it.gov.aifa.invoice_processor.entity.movement;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
-@Access(AccessType.FIELD)
+import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceProcessorEntity;
+
 @Entity
 @Validated
-public class Movement {
+public class Movement extends AbstractInvoiceProcessorEntity{
 	private String accountHolderCode;
 
 	private String accountHolderTypeCode;
@@ -43,7 +40,8 @@ public class Movement {
 	
 	private LocalDate expirationDate;
 	
-	// This field is mapped via it's property
+	@Id
+	@NotBlank
 	private String id;
 	
 	private LocalDateTime importDate = LocalDateTime.now();
@@ -81,39 +79,6 @@ public class Movement {
 	
 	private Double value;
 	
-	@Override
-	public boolean equals(Object other) {
-		if (other == this) {
-			return true;
-		}
-		if ((other instanceof Movement) == false) {
-			return false;
-		}
-		Movement rhs = ((Movement) other);
-		return new EqualsBuilder()
-				.append(accountHolderCode, rhs.accountHolderCode)
-				.append(accountHolderTypeCode, rhs.accountHolderTypeCode)
-				.append(aic, rhs.aic)
-				.append(customerCode, rhs.customerCode)
-				.append(customerTypeCode, rhs.customerTypeCode)
-				.append(documentNumber, rhs.documentNumber)
-				.append(documentTypeCode, rhs.documentTypeCode)
-				.append(expirationDate, rhs.expirationDate)
-				.append(id, rhs.id)
-				.append(importDate, rhs.importDate)
-				.append(lot, rhs.lot)
-				.append(movementCode, rhs.movementCode)
-				.append(quantity, rhs.quantity)
-				.append(recipientCode, rhs.recipientCode)
-				.append(recipientTypeCode, rhs.recipientTypeCode)
-				.append(senderCode, rhs.senderCode)
-				.append(senderTypeCode, rhs.senderTypeCode)
-				.append(transmissionDateTime, rhs.transmissionDateTime)
-				.append(value, rhs.value)
-				.isEquals();
-		
-	}
-	
 	public String getAccountHolderCode() {
 		return accountHolderCode;
 	}
@@ -146,35 +111,30 @@ public class Movement {
 		return expirationDate;
 	}
 	
-	@Access(AccessType.PROPERTY)
-	@Id
-	@NotBlank
-	public String getId() {
-		if(StringUtils.isBlank(id)) {
-			StringBuilder builder = new StringBuilder();
-			FieldUtils.getAllFieldsList(this.getClass()).stream()
-				.forEach(f -> {
-					try {
-						Object value = FieldUtils.readField(f, this, true);
-						if(value != null)
-							builder.append(value.toString());
-					} catch (IllegalAccessException e) {
-						// Let's reuse the StringBuilder
-						builder.setLength(0);
-						builder.append("Cannot build id for ");
-						builder.append(this.toString());
-						throw new RuntimeException(builder.toString(), e);
-					}
-				});
-			id = builder.toString();
-		}
-		return id;
+	@Override
+	public List<String> getIdValues() {
+		List<String> idValues = new ArrayList<>();
+		FieldUtils.getAllFieldsList(this.getClass()).stream()
+		.forEach(f -> {
+			try {
+				Object value = FieldUtils.readField(f, this, true);
+				if(value != null)
+					idValues.add(value.toString());
+			} catch (IllegalAccessException e) {
+				// Let's reuse the StringBuilder
+				StringBuilder builder = new StringBuilder();
+				builder.append("Cannot build id for ");
+				builder.append(this.toString());
+				throw new RuntimeException(builder.toString(), e);
+			}
+		});
+		return idValues;
 	}
 	
 	public LocalDateTime getImportDate() {
 		return importDate;
 	}
-	
+
 	public String getLot() {
 		return lot;
 	}
@@ -223,31 +183,6 @@ public class Movement {
 		return value;
 	}
 
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(accountHolderCode)
-				.append(accountHolderTypeCode)
-				.append(aic)
-				.append(customerCode)
-				.append(customerTypeCode)
-				.append(documentNumber)
-				.append(documentTypeCode)
-				.append(expirationDate)
-				.append(id)
-				.append(importDate)
-				.append(lot)
-				.append(movementCode)
-				.append(quantity)
-				.append(recipientCode)
-				.append(recipientTypeCode)
-				.append(senderCode)
-				.append(senderTypeCode)
-				.append(transmissionDateTime)
-				.append(value)
-				.toHashCode();
-	}
-
 	public void setAccountHolderCode(String accountHolderCode) {
 		this.accountHolderCode = accountHolderCode;
 	}
@@ -278,10 +213,6 @@ public class Movement {
 
 	public void setExpirationDate(LocalDate expirationDate) {
 		this.expirationDate = expirationDate;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public void setImportDate(LocalDateTime importDate) {
@@ -334,10 +265,5 @@ public class Movement {
 
 	public void setValue(Double value) {
 		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
 	}
 }

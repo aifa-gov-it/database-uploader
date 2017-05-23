@@ -16,21 +16,29 @@ public class CodiceArticoloType {
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
 	protected String codiceTipo;
+
 	@XmlElement(name = "CodiceValore", required = true)
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
 	protected String codiceValore;
 
+	public CodiceArticoloType() {
+	}
+	public CodiceArticoloType(String codiceTipo, String codiceValore) {
+		this.codiceTipo = codiceTipo;
+		this.codiceValore = codiceValore;
+	}
+
 	public String getCodiceTipo() {
 		return codiceTipo;
 	}
 
-	public void setCodiceTipo(String value) {
-		this.codiceTipo = value;
-	}
-
 	public String getCodiceValore() {
 		return codiceValore;
+	}
+
+	public void setCodiceTipo(String value) {
+		this.codiceTipo = value;
 	}
 
 	public void setCodiceValore(String value) {

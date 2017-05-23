@@ -13,67 +13,81 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 		"iscrizioneREA", "contatti", "riferimentoAmministrazione" })
 public class CedentePrestatoreType {
 
-	@XmlElement(name = "DatiAnagrafici", required = true)
-	protected DatiAnagraficiCedenteType datiAnagrafici;
-	@XmlElement(name = "Sede", required = true)
-	protected IndirizzoType sede;
-	@XmlElement(name = "StabileOrganizzazione")
-	protected IndirizzoType stabileOrganizzazione;
-	@XmlElement(name = "IscrizioneREA")
-	protected IscrizioneREAType iscrizioneREA;
 	@XmlElement(name = "Contatti")
 	protected ContattiType contatti;
+
+	@XmlElement(name = "DatiAnagrafici", required = true)
+	protected DatiAnagraficiCedenteType datiAnagrafici;
+
+	@XmlElement(name = "IscrizioneREA")
+	protected IscrizioneREAType iscrizioneREA;
 	@XmlElement(name = "RiferimentoAmministrazione")
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
 	protected String riferimentoAmministrazione;
-
-	public DatiAnagraficiCedenteType getDatiAnagrafici() {
-		return datiAnagrafici;
+	@XmlElement(name = "Sede", required = true)
+	protected IndirizzoType sede;
+	@XmlElement(name = "StabileOrganizzazione")
+	protected IndirizzoType stabileOrganizzazione;
+	public CedentePrestatoreType() {
 	}
-
-	public void setDatiAnagrafici(DatiAnagraficiCedenteType value) {
-		this.datiAnagrafici = value;
-	}
-
-	public IndirizzoType getSede() {
-		return sede;
-	}
-
-	public void setSede(IndirizzoType value) {
-		this.sede = value;
-	}
-
-	public IndirizzoType getStabileOrganizzazione() {
-		return stabileOrganizzazione;
-	}
-
-	public void setStabileOrganizzazione(IndirizzoType value) {
-		this.stabileOrganizzazione = value;
-	}
-
-	public IscrizioneREAType getIscrizioneREA() {
-		return iscrizioneREA;
-	}
-
-	public void setIscrizioneREA(IscrizioneREAType value) {
-		this.iscrizioneREA = value;
+	public CedentePrestatoreType(ContattiType contatti, DatiAnagraficiCedenteType datiAnagrafici,
+			IscrizioneREAType iscrizioneREA, String riferimentoAmministrazione, IndirizzoType sede,
+			IndirizzoType stabileOrganizzazione) {
+		this.contatti = contatti;
+		this.datiAnagrafici = datiAnagrafici;
+		this.iscrizioneREA = iscrizioneREA;
+		this.riferimentoAmministrazione = riferimentoAmministrazione;
+		this.sede = sede;
+		this.stabileOrganizzazione = stabileOrganizzazione;
 	}
 
 	public ContattiType getContatti() {
 		return contatti;
 	}
 
-	public void setContatti(ContattiType value) {
-		this.contatti = value;
+	public DatiAnagraficiCedenteType getDatiAnagrafici() {
+		return datiAnagrafici;
+	}
+
+	public IscrizioneREAType getIscrizioneREA() {
+		return iscrizioneREA;
 	}
 
 	public String getRiferimentoAmministrazione() {
 		return riferimentoAmministrazione;
 	}
 
+	public IndirizzoType getSede() {
+		return sede;
+	}
+
+	public IndirizzoType getStabileOrganizzazione() {
+		return stabileOrganizzazione;
+	}
+
+	public void setContatti(ContattiType value) {
+		this.contatti = value;
+	}
+
+	public void setDatiAnagrafici(DatiAnagraficiCedenteType value) {
+		this.datiAnagrafici = value;
+	}
+
+	public void setIscrizioneREA(IscrizioneREAType value) {
+		this.iscrizioneREA = value;
+	}
+
 	public void setRiferimentoAmministrazione(String value) {
 		this.riferimentoAmministrazione = value;
+	}
+
+	public void setSede(IndirizzoType value) {
+		this.sede = value;
+	}
+
+	public void setStabileOrganizzazione(IndirizzoType value) {
+		this.stabileOrganizzazione = value;
 	}
 
 }

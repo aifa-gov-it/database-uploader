@@ -14,19 +14,27 @@ public class DatiBolloType {
 	@XmlElement(name = "BolloVirtuale", required = true)
 	@XmlSchemaType(name = "string")
 	protected BolloVirtualeType bolloVirtuale;
+
 	@XmlElement(name = "ImportoBollo", required = true)
 	protected BigDecimal importoBollo;
+
+	public DatiBolloType() {
+	}
+	public DatiBolloType(BolloVirtualeType bolloVirtuale, BigDecimal importoBollo) {
+		this.bolloVirtuale = bolloVirtuale;
+		this.importoBollo = importoBollo;
+	}
 
 	public BolloVirtualeType getBolloVirtuale() {
 		return bolloVirtuale;
 	}
 
-	public void setBolloVirtuale(BolloVirtualeType value) {
-		this.bolloVirtuale = value;
-	}
-
 	public BigDecimal getImportoBollo() {
 		return importoBollo;
+	}
+
+	public void setBolloVirtuale(BolloVirtualeType value) {
+		this.bolloVirtuale = value;
 	}
 
 	public void setImportoBollo(BigDecimal value) {

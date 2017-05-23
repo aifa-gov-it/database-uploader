@@ -19,6 +19,13 @@ public class RappresentanteFiscaleType {
 	@XmlElement(name = "DatiAnagrafici", required = true)
 	protected DatiAnagraficiRappresentanteType datiAnagrafici;
 
+	public RappresentanteFiscaleType() {
+	}
+
+	public RappresentanteFiscaleType(DatiAnagraficiRappresentanteType datiAnagrafici) {
+		this.datiAnagrafici = datiAnagrafici;
+	}
+
 	public DatiAnagraficiRappresentanteType getDatiAnagrafici() {
 		return datiAnagrafici;
 	}

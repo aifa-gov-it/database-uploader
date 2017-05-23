@@ -66,11 +66,20 @@ public enum RegimeFiscaleType {
 	@XmlEnumValue("RF17")
 	RF_17("RF17"),
 
-	@XmlEnumValue("RF19")
-	RF_19("RF19"),
-
 	@XmlEnumValue("RF18")
-	RF_18("RF18");
+	RF_18("RF18"),
+
+	@XmlEnumValue("RF19")
+	RF_19("RF19");
+	public static RegimeFiscaleType fromValue(String v) {
+		for (RegimeFiscaleType c : RegimeFiscaleType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
+
 	private final String value;
 
 	RegimeFiscaleType(String v) {
@@ -79,15 +88,6 @@ public enum RegimeFiscaleType {
 
 	public String value() {
 		return value;
-	}
-
-	public static RegimeFiscaleType fromValue(String v) {
-		for (RegimeFiscaleType c : RegimeFiscaleType.values()) {
-			if (c.value.equals(v)) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(v);
 	}
 
 }

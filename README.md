@@ -9,22 +9,13 @@
 
 ## How to run
 
-1. Validate XML files using the generated XSD: when running the container, mount the directories containing the XML and XSD input:
+1. Validate XML files using the given XSD: when running the container, mount the directories containing the XML and XSD input:
 
     ```
     docker run --rm -it \
       -v /path/to/xml/files/directory/:/usr/invoices-xml-validator/xml \
-      -v /path/to/xml/files/directory/:/usr/invoices-xml-validator/xsd \
+      -v /path/to/xml/files/directory/your-schema.xsd:/usr/invoices-xml-validator/xsd/schema.xsd \
       aifa-gov-it/invoices-xml-validator:latest
-    ```
-
-1. Convert XML to JSON: when running the container, mount the directories where you want to store the JSON output and containing the XML input:
-
-    ```
-    docker run --rm -it \
-      -v /path/to/json/output/directory:/usr/invoices-converter/json \
-      -v /path/to/xml/files/directory/:/usr/invoices-converter/xml \
-      aifa-gov-it/invoices-xml-json:latest
     ```
 
 1. Upload data with dabase-uploader:

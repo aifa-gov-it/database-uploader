@@ -16,32 +16,70 @@ import javax.xml.datatype.XMLGregorianCalendar;
 		"codiceCommessaConvenzione", "codiceCUP", "codiceCIG" })
 public class DatiDocumentiCorrelatiType {
 
-	@XmlElement(name = "RiferimentoNumeroLinea", type = Integer.class)
-	@XmlSchemaType(name = "integer")
-	protected List<Integer> riferimentoNumeroLinea;
-	@XmlElement(name = "IdDocumento", required = true)
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String idDocumento;
-	@XmlElement(name = "Data")
-	@XmlSchemaType(name = "date")
-	protected XMLGregorianCalendar data;
-	@XmlElement(name = "NumItem")
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String numItem;
-	@XmlElement(name = "CodiceCommessaConvenzione")
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String codiceCommessaConvenzione;
-	@XmlElement(name = "CodiceCUP")
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String codiceCUP;
 	@XmlElement(name = "CodiceCIG")
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
 	protected String codiceCIG;
+
+	@XmlElement(name = "CodiceCommessaConvenzione")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String codiceCommessaConvenzione;
+
+	@XmlElement(name = "CodiceCUP")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String codiceCUP;
+	@XmlElement(name = "Data")
+	@XmlSchemaType(name = "date")
+	protected XMLGregorianCalendar data;
+	@XmlElement(name = "IdDocumento", required = true)
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String idDocumento;
+	@XmlElement(name = "NumItem")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String numItem;
+	@XmlElement(name = "RiferimentoNumeroLinea", type = Integer.class)
+	@XmlSchemaType(name = "integer")
+	protected List<Integer> riferimentoNumeroLinea;
+	public DatiDocumentiCorrelatiType() {
+	}
+	public DatiDocumentiCorrelatiType(String codiceCIG, String codiceCommessaConvenzione, String codiceCUP,
+			XMLGregorianCalendar data, String idDocumento, String numItem, List<Integer> riferimentoNumeroLinea) {
+		this.codiceCIG = codiceCIG;
+		this.codiceCommessaConvenzione = codiceCommessaConvenzione;
+		this.codiceCUP = codiceCUP;
+		this.data = data;
+		this.idDocumento = idDocumento;
+		this.numItem = numItem;
+		this.riferimentoNumeroLinea = riferimentoNumeroLinea;
+	}
+
+	public String getCodiceCIG() {
+		return codiceCIG;
+	}
+
+	public String getCodiceCommessaConvenzione() {
+		return codiceCommessaConvenzione;
+	}
+
+	public String getCodiceCUP() {
+		return codiceCUP;
+	}
+
+	public XMLGregorianCalendar getData() {
+		return data;
+	}
+
+	public String getIdDocumento() {
+		return idDocumento;
+	}
+
+	public String getNumItem() {
+		return numItem;
+	}
 
 	public List<Integer> getRiferimentoNumeroLinea() {
 		if (riferimentoNumeroLinea == null) {
@@ -50,52 +88,28 @@ public class DatiDocumentiCorrelatiType {
 		return this.riferimentoNumeroLinea;
 	}
 
-	public String getIdDocumento() {
-		return idDocumento;
-	}
-
-	public void setIdDocumento(String value) {
-		this.idDocumento = value;
-	}
-
-	public XMLGregorianCalendar getData() {
-		return data;
-	}
-
-	public void setData(XMLGregorianCalendar value) {
-		this.data = value;
-	}
-
-	public String getNumItem() {
-		return numItem;
-	}
-
-	public void setNumItem(String value) {
-		this.numItem = value;
-	}
-
-	public String getCodiceCommessaConvenzione() {
-		return codiceCommessaConvenzione;
+	public void setCodiceCIG(String value) {
+		this.codiceCIG = value;
 	}
 
 	public void setCodiceCommessaConvenzione(String value) {
 		this.codiceCommessaConvenzione = value;
 	}
 
-	public String getCodiceCUP() {
-		return codiceCUP;
-	}
-
 	public void setCodiceCUP(String value) {
 		this.codiceCUP = value;
 	}
 
-	public String getCodiceCIG() {
-		return codiceCIG;
+	public void setData(XMLGregorianCalendar value) {
+		this.data = value;
 	}
 
-	public void setCodiceCIG(String value) {
-		this.codiceCIG = value;
+	public void setIdDocumento(String value) {
+		this.idDocumento = value;
+	}
+
+	public void setNumItem(String value) {
+		this.numItem = value;
 	}
 
 }

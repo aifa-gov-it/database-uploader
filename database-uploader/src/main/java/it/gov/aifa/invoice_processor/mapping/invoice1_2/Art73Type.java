@@ -9,12 +9,12 @@ public enum Art73Type {
 
 	SI;
 
-	public String value() {
-		return name();
-	}
-
 	public static Art73Type fromValue(String v) {
 		return valueOf(v);
+	}
+
+	public String value() {
+		return name();
 	}
 
 }

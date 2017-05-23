@@ -1,9 +1,0 @@
-databaseChangeLog:
-  - preConditions:
-    - or:
-      - dbms:
-          type: h2
-  - include:
-      file: db/changelog/db.changelog-master.yaml
-  - include:
-      file: db/changelog/db.changelog-integration-test-data.yaml

@@ -19,39 +19,42 @@ import javax.xml.bind.annotation.XmlType;
 		"datiPagamento", "allegati" })
 public class FatturaElettronicaBodyType {
 
-	@XmlElement(name = "DatiGenerali", required = true)
-	protected DatiGeneraliType datiGenerali;
-	@XmlElement(name = "DatiBeniServizi", required = true)
-	protected DatiBeniServiziType datiBeniServizi;
-	@XmlElement(name = "DatiVeicoli")
-	protected DatiVeicoliType datiVeicoli;
-	@XmlElement(name = "DatiPagamento")
-	protected List<DatiPagamentoType> datiPagamento;
 	@XmlElement(name = "Allegati")
 	protected List<AllegatiType> allegati;
 
-	public DatiGeneraliType getDatiGenerali() {
-		return datiGenerali;
+	@XmlElement(name = "DatiBeniServizi", required = true)
+	protected DatiBeniServiziType datiBeniServizi;
+
+	@XmlElement(name = "DatiGenerali", required = true)
+	protected DatiGeneraliType datiGenerali;
+	@XmlElement(name = "DatiPagamento")
+	protected List<DatiPagamentoType> datiPagamento;
+	@XmlElement(name = "DatiVeicoli")
+	protected DatiVeicoliType datiVeicoli;
+	public FatturaElettronicaBodyType() {
+	}
+	public FatturaElettronicaBodyType(List<AllegatiType> allegati, DatiBeniServiziType datiBeniServizi,
+			DatiGeneraliType datiGenerali, List<DatiPagamentoType> datiPagamento, DatiVeicoliType datiVeicoli) {
+		this.allegati = allegati;
+		this.datiBeniServizi = datiBeniServizi;
+		this.datiGenerali = datiGenerali;
+		this.datiPagamento = datiPagamento;
+		this.datiVeicoli = datiVeicoli;
 	}
 
-	public void setDatiGenerali(DatiGeneraliType value) {
-		this.datiGenerali = value;
+	public List<AllegatiType> getAllegati() {
+		if (allegati == null) {
+			allegati = new ArrayList<AllegatiType>();
+		}
+		return this.allegati;
 	}
 
 	public DatiBeniServiziType getDatiBeniServizi() {
 		return datiBeniServizi;
 	}
 
-	public void setDatiBeniServizi(DatiBeniServiziType value) {
-		this.datiBeniServizi = value;
-	}
-
-	public DatiVeicoliType getDatiVeicoli() {
-		return datiVeicoli;
-	}
-
-	public void setDatiVeicoli(DatiVeicoliType value) {
-		this.datiVeicoli = value;
+	public DatiGeneraliType getDatiGenerali() {
+		return datiGenerali;
 	}
 
 	public List<DatiPagamentoType> getDatiPagamento() {
@@ -61,11 +64,20 @@ public class FatturaElettronicaBodyType {
 		return this.datiPagamento;
 	}
 
-	public List<AllegatiType> getAllegati() {
-		if (allegati == null) {
-			allegati = new ArrayList<AllegatiType>();
-		}
-		return this.allegati;
+	public DatiVeicoliType getDatiVeicoli() {
+		return datiVeicoli;
+	}
+
+	public void setDatiBeniServizi(DatiBeniServiziType value) {
+		this.datiBeniServizi = value;
+	}
+
+	public void setDatiGenerali(DatiGeneraliType value) {
+		this.datiGenerali = value;
+	}
+
+	public void setDatiVeicoli(DatiVeicoliType value) {
+		this.datiVeicoli = value;
 	}
 
 }

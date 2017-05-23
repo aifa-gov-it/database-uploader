@@ -12,6 +12,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "AnagraficaType", propOrder = { "denominazione", "nome", "cognome", "titolo", "codEORI" })
 public class AnagraficaType {
 
+	@XmlElement(name = "CodEORI")
+	protected String codEORI;
+
+	@XmlElement(name = "Cognome")
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String cognome;
+
 	@XmlElement(name = "Denominazione")
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
@@ -20,55 +28,58 @@ public class AnagraficaType {
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
 	protected String nome;
-	@XmlElement(name = "Cognome")
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String cognome;
 	@XmlElement(name = "Titolo")
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
 	protected String titolo;
-	@XmlElement(name = "CodEORI")
-	protected String codEORI;
-
-	public String getDenominazione() {
-		return denominazione;
+	public AnagraficaType() {
 	}
-
-	public void setDenominazione(String value) {
-		this.denominazione = value;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String value) {
-		this.nome = value;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public void setCognome(String value) {
-		this.cognome = value;
-	}
-
-	public String getTitolo() {
-		return titolo;
-	}
-
-	public void setTitolo(String value) {
-		this.titolo = value;
+	public AnagraficaType(String codEORI, String cognome, String denominazione, String nome, String titolo) {
+		this.codEORI = codEORI;
+		this.cognome = cognome;
+		this.denominazione = denominazione;
+		this.nome = nome;
+		this.titolo = titolo;
 	}
 
 	public String getCodEORI() {
 		return codEORI;
 	}
 
+	public String getCognome() {
+		return cognome;
+	}
+
+	public String getDenominazione() {
+		return denominazione;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getTitolo() {
+		return titolo;
+	}
+
 	public void setCodEORI(String value) {
 		this.codEORI = value;
+	}
+
+	public void setCognome(String value) {
+		this.cognome = value;
+	}
+
+	public void setDenominazione(String value) {
+		this.denominazione = value;
+	}
+
+	public void setNome(String value) {
+		this.nome = value;
+	}
+
+	public void setTitolo(String value) {
+		this.titolo = value;
 	}
 
 }

@@ -16,12 +16,12 @@ public enum RitenutaType {
 
 	SI;
 
-	public String value() {
-		return name();
-	}
-
 	public static RitenutaType fromValue(String v) {
 		return valueOf(v);
+	}
+
+	public String value() {
+		return name();
 	}
 
 }

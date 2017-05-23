@@ -20,12 +20,12 @@ public enum EsigibilitaIVAType {
 
 	S;
 
-	public String value() {
-		return name();
-	}
-
 	public static EsigibilitaIVAType fromValue(String v) {
 		return valueOf(v);
+	}
+
+	public String value() {
+		return name();
 	}
 
 }

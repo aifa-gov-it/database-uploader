@@ -80,6 +80,15 @@ public enum ModalitaPagamentoType {
 
 	@XmlEnumValue("MP22")
 	MP_22("MP22");
+	public static ModalitaPagamentoType fromValue(String v) {
+		for (ModalitaPagamentoType c : ModalitaPagamentoType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
+
 	private final String value;
 
 	ModalitaPagamentoType(String v) {
@@ -88,15 +97,6 @@ public enum ModalitaPagamentoType {
 
 	public String value() {
 		return value;
-	}
-
-	public static ModalitaPagamentoType fromValue(String v) {
-		for (ModalitaPagamentoType c : ModalitaPagamentoType.values()) {
-			if (c.value.equals(v)) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(v);
 	}
 
 }

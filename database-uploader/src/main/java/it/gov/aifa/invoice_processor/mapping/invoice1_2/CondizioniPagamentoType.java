@@ -16,6 +16,15 @@ public enum CondizioniPagamentoType {
 
 	@XmlEnumValue("TP03")
 	TP_03("TP03");
+	public static CondizioniPagamentoType fromValue(String v) {
+		for (CondizioniPagamentoType c : CondizioniPagamentoType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
+
 	private final String value;
 
 	CondizioniPagamentoType(String v) {
@@ -24,15 +33,6 @@ public enum CondizioniPagamentoType {
 
 	public String value() {
 		return value;
-	}
-
-	public static CondizioniPagamentoType fromValue(String v) {
-		for (CondizioniPagamentoType c : CondizioniPagamentoType.values()) {
-			if (c.value.equals(v)) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(v);
 	}
 
 }

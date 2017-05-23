@@ -11,16 +11,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "DatiBeniServiziType", propOrder = { "dettaglioLinee", "datiRiepilogo" })
 public class DatiBeniServiziType {
 
-	@XmlElement(name = "DettaglioLinee", required = true)
-	protected List<DettaglioLineeType> dettaglioLinee;
 	@XmlElement(name = "DatiRiepilogo", required = true)
 	protected List<DatiRiepilogoType> datiRiepilogo;
 
-	public List<DettaglioLineeType> getDettaglioLinee() {
-		if (dettaglioLinee == null) {
-			dettaglioLinee = new ArrayList<DettaglioLineeType>();
-		}
-		return this.dettaglioLinee;
+	@XmlElement(name = "DettaglioLinee", required = true)
+	protected List<DettaglioLineeType> dettaglioLinee;
+
+	public DatiBeniServiziType() {
+	}
+	public DatiBeniServiziType(List<DatiRiepilogoType> datiRiepilogo, List<DettaglioLineeType> dettaglioLinee) {
+		this.datiRiepilogo = datiRiepilogo;
+		this.dettaglioLinee = dettaglioLinee;
 	}
 
 	public List<DatiRiepilogoType> getDatiRiepilogo() {
@@ -28,6 +29,13 @@ public class DatiBeniServiziType {
 			datiRiepilogo = new ArrayList<DatiRiepilogoType>();
 		}
 		return this.datiRiepilogo;
+	}
+
+	public List<DettaglioLineeType> getDettaglioLinee() {
+		if (dettaglioLinee == null) {
+			dettaglioLinee = new ArrayList<DettaglioLineeType>();
+		}
+		return this.dettaglioLinee;
 	}
 
 }

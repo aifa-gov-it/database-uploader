@@ -15,31 +15,32 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlType(name = "DatiDDTType", propOrder = { "numeroDDT", "dataDDT", "riferimentoNumeroLinea" })
 public class DatiDDTType {
 
+	@XmlElement(name = "DataDDT", required = true)
+	@XmlSchemaType(name = "date")
+	protected XMLGregorianCalendar dataDDT;
+
 	@XmlElement(name = "NumeroDDT", required = true)
 	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
 	@XmlSchemaType(name = "normalizedString")
 	protected String numeroDDT;
-	@XmlElement(name = "DataDDT", required = true)
-	@XmlSchemaType(name = "date")
-	protected XMLGregorianCalendar dataDDT;
+
 	@XmlElement(name = "RiferimentoNumeroLinea", type = Integer.class)
 	@XmlSchemaType(name = "integer")
 	protected List<Integer> riferimentoNumeroLinea;
-
-	public String getNumeroDDT() {
-		return numeroDDT;
+	public DatiDDTType() {
 	}
-
-	public void setNumeroDDT(String value) {
-		this.numeroDDT = value;
+	public DatiDDTType(XMLGregorianCalendar dataDDT, String numeroDDT, List<Integer> riferimentoNumeroLinea) {
+		this.dataDDT = dataDDT;
+		this.numeroDDT = numeroDDT;
+		this.riferimentoNumeroLinea = riferimentoNumeroLinea;
 	}
 
 	public XMLGregorianCalendar getDataDDT() {
 		return dataDDT;
 	}
 
-	public void setDataDDT(XMLGregorianCalendar value) {
-		this.dataDDT = value;
+	public String getNumeroDDT() {
+		return numeroDDT;
 	}
 
 	public List<Integer> getRiferimentoNumeroLinea() {
@@ -47,6 +48,14 @@ public class DatiDDTType {
 			riferimentoNumeroLinea = new ArrayList<Integer>();
 		}
 		return this.riferimentoNumeroLinea;
+	}
+
+	public void setDataDDT(XMLGregorianCalendar value) {
+		this.dataDDT = value;
+	}
+
+	public void setNumeroDDT(String value) {
+		this.numeroDDT = value;
 	}
 
 }

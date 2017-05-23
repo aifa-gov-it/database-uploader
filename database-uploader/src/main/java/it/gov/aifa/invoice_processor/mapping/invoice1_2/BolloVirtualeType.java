@@ -9,12 +9,12 @@ public enum BolloVirtualeType {
 
 	SI;
 
-	public String value() {
-		return name();
-	}
-
 	public static BolloVirtualeType fromValue(String v) {
 		return valueOf(v);
+	}
+
+	public String value() {
+		return name();
 	}
 
 }

@@ -1,7 +1,10 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
@@ -11,10 +14,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
+import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceProcessorEntity;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Validated
-public class InvoiceParticipant {
+public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 	@NotBlank
 	private String city;
 	
@@ -25,26 +30,59 @@ public class InvoiceParticipant {
 	private String district;
 	
 	private String emailAddress;
+
+	private String eoriCode;
+	
+	private String faxNumber;
+
+	private String firstName;
+
+	private String houseNumber;
+	
+	private String lastName;
 	
 	@NotBlank
 	private String name;
 	
+	private String permanentEstablishmentCity;
+
+	private String permanentEstablishmentCountry;
+
+	private String permanentEstablishmentDistrict;
+	
+	private String permanentEstablishmentHouseNumber;
+	
+	private String permanentEstablishmentStreetAddress;
+	
+	private String permanentEstablishmentZipCode;
+
 	private String phoneNumber;
 	
-	@Id
 	@NotBlank
 	private String socialSecurityNumber;
-	
+
 	@NotBlank
 	private String streetAddress;
-	
+
 	private String taxCode;
 
 	private String taxCountryCode;
+
+	private String taxRepresentativeCountryId;
+	
+	private String taxRepresentativeFirstName;
+	
+	private String taxRepresentativeIdCode;
+	
+	private String taxRepresentativeLastName;
+	
+	private String taxRepresentativeName;
+	
+	private String title;
 	
 	@NotBlank
 	private String zipCode;
-	
+
 	@Override
 	public boolean equals(Object other) {
 		if (other == this) {
@@ -53,22 +91,9 @@ public class InvoiceParticipant {
 		if ((other instanceof InvoiceParticipant) == false) {
 			return false;
 		}
-		InvoiceParticipant rhs = ((InvoiceParticipant) other);
-		return new EqualsBuilder()
-				.append(city, rhs.city)
-				.append(country, rhs.country)
-				.append(district, rhs.district)
-				.append(emailAddress, rhs.emailAddress)
-				.append(name, rhs.name)
-				.append(phoneNumber, rhs.phoneNumber)
-				.append(socialSecurityNumber, rhs.socialSecurityNumber)
-				.append(streetAddress, rhs.streetAddress)
-				.append(taxCode, rhs.taxCode)
-				.append(taxCountryCode, rhs.taxCountryCode)
-				.append(zipCode, rhs.zipCode)
-				.isEquals();
+		return EqualsBuilder.reflectionEquals(this, other, false);
 	}
-	
+
 	public String getCity() {
 		return city;
 	}
@@ -80,13 +105,63 @@ public class InvoiceParticipant {
 	public String getDistrict() {
 		return district;
 	}
-
+	
 	public String getEmailAddress() {
 		return emailAddress;
 	}
+	
+	public String getEoriCode() {
+		return eoriCode;
+	}
+	
+	public String getFaxNumber() {
+		return faxNumber;
+	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getHouseNumber() {
+		return houseNumber;
+	}
+	
+	@Override
+	public List<String> getIdValues() {
+		List<String> additionalIdValues = new ArrayList<>();
+		additionalIdValues.add(socialSecurityNumber);
+		return Collections.unmodifiableList(additionalIdValues);
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
 	public String getName() {
 		return name;
+	}
+
+	public String getPermanentEstablishmentCity() {
+		return permanentEstablishmentCity;
+	}
+
+	public String getPermanentEstablishmentCountry() {
+		return permanentEstablishmentCountry;
+	}
+
+	public String getPermanentEstablishmentDistrict() {
+		return permanentEstablishmentDistrict;
+	}
+
+	public String getPermanentEstablishmentHouseNumber() {
+		return permanentEstablishmentHouseNumber;
+	}
+
+	public String getPermanentEstablishmentStreetAddress() {
+		return permanentEstablishmentStreetAddress;
+	}
+
+	public String getPermanentEstablishmentZipCode() {
+		return permanentEstablishmentZipCode;
 	}
 
 	public String getPhoneNumber() {
@@ -109,27 +184,39 @@ public class InvoiceParticipant {
 		return taxCountryCode;
 	}
 
+	public String getTaxRepresentativeCountryId() {
+		return taxRepresentativeCountryId;
+	}
+
+	public String getTaxRepresentativeFirstName() {
+		return taxRepresentativeFirstName;
+	}
+
+	public String getTaxRepresentativeIdCode() {
+		return taxRepresentativeIdCode;
+	}
+
+	public String getTaxRepresentativeLastName() {
+		return taxRepresentativeLastName;
+	}
+
+	public String getTaxRepresentativeName() {
+		return taxRepresentativeName;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+	
 	public String getZipCode() {
 		return zipCode;
 	}
-
+	
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(city)
-				.append(country)
-				.append(district)
-				.append(emailAddress)
-				.append(name)
-				.append(phoneNumber)
-				.append(socialSecurityNumber)
-				.append(streetAddress)
-				.append(taxCode)
-				.append(taxCountryCode)
-				.append(zipCode)
-				.toHashCode();
+		return HashCodeBuilder.reflectionHashCode(this, false);
 	}
-
+	
 	public void setCity(String city) {
 		this.city = city;
 	}
@@ -137,17 +224,61 @@ public class InvoiceParticipant {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-
+	
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-
+	
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+	}
+	
+	public void setEoriCode(String eoriCode) {
+		this.eoriCode = eoriCode;
+	}
+
+	public void setFaxNumber(String faxNumber) {
+		this.faxNumber = faxNumber;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setHouseNumber(String houseNumber) {
+		this.houseNumber = houseNumber;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setPermanentEstablishmentCity(String permanentEstablishmentCity) {
+		this.permanentEstablishmentCity = permanentEstablishmentCity;
+	}
+
+	public void setPermanentEstablishmentCountry(String permanentEstablishmentCountry) {
+		this.permanentEstablishmentCountry = permanentEstablishmentCountry;
+	}
+
+	public void setPermanentEstablishmentDistrict(String permanentEstablishmentDistrict) {
+		this.permanentEstablishmentDistrict = permanentEstablishmentDistrict;
+	}
+
+	public void setPermanentEstablishmentHouseNumber(String permanentEstablishmentHouseNumber) {
+		this.permanentEstablishmentHouseNumber = permanentEstablishmentHouseNumber;
+	}
+
+	public void setPermanentEstablishmentStreetAddress(String permanentEstablishmentStreetAddress) {
+		this.permanentEstablishmentStreetAddress = permanentEstablishmentStreetAddress;
+	}
+
+	public void setPermanentEstablishmentZipCode(String permanentEstablishmentZipCode) {
+		this.permanentEstablishmentZipCode = permanentEstablishmentZipCode;
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
@@ -168,6 +299,30 @@ public class InvoiceParticipant {
 
 	public void setTaxCountryCode(String taxCountryCode) {
 		this.taxCountryCode = taxCountryCode;
+	}
+
+	public void setTaxRepresentativeCountryId(String taxRepresentativeCountryId) {
+		this.taxRepresentativeCountryId = taxRepresentativeCountryId;
+	}
+
+	public void setTaxRepresentativeFirstName(String taxRepresentativeFirstName) {
+		this.taxRepresentativeFirstName = taxRepresentativeFirstName;
+	}
+
+	public void setTaxRepresentativeIdCode(String taxRepresentativeIdCode) {
+		this.taxRepresentativeIdCode = taxRepresentativeIdCode;
+	}
+
+	public void setTaxRepresentativeLastName(String taxRepresentativeLastName) {
+		this.taxRepresentativeLastName = taxRepresentativeLastName;
+	}
+
+	public void setTaxRepresentativeName(String taxRepresentativeName) {
+		this.taxRepresentativeName = taxRepresentativeName;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public void setZipCode(String zipCode) {

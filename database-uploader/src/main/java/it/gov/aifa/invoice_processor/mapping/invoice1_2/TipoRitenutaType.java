@@ -20,6 +20,15 @@ public enum TipoRitenutaType {
 
 	@XmlEnumValue("RT02")
 	RT_02("RT02");
+	public static TipoRitenutaType fromValue(String v) {
+		for (TipoRitenutaType c : TipoRitenutaType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
+
 	private final String value;
 
 	TipoRitenutaType(String v) {
@@ -28,15 +37,6 @@ public enum TipoRitenutaType {
 
 	public String value() {
 		return value;
-	}
-
-	public static TipoRitenutaType fromValue(String v) {
-		for (TipoRitenutaType c : TipoRitenutaType.values()) {
-			if (c.value.equals(v)) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(v);
 	}
 
 }

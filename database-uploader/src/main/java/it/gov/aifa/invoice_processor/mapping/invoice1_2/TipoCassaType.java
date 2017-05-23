@@ -80,6 +80,15 @@ public enum TipoCassaType {
 
 	@XmlEnumValue("TC22")
 	TC_22("TC22");
+	public static TipoCassaType fromValue(String v) {
+		for (TipoCassaType c : TipoCassaType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
+
 	private final String value;
 
 	TipoCassaType(String v) {
@@ -88,15 +97,6 @@ public enum TipoCassaType {
 
 	public String value() {
 		return value;
-	}
-
-	public static TipoCassaType fromValue(String v) {
-		for (TipoCassaType c : TipoCassaType.values()) {
-			if (c.value.equals(v)) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(v);
 	}
 
 }

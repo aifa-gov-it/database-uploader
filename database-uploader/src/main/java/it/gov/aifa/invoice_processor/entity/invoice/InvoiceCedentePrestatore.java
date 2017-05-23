@@ -1,10 +1,10 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -12,83 +12,100 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class InvoiceCedentePrestatore extends InvoiceParticipant {
 	
+	private String administrativeReference;
+	
 	@NotBlank
 	private String clearanceState;
+
+	private String professionalRegister;
+	
+	private String professionalRegisterDistrict;
+
+	private String professionalRegisterNumber;
+	
+	private LocalDate professionalRegisterSubscriptionDate;
 	
 	@NotBlank
 	private String reaNumber;
 	
 	@NotBlank
 	private String reaOffice;
-	
+
 	@NotBlank
-	private String shareCapital;
-	
+	private BigDecimal shareCapital;
+
 	@NotBlank
 	private String soleStakeholder;
-	
+
 	@NotBlank
 	private String taxSystem;
-	
-	@Override
-	public boolean equals(Object other) {
-		if (other == this) {
-			return true;
-		}
-		if ((other instanceof InvoiceCedentePrestatore) == false) {
-			return false;
-		}
-		InvoiceCedentePrestatore rhs = ((InvoiceCedentePrestatore) other);
-		return new EqualsBuilder()
-				.append(clearanceState, rhs.clearanceState)
-				.append(reaNumber, rhs.reaNumber)
-				.append(reaOffice, rhs.reaOffice)
-				.append(shareCapital, rhs.shareCapital)
-				.append(soleStakeholder, rhs.soleStakeholder)
-				.append(taxSystem, rhs.taxSystem)
-				.appendSuper(super.equals(other))
-				.isEquals();
+
+	public String getAdministrativeReference() {
+		return administrativeReference;
 	}
-	
+
 	public String getClearanceState() {
 		return clearanceState;
 	}
 
+	public String getProfessionalRegister() {
+		return professionalRegister;
+	}
+
+	public String getProfessionalRegisterDistrict() {
+		return professionalRegisterDistrict;
+	}
+
+	public String getProfessionalRegisterNumber() {
+		return professionalRegisterNumber;
+	}
+	
+	public LocalDate getProfessionalRegisterSubscriptionDate() {
+		return professionalRegisterSubscriptionDate;
+	}
+	
 	public String getReaNumber() {
 		return reaNumber;
 	}
-
+	
 	public String getReaOffice() {
 		return reaOffice;
 	}
-
-	public String getShareCapital() {
+	
+	public BigDecimal getShareCapital() {
 		return shareCapital;
 	}
-
+	
 	public String getSoleStakeholder() {
 		return soleStakeholder;
 	}
-
+	
 	public String getTaxSystem() {
 		return taxSystem;
 	}
 
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(clearanceState)
-				.append(reaNumber)
-				.append(reaOffice)
-				.append(shareCapital)
-				.append(soleStakeholder)
-				.append(taxSystem)
-				.appendSuper(super.hashCode())
-				.toHashCode();
+	public void setAdministrativeReference(String administrativeReference) {
+		this.administrativeReference = administrativeReference;
 	}
 
 	public void setClearanceState(String clearanceState) {
 		this.clearanceState = clearanceState;
+	}
+
+	public void setProfessionalRegister(String professionalRegister) {
+		this.professionalRegister = professionalRegister;
+	}
+
+	public void setProfessionalRegisterDistrict(String professionalRegisterDistrict) {
+		this.professionalRegisterDistrict = professionalRegisterDistrict;
+	}
+
+	public void setProfessionalRegisterNumber(String professionalRegisterNumber) {
+		this.professionalRegisterNumber = professionalRegisterNumber;
+	}
+
+	public void setProfessionalRegisterSubscriptionDate(LocalDate professionalRegisterSubscriptionDate) {
+		this.professionalRegisterSubscriptionDate = professionalRegisterSubscriptionDate;
 	}
 
 	public void setReaNumber(String reaNumber) {
@@ -99,7 +116,7 @@ public class InvoiceCedentePrestatore extends InvoiceParticipant {
 		this.reaOffice = reaOffice;
 	}
 
-	public void setShareCapital(String shareCapital) {
+	public void setShareCapital(BigDecimal shareCapital) {
 		this.shareCapital = shareCapital;
 	}
 
@@ -109,10 +126,5 @@ public class InvoiceCedentePrestatore extends InvoiceParticipant {
 
 	public void setTaxSystem(String taxSystem) {
 		this.taxSystem = taxSystem;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
 	}
 }

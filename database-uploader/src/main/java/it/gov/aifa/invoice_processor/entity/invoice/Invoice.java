@@ -1,212 +1,385 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
+import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceProcessorEntity;
+import it.gov.aifa.invoice_processor.mapping.invoice1_2.NaturaType;
+import it.gov.aifa.invoice_processor.mapping.invoice1_2.RitenutaType;
+import it.gov.aifa.invoice_processor.mapping.invoice1_2.TipoCassaType;
+
 @Entity
 @Validated
-public class Invoice {
+public class Invoice extends AbstractInvoiceProcessorEntity {
 	
-	@JoinColumn(name = "cedentePrestatoreSsn", referencedColumnName = "social_security_number")
+	private BigDecimal alCassa;
+
+	private BigDecimal aliquotaIvaCassa;
+
+	private BigDecimal aliquotaRitenuta;
+	
+	private String art73;
+	
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "invoice")
+	private List<Attachment> attachments;
+
+	private String beneficiarioPagamento;
+
+	private String capResa;
+
+	private String causalePagamentoRitenuta;
+
+	private String causaleTrasporto;
+
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@NotNull
 	private InvoiceCedentePrestatore cedentePrestatore;
 
-	@JoinColumn(name = "cessionarioCommittenteSsn", referencedColumnName = "socialSecurityNumber")
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@NotNull
 	private InvoiceParticipant cessionarioCommittente;
 
+	private String cfQuietanzantePagamento;
+
+	private String codicePagamento;
+
+	private String codUfficioPostalePagamento;
+
+	private String cognomeQuietanzantePagamento;
+
+	private String comuneResa;
+	
 	@NotBlank
 	private String currency;
+	
+	private LocalDate dataDecorrenzaPenalePagamento;
 
+	private LocalDate dataInizioTrasporto;
+	
+	private LocalDate dataLimitePagamentoAnticipatoPagamento;
+
+	private LocalDate dataOraConsegna;
+
+	private LocalDate dataOraRitiro;
+
+	private LocalDate dataRiferimentoTerminiPagamento;
+
+	private LocalDate dataVeicoli;
+	
 	@NotNull
 	private LocalDate date;
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private Set<DocumentoCorrelato> datiContratto;
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private Set<DocumentoCorrelato> datiConvenzione;
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private Set<DocumentoCorrelato> datiDdt;
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private Set<DocumentoCorrelato> datiRicezione;
 	
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private Set<DatiRiepilogo> datiRiepilogo;
+
 	@NotBlank
 	private String description;
-	
-	private double discountAmount;
-	
+
+	private String descrizioneTrasporto;
+
+	private BigDecimal discountAmount;
+
+	private BigDecimal discountPercentage;
+
 	private String discountType;
-	
+
 	private String documentTypeCode;
-	
+
 	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "financialInstitutionId", referencedColumnName = "iban")
 	@NotNull
 	private FinancialInstitution financialInstitution;
-	
+
+	private BigDecimal imponibileCassa;
+
 	private LocalDateTime importDate = LocalDateTime.now();
-	
+
+	private BigDecimal importoContributoCassa;
+
+	private BigDecimal importoRitenuta;
+
+	private String indirizzoResa;
+
+	private String invoiceRecipientCertifiedEmailAddress;
+
 	@NotBlank
 	private String invoiceRecipientCode;
 
-	@NotBlank
 	private String invoiceSenderCode;
 
-	@NotBlank
 	private String invoiceSenderCountryCode;
-	
-	@NotBlank
+
 	private String invoiceSenderEmailAddress;
+
+	private String invoiceSenderPhoneNumber;
 
 	@NotBlank
 	private String invoiceSendingFormat;
-	
+
 	@NotBlank
 	private String invoiceSendingNumber;
-	
-	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "version")
-	@NotNull
-	private InvoiceVersion invoiceVersion;
-	
-	@JoinColumn(name = "invoiceId")
+
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<LinkedInvoice> linkedInvoices;
-	
-	@Id
+	private Set<DocumentoCorrelato> linkedInvoices;
+
+	private LocalDate mainInvoiceDate;
+
+	private String mainInvoiceNumber;
+
+	private String mezzoTrasporto;
+
+	private NaturaType naturaCassa;
+
+	private String nazioneResa;
+
+	private String nomeQuietanzantePagamento;
+
 	@NotBlank
 	private String number;
-	
-	private double paymentAmount;
+
+	private String numeroCivicoResa;
+
+	private Integer numeroColli;
+
+	private BigDecimal paymentAmount;
 	
 	@NotBlank
 	private String paymentConditions;
-
+	
 	@NotNull
 	private LocalDate paymentExpirationDate;
-
+	
 	@NotBlank
 	private String paymentMode;
 	
 	private int paymentTermDays;
 	
-	@JoinColumn(name = "invoiceId")
+	private BigDecimal penalitaPagamentiRitardatiPagamento;
+	
+	private BigDecimal pesoLordo;
+
+	private BigDecimal pesoNetto;
+
+	private String provinciaResa;
+
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Set<PurchaseLine> purchaseLines;
-	
-	@JoinColumn(name = "invoiceId")
+
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<PurchaseOrder> purchaseOrders;
+	private Set<DocumentoCorrelato> purchaseOrders;
+	
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@NotNull
+	private InvoiceParticipant rappresentanteFiscale;
+
+	private String riferimentoAmministrazioneCassa;
+
+	private Integer riferimentoFase;
+
+	private RitenutaType ritenutaCassa;
+
+	private BigDecimal rounding;
+
+	private BigDecimal scontoPagamentoAnticipatoPagamento;
+
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@NotNull
+	private InvoiceParticipant soggettoEmittente;
 	
 	@NotBlank
-	private String soggettoEmittente;
+	private String soggettoEmittenteType;
 	
-	@NotBlank
-	private String soggettoEmittenteName;
+	private BigDecimal stampAmount;
 	
-	private double stampAmount;
+	private TipoCassaType tipoCassa;
 
-	private double taxableAmount;
+	private String tipoResa;
 
-	@NotBlank
-	private String taxDue;
+	private String tipoRitenuta;
+
+	private String titoloQuietanzantePagamento;
+
+	private BigDecimal totalAmount;
 	
-	private String taxLawReference;
+	private String totalePercorsoVeicoli;
 	
-	private double taxRate;
+	private String unitaMisuraPeso;
+
+	private String version;
+
+	@ManyToOne(cascade = { CascadeType.ALL })
+	private Vettore vettore;
 	
-	private double totalAmount;
-
-	private LocalDate transportDocumentDate;
-
-	private String transportDocumentId;
-
-	private Boolean virtualStamp;
-
+	private String virtualStamp;
+	
 	public Invoice() {
 	}
-
+	
 	public Invoice(String number) {
 		this();
 		this.number = number;
 	}
+	
+	public BigDecimal getAlCassa() {
+		return alCassa;
+	}
+	
+	public BigDecimal getAliquotaIvaCassa() {
+		return aliquotaIvaCassa;
+	}
+	
+	public BigDecimal getAliquotaRitenuta() {
+		return aliquotaRitenuta;
+	}
+	
+	public String getArt73() {
+		return art73;
+	}
+	
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
+	
+	public String getBeneficiarioPagamento() {
+		return beneficiarioPagamento;
+	}
 
-	@Override
-	public boolean equals(Object other) {
-		if (other == this) {
-			return true;
-		}
-		if ((other instanceof Invoice) == false) {
-			return false;
-		}
-		Invoice rhs = ((Invoice) other);
-		return new EqualsBuilder()
-				.append(cedentePrestatore, rhs.cedentePrestatore)
-				.append(cessionarioCommittente, rhs.cessionarioCommittente)
-				.append(date, rhs.date)
-				.append(description, rhs.description)
-				.append(discountType, rhs.discountType)
-				.append(discountAmount, rhs.discountAmount)
-				.append(documentTypeCode, rhs.documentTypeCode)
-				.append(financialInstitution, rhs.financialInstitution)
-				.append(importDate, rhs.importDate)
-				.append(invoiceSenderCode, rhs.invoiceSenderCode)
-				.append(invoiceSenderCountryCode, rhs.invoiceSenderCountryCode)
-				.append(invoiceSenderEmailAddress, rhs.invoiceSenderEmailAddress)
-				.append(invoiceSendingNumber, rhs.invoiceSendingNumber)
-				.append(invoiceRecipientCode, rhs.invoiceRecipientCode)
-				.append(invoiceSendingFormat, rhs.invoiceSendingFormat)
-				.append(invoiceVersion, rhs.invoiceVersion)
-				.append(number, rhs.number)
-				.append(paymentConditions, rhs.paymentConditions)
-				.append(paymentMode, rhs.paymentMode)
-				.append(paymentTermDays, rhs.paymentTermDays)
-				.append(paymentExpirationDate, rhs.paymentExpirationDate)
-				.append(paymentAmount, rhs.paymentAmount)
-				.append(soggettoEmittente, rhs.soggettoEmittente)
-				.append(soggettoEmittenteName, rhs.soggettoEmittenteName)
-				.append(stampAmount, rhs.stampAmount)
-				.append(taxableAmount, rhs.taxableAmount)
-				.append(taxDue, rhs.taxDue)
-				.append(taxLawReference, rhs.taxLawReference)
-				.append(taxRate, rhs.taxRate)
-				.append(totalAmount, rhs.totalAmount)
-				.append(transportDocumentId, rhs.transportDocumentId)
-				.append(transportDocumentDate, rhs.transportDocumentDate)
-				.append(virtualStamp, rhs.virtualStamp)
-				.isEquals();
+	public String getCapResa() {
+		return capResa;
+	}
+	
+	public String getCausalePagamentoRitenuta() {
+		return causalePagamentoRitenuta;
+	}
+	
+	public String getCausaleTrasporto() {
+		return causaleTrasporto;
 	}
 
 	public InvoiceCedentePrestatore getCedentePrestatore() {
 		return cedentePrestatore;
 	}
-	
+
 	public InvoiceParticipant getCessionarioCommittente() {
 		return cessionarioCommittente;
 	}
+
+	public String getCfQuietanzantePagamento() {
+		return cfQuietanzantePagamento;
+	}
+
+	public String getCodicePagamento() {
+		return codicePagamento;
+	}
+
+	public String getCodUfficioPostalePagamento() {
+		return codUfficioPostalePagamento;
+	}
+
+	public String getCognomeQuietanzantePagamento() {
+		return cognomeQuietanzantePagamento;
+	}
 	
+	public String getComuneResa() {
+		return comuneResa;
+	}
+
 	public String getCurrency() {
 		return currency;
 	}
+
+	public LocalDate getDataDecorrenzaPenalePagamento() {
+		return dataDecorrenzaPenalePagamento;
+	}
+
+	public LocalDate getDataInizioTrasporto() {
+		return dataInizioTrasporto;
+	}
+
+	public LocalDate getDataLimitePagamentoAnticipatoPagamento() {
+		return dataLimitePagamentoAnticipatoPagamento;
+	}
+
+	public LocalDate getDataOraConsegna() {
+		return dataOraConsegna;
+	}
+
+	public LocalDate getDataOraRitiro() {
+		return dataOraRitiro;
+	}
+
+	public LocalDate getDataRiferimentoTerminiPagamento() {
+		return dataRiferimentoTerminiPagamento;
+	}
+
+	public LocalDate getDataVeicoli() {
+		return dataVeicoli;
+	}
+
 	public LocalDate getDate() {
 		return date;
 	}
-	
+
+	public Set<DocumentoCorrelato> getDatiContratto() {
+		return datiContratto;
+	}
+
+	public Set<DocumentoCorrelato> getDatiConvenzione() {
+		return datiConvenzione;
+	}
+
+	public Set<DocumentoCorrelato> getDatiDdt() {
+		return datiDdt;
+	}
+
+	public Set<DocumentoCorrelato> getDatiRicezione() {
+		return datiRicezione;
+	}
+
+	public Set<DatiRiepilogo> getDatiRiepilogo() {
+		return datiRiepilogo;
+	}
+
 	public String getDescription() {
 		return description;
 	}
-	
-	public double getDiscountAmount() {
+
+	public String getDescrizioneTrasporto() {
+		return descrizioneTrasporto;
+	}
+
+	public BigDecimal getDiscountAmount() {
 		return discountAmount;
+	}
+	
+	public BigDecimal getDiscountPercentage() {
+		return discountPercentage;
 	}
 	
 	public String getDiscountType() {
@@ -221,8 +394,35 @@ public class Invoice {
 		return financialInstitution;
 	}
 	
+	@Override
+	public List<String> getIdValues() {
+		List<String> additionalIdValues = new ArrayList<>();
+		additionalIdValues.add(number);
+		return Collections.unmodifiableList(additionalIdValues);
+	}
+	
+	public BigDecimal getImponibileCassa() {
+		return imponibileCassa;
+	}
+
 	public LocalDateTime getImportDate() {
 		return importDate;
+	}
+
+	public BigDecimal getImportoContributoCassa() {
+		return importoContributoCassa;
+	}
+
+	public BigDecimal getImportoRitenuta() {
+		return importoRitenuta;
+	}
+
+	public String getIndirizzoResa() {
+		return indirizzoResa;
+	}
+
+	public String getInvoiceRecipientCertifiedEmailAddress() {
+		return invoiceRecipientCertifiedEmailAddress;
 	}
 	
 	public String getInvoiceRecipientCode() {
@@ -236,32 +436,64 @@ public class Invoice {
 	public String getInvoiceSenderCountryCode() {
 		return invoiceSenderCountryCode;
 	}
-
+	
 	public String getInvoiceSenderEmailAddress() {
 		return invoiceSenderEmailAddress;
 	}
-
+	
+	public String getInvoiceSenderPhoneNumber() {
+		return invoiceSenderPhoneNumber;
+	}
+	
 	public String getInvoiceSendingFormat() {
 		return invoiceSendingFormat;
 	}
-
+	
 	public String getInvoiceSendingNumber() {
 		return invoiceSendingNumber;
 	}
-
-	public InvoiceVersion getInvoiceVersion() {
-		return invoiceVersion;
+	
+	public Set<DocumentoCorrelato> getLinkedInvoices() {
+		return linkedInvoices;
+	}
+	
+	public LocalDate getMainInvoiceDate() {
+		return mainInvoiceDate;
+	}
+	
+	public String getMainInvoiceNumber() {
+		return mainInvoiceNumber;
+	}
+	
+	public String getMezzoTrasporto() {
+		return mezzoTrasporto;
+	}
+	
+	public NaturaType getNaturaCassa() {
+		return naturaCassa;
 	}
 
-	public Set<LinkedInvoice> getLinkedInvoices() {
-		return linkedInvoices;
+	public String getNazioneResa() {
+		return nazioneResa;
+	}
+
+	public String getNomeQuietanzantePagamento() {
+		return nomeQuietanzantePagamento;
 	}
 
 	public String getNumber() {
 		return number;
 	}
 
-	public double getPaymentAmount() {
+	public String getNumeroCivicoResa() {
+		return numeroCivicoResa;
+	}
+
+	public Integer getNumeroColli() {
+		return numeroColli;
+	}
+
+	public BigDecimal getPaymentAmount() {
 		return paymentAmount;
 	}
 
@@ -281,153 +513,295 @@ public class Invoice {
 		return paymentTermDays;
 	}
 
+	public BigDecimal getPenalitaPagamentiRitardatiPagamento() {
+		return penalitaPagamentiRitardatiPagamento;
+	}
+
+	public BigDecimal getPesoLordo() {
+		return pesoLordo;
+	}
+
+	public BigDecimal getPesoNetto() {
+		return pesoNetto;
+	}
+
+	public String getProvinciaResa() {
+		return provinciaResa;
+	}
+
 	public Set<PurchaseLine> getPurchaseLines() {
 		return purchaseLines;
 	}
 
-	public Set<PurchaseOrder> getPurchaseOrders() {
+	public Set<DocumentoCorrelato> getPurchaseOrders() {
 		return purchaseOrders;
 	}
 
-	public String getSoggettoEmittente() {
+	public InvoiceParticipant getRappresentanteFiscale() {
+		return rappresentanteFiscale;
+	}
+
+	public String getRiferimentoAmministrazioneCassa() {
+		return riferimentoAmministrazioneCassa;
+	}
+
+	public Integer getRiferimentoFase() {
+		return riferimentoFase;
+	}
+
+	public RitenutaType getRitenutaCassa() {
+		return ritenutaCassa;
+	}
+
+	public BigDecimal getRounding() {
+		return rounding;
+	}
+
+	public BigDecimal getScontoPagamentoAnticipatoPagamento() {
+		return scontoPagamentoAnticipatoPagamento;
+	}
+
+	public InvoiceParticipant getSoggettoEmittente() {
 		return soggettoEmittente;
 	}
 
-	public String getSoggettoEmittenteName() {
-		return soggettoEmittenteName;
+	public String getSoggettoEmittenteType() {
+		return soggettoEmittenteType;
 	}
 
-	public double getStampAmount() {
+	public BigDecimal getStampAmount() {
 		return stampAmount;
 	}
-
-	public double getTaxableAmount() {
-		return taxableAmount;
+	
+	public TipoCassaType getTipoCassa() {
+		return tipoCassa;
 	}
 
-	public String getTaxDue() {
-		return taxDue;
+	public String getTipoResa() {
+		return tipoResa;
 	}
 
-	public String getTaxLawReference() {
-		return taxLawReference;
+	public String getTipoRitenuta() {
+		return tipoRitenuta;
 	}
 
-	public double getTaxRate() {
-		return taxRate;
+	public String getTitoloQuietanzantePagamento() {
+		return titoloQuietanzantePagamento;
 	}
 
-	public double getTotalAmount() {
+	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
 
-	public LocalDate getTransportDocumentDate() {
-		return transportDocumentDate;
+	public String getTotalePercorsoVeicoli() {
+		return totalePercorsoVeicoli;
 	}
 
-	public String getTransportDocumentId() {
-		return transportDocumentId;
+	public String getUnitaMisuraPeso() {
+		return unitaMisuraPeso;
 	}
 
-	public Boolean getVirtualStamp() {
+	public String getVersion() {
+		return version;
+	}
+	
+	public Vettore getVettore() {
+		return vettore;
+	}
+
+	public String getVirtualStamp() {
 		return virtualStamp;
 	}
 
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(cedentePrestatore)
-				.append(cessionarioCommittente)
-				.append(date)
-				.append(description)
-				.append(discountType)
-				.append(discountAmount)
-				.append(documentTypeCode)
-				.append(financialInstitution)
-				.append(importDate)
-				.append(invoiceSenderCode)
-				.append(invoiceSenderCountryCode)
-				.append(invoiceSenderEmailAddress)
-				.append(invoiceSendingNumber)
-				.append(invoiceRecipientCode)
-				.append(invoiceSendingFormat)
-				.append(invoiceVersion)
-				.append(linkedInvoices)
-				.append(number)
-				.append(paymentConditions)
-				.append(paymentMode)
-				.append(paymentTermDays)
-				.append(paymentExpirationDate)
-				.append(paymentAmount)
-				.append(purchaseLines)
-				.append(soggettoEmittente)
-				.append(soggettoEmittenteName)
-				.append(stampAmount)
-				.append(taxableAmount)
-				.append(taxDue)
-				.append(taxLawReference)
-				.append(taxRate)
-				.append(totalAmount)
-				.append(transportDocumentId)
-				.append(transportDocumentDate)
-				.append(virtualStamp)
-				.toHashCode();
+	public void setAlCassa(BigDecimal alCassa) {
+		this.alCassa = alCassa;
+	}
+
+	public void setAliquotaIvaCassa(BigDecimal aliquotaIvaCassa) {
+		this.aliquotaIvaCassa = aliquotaIvaCassa;
+	}
+
+	public void setAliquotaRitenuta(BigDecimal aliquotaRitenuta) {
+		this.aliquotaRitenuta = aliquotaRitenuta;
+	}
+
+	public void setArt73(String art73) {
+		this.art73 = art73;
+	}
+
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
+	}
+
+	public void setBeneficiarioPagamento(String beneficiarioPagamento) {
+		this.beneficiarioPagamento = beneficiarioPagamento;
+	}
+	
+	public void setCapResa(String capResa) {
+		this.capResa = capResa;
+	}
+	
+	public void setCausalePagamentoRitenuta(String causalePagamentoRitenuta) {
+		this.causalePagamentoRitenuta = causalePagamentoRitenuta;
+	}
+	
+	public void setCausaleTrasporto(String causaleTrasporto) {
+		this.causaleTrasporto = causaleTrasporto;
 	}
 
 	public void setCedentePrestatore(InvoiceCedentePrestatore cedentePrestatore) {
 		this.cedentePrestatore = cedentePrestatore;
 	}
-
+	
 	public void setCessionarioCommittente(InvoiceParticipant cessionarioCommittente) {
 		this.cessionarioCommittente = cessionarioCommittente;
+	}
+	
+	public void setCfQuietanzantePagamento(String cfQuietanzantePagamento) {
+		this.cfQuietanzantePagamento = cfQuietanzantePagamento;
+	}
+	
+	public void setCodicePagamento(String codicePagamento) {
+		this.codicePagamento = codicePagamento;
+	}
+	
+	public void setCodUfficioPostalePagamento(String codUfficioPostalePagamento) {
+		this.codUfficioPostalePagamento = codUfficioPostalePagamento;
+	}
+	
+	public void setCognomeQuietanzantePagamento(String cognomeQuietanzantePagamento) {
+		this.cognomeQuietanzantePagamento = cognomeQuietanzantePagamento;
+	}
+
+	public void setComuneResa(String comuneResa) {
+		this.comuneResa = comuneResa;
 	}
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
 
+	public void setDataDecorrenzaPenalePagamento(LocalDate dataDecorrenzaPenalePagamento) {
+		this.dataDecorrenzaPenalePagamento = dataDecorrenzaPenalePagamento;
+	}
+
+	public void setDataInizioTrasporto(LocalDate dataInizioTrasporto) {
+		this.dataInizioTrasporto = dataInizioTrasporto;
+	}
+
+	public void setDataLimitePagamentoAnticipatoPagamento(LocalDate dataLimitePagamentoAnticipatoPagamento) {
+		this.dataLimitePagamentoAnticipatoPagamento = dataLimitePagamentoAnticipatoPagamento;
+	}
+
+	public void setDataOraConsegna(LocalDate dataOraConsegna) {
+		this.dataOraConsegna = dataOraConsegna;
+	}
+
+	public void setDataOraRitiro(LocalDate dataOraRitiro) {
+		this.dataOraRitiro = dataOraRitiro;
+	}
+
+	public void setDataRiferimentoTerminiPagamento(LocalDate dataRiferimentoTerminiPagamento) {
+		this.dataRiferimentoTerminiPagamento = dataRiferimentoTerminiPagamento;
+	}
+
+	public void setDataVeicoli(LocalDate dataVeicoli) {
+		this.dataVeicoli = dataVeicoli;
+	}
+	
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+	
+	public void setDatiContratto(Set<DocumentoCorrelato> datiContratto) {
+		this.datiContratto = datiContratto;
+	}
+	
+	public void setDatiConvenzione(Set<DocumentoCorrelato> datiConvenzione) {
+		this.datiConvenzione = datiConvenzione;
+	}
+
+	public void setDatiDdt(Set<DocumentoCorrelato> datiDdt) {
+		this.datiDdt = datiDdt;
+	}
+
+	public void setDatiRicezione(Set<DocumentoCorrelato> datiRicezione) {
+		this.datiRicezione = datiRicezione;
+	}
+
+	public void setDatiRiepilogo(Set<DatiRiepilogo> datiRiepilogo) {
+		this.datiRiepilogo = datiRiepilogo;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public void setDiscountAmount(double discountAmount) {
+	public void setDescrizioneTrasporto(String descrizioneTrasporto) {
+		this.descrizioneTrasporto = descrizioneTrasporto;
+	}
+
+	public void setDiscountAmount(BigDecimal discountAmount) {
 		this.discountAmount = discountAmount;
+	}
+
+	public void setDiscountPercentage(BigDecimal discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 	public void setDiscountType(String discountType) {
 		this.discountType = discountType;
 	}
-
+	
 	public void setDocumentTypeCode(String documentTypeCode) {
 		this.documentTypeCode = documentTypeCode;
 	}
-
+	
 	public void setFinancialInstitution(FinancialInstitution financialInstitution) {
 		this.financialInstitution = financialInstitution;
 	}
-
+	public void setImponibileCassa(BigDecimal imponibileCassa) {
+		this.imponibileCassa = imponibileCassa;
+	}
+	
 	public void setImportDate(LocalDateTime importDate) {
 		this.importDate = importDate;
 	}
-
+	
+	public void setImportoContributoCassa(BigDecimal importoContributoCassa) {
+		this.importoContributoCassa = importoContributoCassa;
+	}
+	
+	public void setImportoRitenuta(BigDecimal importoRitenuta) {
+		this.importoRitenuta = importoRitenuta;
+	}
+	
+	public void setIndirizzoResa(String indirizzoResa) {
+		this.indirizzoResa = indirizzoResa;
+	}
+	
+	public void setInvoiceRecipientCertifiedEmailAddress(String invoiceRecipientCertifiedEmailAddress) {
+		this.invoiceRecipientCertifiedEmailAddress = invoiceRecipientCertifiedEmailAddress;
+	}
+	
 	public void setInvoiceRecipientCode(String invoiceRecipientCode) {
 		this.invoiceRecipientCode = invoiceRecipientCode;
 	}
-
+	
 	public void setInvoiceSenderCode(String invoiceSenderCode) {
 		this.invoiceSenderCode = invoiceSenderCode;
 	}
-
+	
 	public void setInvoiceSenderCountryCode(String invoiceSenderCountryCode) {
 		this.invoiceSenderCountryCode = invoiceSenderCountryCode;
 	}
 
 	public void setInvoiceSenderEmailAddress(String invoiceSenderEmailAddress) {
 		this.invoiceSenderEmailAddress = invoiceSenderEmailAddress;
+	}
+
+	public void setInvoiceSenderPhoneNumber(String invoiceSenderPhoneNumber) {
+		this.invoiceSenderPhoneNumber = invoiceSenderPhoneNumber;
 	}
 
 	public void setInvoiceSendingFormat(String invoiceSendingFormat) {
@@ -438,19 +812,47 @@ public class Invoice {
 		this.invoiceSendingNumber = invoiceSendingNumber;
 	}
 
-	public void setInvoiceVersion(InvoiceVersion invoiceVersion) {
-		this.invoiceVersion = invoiceVersion;
+	public void setLinkedInvoices(Set<DocumentoCorrelato> linkedInvoices) {
+		this.linkedInvoices = linkedInvoices;
 	}
 
-	public void setLinkedInvoices(Set<LinkedInvoice> linkedInvoices) {
-		this.linkedInvoices = linkedInvoices;
+	public void setMainInvoiceDate(LocalDate mainInvoiceDate) {
+		this.mainInvoiceDate = mainInvoiceDate;
+	}
+
+	public void setMainInvoiceNumber(String mainInvoiceNumber) {
+		this.mainInvoiceNumber = mainInvoiceNumber;
+	}
+
+	public void setMezzoTrasporto(String mezzoTrasporto) {
+		this.mezzoTrasporto = mezzoTrasporto;
+	}
+
+	public void setNaturaCassa(NaturaType naturaCassa) {
+		this.naturaCassa = naturaCassa;
+	}
+
+	public void setNazioneResa(String nazioneResa) {
+		this.nazioneResa = nazioneResa;
+	}
+
+	public void setNomeQuietanzantePagamento(String nomeQuietanzantePagamento) {
+		this.nomeQuietanzantePagamento = nomeQuietanzantePagamento;
 	}
 
 	public void setNumber(String number) {
 		this.number = number;
 	}
 
-	public void setPaymentAmount(double paymentAmount) {
+	public void setNumeroCivicoResa(String numeroCivicoResa) {
+		this.numeroCivicoResa = numeroCivicoResa;
+	}
+
+	public void setNumeroColli(Integer numeroColli) {
+		this.numeroColli = numeroColli;
+	}
+
+	public void setPaymentAmount(BigDecimal paymentAmount) {
 		this.paymentAmount = paymentAmount;
 	}
 
@@ -470,60 +872,103 @@ public class Invoice {
 		this.paymentTermDays = paymentTermDays;
 	}
 
+	public void setPenalitaPagamentiRitardatiPagamento(BigDecimal penalitaPagamentiRitardatiPagamento) {
+		this.penalitaPagamentiRitardatiPagamento = penalitaPagamentiRitardatiPagamento;
+	}
+
+	public void setPesoLordo(BigDecimal pesoLordo) {
+		this.pesoLordo = pesoLordo;
+	}
+
+	public void setPesoNetto(BigDecimal pesoNetto) {
+		this.pesoNetto = pesoNetto;
+	}
+
+	public void setProvinciaResa(String provinciaResa) {
+		this.provinciaResa = provinciaResa;
+	}
+
 	public void setPurchaseLines(Set<PurchaseLine> purchaseLines) {
 		this.purchaseLines = purchaseLines;
 	}
 
-	public void setPurchaseOrders(Set<PurchaseOrder> purchaseOrders) {
+	public void setPurchaseOrders(Set<DocumentoCorrelato> purchaseOrders) {
 		this.purchaseOrders = purchaseOrders;
 	}
 
-	public void setSoggettoEmittente(String soggettoEmittente) {
+	public void setRappresentanteFiscale(InvoiceParticipant rappresentanteFiscale) {
+		this.rappresentanteFiscale = rappresentanteFiscale;
+	}
+
+	public void setRiferimentoAmministrazioneCassa(String riferimentoAmministrazioneCassa) {
+		this.riferimentoAmministrazioneCassa = riferimentoAmministrazioneCassa;
+	}
+
+	public void setRiferimentoFase(Integer riferimentoFase) {
+		this.riferimentoFase = riferimentoFase;
+	}
+
+	public void setRitenutaCassa(RitenutaType ritenutaCassa) {
+		this.ritenutaCassa = ritenutaCassa;
+	}
+
+	public void setRounding(BigDecimal rounding) {
+		this.rounding = rounding;
+	}
+
+	public void setScontoPagamentoAnticipatoPagamento(BigDecimal scontoPagamentoAnticipatoPagamento) {
+		this.scontoPagamentoAnticipatoPagamento = scontoPagamentoAnticipatoPagamento;
+	}
+
+	public void setSoggettoEmittente(InvoiceParticipant soggettoEmittente) {
 		this.soggettoEmittente = soggettoEmittente;
 	}
 
-	public void setSoggettoEmittenteName(String soggettoEmittenteName) {
-		this.soggettoEmittenteName = soggettoEmittenteName;
+	public void setSoggettoEmittenteType(String soggettoEmittenteType) {
+		this.soggettoEmittenteType = soggettoEmittenteType;
 	}
 
-	public void setStampAmount(double stampAmount) {
+	public void setStampAmount(BigDecimal stampAmount) {
 		this.stampAmount = stampAmount;
 	}
 
-	public void setTaxableAmount(double taxableAmount) {
-		this.taxableAmount = taxableAmount;
+	public void setTipoCassa(TipoCassaType tipoCassa) {
+		this.tipoCassa = tipoCassa;
 	}
 
-	public void setTaxDue(String taxDue) {
-		this.taxDue = taxDue;
+	public void setTipoResa(String tipoResa) {
+		this.tipoResa = tipoResa;
 	}
 
-	public void setTaxLawReference(String taxLawReference) {
-		this.taxLawReference = taxLawReference;
+	public void setTipoRitenuta(String tipoRitenuta) {
+		this.tipoRitenuta = tipoRitenuta;
 	}
 
-	public void setTaxRate(double taxRate) {
-		this.taxRate = taxRate;
+	public void setTitoloQuietanzantePagamento(String titoloQuietanzantePagamento) {
+		this.titoloQuietanzantePagamento = titoloQuietanzantePagamento;
 	}
 
-	public void setTotalAmount(double totalAmount) {
+	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 
-	public void setTransportDocumentDate(LocalDate transportDocumentDate) {
-		this.transportDocumentDate = transportDocumentDate;
+	public void setTotalePercorsoVeicoli(String totalePercorsoVeicoli) {
+		this.totalePercorsoVeicoli = totalePercorsoVeicoli;
 	}
 
-	public void setTransportDocumentId(String transportDocumentId) {
-		this.transportDocumentId = transportDocumentId;
+	public void setUnitaMisuraPeso(String unitaMisuraPeso) {
+		this.unitaMisuraPeso = unitaMisuraPeso;
 	}
 
-	public void setVirtualStamp(Boolean virtualStamp) {
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public void setVettore(Vettore vettore) {
+		this.vettore = vettore;
+	}
+
+	public void setVirtualStamp(String virtualStamp) {
 		this.virtualStamp = virtualStamp;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
 	}
 }

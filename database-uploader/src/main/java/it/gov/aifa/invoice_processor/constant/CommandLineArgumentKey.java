@@ -6,6 +6,6 @@ public final class CommandLineArgumentKey {
 	public static final String IMPORT_MOV_DSV_WITH_PREFIX = "--" + IMPORT_MOV_DSV;
 	public static final String PATH = "path";
 	public static final String PATH_WITH_PREFIX = "--" + PATH;
-	public static final String UPLOAD_JSON_TO_DB_WITH_PREFIX = "--upload-json-to-db";
+	public static final String UPLOAD_INVOICES_TO_DB_WITH_PREFIX = "--upload-invoices-to-db";
 	private CommandLineArgumentKey(){ }
 }

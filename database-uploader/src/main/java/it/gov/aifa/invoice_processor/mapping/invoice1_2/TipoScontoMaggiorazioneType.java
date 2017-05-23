@@ -14,16 +14,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum TipoScontoMaggiorazioneType {
 
-	SC,
+	MG,
 
-	MG;
-
-	public String value() {
-		return name();
-	}
+	SC;
 
 	public static TipoScontoMaggiorazioneType fromValue(String v) {
 		return valueOf(v);
+	}
+
+	public String value() {
+		return name();
 	}
 
 }

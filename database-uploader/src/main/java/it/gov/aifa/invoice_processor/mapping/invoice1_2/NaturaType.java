@@ -35,6 +35,15 @@ public enum NaturaType {
 
 	@XmlEnumValue("N7")
 	N_7("N7");
+	public static NaturaType fromValue(String v) {
+		for (NaturaType c : NaturaType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
+
 	private final String value;
 
 	NaturaType(String v) {
@@ -43,15 +52,6 @@ public enum NaturaType {
 
 	public String value() {
 		return value;
-	}
-
-	public static NaturaType fromValue(String v) {
-		for (NaturaType c : NaturaType.values()) {
-			if (c.value.equals(v)) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(v);
 	}
 
 }

@@ -20,28 +20,36 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlType(name = "FatturaPrincipaleType", propOrder = { "numeroFatturaPrincipale", "dataFatturaPrincipale" })
 public class FatturaPrincipaleType {
 
-	@XmlElement(name = "NumeroFatturaPrincipale", required = true)
-	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-	@XmlSchemaType(name = "normalizedString")
-	protected String numeroFatturaPrincipale;
 	@XmlElement(name = "DataFatturaPrincipale", required = true)
 	@XmlSchemaType(name = "date")
 	protected XMLGregorianCalendar dataFatturaPrincipale;
 
-	public String getNumeroFatturaPrincipale() {
-		return numeroFatturaPrincipale;
-	}
+	@XmlElement(name = "NumeroFatturaPrincipale", required = true)
+	@XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+	@XmlSchemaType(name = "normalizedString")
+	protected String numeroFatturaPrincipale;
 
-	public void setNumeroFatturaPrincipale(String value) {
-		this.numeroFatturaPrincipale = value;
+	public FatturaPrincipaleType() {
+	}
+	public FatturaPrincipaleType(XMLGregorianCalendar dataFatturaPrincipale, String numeroFatturaPrincipale) {
+		this.dataFatturaPrincipale = dataFatturaPrincipale;
+		this.numeroFatturaPrincipale = numeroFatturaPrincipale;
 	}
 
 	public XMLGregorianCalendar getDataFatturaPrincipale() {
 		return dataFatturaPrincipale;
 	}
 
+	public String getNumeroFatturaPrincipale() {
+		return numeroFatturaPrincipale;
+	}
+
 	public void setDataFatturaPrincipale(XMLGregorianCalendar value) {
 		this.dataFatturaPrincipale = value;
+	}
+
+	public void setNumeroFatturaPrincipale(String value) {
+		this.numeroFatturaPrincipale = value;
 	}
 
 }

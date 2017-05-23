@@ -9,35 +9,45 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "DatiAnagraficiTerzoIntermediarioType", propOrder = { "idFiscaleIVA", "codiceFiscale", "anagrafica" })
 public class DatiAnagraficiTerzoIntermediarioType {
 
-	@XmlElement(name = "IdFiscaleIVA")
-	protected IdFiscaleType idFiscaleIVA;
-	@XmlElement(name = "CodiceFiscale")
-	protected String codiceFiscale;
 	@XmlElement(name = "Anagrafica", required = true)
 	protected AnagraficaType anagrafica;
 
-	public IdFiscaleType getIdFiscaleIVA() {
-		return idFiscaleIVA;
-	}
+	@XmlElement(name = "CodiceFiscale")
+	protected String codiceFiscale;
 
-	public void setIdFiscaleIVA(IdFiscaleType value) {
-		this.idFiscaleIVA = value;
+	@XmlElement(name = "IdFiscaleIVA")
+	protected IdFiscaleType idFiscaleIVA;
+	public DatiAnagraficiTerzoIntermediarioType() {
 	}
-
-	public String getCodiceFiscale() {
-		return codiceFiscale;
-	}
-
-	public void setCodiceFiscale(String value) {
-		this.codiceFiscale = value;
+	public DatiAnagraficiTerzoIntermediarioType(AnagraficaType anagrafica, String codiceFiscale,
+			IdFiscaleType idFiscaleIVA) {
+		this.anagrafica = anagrafica;
+		this.codiceFiscale = codiceFiscale;
+		this.idFiscaleIVA = idFiscaleIVA;
 	}
 
 	public AnagraficaType getAnagrafica() {
 		return anagrafica;
 	}
 
+	public String getCodiceFiscale() {
+		return codiceFiscale;
+	}
+
+	public IdFiscaleType getIdFiscaleIVA() {
+		return idFiscaleIVA;
+	}
+
 	public void setAnagrafica(AnagraficaType value) {
 		this.anagrafica = value;
+	}
+
+	public void setCodiceFiscale(String value) {
+		this.codiceFiscale = value;
+	}
+
+	public void setIdFiscaleIVA(IdFiscaleType value) {
+		this.idFiscaleIVA = value;
 	}
 
 }

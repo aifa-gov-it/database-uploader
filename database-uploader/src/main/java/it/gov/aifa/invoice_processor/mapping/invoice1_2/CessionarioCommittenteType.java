@@ -12,43 +12,55 @@ public class CessionarioCommittenteType {
 
 	@XmlElement(name = "DatiAnagrafici", required = true)
 	protected DatiAnagraficiCessionarioType datiAnagrafici;
+
+	@XmlElement(name = "RappresentanteFiscale")
+	protected RappresentanteFiscaleCessionarioType rappresentanteFiscale;
+
 	@XmlElement(name = "Sede", required = true)
 	protected IndirizzoType sede;
 	@XmlElement(name = "StabileOrganizzazione")
 	protected IndirizzoType stabileOrganizzazione;
-	@XmlElement(name = "RappresentanteFiscale")
-	protected RappresentanteFiscaleCessionarioType rappresentanteFiscale;
+	public CessionarioCommittenteType() {
+	}
+	public CessionarioCommittenteType(DatiAnagraficiCessionarioType datiAnagrafici,
+			RappresentanteFiscaleCessionarioType rappresentanteFiscale, IndirizzoType sede,
+			IndirizzoType stabileOrganizzazione) {
+		this.datiAnagrafici = datiAnagrafici;
+		this.rappresentanteFiscale = rappresentanteFiscale;
+		this.sede = sede;
+		this.stabileOrganizzazione = stabileOrganizzazione;
+	}
 
 	public DatiAnagraficiCessionarioType getDatiAnagrafici() {
 		return datiAnagrafici;
-	}
-
-	public void setDatiAnagrafici(DatiAnagraficiCessionarioType value) {
-		this.datiAnagrafici = value;
-	}
-
-	public IndirizzoType getSede() {
-		return sede;
-	}
-
-	public void setSede(IndirizzoType value) {
-		this.sede = value;
-	}
-
-	public IndirizzoType getStabileOrganizzazione() {
-		return stabileOrganizzazione;
-	}
-
-	public void setStabileOrganizzazione(IndirizzoType value) {
-		this.stabileOrganizzazione = value;
 	}
 
 	public RappresentanteFiscaleCessionarioType getRappresentanteFiscale() {
 		return rappresentanteFiscale;
 	}
 
+	public IndirizzoType getSede() {
+		return sede;
+	}
+
+	public IndirizzoType getStabileOrganizzazione() {
+		return stabileOrganizzazione;
+	}
+
+	public void setDatiAnagrafici(DatiAnagraficiCessionarioType value) {
+		this.datiAnagrafici = value;
+	}
+
 	public void setRappresentanteFiscale(RappresentanteFiscaleCessionarioType value) {
 		this.rappresentanteFiscale = value;
+	}
+
+	public void setSede(IndirizzoType value) {
+		this.sede = value;
+	}
+
+	public void setStabileOrganizzazione(IndirizzoType value) {
+		this.stabileOrganizzazione = value;
 	}
 
 }

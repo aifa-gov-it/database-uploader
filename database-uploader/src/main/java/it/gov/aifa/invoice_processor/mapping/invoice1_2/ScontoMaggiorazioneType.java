@@ -18,36 +18,45 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "ScontoMaggiorazioneType", propOrder = { "tipo", "percentuale", "importo" })
 public class ScontoMaggiorazioneType {
 
+	@XmlElement(name = "Importo")
+	protected BigDecimal importo;
+	@XmlElement(name = "Percentuale")
+	protected BigDecimal percentuale;
 	@XmlElement(name = "Tipo", required = true)
 	@XmlSchemaType(name = "string")
 	protected TipoScontoMaggiorazioneType tipo;
-	@XmlElement(name = "Percentuale")
-	protected BigDecimal percentuale;
-	@XmlElement(name = "Importo")
-	protected BigDecimal importo;
 
-	public TipoScontoMaggiorazioneType getTipo() {
-		return tipo;
+	public ScontoMaggiorazioneType() {
 	}
 
-	public void setTipo(TipoScontoMaggiorazioneType value) {
-		this.tipo = value;
-	}
-
-	public BigDecimal getPercentuale() {
-		return percentuale;
-	}
-
-	public void setPercentuale(BigDecimal value) {
-		this.percentuale = value;
+	public ScontoMaggiorazioneType(BigDecimal importo, BigDecimal percentuale, TipoScontoMaggiorazioneType tipo) {
+		this.importo = importo;
+		this.percentuale = percentuale;
+		this.tipo = tipo;
 	}
 
 	public BigDecimal getImporto() {
 		return importo;
 	}
 
+	public BigDecimal getPercentuale() {
+		return percentuale;
+	}
+
+	public TipoScontoMaggiorazioneType getTipo() {
+		return tipo;
+	}
+
 	public void setImporto(BigDecimal value) {
 		this.importo = value;
+	}
+
+	public void setPercentuale(BigDecimal value) {
+		this.percentuale = value;
+	}
+
+	public void setTipo(TipoScontoMaggiorazioneType value) {
+		this.tipo = value;
 	}
 
 }

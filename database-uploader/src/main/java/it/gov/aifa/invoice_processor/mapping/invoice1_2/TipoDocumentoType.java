@@ -32,6 +32,15 @@ public enum TipoDocumentoType {
 
 	@XmlEnumValue("TD06")
 	TD_06("TD06");
+	public static TipoDocumentoType fromValue(String v) {
+		for (TipoDocumentoType c : TipoDocumentoType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
+
 	private final String value;
 
 	TipoDocumentoType(String v) {
@@ -40,15 +49,6 @@ public enum TipoDocumentoType {
 
 	public String value() {
 		return value;
-	}
-
-	public static TipoDocumentoType fromValue(String v) {
-		for (TipoDocumentoType c : TipoDocumentoType.values()) {
-			if (c.value.equals(v)) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(v);
 	}
 
 }
