@@ -1,5 +1,6 @@
 package it.gov.aifa.invoice_processor;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -64,21 +67,40 @@ public class ContextConfig{
 	
 	private ApplicationContext applicationContext;
 	
+	private Resource[] loadResourcesFromDirectory(String directoryPath) throws IOException {
+		ClassLoader cl = this.getClass().getClassLoader(); 
+		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(cl);
+		return resolver.getResources(directoryPath) ;
+	}
+	
 	@Bean
-	public ItemReader<InvoiceMapping<String>> invoiceMappingMultiReader(
-			@Value("${" + CommandLineArgumentKey.PATH + "}") String directoryPath
-			, ResourceLoader resourceLoader
-			){
-		StaxEventItemReader<InvoiceMapping<String>> invoiceMappingReader = new StaxEventItemReader<>();
+	public Jaxb2Marshaller invoiceMarshaller() throws IOException {
 		Jaxb2Marshaller unmarshaller = new Jaxb2Marshaller();
+		unmarshaller.setSchemas(loadResourcesFromDirectory("classpath:xsd/*.xsd"));
 		unmarshaller.setPackagesToScan(
 				it.gov.aifa.invoice_processor.mapping.invoice1_2.ObjectFactory.class.getPackage().getName()
 				,it.gov.aifa.invoice_processor.mapping.org.w3._2000._09.xmldsig_.ObjectFactory.class.getPackage().getName());
-		invoiceMappingReader.setUnmarshaller(unmarshaller);
+		return unmarshaller;
+	}
+	
+	@Bean
+	public StaxEventItemReader<InvoiceMapping<String>> invoiceMappingReader(Jaxb2Marshaller invoiceMarshaller){
+		StaxEventItemReader<InvoiceMapping<String>> invoiceMappingReader = new StaxEventItemReader<>();
+		invoiceMappingReader.setUnmarshaller(invoiceMarshaller);
+		invoiceMappingReader.setFragmentRootElementName("FatturaElettronica");
+		return invoiceMappingReader;
+	}
+	
+	@Bean
+	public ItemReader<InvoiceMapping<String>> invoiceMappingMultiReader(
+			@Value("${" + CommandLineArgumentKey.PATH + "}") String directoryPath
+			, StaxEventItemReader<InvoiceMapping<String>> invoiceMappingReader
+			, ResourceLoader resourceLoader
+			) throws IOException{
+		
 		MultiResourceItemReader<InvoiceMapping<String>> multiResourceItemReader = new MultiResourceItemReader<>();
 		multiResourceItemReader.setDelegate(invoiceMappingReader);
-		Resource[] resources = new Resource[] {resourceLoader.getResource("file:" + directoryPath) };
-		multiResourceItemReader.setResources(resources);
+		multiResourceItemReader.setResources(loadResourcesFromDirectory("file:" + directoryPath));
 		return multiResourceItemReader;
 	}
 	
