@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Test;
 
 import it.gov.aifa.invoice_processor.entity.movement.Movement;
-import it.gov.aifa.invoice_processor.service.MovementProcessor;
 
-public class MovementProcessorImplTest {
+public class MovementProcessorTest {
 	@Test
 	public void processTest() throws Exception {
 		Movement movement = new Movement();
@@ -16,10 +15,12 @@ public class MovementProcessorImplTest {
 		movement.setTransmissionDate(date);
 		movement.setTransmissionTime(time);
 		movement.setRawExpirationDate("2017-05-12");
-		MovementProcessor movementProcessor = new MovementProcessorImpl();
+		MovementProcessor movementProcessor = new MovementProcessor();
 		Movement processedMovement = movementProcessor.process(movement);
 		assertThat(processedMovement.getTransmissionDateTime().toString()).isEqualTo(date + "T" + time);
 		assertThat(processedMovement.getExpirationDate().toString()).isEqualTo(processedMovement.getRawExpirationDate());
-		
+		for(String idValue : processedMovement.getIdValues()) {
+			assertThat(processedMovement.getId()).contains(idValue);
+		}
 	}
 }

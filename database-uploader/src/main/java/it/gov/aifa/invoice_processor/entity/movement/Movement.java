@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,7 +16,7 @@ import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceProcessorEntity;
 
 @Entity
 @Validated
-public class Movement extends AbstractInvoiceProcessorEntity{
+public class Movement extends AbstractInvoiceProcessorEntity {
 	private String accountHolderCode;
 
 	private String accountHolderTypeCode;
@@ -39,10 +37,6 @@ public class Movement extends AbstractInvoiceProcessorEntity{
 	private String documentTypeCode;
 	
 	private LocalDate expirationDate;
-	
-	@Id
-	@NotBlank
-	private String id;
 	
 	private LocalDateTime importDate = LocalDateTime.now();
 	
@@ -114,20 +108,10 @@ public class Movement extends AbstractInvoiceProcessorEntity{
 	@Override
 	public List<String> getIdValues() {
 		List<String> idValues = new ArrayList<>();
-		FieldUtils.getAllFieldsList(this.getClass()).stream()
-		.forEach(f -> {
-			try {
-				Object value = FieldUtils.readField(f, this, true);
-				if(value != null)
-					idValues.add(value.toString());
-			} catch (IllegalAccessException e) {
-				// Let's reuse the StringBuilder
-				StringBuilder builder = new StringBuilder();
-				builder.append("Cannot build id for ");
-				builder.append(this.toString());
-				throw new RuntimeException(builder.toString(), e);
-			}
-		});
+		idValues.add(aic);
+		idValues.add(transmissionDateTime.toString());
+		idValues.add(documentTypeCode);
+		idValues.add(documentNumber);
 		return idValues;
 	}
 	

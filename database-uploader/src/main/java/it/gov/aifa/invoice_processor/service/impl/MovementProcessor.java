@@ -9,14 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import it.gov.aifa.invoice_processor.entity.movement.Movement;
-import it.gov.aifa.invoice_processor.service.MovementProcessor;
 
 @Service
-public class MovementProcessorImpl implements MovementProcessor {
-	private static final Logger log = LoggerFactory.getLogger(MovementProcessorImpl.class);
+public class MovementProcessor
+extends AbstractInvoiceProcessorEntityProcessor<String, Movement, String, Movement>{
+	private static final Logger log = LoggerFactory.getLogger(MovementProcessor.class);
 	
 	@Override
-	public Movement process(final Movement movement) throws Exception {
+	protected Movement processInternal(final Movement movement) {
 		log.info("Processing movement: {}", movement);
 		StringBuilder transmissionDate = new StringBuilder(movement.getTransmissionDate().length() + movement.getTransmissionTime().length() + 1);
 		transmissionDate.append(movement.getTransmissionDate());

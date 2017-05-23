@@ -8,30 +8,29 @@ import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
-import it.gov.aifa.invoice_processor.service.InvoiceMappingProcessor;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
 @Service
 @Validated
-public class InvoiceMappingProcessorImpl implements InvoiceMappingProcessor<InvoiceMapping<String>, Invoice> {
+public class InvoiceMappingProcessor
+extends AbstractInvoiceProcessorEntityProcessor<String, InvoiceMapping<String>, String, Invoice> {
 	Set<InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice>> converters;
 
-	public  InvoiceMappingProcessorImpl(
+	public  InvoiceMappingProcessor(
 			@NotEmpty Set<InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice>> converters) {
 		this.converters = converters;
 	}
 
 	@Override
-	public Invoice process(InvoiceMapping<String> invoiceMapping) throws Exception {
+	protected Invoice processInternal(final InvoiceMapping<String> item) {
 		Invoice invoice = null;
 		for(InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice> converter : converters)
-			if(converter.canConvert(invoiceMapping.getClass())) {
-				invoice = converter.convert(invoiceMapping);
+			if(converter.canConvert(item.getClass())) {
+				invoice = converter.convert(item);
 				break;
 			}
-		if(invoice == null) {
-			throw new RuntimeException("Cannot find a suitable converter for " + invoiceMapping.getClass().toGenericString());
-		}
+		if(invoice == null)
+			throw new RuntimeException("Cannot find a suitable converter for " + item.getClass().toGenericString());
 		return invoice;
 	}
 

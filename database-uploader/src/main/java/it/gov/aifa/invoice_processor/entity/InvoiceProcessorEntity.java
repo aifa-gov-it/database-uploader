@@ -7,4 +7,5 @@ public interface InvoiceProcessorEntity<I extends Serializable> {
 	I getId();
 	List<String> getIdValues();
 	void setId(I id);
+	void updateId();
 }

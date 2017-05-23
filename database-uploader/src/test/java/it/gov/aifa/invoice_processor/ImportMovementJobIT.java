@@ -14,7 +14,7 @@ import it.gov.aifa.invoice_processor.constant.TestConstant;
 import it.gov.aifa.invoice_processor.entity.movement.Movement;
 import it.gov.aifa.invoice_processor.service.persistence.MovementRepository;
 
-@TestPropertySource(properties = { CommandLineArgumentKey.IMPORT_MOV_DSV + "=", CommandLineArgumentKey.PATH + "=" + TestConstant.TEST_FILE_PATH_MOVEMENT_DSV })
+@TestPropertySource(properties = { CommandLineArgumentKey.IMPORT_MOV_DSV, CommandLineArgumentKey.PATH + "=" + TestConstant.TEST_FILE_PATH_MOVEMENT_DSV })
 public class ImportMovementJobIT extends AbstractIT{
 	
 	@Autowired
@@ -25,6 +25,6 @@ public class ImportMovementJobIT extends AbstractIT{
 		Iterable<Movement> movements = movementRepository.findAll();
 		List<Movement> movementList = new ArrayList<>();
 		movements.forEach(m -> movementList.add(m));
-		assertThat(movementList).hasSize(2);
+		assertThat(movementList).hasSize(1);
 	}
 }

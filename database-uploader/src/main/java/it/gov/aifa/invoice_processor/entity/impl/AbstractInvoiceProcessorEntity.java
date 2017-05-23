@@ -3,6 +3,7 @@ package it.gov.aifa.invoice_processor.entity.impl;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -46,7 +47,7 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this, false);
 	}
-
+	
 	@Override
 	public void setId(String id) {
 		this.id = id;
@@ -55,5 +56,19 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	@Override
+	public void updateId() {
+		StringBuilder builder = new StringBuilder();
+		for(String idValue : this.getIdValues())
+			if(StringUtils.isNotBlank(idValue)) {
+				builder.append(idValue);
+				builder.append("_");
+			}
+		
+		// Remove the last _
+		builder.setLength(builder.length() - 1);
+		this.setId(builder.toString());
 	}
 }

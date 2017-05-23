@@ -1,5 +1,6 @@
 package it.gov.aifa.invoice_processor.service.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -17,7 +18,7 @@ import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.FatturaElettronicaType;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
-public class InvoiceMappingProcessorImplTest {
+public class InvoiceMappingProcessorTest {
 	
 	@Test
 	public void processInvoice1_2() throws Exception {
@@ -27,9 +28,13 @@ public class InvoiceMappingProcessorImplTest {
 		InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice> converter = mock(InvoiceMappingToEntityConverter.class);
 		Class<?> destinationType = FatturaElettronicaType.class;
 		when(converter.canConvert(destinationType)).thenReturn(true);
-		when(converter.convert(invoiceMapping)).thenReturn(new Invoice("123456"));
+		Invoice invoice = new Invoice("123456");
+		when(converter.convert(invoiceMapping)).thenReturn(invoice);
 		converters.add(converter);
-		new InvoiceMappingProcessorImpl(converters).process(invoiceMapping);
+		new InvoiceMappingProcessor(converters).process(invoiceMapping);
+		for(String idValue : invoice.getIdValues()) {
+			assertThat(invoice.getId()).contains(idValue);
+		}
 		verify(converter, times(1)).canConvert(destinationType);
 		verify(converter, times(1)).convert(invoiceMapping);
 	}
@@ -42,7 +47,7 @@ public class InvoiceMappingProcessorImplTest {
 		Class<?> destinationType = FatturaElettronicaType.class;
 		when(converter.canConvert(destinationType)).thenReturn(false);
 		converters.add(converter);
-		new InvoiceMappingProcessorImpl(converters).process(null);
+		new InvoiceMappingProcessor(converters).process(null);
 		verify(converter, times(1)).canConvert(destinationType);
 		verify(converter, never()).convert(any());
 	}
