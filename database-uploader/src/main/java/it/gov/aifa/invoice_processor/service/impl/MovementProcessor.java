@@ -12,7 +12,7 @@ import it.gov.aifa.invoice_processor.entity.movement.Movement;
 
 @Service
 public class MovementProcessor
-extends AbstractInvoiceProcessorEntityProcessor<String, Movement, String, Movement>{
+extends AbstractInvoiceProcessorEntityProcessor<Movement, String, Movement>{
 	private static final Logger log = LoggerFactory.getLogger(MovementProcessor.class);
 	
 	@Override

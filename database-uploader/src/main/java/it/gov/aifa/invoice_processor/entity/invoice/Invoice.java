@@ -178,7 +178,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	@NotBlank
 	private String paymentMode;
 	
-	private int paymentTermDays;
+	private Integer paymentTermDays;
 	
 	private BigDecimal penalitaPagamentiRitardatiPagamento;
 	
@@ -509,7 +509,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return paymentMode;
 	}
 
-	public int getPaymentTermDays() {
+	public Integer getPaymentTermDays() {
 		return paymentTermDays;
 	}
 
@@ -868,7 +868,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.paymentMode = paymentMode;
 	}
 
-	public void setPaymentTermDays(int paymentTermDays) {
+	public void setPaymentTermDays(Integer paymentTermDays) {
 		this.paymentTermDays = paymentTermDays;
 	}
 

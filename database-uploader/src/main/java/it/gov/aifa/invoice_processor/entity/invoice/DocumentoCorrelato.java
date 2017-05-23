@@ -66,7 +66,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 			String cigCode
 			, String codiceCommessaConvenzione
 			, String codiceCUP
-			, LocalDate data
+			, @NotNull LocalDate data
 			, @NotBlank String documentId
 			, @NotNull Invoice invoice
 			, String numItem

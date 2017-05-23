@@ -8,9 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -58,7 +56,6 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 
 	private String phoneNumber;
 	
-	@NotBlank
 	private String socialSecurityNumber;
 
 	@NotBlank
@@ -82,17 +79,6 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 	
 	@NotBlank
 	private String zipCode;
-
-	@Override
-	public boolean equals(Object other) {
-		if (other == this) {
-			return true;
-		}
-		if ((other instanceof InvoiceParticipant) == false) {
-			return false;
-		}
-		return EqualsBuilder.reflectionEquals(this, other, false);
-	}
 
 	public String getCity() {
 		return city;
@@ -129,7 +115,12 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 	@Override
 	public List<String> getIdValues() {
 		List<String> additionalIdValues = new ArrayList<>();
-		additionalIdValues.add(socialSecurityNumber);
+		if(StringUtils.isNotBlank(socialSecurityNumber))
+			additionalIdValues.add(socialSecurityNumber);
+		if(StringUtils.isNotBlank(taxCountryCode))
+			additionalIdValues.add(taxCountryCode);
+		if(StringUtils.isNotBlank(taxCode))
+			additionalIdValues.add(taxCode);
 		return Collections.unmodifiableList(additionalIdValues);
 	}
 	
@@ -210,11 +201,6 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 	
 	public String getZipCode() {
 		return zipCode;
-	}
-	
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, false);
 	}
 	
 	public void setCity(String city) {
@@ -327,10 +313,5 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
 	}
 }

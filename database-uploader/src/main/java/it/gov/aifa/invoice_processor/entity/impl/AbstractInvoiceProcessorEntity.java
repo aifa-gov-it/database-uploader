@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.InvoiceProcessorEntity;
@@ -60,6 +61,8 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 
 	@Override
 	public void updateId() {
+		if(CollectionUtils.isEmpty(this.getIdValues()))
+			throw new RuntimeException("Id field cannot be empty");
 		StringBuilder builder = new StringBuilder();
 		for(String idValue : this.getIdValues())
 			if(StringUtils.isNotBlank(idValue)) {

@@ -11,6 +11,9 @@ import static org.mockito.Mockito.when;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.testng.annotations.Test;
 
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
@@ -21,7 +24,7 @@ import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 public class InvoiceMappingProcessorTest {
 	
 	@Test
-	public void processInvoice1_2() throws Exception {
+	public void processInvoice1_2Test() throws Exception {
 		InvoiceMapping<String> invoiceMapping = new FatturaElettronicaType();
 		Set<InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice>> converters = new HashSet<>();
 		@SuppressWarnings("unchecked")
@@ -31,7 +34,11 @@ public class InvoiceMappingProcessorTest {
 		Invoice invoice = new Invoice("123456");
 		when(converter.convert(invoiceMapping)).thenReturn(invoice);
 		converters.add(converter);
-		new InvoiceMappingProcessor(converters).process(invoiceMapping);
+		new InvoiceMappingProcessor(converters).process(
+				new JAXBElement<FatturaElettronicaType>(new QName("http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2", "FatturaElettronica")
+						, FatturaElettronicaType.class
+						, (FatturaElettronicaType) invoiceMapping)
+				);
 		for(String idValue : invoice.getIdValues()) {
 			assertThat(invoice.getId()).contains(idValue);
 		}
