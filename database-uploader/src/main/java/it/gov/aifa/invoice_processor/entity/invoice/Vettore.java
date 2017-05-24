@@ -7,6 +7,9 @@ import org.springframework.validation.annotation.Validated;
 @Entity
 @Validated
 public class Vettore extends InvoiceParticipant {
+
+	private static final long serialVersionUID = 5614247303755620926L;
+	
 	private String numeroLicenzaGuida;
 
 	public String getNumeroLicenzaGuida() {

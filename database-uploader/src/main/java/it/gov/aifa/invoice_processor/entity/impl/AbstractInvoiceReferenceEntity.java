@@ -18,8 +18,9 @@ import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 @MappedSuperclass
 @Validated
 public abstract class AbstractInvoiceReferenceEntity extends AbstractInvoiceProcessorEntity implements InvoiceReferenceEntity<String>{
-	@JoinColumn(name = "invoiceId", referencedColumnName = "number")
-	@ManyToOne
+
+	private static final long serialVersionUID = 1904771980819257127L;
+	
 	@NotNull
 	private Invoice invoice;
 
@@ -44,17 +45,13 @@ public abstract class AbstractInvoiceReferenceEntity extends AbstractInvoiceProc
 	@Transient
 	protected abstract List<String> getAdditionalIdValues();
 
-	/* (non-Javadoc)
-	 * @see it.gov.aifa.invoice_processor.entity.impl.InvoiceReferenceEntity#getInvoice()
-	 */
+	@JoinColumn(name = "invoiceId", referencedColumnName = "number")
+	@ManyToOne
 	@Override
 	public Invoice getInvoice() {
 		return invoice;
 	}
 
-	/* (non-Javadoc)
-	 * @see it.gov.aifa.invoice_processor.entity.impl.InvoiceReferenceEntity#setInvoice(it.gov.aifa.invoice_processor.entity.invoice.Invoice)
-	 */
 	@Override
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;

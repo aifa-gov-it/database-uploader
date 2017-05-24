@@ -3,6 +3,7 @@ package it.gov.aifa.invoice_processor.service.impl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +20,7 @@ import org.testng.annotations.Test;
 import it.gov.aifa.invoice_processor.entity.invoice.Attachment;
 import it.gov.aifa.invoice_processor.entity.invoice.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelato;
-import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
+import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
@@ -85,29 +86,29 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_2.TipoScontoMaggiorazioneT
 import it.gov.aifa.invoice_processor.mapping.org.w3._2000._09.xmldsig_.SignatureType;
 
 public class Invoice1_2MappingToEntityConverterImplTest{
-	
+
 	private List<AllegatiType> buildAllegatiTypes() {
 		return buildOneElementList(new AllegatiType("algoritmoCompressione", "attachment".getBytes(), "descrizioneAttachment", "formatoAttachment", "nomeAttachment"), AllegatiType.class);
 	}
-	
+
 	@Test
 	public void buildAttachmentsTest() {
 		List<AllegatiType> allegati = buildAllegatiTypes();
 		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
 		Invoice invoice = new Invoice();
 		converter.buildAttachments(allegati, invoice);
-		List<Attachment> attachments = invoice.getAttachments();
+		Set<Attachment> attachments = invoice.getAttachments();
 		assertThat(attachments).isNotNull();
 		assertThat(attachments).hasSize(allegati.size());
-
-		assertThat(attachments.get(0).getCompressionAlgorithm()).isEqualTo(allegati.get(0).getAlgoritmoCompressione());
-		assertThat(attachments.get(0).getData()).isEqualTo(allegati.get(0).getAttachment());
-		assertThat(attachments.get(0).getDescription()).isEqualTo(allegati.get(0).getDescrizioneAttachment());
-		assertThat(attachments.get(0).getFormat()).isEqualTo(allegati.get(0).getFormatoAttachment());
-		assertThat(attachments.get(0).getInvoice()).isSameAs(invoice);
-		assertThat(attachments.get(0).getName()).isEqualTo(allegati.get(0).getNomeAttachment());
+		Attachment attachment = attachments.iterator().next();
+		assertThat(attachment.getCompressionAlgorithm()).isEqualTo(allegati.get(0).getAlgoritmoCompressione());
+		assertThat(attachment.getData()).isEqualTo(allegati.get(0).getAttachment());
+		assertThat(attachment.getDescription()).isEqualTo(allegati.get(0).getDescrizioneAttachment());
+		assertThat(attachment.getFormat()).isEqualTo(allegati.get(0).getFormatoAttachment());
+		assertThat(attachment.getInvoice()).isSameAs(invoice);
+		assertThat(attachment.getName()).isEqualTo(allegati.get(0).getNomeAttachment());
 	}
-	
+
 	private CedentePrestatoreType buildCedentePrestatoreType() throws DatatypeConfigurationException {
 		return new CedentePrestatoreType(
 				new ContattiType("email", "fax", "telefono")
@@ -171,7 +172,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoiceCedentePrestatore.getTaxSystem()).isEqualTo(cedentePrestatoreType.getDatiAnagrafici().getRegimeFiscale().toString());
 		assertThat(invoiceCedentePrestatore.getZipCode()).isEqualTo(cedentePrestatoreType.getSede().getCAP());
 	}
-	
+
 	private CessionarioCommittenteType buildCessionarioCommittenteType() {
 		return new CessionarioCommittenteType(
 				new DatiAnagraficiCessionarioType(
@@ -218,7 +219,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoiceCessionarioCommittente.getTaxRepresentativeName()).isEqualTo(cessionarioCommittenteType.getRappresentanteFiscale().getDenominazione());
 		assertThat(invoiceCessionarioCommittente.getZipCode()).isEqualTo(cessionarioCommittenteType.getSede().getCAP());
 	}
-	
+
 	private DatiBeniServiziType buildDatiBeniServiziType() throws DatatypeConfigurationException {
 		DatiRiepilogoType datiRiepilogoType = new DatiRiepilogoType(
 				new BigDecimal(0.1)
@@ -231,7 +232,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 				, new BigDecimal(0.5)
 				);
 		List<DatiRiepilogoType> datiRiepilogoTypes = buildOneElementList(datiRiepilogoType, DatiRiepilogoType.class);
-		
+
 		AltriDatiGestionaliType altriDatiGestionaliType = new AltriDatiGestionaliType(
 				DatatypeFactory.newInstance().newXMLGregorianCalendar(2017, 5, 12, 4, 5, 6, 7, 0)
 				, new BigDecimal(0.6)
@@ -269,7 +270,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 
 		return new DatiBeniServiziType(datiRiepilogoTypes, dettaglioLineeTypes);
 	}
-	
+
 	private DatiDocumentiCorrelatiType buildDatiDocumentiCorrelati(String suffix, int dataIncrement, Integer riferimentoNumeroLinea) throws DatatypeConfigurationException {
 		List<Integer> riferimentiNumeroLinea = null;
 		if(riferimentoNumeroLinea != null)
@@ -284,14 +285,14 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 				, riferimentiNumeroLinea);
 		return datiDocumentiCorrelatiType;
 	}
-	
+
 	private DatiGeneraliType buildDatiGeneraliType(Integer purchaseLineId) throws DatatypeConfigurationException {
 		List<DatiDocumentiCorrelatiType> datiContratto = buildOneElementList(buildDatiDocumentiCorrelati("Contratto", 1, purchaseLineId), DatiDocumentiCorrelatiType.class);
 		List<DatiDocumentiCorrelatiType> datiConvenzione = buildOneElementList(buildDatiDocumentiCorrelati("Convenzione", 2, purchaseLineId), DatiDocumentiCorrelatiType.class);
 		List<DatiDocumentiCorrelatiType> datiFattureCollegate = buildOneElementList(buildDatiDocumentiCorrelati("FattureCollegate", 3, purchaseLineId), DatiDocumentiCorrelatiType.class);
 		List<DatiDocumentiCorrelatiType> datiOrdineAcquisto = buildOneElementList(buildDatiDocumentiCorrelati("OrdineAcquisto", 4, purchaseLineId), DatiDocumentiCorrelatiType.class);
 		List<DatiDocumentiCorrelatiType> datiRicezione = buildOneElementList(buildDatiDocumentiCorrelati("Ricezione", 5, purchaseLineId), DatiDocumentiCorrelatiType.class);
-		
+
 		List<DatiDDTType> datiDDT = buildOneElementList(new DatiDDTType(
 				DatatypeFactory.newInstance().newXMLGregorianCalendar(2017, 1, 6, 4, 5, 6, 7, 0)
 				, "numeroDDT"
@@ -373,10 +374,9 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 						, "numeroFatturaPrincipale")
 				);
 	}
-	
+
 	@Test
 	public void buildDatiGeneraliTest() throws DatatypeConfigurationException {
-		
 		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
 		Invoice invoice = new Invoice();
 		invoice.setNumber("123456");
@@ -384,25 +384,28 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		invoice.setPurchaseLines(buildOneElementSet(new PurchaseLine(purchaseLineId.toString(), invoice), PurchaseLine.class));
 		DatiGeneraliType datiGeneraliType = buildDatiGeneraliType(purchaseLineId);
 		converter.buildDatiGenerali(datiGeneraliType, invoice);
-		Set<DocumentoCorrelato> datiDdt = invoice.getDatiDdt();
+		Set<DocumentoCorrelato> datiDdt = invoice.getDocumentiCorrelati().stream()
+				.filter(d -> d.getDocumentoCorrelatoType().equals(DocumentoCorrelatoType.DDT))
+				.collect(Collectors.toSet());
 		assertThat(datiDdt).hasSameSizeAs(datiGeneraliType.getDatiDDT());
 		DocumentoCorrelato datoDdt = datiDdt.iterator().next();
 		compareDates(datoDdt.getData(), datiGeneraliType.getDatiDDT().get(0).getDataDDT());
 		assertThat(datoDdt.getInvoice()).isSameAs(invoice);
 		assertThat(datoDdt.getDocumentId()).contains(datiGeneraliType.getDatiDDT().get(0).getNumeroDDT());
-		assertThat(datoDdt.getRelatedPurchaseLines()).hasSameElementsAs(invoice.getPurchaseLines());
-		checkDocumentiCorrelati(datiGeneraliType.getDatiContratto(), invoice.getDatiContratto());
-		checkDocumentiCorrelati(datiGeneraliType.getDatiConvenzione(), invoice.getDatiConvenzione());
-		checkDocumentiCorrelati(datiGeneraliType.getDatiFattureCollegate(), invoice.getLinkedInvoices());
-		checkDocumentiCorrelati(datiGeneraliType.getDatiOrdineAcquisto(), invoice.getPurchaseOrders());
-		checkDocumentiCorrelati(datiGeneraliType.getDatiRicezione(), invoice.getDatiRicezione());
+		assertThat(datoDdt.getPurchaseLine()).hasSameElementsAs(invoice.getPurchaseLines());
+		assertThat(datoDdt.getDocumentoCorrelatoType()).isEqualTo(DocumentoCorrelatoType.DDT);
+		checkDocumentiCorrelati(datiGeneraliType.getDatiContratto(), invoice, DocumentoCorrelatoType.CONTRATTO);
+		checkDocumentiCorrelati(datiGeneraliType.getDatiConvenzione(), invoice, DocumentoCorrelatoType.CONVENZIONE);
+		checkDocumentiCorrelati(datiGeneraliType.getDatiFattureCollegate(), invoice, DocumentoCorrelatoType.FATTURA_COLLEGATA);
+		checkDocumentiCorrelati(datiGeneraliType.getDatiOrdineAcquisto(), invoice, DocumentoCorrelatoType.ORDINE_ACQUISTO);
+		checkDocumentiCorrelati(datiGeneraliType.getDatiRicezione(), invoice, DocumentoCorrelatoType.RICEZIONE);
 		assertThat(invoice.getRiferimentoFase()).isEqualTo(datiGeneraliType.getDatiSAL().get(0).getRiferimentoFase());
-		
+
 		assertThat(invoice.getCausaleTrasporto()).isEqualTo(datiGeneraliType.getDatiTrasporto().getCausaleTrasporto());
 		compareDates(invoice.getDataInizioTrasporto(), datiGeneraliType.getDatiTrasporto().getDataInizioTrasporto());
 		compareDates(invoice.getDataOraConsegna(), datiGeneraliType.getDatiTrasporto().getDataOraConsegna());
 		compareDates(invoice.getDataOraRitiro(), datiGeneraliType.getDatiTrasporto().getDataOraRitiro());
-		
+
 		assertThat(invoice.getVettore()).isNotNull();
 		checkInvoiceParticipant(
 				invoice.getVettore()
@@ -412,7 +415,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 				, datiGeneraliType.getDatiTrasporto().getDatiAnagraficiVettore().getIdFiscaleIVA().getIdPaese()
 				);
 		assertThat(invoice.getVettore().getNumeroLicenzaGuida()).isEqualTo(datiGeneraliType.getDatiTrasporto().getDatiAnagraficiVettore().getNumeroLicenzaGuida());
-		
+
 		assertThat(invoice.getDescrizioneTrasporto()).isEqualTo(datiGeneraliType.getDatiTrasporto().getDescrizione());
 		assertThat(invoice.getCapResa()).isEqualTo(datiGeneraliType.getDatiTrasporto().getIndirizzoResa().getCAP());
 		assertThat(invoice.getComuneResa()).isEqualTo(datiGeneraliType.getDatiTrasporto().getIndirizzoResa().getComune());
@@ -427,7 +430,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getPesoNetto()).isEqualTo(datiGeneraliType.getDatiTrasporto().getPesoNetto());
 		assertThat(invoice.getTipoResa()).isEqualTo(datiGeneraliType.getDatiTrasporto().getTipoResa());
 		assertThat(invoice.getUnitaMisuraPeso()).isEqualTo(datiGeneraliType.getDatiTrasporto().getUnitaMisuraPeso());
-		
+
 		List<DatiCassaPrevidenzialeType> datiCassaPrevidenzialeTypes = datiGeneraliType.getDatiGeneraliDocumento().getDatiCassaPrevidenziale();
 		DatiCassaPrevidenzialeType datiCassaPrevidenziale = datiCassaPrevidenzialeTypes.get(0);
 		assertThat(invoice.getAlCassa()).isEqualTo(datiCassaPrevidenziale.getAlCassa());
@@ -438,27 +441,27 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getRiferimentoAmministrazioneCassa()).isEqualTo(datiCassaPrevidenziale.getRiferimentoAmministrazione());
 		assertThat(invoice.getRitenutaCassa()).isEqualTo(datiCassaPrevidenziale.getRitenuta());
 		assertThat(invoice.getTipoCassa()).isEqualTo(datiCassaPrevidenziale.getTipoCassa());
-		
+
 		assertThat(invoice.getAliquotaRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getAliquotaRitenuta());
 		assertThat(invoice.getCausalePagamentoRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getCausalePagamento().toString());
 		assertThat(invoice.getImportoRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getImportoRitenuta());
 		assertThat(invoice.getTipoRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getTipoRitenuta().toString());
-		
+
 		compareDates(invoice.getMainInvoiceDate(), datiGeneraliType.getFatturaPrincipale().getDataFatturaPrincipale());
 		assertThat(invoice.getMainInvoiceNumber()).isEqualTo(datiGeneraliType.getFatturaPrincipale().getNumeroFatturaPrincipale());
-		
+
 		assertThat(invoice.getArt73()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getArt73().toString());
-		
+
 		assertThat(invoice.getStampAmount()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiBollo().getImportoBollo());
 		assertThat(invoice.getVirtualStamp()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiBollo().getBolloVirtuale().toString());
-		
+
 		assertThat(invoice.getDescription()).isEqualTo(String.join("", datiGeneraliType.getDatiGeneraliDocumento().getCausale()));
-		
+
 		ScontoMaggiorazioneType scontoMaggiorazioneType = datiGeneraliType.getDatiGeneraliDocumento().getScontoMaggiorazione().iterator().next();
 		assertThat(invoice.getDiscountAmount()).isEqualTo(scontoMaggiorazioneType.getImporto());
 		assertThat(invoice.getDiscountPercentage()).isEqualTo(scontoMaggiorazioneType.getPercentuale());
 		assertThat(invoice.getDiscountType()).isEqualTo(scontoMaggiorazioneType.getTipo().toString());
-		
+
 		assertThat(invoice.getCurrency()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDivisa());
 		compareDates(invoice.getDate(), datiGeneraliType.getDatiGeneraliDocumento().getData());
 		assertThat(invoice.getDocumentTypeCode()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getTipoDocumento().toString());
@@ -480,6 +483,12 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		compareDates(invoice.getDataLimitePagamentoAnticipatoPagamento(), datiPagamentoType.getDettaglioPagamento().get(0).getDataLimitePagamentoAnticipato());
 		compareDates(invoice.getDataRiferimentoTerminiPagamento(), datiPagamentoType.getDettaglioPagamento().get(0).getDataRiferimentoTerminiPagamento());
 		compareDates(invoice.getPaymentExpirationDate(), datiPagamentoType.getDettaglioPagamento().get(0).getDataScadenzaPagamento());
+
+		assertThat(invoice.getFinancialInstitutionAbi()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getABI());
+		assertThat(invoice.getFinancialInstitutionBic()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getBIC());
+		assertThat(invoice.getFinancialInstitutionCab()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCAB());
+		assertThat(invoice.getFinancialInstitutionIban()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getIBAN());
+		assertThat(invoice.getFinancialInstitutionName()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getIstitutoFinanziario());
 		assertThat(invoice.getPaymentConditions()).isEqualTo(datiPagamentoType.getCondizioniPagamento().toString());
 		assertThat(invoice.getPaymentAmount()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getImportoPagamento());
 		assertThat(invoice.getPaymentMode()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getModalitaPagamento().toString());
@@ -496,7 +505,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getScontoPagamentoAnticipatoPagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getScontoPagamentoAnticipato());
 		assertThat(invoice.getTitoloQuietanzantePagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getTitoloQuietanzante());
 	}
-	
+
 	private List<DatiPagamentoType> buildDatiPagamentoTypes() throws DatatypeConfigurationException{
 		DatiPagamentoType datiPagamentoType = new DatiPagamentoType(CondizioniPagamentoType.TP_01
 				, new ArrayList<>());
@@ -526,7 +535,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 				));
 		return datiPagamentoTypes;
 	}
-	
+
 	private DatiTrasmissioneType buildDatiTrasmissioneType() {
 		return new DatiTrasmissioneType(
 				"codiceDestinatarioDatiTrasmissione"
@@ -537,7 +546,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 				, "progressivoInvioDatiTrasmissione"
 				);
 	}
-	
+
 	@Test
 	public void buildDatiVeicoliTest() throws DatatypeConfigurationException {
 		DatiVeicoliType datiVeicoliType = buildDatiVeicoliType();
@@ -548,41 +557,12 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		compareDates(invoice.getDataVeicoli(), datiVeicoliType.getData());
 		assertThat(invoice.getTotalePercorsoVeicoli()).isEqualTo(datiVeicoliType.getTotalePercorso());
 	}
-	
+
 	private DatiVeicoliType buildDatiVeicoliType() throws DatatypeConfigurationException {
 		return new DatiVeicoliType(
 				DatatypeFactory.newInstance().newXMLGregorianCalendar(2017, 5, 12, 4, 5, 6, 7, 0)
 				, "totalePercorso"
 				);
-	}
-
-	private DettaglioPagamentoType buildDettaglioPagamentoType() {
-		return new DettaglioPagamentoType(
-				"abi"
-				, null
-				, "bic"
-				, "cab"
-				, null, null, null, null, null, null, null, null, null
-				, "iban"
-				, null
-				, "istitutoFinanziario"
-				, null, null, null, null, null);
-	}
-	
-	@Test
-	public void buildFinancialInstitutionTest(){
-		DettaglioPagamentoType dettaglioPagamentoType = buildDettaglioPagamentoType();
-		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
-		Invoice invoice = new Invoice();
-		invoice.setNumber("123456");
-		converter.buildFinancialInstitution(dettaglioPagamentoType, invoice);
-		FinancialInstitution financialInstitution = invoice.getFinancialInstitution();
-		assertThat(financialInstitution).isNotNull();
-		assertThat(financialInstitution.getAbi()).isEqualTo(dettaglioPagamentoType.getABI());
-		assertThat(financialInstitution.getBic()).isEqualTo(dettaglioPagamentoType.getBIC());
-		assertThat(financialInstitution.getCab()).isEqualTo(dettaglioPagamentoType.getCAB());
-		assertThat(financialInstitution.getIban()).isEqualTo(dettaglioPagamentoType.getIBAN());
-		assertThat(financialInstitution.getName()).isEqualTo(dettaglioPagamentoType.getIstitutoFinanziario());
 	}
 
 	@Test
@@ -614,7 +594,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		PurchaseLine purchaseLine = purchaseLines.iterator().next();
 		assertThat(purchaseLine.getAdministrativeReference()).isEqualTo(dettaglioLineeType.getRiferimentoAmministrazione());
 		assertThat(purchaseLine.getInvoice()).isSameAs(invoice);
-		
+
 		CodiceArticoloType codiceArticoloType = dettaglioLineeType.getCodiceArticolo().get(0);
 		assertThat(purchaseLine.getItemCode()).isEqualTo(codiceArticoloType.getCodiceValore());
 		assertThat(purchaseLine.getItemCodeType()).isEqualTo(codiceArticoloType.getCodiceTipo());
@@ -632,7 +612,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(purchaseLine.getRitenuta()).isEqualTo(dettaglioLineeType.getRitenuta().toString());
 
 		assertThat(purchaseLine.getQuantity()).isEqualTo(dettaglioLineeType.getQuantita());
-		
+
 		ScontoMaggiorazioneType scontoMaggiorazioneType = dettaglioLineeType.getScontoMaggiorazione().get(0);
 		assertThat(purchaseLine.getScontoMaggiorazioneAmount()).isEqualTo(scontoMaggiorazioneType.getImporto());
 		assertThat(purchaseLine.getScontoMaggiorazionePercentage()).isEqualTo(scontoMaggiorazioneType.getPercentuale());
@@ -644,7 +624,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(purchaseLine.getUnitOfMeasureDescription()).isEqualTo(dettaglioLineeType.getUnitaMisura());
 		assertThat(purchaseLine.getUnitPrice()).isEqualTo(dettaglioLineeType.getPrezzoUnitario());
 	}
-	
+
 	@Test
 	public void buildInvoiceSendingTest() {
 		DatiTrasmissioneType datiTrasmissione = buildDatiTrasmissioneType();
@@ -666,13 +646,13 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		list.add(element);
 		return list;
 	}
-	
+
 	private <T> Set<T> buildOneElementSet(T element, Class<T> clazz){
 		Set<T> set = new HashSet<>();
 		set.add(element);
 		return set;
 	}
-	
+
 	@Test
 	public void buildSoggettoEmittenteTest() {
 		TerzoIntermediarioSoggettoEmittenteType terzoIntermediarioSoggettoEmittenteType = buildTerzoIntermediarioSoggettoEmittenteType();
@@ -691,7 +671,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 				, terzoIntermediarioSoggettoEmittenteType.getDatiAnagrafici().getIdFiscaleIVA().getIdPaese()
 				);
 	}
-	
+
 
 	private TerzoIntermediarioSoggettoEmittenteType buildTerzoIntermediarioSoggettoEmittenteType() {
 		return new TerzoIntermediarioSoggettoEmittenteType(
@@ -702,32 +682,40 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 						)
 				);
 	}
-	
+
 	public void canConvertTest() {
 		assertThat(new Invoice1_2MappingToEntityConverterImpl().canConvert(FatturaElettronicaType.class)).isFalse();
 	}
-	
-	private void checkDocumentiCorrelati(List<DatiDocumentiCorrelatiType> datiDocumentiCorrelatiTypes, Set<DocumentoCorrelato> documentiCorrelati) {
+
+	private void checkDocumentiCorrelati(
+			List<DatiDocumentiCorrelatiType> datiDocumentiCorrelatiTypes
+			, Invoice invoice
+			, DocumentoCorrelatoType documentoCorrelatoType
+			) {
+		Set<DocumentoCorrelato> documentiCorrelati = invoice.getDocumentiCorrelati().stream()
+				.filter(d -> d.getDocumentoCorrelatoType().equals(documentoCorrelatoType))
+				.collect(Collectors.toSet());
 		assertThat(documentiCorrelati).hasSameSizeAs(datiDocumentiCorrelatiTypes);
 		for(DocumentoCorrelato documentoCorrelato : documentiCorrelati) {
 			// Search for the relevant source data
 			List<DatiDocumentiCorrelatiType> related = datiDocumentiCorrelatiTypes.stream()
-			.filter(c -> 
-			checkDocumentoCorrelatoFieldValue(documentoCorrelato.getCigCode(), c.getCodiceCIG())
-			&& checkDocumentoCorrelatoFieldValue(documentoCorrelato.getCodiceCommessaConvenzione(), c.getCodiceCommessaConvenzione())
-			&& checkDocumentoCorrelatoFieldValue(documentoCorrelato.getCodiceCUP(), c.getCodiceCUP())
-			&& compareDates(documentoCorrelato.getData(), c.getData())
-			&& checkDocumentoCorrelatoFieldValue(documentoCorrelato.getDocumentId(), c.getIdDocumento())
-			&& checkDocumentoCorrelatoFieldValue(documentoCorrelato.getNumItem(), c.getNumItem())
-			&& (
-					documentoCorrelato.getRelatedPurchaseLines() == null ?
-							true : documentoCorrelato.getRelatedPurchaseLines().stream().filter(d ->
-							c.getRiferimentoNumeroLinea().contains(Integer.parseInt(d.getDocumentId()))
+					.filter(c -> 
+					checkDocumentoCorrelatoFieldValue(documentoCorrelato.getCigCode(), c.getCodiceCIG())
+					&& checkDocumentoCorrelatoFieldValue(documentoCorrelato.getCodiceCommessaConvenzione(), c.getCodiceCommessaConvenzione())
+					&& checkDocumentoCorrelatoFieldValue(documentoCorrelato.getCodiceCUP(), c.getCodiceCUP())
+					&& compareDates(documentoCorrelato.getData(), c.getData())
+					&& checkDocumentoCorrelatoFieldValue(documentoCorrelato.getDocumentId(), c.getIdDocumento())
+					&& checkDocumentoCorrelatoFieldValue(documentoCorrelato.getNumItem(), c.getNumItem())
+					&& (
+							documentoCorrelato.getPurchaseLine() == null ?
+									true : documentoCorrelato.getPurchaseLine().stream().filter(
+											d -> c.getRiferimentoNumeroLinea().contains(Integer.parseInt(d.getDocumentId()))
+											)
+									.collect(Collectors.toSet()).size() == 1)
 							)
-							.collect(Collectors.toSet()).size() == 1)
-			)
-			.collect(Collectors.toList());
+					.collect(Collectors.toList());
 			assertThat(related).hasSize(1);
+			assertThat(documentoCorrelato.getDocumentoCorrelatoType()).isEqualTo(documentoCorrelatoType);
 		}
 	}
 
@@ -747,29 +735,30 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoiceParticipant.getName()).isEqualTo(anagraficaType.getDenominazione());
 		assertThat(invoiceParticipant.getFirstName()).isEqualTo(anagraficaType.getNome());
 		assertThat(invoiceParticipant.getTitle()).isEqualTo(anagraficaType.getTitolo());
-		
+
 		assertThat(invoiceParticipant.getSocialSecurityNumber()).isEqualTo(socialSecurityNumber);
-		
+
 		assertThat(invoiceParticipant.getTaxCode()).isEqualTo(taxCodeId);
 		assertThat(invoiceParticipant.getTaxCountryCode()).isEqualTo(taxCountryCode);
 	}
 
-	private boolean compareDates(LocalDate date, XMLGregorianCalendar xmlGregorianCalendar) {
-		assertThat(date.getYear()).isEqualTo(xmlGregorianCalendar.getYear());
-		assertThat(date.getMonth().getValue()).isEqualTo(xmlGregorianCalendar.getMonth());
-		assertThat(date.getDayOfMonth()).isEqualTo(xmlGregorianCalendar.getDay());
-		
+	private boolean compareDates(Date date, XMLGregorianCalendar xmlGregorianCalendar) {
+		LocalDate localDate = date.toLocalDate();
+		assertThat(localDate.getYear()).isEqualTo(xmlGregorianCalendar.getYear());
+		assertThat(localDate.getMonth().getValue()).isEqualTo(xmlGregorianCalendar.getMonth());
+		assertThat(localDate.getDayOfMonth()).isEqualTo(xmlGregorianCalendar.getDay());
+
 		// Reached only if the previous assertions are true
 		return true;
 	}
-	
+
 	@Test
 	public void buildRappresentanteFiscaleTest() {
 		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
 		Invoice invoice = new Invoice();
 		RappresentanteFiscaleType rappresentanteFiscaleType = buildRappresentanteFiscaleType();
 		converter.buildRappresentanteFiscale(rappresentanteFiscaleType, invoice);
-		
+
 		assertThat(invoice.getRappresentanteFiscale()).isNotNull();
 		checkInvoiceParticipant(
 				invoice.getRappresentanteFiscale()
@@ -779,7 +768,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 				, rappresentanteFiscaleType.getDatiAnagrafici().getIdFiscaleIVA().getIdPaese()
 				);
 	}
-	
+
 	private RappresentanteFiscaleType buildRappresentanteFiscaleType() {
 		return new RappresentanteFiscaleType(new DatiAnagraficiRappresentanteType(
 				new AnagraficaType(
@@ -806,7 +795,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 										, buildDatiGeneraliType(1)
 										, buildDatiPagamentoTypes()
 										, buildDatiVeicoliType()
-								)
+										)
 								, FatturaElettronicaBodyType.class)
 						, new FatturaElettronicaHeaderType(
 								buildCedentePrestatoreType()
@@ -826,10 +815,10 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getInvoiceSendingNumber()).isNotBlank();
 		assertThat(invoice.getSoggettoEmittente()).isNotNull();
 		assertThat(invoice.getNumber()).isNotBlank();
-		
+
 		assertThat(invoice.getPurchaseLines()).isNotEmpty();
 		assertThat(invoice.getAttachments()).isNotEmpty();
-		assertThat(invoice.getDatiDdt()).isNotEmpty();
+		assertThat(invoice.getDocumentiCorrelati()).isNotEmpty();
 		assertThat(invoice.getPaymentConditions()).isNotBlank();
 		assertThat(invoice.getTotalePercorsoVeicoli()).isNotBlank();
 	}

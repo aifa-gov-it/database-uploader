@@ -1,20 +1,25 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -27,6 +32,8 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_2.TipoCassaType;
 @Validated
 public class Invoice extends AbstractInvoiceProcessorEntity {
 	
+	private static final long serialVersionUID = -8619663315685190327L;
+
 	private BigDecimal alCassa;
 
 	private BigDecimal aliquotaIvaCassa;
@@ -35,8 +42,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	
 	private String art73;
 	
-	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "invoice")
-	private List<Attachment> attachments;
+	private Set<Attachment> attachments;
 
 	private String beneficiarioPagamento;
 
@@ -45,12 +51,10 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private String causalePagamentoRitenuta;
 
 	private String causaleTrasporto;
-
-	@ManyToOne(cascade = { CascadeType.ALL })
+	
 	@NotNull
 	private InvoiceCedentePrestatore cedentePrestatore;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
 	@NotNull
 	private InvoiceParticipant cessionarioCommittente;
 
@@ -64,42 +68,26 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private String comuneResa;
 	
-	@NotBlank
 	private String currency;
 	
-	private LocalDate dataDecorrenzaPenalePagamento;
+	private Date dataDecorrenzaPenalePagamento;
 
-	private LocalDate dataInizioTrasporto;
+	private Date dataInizioTrasporto;
 	
-	private LocalDate dataLimitePagamentoAnticipatoPagamento;
+	private Date dataLimitePagamentoAnticipatoPagamento;
 
-	private LocalDate dataOraConsegna;
+	private Date dataOraConsegna;
 
-	private LocalDate dataOraRitiro;
+	private Date dataOraRitiro;
 
-	private LocalDate dataRiferimentoTerminiPagamento;
+	private Date dataRiferimentoTerminiPagamento;
 
-	private LocalDate dataVeicoli;
+	private Date dataVeicoli;
 	
-	@NotNull
-	private LocalDate date;
-
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<DocumentoCorrelato> datiContratto;
-
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<DocumentoCorrelato> datiConvenzione;
-
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<DocumentoCorrelato> datiDdt;
-
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<DocumentoCorrelato> datiRicezione;
+	private Date date;
 	
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Set<DatiRiepilogo> datiRiepilogo;
-
-	@NotBlank
+	
 	private String description;
 
 	private String descrizioneTrasporto;
@@ -110,15 +98,23 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private String discountType;
 
+	private Set<DocumentoCorrelato> documentiCorrelati;
+	
 	private String documentTypeCode;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
-	@NotNull
-	private FinancialInstitution financialInstitution;
+	private String financialInstitutionAbi;
+
+	private String financialInstitutionBic;
+
+	private String financialInstitutionCab;
+
+	private String financialInstitutionIban;
+
+	private String financialInstitutionName;
 
 	private BigDecimal imponibileCassa;
 
-	private LocalDateTime importDate = LocalDateTime.now();
+	private Timestamp importDate = Timestamp.valueOf(LocalDateTime.now());
 
 	private BigDecimal importoContributoCassa;
 
@@ -127,14 +123,16 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private String indirizzoResa;
 
 	private String invoiceRecipientCertifiedEmailAddress;
-
+	
 	@NotBlank
 	private String invoiceRecipientCode;
-
+	
+	@NotBlank
 	private String invoiceSenderCode;
-
+	
+	@NotBlank
 	private String invoiceSenderCountryCode;
-
+	
 	private String invoiceSenderEmailAddress;
 
 	private String invoiceSenderPhoneNumber;
@@ -145,10 +143,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	@NotBlank
 	private String invoiceSendingNumber;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<DocumentoCorrelato> linkedInvoices;
-
-	private LocalDate mainInvoiceDate;
+	private Date mainInvoiceDate;
 
 	private String mainInvoiceNumber;
 
@@ -160,7 +155,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private String nomeQuietanzantePagamento;
 
-	@NotBlank
 	private String number;
 
 	private String numeroCivicoResa;
@@ -168,57 +162,45 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private Integer numeroColli;
 
 	private BigDecimal paymentAmount;
-	
-	@NotBlank
+
 	private String paymentConditions;
-	
-	@NotNull
-	private LocalDate paymentExpirationDate;
-	
-	@NotBlank
+
+	private Date paymentExpirationDate;
+
 	private String paymentMode;
-	
+
 	private Integer paymentTermDays;
-	
+
 	private BigDecimal penalitaPagamentiRitardatiPagamento;
-	
+
 	private BigDecimal pesoLordo;
 
 	private BigDecimal pesoNetto;
 
 	private String provinciaResa;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Set<PurchaseLine> purchaseLines;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private Set<DocumentoCorrelato> purchaseOrders;
-	
-	@ManyToOne(cascade = { CascadeType.ALL })
-	@NotNull
 	private InvoiceParticipant rappresentanteFiscale;
-
+	
 	private String riferimentoAmministrazioneCassa;
-
+	
 	private Integer riferimentoFase;
-
+	
 	private RitenutaType ritenutaCassa;
-
+	
 	private BigDecimal rounding;
-
+	
 	private BigDecimal scontoPagamentoAnticipatoPagamento;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
-	@NotNull
 	private InvoiceParticipant soggettoEmittente;
-	
-	@NotBlank
-	private String soggettoEmittenteType;
-	
-	private BigDecimal stampAmount;
-	
-	private TipoCassaType tipoCassa;
 
+	private String soggettoEmittenteType;
+
+	private BigDecimal stampAmount;
+
+	private TipoCassaType tipoCassa;
+	
 	private String tipoResa;
 
 	private String tipoRitenuta;
@@ -226,34 +208,35 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private String titoloQuietanzantePagamento;
 
 	private BigDecimal totalAmount;
-	
+
 	private String totalePercorsoVeicoli;
-	
+
 	private String unitaMisuraPeso;
 
 	private String version;
-
-	@ManyToOne(cascade = { CascadeType.ALL })
+	
 	private Vettore vettore;
 	
 	private String virtualStamp;
 	
 	public Invoice() {
+		super();
+		this.documentiCorrelati = new HashSet<>();
 	}
-	
+
 	public Invoice(String number) {
 		this();
 		this.number = number;
 	}
-	
+
 	public BigDecimal getAlCassa() {
 		return alCassa;
 	}
-	
+
 	public BigDecimal getAliquotaIvaCassa() {
 		return aliquotaIvaCassa;
 	}
-	
+
 	public BigDecimal getAliquotaRitenuta() {
 		return aliquotaRitenuta;
 	}
@@ -262,10 +245,11 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return art73;
 	}
 	
-	public List<Attachment> getAttachments() {
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
+	public Set<Attachment> getAttachments() {
 		return attachments;
 	}
-	
+
 	public String getBeneficiarioPagamento() {
 		return beneficiarioPagamento;
 	}
@@ -281,27 +265,29 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public String getCausaleTrasporto() {
 		return causaleTrasporto;
 	}
-
+	
+	@ManyToOne(cascade = { CascadeType.ALL })
 	public InvoiceCedentePrestatore getCedentePrestatore() {
 		return cedentePrestatore;
 	}
-
+	
+	@ManyToOne(cascade = { CascadeType.ALL })
 	public InvoiceParticipant getCessionarioCommittente() {
 		return cessionarioCommittente;
 	}
-
+	
 	public String getCfQuietanzantePagamento() {
 		return cfQuietanzantePagamento;
 	}
-
+	
 	public String getCodicePagamento() {
 		return codicePagamento;
 	}
-
+	
 	public String getCodUfficioPostalePagamento() {
 		return codUfficioPostalePagamento;
 	}
-
+	
 	public String getCognomeQuietanzantePagamento() {
 		return cognomeQuietanzantePagamento;
 	}
@@ -313,63 +299,50 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public String getCurrency() {
 		return currency;
 	}
-
-	public LocalDate getDataDecorrenzaPenalePagamento() {
+	
+	public Date getDataDecorrenzaPenalePagamento() {
 		return dataDecorrenzaPenalePagamento;
 	}
-
-	public LocalDate getDataInizioTrasporto() {
+	
+	public Date getDataInizioTrasporto() {
 		return dataInizioTrasporto;
 	}
 
-	public LocalDate getDataLimitePagamentoAnticipatoPagamento() {
+	public Date getDataLimitePagamentoAnticipatoPagamento() {
 		return dataLimitePagamentoAnticipatoPagamento;
 	}
 
-	public LocalDate getDataOraConsegna() {
+	public Date getDataOraConsegna() {
 		return dataOraConsegna;
 	}
 
-	public LocalDate getDataOraRitiro() {
+	public Date getDataOraRitiro() {
 		return dataOraRitiro;
 	}
 
-	public LocalDate getDataRiferimentoTerminiPagamento() {
+	public Date getDataRiferimentoTerminiPagamento() {
 		return dataRiferimentoTerminiPagamento;
 	}
 
-	public LocalDate getDataVeicoli() {
+	public Date getDataVeicoli() {
 		return dataVeicoli;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
-
-	public Set<DocumentoCorrelato> getDatiContratto() {
-		return datiContratto;
-	}
-
-	public Set<DocumentoCorrelato> getDatiConvenzione() {
-		return datiConvenzione;
-	}
-
-	public Set<DocumentoCorrelato> getDatiDdt() {
-		return datiDdt;
-	}
-
-	public Set<DocumentoCorrelato> getDatiRicezione() {
-		return datiRicezione;
-	}
-
+	
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
 	public Set<DatiRiepilogo> getDatiRiepilogo() {
 		return datiRiepilogo;
 	}
 
+	@Lob
 	public String getDescription() {
 		return description;
 	}
 
+	@Lob
 	public String getDescrizioneTrasporto() {
 		return descrizioneTrasporto;
 	}
@@ -377,46 +350,69 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public BigDecimal getDiscountAmount() {
 		return discountAmount;
 	}
-	
+
 	public BigDecimal getDiscountPercentage() {
 		return discountPercentage;
 	}
-	
+
 	public String getDiscountType() {
 		return discountType;
 	}
-	
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
+	public Set<DocumentoCorrelato> getDocumentiCorrelati() {
+		return documentiCorrelati;
+	}
+
 	public String getDocumentTypeCode() {
 		return documentTypeCode;
 	}
-	
-	public FinancialInstitution getFinancialInstitution() {
-		return financialInstitution;
+
+	public String getFinancialInstitutionAbi() {
+		return financialInstitutionAbi;
+	}
+
+	public String getFinancialInstitutionBic() {
+		return financialInstitutionBic;
+	}
+
+	public String getFinancialInstitutionCab() {
+		return financialInstitutionCab;
+	}
+
+	public String getFinancialInstitutionIban() {
+		return financialInstitutionIban;
+	}
+
+	public String getFinancialInstitutionName() {
+		return financialInstitutionName;
 	}
 	
 	@Override
+	@Transient
 	public List<String> getIdValues() {
 		List<String> additionalIdValues = new ArrayList<>();
-		additionalIdValues.add(number);
+		if(StringUtils.isNotBlank(number))
+			additionalIdValues.add(number);
 		return Collections.unmodifiableList(additionalIdValues);
 	}
 	
 	public BigDecimal getImponibileCassa() {
 		return imponibileCassa;
 	}
-
-	public LocalDateTime getImportDate() {
+	
+	public Timestamp getImportDate() {
 		return importDate;
 	}
-
+	
 	public BigDecimal getImportoContributoCassa() {
 		return importoContributoCassa;
 	}
-
+	
 	public BigDecimal getImportoRitenuta() {
 		return importoRitenuta;
 	}
-
+	
 	public String getIndirizzoResa() {
 		return indirizzoResa;
 	}
@@ -424,19 +420,19 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public String getInvoiceRecipientCertifiedEmailAddress() {
 		return invoiceRecipientCertifiedEmailAddress;
 	}
-	
+
 	public String getInvoiceRecipientCode() {
 		return invoiceRecipientCode;
 	}
-	
+
 	public String getInvoiceSenderCode() {
 		return invoiceSenderCode;
 	}
-	
+
 	public String getInvoiceSenderCountryCode() {
 		return invoiceSenderCountryCode;
 	}
-	
+
 	public String getInvoiceSenderEmailAddress() {
 		return invoiceSenderEmailAddress;
 	}
@@ -453,11 +449,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return invoiceSendingNumber;
 	}
 	
-	public Set<DocumentoCorrelato> getLinkedInvoices() {
-		return linkedInvoices;
-	}
-	
-	public LocalDate getMainInvoiceDate() {
+	public Date getMainInvoiceDate() {
 		return mainInvoiceDate;
 	}
 	
@@ -472,19 +464,19 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public NaturaType getNaturaCassa() {
 		return naturaCassa;
 	}
-
+	
 	public String getNazioneResa() {
 		return nazioneResa;
 	}
-
+	
 	public String getNomeQuietanzantePagamento() {
 		return nomeQuietanzantePagamento;
 	}
-
+	
 	public String getNumber() {
 		return number;
 	}
-
+	
 	public String getNumeroCivicoResa() {
 		return numeroCivicoResa;
 	}
@@ -501,7 +493,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return paymentConditions;
 	}
 
-	public LocalDate getPaymentExpirationDate() {
+	public Date getPaymentExpirationDate() {
 		return paymentExpirationDate;
 	}
 
@@ -529,14 +521,12 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return provinciaResa;
 	}
 
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
 	public Set<PurchaseLine> getPurchaseLines() {
 		return purchaseLines;
 	}
 
-	public Set<DocumentoCorrelato> getPurchaseOrders() {
-		return purchaseOrders;
-	}
-
+	@ManyToOne(cascade = { CascadeType.ALL })
 	public InvoiceParticipant getRappresentanteFiscale() {
 		return rappresentanteFiscale;
 	}
@@ -561,6 +551,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return scontoPagamentoAnticipatoPagamento;
 	}
 
+	@ManyToOne(cascade = { CascadeType.ALL })
 	public InvoiceParticipant getSoggettoEmittente() {
 		return soggettoEmittente;
 	}
@@ -572,7 +563,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public BigDecimal getStampAmount() {
 		return stampAmount;
 	}
-	
+
 	public TipoCassaType getTipoCassa() {
 		return tipoCassa;
 	}
@@ -588,7 +579,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public String getTitoloQuietanzantePagamento() {
 		return titoloQuietanzantePagamento;
 	}
-
+	
 	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
@@ -604,7 +595,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public String getVersion() {
 		return version;
 	}
-	
+
+	@ManyToOne(cascade = { CascadeType.ALL })
 	public Vettore getVettore() {
 		return vettore;
 	}
@@ -620,7 +612,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public void setAliquotaIvaCassa(BigDecimal aliquotaIvaCassa) {
 		this.aliquotaIvaCassa = aliquotaIvaCassa;
 	}
-
+	
 	public void setAliquotaRitenuta(BigDecimal aliquotaRitenuta) {
 		this.aliquotaRitenuta = aliquotaRitenuta;
 	}
@@ -629,22 +621,22 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.art73 = art73;
 	}
 
-	public void setAttachments(List<Attachment> attachments) {
+	public void setAttachments(Set<Attachment> attachments) {
 		this.attachments = attachments;
 	}
 
 	public void setBeneficiarioPagamento(String beneficiarioPagamento) {
 		this.beneficiarioPagamento = beneficiarioPagamento;
 	}
-	
+
 	public void setCapResa(String capResa) {
 		this.capResa = capResa;
 	}
-	
+
 	public void setCausalePagamentoRitenuta(String causalePagamentoRitenuta) {
 		this.causalePagamentoRitenuta = causalePagamentoRitenuta;
 	}
-	
+
 	public void setCausaleTrasporto(String causaleTrasporto) {
 		this.causaleTrasporto = causaleTrasporto;
 	}
@@ -664,7 +656,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public void setCodicePagamento(String codicePagamento) {
 		this.codicePagamento = codicePagamento;
 	}
-	
+
 	public void setCodUfficioPostalePagamento(String codUfficioPostalePagamento) {
 		this.codUfficioPostalePagamento = codUfficioPostalePagamento;
 	}
@@ -672,67 +664,51 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public void setCognomeQuietanzantePagamento(String cognomeQuietanzantePagamento) {
 		this.cognomeQuietanzantePagamento = cognomeQuietanzantePagamento;
 	}
-
+	
 	public void setComuneResa(String comuneResa) {
 		this.comuneResa = comuneResa;
 	}
-
+	
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
-
-	public void setDataDecorrenzaPenalePagamento(LocalDate dataDecorrenzaPenalePagamento) {
+	
+	public void setDataDecorrenzaPenalePagamento(Date dataDecorrenzaPenalePagamento) {
 		this.dataDecorrenzaPenalePagamento = dataDecorrenzaPenalePagamento;
 	}
-
-	public void setDataInizioTrasporto(LocalDate dataInizioTrasporto) {
+	
+	public void setDataInizioTrasporto(Date dataInizioTrasporto) {
 		this.dataInizioTrasporto = dataInizioTrasporto;
 	}
 
-	public void setDataLimitePagamentoAnticipatoPagamento(LocalDate dataLimitePagamentoAnticipatoPagamento) {
+	public void setDataLimitePagamentoAnticipatoPagamento(Date dataLimitePagamentoAnticipatoPagamento) {
 		this.dataLimitePagamentoAnticipatoPagamento = dataLimitePagamentoAnticipatoPagamento;
 	}
 
-	public void setDataOraConsegna(LocalDate dataOraConsegna) {
+	public void setDataOraConsegna(Date dataOraConsegna) {
 		this.dataOraConsegna = dataOraConsegna;
 	}
 
-	public void setDataOraRitiro(LocalDate dataOraRitiro) {
+	public void setDataOraRitiro(Date dataOraRitiro) {
 		this.dataOraRitiro = dataOraRitiro;
 	}
 
-	public void setDataRiferimentoTerminiPagamento(LocalDate dataRiferimentoTerminiPagamento) {
+	public void setDataRiferimentoTerminiPagamento(Date dataRiferimentoTerminiPagamento) {
 		this.dataRiferimentoTerminiPagamento = dataRiferimentoTerminiPagamento;
 	}
 
-	public void setDataVeicoli(LocalDate dataVeicoli) {
+	public void setDataVeicoli(Date dataVeicoli) {
 		this.dataVeicoli = dataVeicoli;
 	}
-	
-	public void setDate(LocalDate date) {
+
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	
-	public void setDatiContratto(Set<DocumentoCorrelato> datiContratto) {
-		this.datiContratto = datiContratto;
-	}
-	
-	public void setDatiConvenzione(Set<DocumentoCorrelato> datiConvenzione) {
-		this.datiConvenzione = datiConvenzione;
-	}
-
-	public void setDatiDdt(Set<DocumentoCorrelato> datiDdt) {
-		this.datiDdt = datiDdt;
-	}
-
-	public void setDatiRicezione(Set<DocumentoCorrelato> datiRicezione) {
-		this.datiRicezione = datiRicezione;
-	}
-
 	public void setDatiRiepilogo(Set<DatiRiepilogo> datiRiepilogo) {
 		this.datiRiepilogo = datiRiepilogo;
 	}
-
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -752,19 +728,39 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public void setDiscountType(String discountType) {
 		this.discountType = discountType;
 	}
-	
+
+	public void setDocumentiCorrelati(Set<DocumentoCorrelato> documentiCorrelati) {
+		this.documentiCorrelati = documentiCorrelati;
+	}
+
 	public void setDocumentTypeCode(String documentTypeCode) {
 		this.documentTypeCode = documentTypeCode;
 	}
-	
-	public void setFinancialInstitution(FinancialInstitution financialInstitution) {
-		this.financialInstitution = financialInstitution;
+
+	public void setFinancialInstitutionAbi(String financialInstitutionAbi) {
+		this.financialInstitutionAbi = financialInstitutionAbi;
 	}
+	
+	public void setFinancialInstitutionBic(String financialInstitutionBic) {
+		this.financialInstitutionBic = financialInstitutionBic;
+	}
+	
+	public void setFinancialInstitutionCab(String financialInstitutionCab) {
+		this.financialInstitutionCab = financialInstitutionCab;
+	}
+	public void setFinancialInstitutionIban(String financialInstitutionIban) {
+		this.financialInstitutionIban = financialInstitutionIban;
+	}
+	
+	public void setFinancialInstitutionName(String financialInstitutionName) {
+		this.financialInstitutionName = financialInstitutionName;
+	}
+	
 	public void setImponibileCassa(BigDecimal imponibileCassa) {
 		this.imponibileCassa = imponibileCassa;
 	}
 	
-	public void setImportDate(LocalDateTime importDate) {
+	public void setImportDate(Timestamp importDate) {
 		this.importDate = importDate;
 	}
 	
@@ -787,11 +783,11 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public void setInvoiceRecipientCode(String invoiceRecipientCode) {
 		this.invoiceRecipientCode = invoiceRecipientCode;
 	}
-	
+
 	public void setInvoiceSenderCode(String invoiceSenderCode) {
 		this.invoiceSenderCode = invoiceSenderCode;
 	}
-	
+
 	public void setInvoiceSenderCountryCode(String invoiceSenderCountryCode) {
 		this.invoiceSenderCountryCode = invoiceSenderCountryCode;
 	}
@@ -812,11 +808,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.invoiceSendingNumber = invoiceSendingNumber;
 	}
 
-	public void setLinkedInvoices(Set<DocumentoCorrelato> linkedInvoices) {
-		this.linkedInvoices = linkedInvoices;
-	}
-
-	public void setMainInvoiceDate(LocalDate mainInvoiceDate) {
+	public void setMainInvoiceDate(Date mainInvoiceDate) {
 		this.mainInvoiceDate = mainInvoiceDate;
 	}
 
@@ -860,7 +852,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.paymentConditions = paymentConditions;
 	}
 
-	public void setPaymentExpirationDate(LocalDate paymentExpirationDate) {
+	public void setPaymentExpirationDate(Date paymentExpirationDate) {
 		this.paymentExpirationDate = paymentExpirationDate;
 	}
 
@@ -890,10 +882,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	public void setPurchaseLines(Set<PurchaseLine> purchaseLines) {
 		this.purchaseLines = purchaseLines;
-	}
-
-	public void setPurchaseOrders(Set<DocumentoCorrelato> purchaseOrders) {
-		this.purchaseOrders = purchaseOrders;
 	}
 
 	public void setRappresentanteFiscale(InvoiceParticipant rappresentanteFiscale) {

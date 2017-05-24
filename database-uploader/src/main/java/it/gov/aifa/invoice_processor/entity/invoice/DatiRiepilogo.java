@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
@@ -15,6 +17,8 @@ import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
 @Entity
 @Validated
 public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
+	private static final long serialVersionUID = -2915903776609151751L;
+
 	@NotNull
 	private BigDecimal aliquotaIVA;
 
@@ -59,11 +63,16 @@ public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
 	}
 	
 	@Override
+	@Transient
 	protected List<String> getAdditionalIdValues() {
 		List<String> additionalIdValues = new ArrayList<>();
 		additionalIdValues.add(aliquotaIVA.toString());
-		additionalIdValues.add(esigibilitaIVA);
-		additionalIdValues.add(natura.toString());
+		additionalIdValues.add(imponibileImporto.toString());
+		additionalIdValues.add(imposta.toString());
+		if(StringUtils.isNotBlank(esigibilitaIVA))
+			additionalIdValues.add(esigibilitaIVA);
+		if(natura != null)
+			additionalIdValues.add(natura.toString());
 		return Collections.unmodifiableList(additionalIdValues);
 	}
 	

@@ -17,6 +17,9 @@ import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceProcessorEntity;
 @Entity
 @Validated
 public class Movement extends AbstractInvoiceProcessorEntity {
+
+	private static final long serialVersionUID = 1614101902310533402L;
+
 	private String accountHolderCode;
 
 	private String accountHolderTypeCode;
@@ -38,6 +41,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	
 	private LocalDate expirationDate;
 	
+	@NotNull
 	private LocalDateTime importDate = LocalDateTime.now();
 	
 	private String lot;
@@ -106,6 +110,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	}
 	
 	@Override
+	@Transient
 	public List<String> getIdValues() {
 		List<String> idValues = new ArrayList<>();
 		idValues.add(aic);

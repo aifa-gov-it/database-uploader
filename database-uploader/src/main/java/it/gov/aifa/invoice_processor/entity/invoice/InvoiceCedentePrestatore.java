@@ -1,7 +1,7 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 
@@ -12,9 +12,10 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class InvoiceCedentePrestatore extends InvoiceParticipant {
 	
+	private static final long serialVersionUID = 9222197347456154658L;
+
 	private String administrativeReference;
 	
-	@NotBlank
 	private String clearanceState;
 
 	private String professionalRegister;
@@ -23,18 +24,14 @@ public class InvoiceCedentePrestatore extends InvoiceParticipant {
 
 	private String professionalRegisterNumber;
 	
-	private LocalDate professionalRegisterSubscriptionDate;
+	private Date professionalRegisterSubscriptionDate;
 	
-	@NotBlank
 	private String reaNumber;
 	
-	@NotBlank
 	private String reaOffice;
 
-	@NotBlank
 	private BigDecimal shareCapital;
 
-	@NotBlank
 	private String soleStakeholder;
 
 	@NotBlank
@@ -60,7 +57,7 @@ public class InvoiceCedentePrestatore extends InvoiceParticipant {
 		return professionalRegisterNumber;
 	}
 	
-	public LocalDate getProfessionalRegisterSubscriptionDate() {
+	public Date getProfessionalRegisterSubscriptionDate() {
 		return professionalRegisterSubscriptionDate;
 	}
 	
@@ -104,7 +101,7 @@ public class InvoiceCedentePrestatore extends InvoiceParticipant {
 		this.professionalRegisterNumber = professionalRegisterNumber;
 	}
 
-	public void setProfessionalRegisterSubscriptionDate(LocalDate professionalRegisterSubscriptionDate) {
+	public void setProfessionalRegisterSubscriptionDate(Date professionalRegisterSubscriptionDate) {
 		this.professionalRegisterSubscriptionDate = professionalRegisterSubscriptionDate;
 	}
 

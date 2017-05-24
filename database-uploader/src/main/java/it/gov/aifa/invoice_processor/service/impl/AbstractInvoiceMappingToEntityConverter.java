@@ -16,7 +16,6 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_2.DatiGeneraliType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.DatiPagamentoType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.DatiTrasmissioneType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.DatiVeicoliType;
-import it.gov.aifa.invoice_processor.mapping.invoice1_2.DettaglioPagamentoType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.RappresentanteFiscaleType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.SoggettoEmittenteType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.TerzoIntermediarioSoggettoEmittenteType;
@@ -47,10 +46,6 @@ implements InvoiceMappingToEntityConverter<S, T> {
 			, @NotNull Invoice invoice);
 
 	protected abstract void buildDatiVeicoli(DatiVeicoliType datiVeicoli, @NotNull Invoice invoice);
-
-	protected abstract void buildFinancialInstitution(
-			@NotNull DettaglioPagamentoType dettaglioPagamentoType
-			, @NotNull Invoice invoice);
 
 	protected abstract void buildInvoiceItems(
 			@NotNull DatiBeniServiziType datiBeniServizi

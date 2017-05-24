@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +18,8 @@ import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
 @Entity
 @Validated
 public class Attachment extends AbstractInvoiceReferenceEntity {
-	
+	private static final long serialVersionUID = 3928788589828828163L;
+
 	private String compressionAlgorithm;
 	
 	@NotEmpty
@@ -41,7 +44,8 @@ public class Attachment extends AbstractInvoiceReferenceEntity {
 	@Transient
 	protected List<String> getAdditionalIdValues() {
 		List<String> additionalIdValues = new ArrayList<>();
-		additionalIdValues.add(name);
+		if(StringUtils.isNotBlank(name))
+			additionalIdValues.add(name);
 		return Collections.unmodifiableList(additionalIdValues);
 	}
 	
@@ -53,6 +57,7 @@ public class Attachment extends AbstractInvoiceReferenceEntity {
 		return data;
 	}
 	
+	@Lob
 	public String getDescription() {
 		return description;
 	}

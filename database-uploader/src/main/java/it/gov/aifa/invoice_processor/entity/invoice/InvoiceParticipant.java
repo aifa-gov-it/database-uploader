@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,13 +19,13 @@ import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceProcessorEntity;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Validated
 public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
-	@NotBlank
+
+	private static final long serialVersionUID = -1455533028195877041L;
+
 	private String city;
 	
-	@NotBlank
 	private String country;
 	
-	@NotBlank
 	private String district;
 	
 	private String emailAddress;
@@ -58,11 +59,10 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 	
 	private String socialSecurityNumber;
 
-	@NotBlank
 	private String streetAddress;
 
 	private String taxCode;
-
+	
 	private String taxCountryCode;
 
 	private String taxRepresentativeCountryId;
@@ -77,7 +77,6 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 	
 	private String title;
 	
-	@NotBlank
 	private String zipCode;
 
 	public String getCity() {
@@ -113,6 +112,7 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 	}
 	
 	@Override
+	@Transient
 	public List<String> getIdValues() {
 		List<String> additionalIdValues = new ArrayList<>();
 		if(StringUtils.isNotBlank(socialSecurityNumber))

@@ -1,23 +1,28 @@
 package it.gov.aifa.invoice_processor.entity.impl;
 
+import java.io.Serializable;
+
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.InvoiceProcessorEntity;
+import it.gov.aifa.invoice_processor.entity.listener.InvoiceProcessorEntityListener;
 
+@EntityListeners(InvoiceProcessorEntityListener.class)
 @MappedSuperclass
 @Validated
-public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessorEntity<String> {
+public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessorEntity<String>, Serializable {
 
-	@Id
+	private static final long serialVersionUID = 6746697384667711588L;
+	
 	@NotBlank
 	private String id;
 	
@@ -39,6 +44,7 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 		return EqualsBuilder.reflectionEquals(this, other, false);
 	}
 	
+	@Id
 	@Override
 	public String getId() {
 		return id;
@@ -46,7 +52,9 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 	
 	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, false);
+		if(StringUtils.isBlank(id))
+			updateId();
+		return id.hashCode();
 	}
 	
 	@Override

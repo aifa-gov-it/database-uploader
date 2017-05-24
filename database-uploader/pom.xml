@@ -312,9 +312,10 @@
                 <version>${liquibase.version}</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                    <diffChangeLogFile>src/main/resources/db/changelog/db.changelog-${project.version}.yaml</diffChangeLogFile>
                     <driver>org.h2.Driver</driver>
                     <outputFileEncoding>${project.resources.sourceEncoding}</outputFileEncoding>
-                    <referenceUrl>hibernate:spring:it.gov.aifa.invoice_processor.entity.invoice?dialect=org.hibernate.dialect.Oracle12cDialect</referenceUrl>
+                    <referenceUrl>hibernate:spring:it.gov.aifa.invoice_processor.entity?dialect=org.hibernate.dialect.Oracle12cDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy</referenceUrl>
                     <url>jdbc:h2:mem:testdb</url>
                     <username>sa</username>
                     <password>sa</password>
@@ -325,15 +326,31 @@
                         <artifactId>liquibase-hibernate5</artifactId>
                         <version>${liquibase-hibernate5.version}</version>
                     </dependency>
+<!--                     <dependency> -->
+<!--                         <groupId>org.springframework</groupId> -->
+<!--                         <artifactId>spring-orm</artifactId> -->
+<!--                         <version>${spring.version}</version> -->
+<!--                     </dependency> -->
+<!--                     <dependency> -->
+<!--                         <groupId>org.springframework</groupId> -->
+<!--                         <artifactId>spring-context</artifactId> -->
+<!--                         <version>${spring.version}</version> -->
+<!--                     </dependency> -->
                     <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-orm</artifactId>
-                        <version>${spring.version}</version>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-data-jpa</artifactId>
+                        <version>${spring-boot.version}</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-jdbc</artifactId>
+                            </exclusion>
+                        </exclusions>
                     </dependency>
                     <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                        <version>${spring.version}</version>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-validator</artifactId>
+                        <version>${hibernate-validator.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>

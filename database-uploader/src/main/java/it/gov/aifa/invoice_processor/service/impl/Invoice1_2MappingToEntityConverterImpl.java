@@ -1,11 +1,11 @@
 package it.gov.aifa.invoice_processor.service.impl;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import it.gov.aifa.invoice_processor.entity.invoice.Attachment;
 import it.gov.aifa.invoice_processor.entity.invoice.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelato;
-import it.gov.aifa.invoice_processor.entity.invoice.FinancialInstitution;
+import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
@@ -73,7 +73,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			@NotNull List<AllegatiType> allegati
 			, @NotNull Invoice invoice) {
 		if(allegati != null && !allegati.isEmpty()) {
-			List<Attachment> attachments = new ArrayList<>(allegati.size());
+			Set<Attachment> attachments = new HashSet<>(allegati.size());
 			for(AllegatiType allegatiType : allegati) {
 				Attachment attachment = new Attachment();
 				attachment.setCompressionAlgorithm(allegatiType.getAlgoritmoCompressione());
@@ -110,7 +110,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			invoiceCedentePrestatore.setProfessionalRegisterNumber(biographicalData.getNumeroIscrizioneAlbo());
 			invoiceCedentePrestatore.setProfessionalRegisterDistrict(biographicalData.getProvinciaAlbo());
 			if(biographicalData.getDataIscrizioneAlbo() != null)
-				invoiceCedentePrestatore.setProfessionalRegisterSubscriptionDate(xmlGregorianCalendarToLocalDate(biographicalData.getDataIscrizioneAlbo()));
+				invoiceCedentePrestatore.setProfessionalRegisterSubscriptionDate(xmlGregorianCalendarToSqlDate(biographicalData.getDataIscrizioneAlbo()));
 
 			invoiceCedentePrestatore.setTaxSystem(biographicalData.getRegimeFiscale().toString());
 		}
@@ -158,7 +158,10 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		RappresentanteFiscaleCessionarioType rappresentanteFiscaleCessionarioType = cessionarioCommittente.getRappresentanteFiscale();
 		if(rappresentanteFiscaleCessionarioType != null) {
 			invoiceCessionarioCommittente.setTaxRepresentativeFirstName(rappresentanteFiscaleCessionarioType.getNome());
-			mapIdFiscaleTypeToInvoiceParticipant(rappresentanteFiscaleCessionarioType.getIdFiscaleIVA(), invoiceCessionarioCommittente);
+			if(rappresentanteFiscaleCessionarioType.getIdFiscaleIVA() != null) {
+				invoiceCessionarioCommittente.setTaxRepresentativeCountryId(rappresentanteFiscaleCessionarioType.getIdFiscaleIVA().getIdPaese());
+				invoiceCessionarioCommittente.setTaxRepresentativeIdCode(rappresentanteFiscaleCessionarioType.getIdFiscaleIVA().getIdCodice());
+			}
 			invoiceCessionarioCommittente.setTaxRepresentativeLastName(rappresentanteFiscaleCessionarioType.getCognome());
 			invoiceCessionarioCommittente.setTaxRepresentativeName(rappresentanteFiscaleCessionarioType.getDenominazione());
 		}
@@ -184,25 +187,26 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		if(datiDDTTypes != null) {
 			Set<DocumentoCorrelato> invoiceDatiDdt = new HashSet<>(datiDDTTypes.size());
 			for(DatiDDTType datiDDTType : datiDDTTypes) {
-				LocalDate dataDocumentoCorrelato = null;
+				Date dataDocumentoCorrelato = null;
 				XMLGregorianCalendar dataDDT = datiDDTType.getDataDDT();
 				if(dataDDT != null)
-					dataDocumentoCorrelato = xmlGregorianCalendarToLocalDate(datiDDTType.getDataDDT());
+					dataDocumentoCorrelato = xmlGregorianCalendarToSqlDate(datiDDTType.getDataDDT());
 				DocumentoCorrelato documentoCorrelato = new DocumentoCorrelato(
 						dataDocumentoCorrelato
 						, datiDDTType.getNumeroDDT()
+						, DocumentoCorrelatoType.DDT
 						, invoice
 						, getRelatedPurchaseLines(invoice, datiDDTType.getRiferimentoNumeroLinea()));
 				invoiceDatiDdt.add(documentoCorrelato);
 			}
-			invoice.setDatiDdt(invoiceDatiDdt);
+			invoice.getDocumentiCorrelati().addAll(invoiceDatiDdt);
 		}
 		
-		invoice.setDatiContratto(buildDocumentiCorrelati(datiGenerali.getDatiContratto(), invoice));
-		invoice.setDatiConvenzione(buildDocumentiCorrelati(datiGenerali.getDatiConvenzione(), invoice));
-		invoice.setLinkedInvoices(buildDocumentiCorrelati(datiGenerali.getDatiFattureCollegate(), invoice));
-		invoice.setPurchaseOrders(buildDocumentiCorrelati(datiGenerali.getDatiOrdineAcquisto(), invoice));
-		invoice.setDatiRicezione(buildDocumentiCorrelati(datiGenerali.getDatiRicezione(), invoice));
+		invoice.getDocumentiCorrelati().addAll(buildDocumentiCorrelati(datiGenerali.getDatiContratto(), DocumentoCorrelatoType.CONTRATTO, invoice));
+		invoice.getDocumentiCorrelati().addAll(buildDocumentiCorrelati(datiGenerali.getDatiConvenzione(), DocumentoCorrelatoType.CONVENZIONE, invoice));
+		invoice.getDocumentiCorrelati().addAll(buildDocumentiCorrelati(datiGenerali.getDatiFattureCollegate(), DocumentoCorrelatoType.FATTURA_COLLEGATA, invoice));
+		invoice.getDocumentiCorrelati().addAll(buildDocumentiCorrelati(datiGenerali.getDatiOrdineAcquisto(), DocumentoCorrelatoType.ORDINE_ACQUISTO, invoice));
+		invoice.getDocumentiCorrelati().addAll(buildDocumentiCorrelati(datiGenerali.getDatiRicezione(), DocumentoCorrelatoType.RICEZIONE, invoice));
 
 		if(!CollectionUtils.isEmpty(datiGenerali.getDatiSAL())) {
 			checkSingleElementCollection(datiGenerali.getDatiSAL(), DatiSALType.class);
@@ -212,9 +216,9 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		DatiTrasportoType datiTrasportoType = datiGenerali.getDatiTrasporto();
 		if(datiTrasportoType != null) {
 			invoice.setCausaleTrasporto(datiTrasportoType.getCausaleTrasporto());
-			invoice.setDataInizioTrasporto(datiTrasportoType.getDataInizioTrasporto() != null ? xmlGregorianCalendarToLocalDate(datiTrasportoType.getDataInizioTrasporto()) : null);
-			invoice.setDataOraConsegna(datiTrasportoType.getDataOraConsegna() != null ? xmlGregorianCalendarToLocalDate(datiTrasportoType.getDataOraConsegna()) : null);
-			invoice.setDataOraRitiro(datiTrasportoType.getDataOraRitiro() != null ? xmlGregorianCalendarToLocalDate(datiTrasportoType.getDataOraRitiro()) : null);
+			invoice.setDataInizioTrasporto(datiTrasportoType.getDataInizioTrasporto() != null ? xmlGregorianCalendarToSqlDate(datiTrasportoType.getDataInizioTrasporto()) : null);
+			invoice.setDataOraConsegna(datiTrasportoType.getDataOraConsegna() != null ? xmlGregorianCalendarToSqlDate(datiTrasportoType.getDataOraConsegna()) : null);
+			invoice.setDataOraRitiro(datiTrasportoType.getDataOraRitiro() != null ? xmlGregorianCalendarToSqlDate(datiTrasportoType.getDataOraRitiro()) : null);
 
 			if(datiTrasportoType.getDatiAnagraficiVettore() != null) {
 				Vettore vettore = new Vettore();
@@ -266,7 +270,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		}
 
 		if(datiGenerali.getFatturaPrincipale() != null) {
-			invoice.setMainInvoiceDate(xmlGregorianCalendarToLocalDate(datiGenerali.getFatturaPrincipale().getDataFatturaPrincipale()));
+			invoice.setMainInvoiceDate(xmlGregorianCalendarToSqlDate(datiGenerali.getFatturaPrincipale().getDataFatturaPrincipale()));
 			invoice.setMainInvoiceNumber(datiGenerali.getFatturaPrincipale().getNumeroFatturaPrincipale());
 		}
 
@@ -291,7 +295,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		}
 
 		invoice.setCurrency(datiGeneraliDocumentoType.getDivisa());
-		invoice.setDate(xmlGregorianCalendarToLocalDate(datiGeneraliDocumentoType.getData()));
+		invoice.setDate(xmlGregorianCalendarToSqlDate(datiGeneraliDocumentoType.getData()));
 		invoice.setDocumentTypeCode(datiGeneraliDocumentoType.getTipoDocumento().toString());
 		invoice.setRounding(datiGeneraliDocumentoType.getArrotondamento());
 		invoice.setTotalAmount(datiGeneraliDocumentoType.getImportoTotaleDocumento());
@@ -311,9 +315,13 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		
 		checkSingleElementCollection(datiPagamentoType.getDettaglioPagamento(), DettaglioPagamentoType.class);
 		DettaglioPagamentoType dettaglioPagamentoType = datiPagamentoType.getDettaglioPagamento().get(0);
-		buildFinancialInstitution(dettaglioPagamentoType, invoice);
+		invoice.setFinancialInstitutionAbi(dettaglioPagamentoType.getABI());
+		invoice.setFinancialInstitutionBic(dettaglioPagamentoType.getBIC());
+		invoice.setFinancialInstitutionCab(dettaglioPagamentoType.getCAB());
+		invoice.setFinancialInstitutionIban(dettaglioPagamentoType.getIBAN());
+		invoice.setFinancialInstitutionName(dettaglioPagamentoType.getIstitutoFinanziario());
 		invoice.setPaymentAmount(dettaglioPagamentoType.getImportoPagamento());
-		invoice.setPaymentExpirationDate(dettaglioPagamentoType.getDataScadenzaPagamento() != null ? xmlGregorianCalendarToLocalDate(dettaglioPagamentoType.getDataScadenzaPagamento()) : null);
+		invoice.setPaymentExpirationDate(dettaglioPagamentoType.getDataScadenzaPagamento() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataScadenzaPagamento()) : null);
 		invoice.setPaymentMode(dettaglioPagamentoType.getModalitaPagamento().toString());
 		invoice.setPaymentTermDays(dettaglioPagamentoType.getGiorniTerminiPagamento());
 		
@@ -322,9 +330,9 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		invoice.setCodicePagamento(dettaglioPagamentoType.getCodicePagamento());
 		invoice.setCodUfficioPostalePagamento(dettaglioPagamentoType.getCodUfficioPostale());
 		invoice.setCognomeQuietanzantePagamento(dettaglioPagamentoType.getCognomeQuietanzante());
-		invoice.setDataDecorrenzaPenalePagamento(dettaglioPagamentoType.getDataDecorrenzaPenale() != null ? xmlGregorianCalendarToLocalDate(dettaglioPagamentoType.getDataDecorrenzaPenale()) : null);
-		invoice.setDataLimitePagamentoAnticipatoPagamento(dettaglioPagamentoType.getDataLimitePagamentoAnticipato() != null ? xmlGregorianCalendarToLocalDate(dettaglioPagamentoType.getDataLimitePagamentoAnticipato()) : null);
-		invoice.setDataRiferimentoTerminiPagamento(dettaglioPagamentoType.getDataRiferimentoTerminiPagamento() != null ? xmlGregorianCalendarToLocalDate(dettaglioPagamentoType.getDataRiferimentoTerminiPagamento()) : null);
+		invoice.setDataDecorrenzaPenalePagamento(dettaglioPagamentoType.getDataDecorrenzaPenale() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataDecorrenzaPenale()) : null);
+		invoice.setDataLimitePagamentoAnticipatoPagamento(dettaglioPagamentoType.getDataLimitePagamentoAnticipato() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataLimitePagamentoAnticipato()) : null);
+		invoice.setDataRiferimentoTerminiPagamento(dettaglioPagamentoType.getDataRiferimentoTerminiPagamento() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataRiferimentoTerminiPagamento()) : null);
 		invoice.setNomeQuietanzantePagamento(dettaglioPagamentoType.getNomeQuietanzante());
 		invoice.setPenalitaPagamentiRitardatiPagamento(dettaglioPagamentoType.getPenalitaPagamentiRitardati());
 		invoice.setScontoPagamentoAnticipatoPagamento(dettaglioPagamentoType.getScontoPagamentoAnticipato());
@@ -336,12 +344,12 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			DatiVeicoliType datiVeicoli
 			, @NotNull Invoice invoice) {
 		if(datiVeicoli != null) {
-			invoice.setDataVeicoli(datiVeicoli.getData() != null ? xmlGregorianCalendarToLocalDate(datiVeicoli.getData()) : null);
+			invoice.setDataVeicoli(datiVeicoli.getData() != null ? xmlGregorianCalendarToSqlDate(datiVeicoli.getData()) : null);
 			invoice.setTotalePercorsoVeicoli(datiVeicoli.getTotalePercorso());
 		}
 	}
 
-	private Set<DocumentoCorrelato> buildDocumentiCorrelati(List<DatiDocumentiCorrelatiType> datiDocumentiCorrelati, Invoice invoice) {
+	private Set<DocumentoCorrelato> buildDocumentiCorrelati(List<DatiDocumentiCorrelatiType> datiDocumentiCorrelati, DocumentoCorrelatoType documentoCorrelatoType, Invoice invoice) {
 		if(datiDocumentiCorrelati != null) {
 			Set<DocumentoCorrelato> documentCorrelati = new HashSet<>(datiDocumentiCorrelati.size());
 			for(DatiDocumentiCorrelatiType datiDocumentiCorrelatiType : datiDocumentiCorrelati) {
@@ -349,7 +357,8 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 						datiDocumentiCorrelatiType.getCodiceCIG()
 						, datiDocumentiCorrelatiType.getCodiceCommessaConvenzione()
 						, datiDocumentiCorrelatiType.getCodiceCUP()
-						, datiDocumentiCorrelatiType.getData() != null ? xmlGregorianCalendarToLocalDate(datiDocumentiCorrelatiType.getData()) : null
+						, datiDocumentiCorrelatiType.getData() != null ? xmlGregorianCalendarToSqlDate(datiDocumentiCorrelatiType.getData()) : null
+						, documentoCorrelatoType
 						, datiDocumentiCorrelatiType.getIdDocumento()
 						, invoice, datiDocumentiCorrelatiType.getNumItem()
 						, getRelatedPurchaseLines(invoice, datiDocumentiCorrelatiType.getRiferimentoNumeroLinea())
@@ -358,19 +367,6 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			return documentCorrelati;
 		}else
 			return null;
-	}
-
-	@Override
-	protected void buildFinancialInstitution(
-			@NotNull DettaglioPagamentoType dettaglioPagamentoType
-			, @NotNull Invoice invoice) {
-		FinancialInstitution financialInstitution = new FinancialInstitution();
-		financialInstitution.setAbi(dettaglioPagamentoType.getABI());
-		financialInstitution.setBic(dettaglioPagamentoType.getBIC());
-		financialInstitution.setCab(dettaglioPagamentoType.getCAB());
-		financialInstitution.setIban(dettaglioPagamentoType.getIBAN());
-		financialInstitution.setName(dettaglioPagamentoType.getIstitutoFinanziario());
-		invoice.setFinancialInstitution(financialInstitution);
 	}
 
 	@Override
@@ -417,14 +413,14 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 				if(!CollectionUtils.isEmpty(altriDatiGestionaliTypes)) {
 					checkSingleElementCollection(altriDatiGestionaliTypes, AltriDatiGestionaliType.class);
 					if(altriDatiGestionaliTypes.get(0).getRiferimentoData() != null)
-						purchaseLine.setOtherManagementDataDate(xmlGregorianCalendarToLocalDate(altriDatiGestionaliTypes.get(0).getRiferimentoData()));
+						purchaseLine.setOtherManagementDataDate(xmlGregorianCalendarToSqlDate(altriDatiGestionaliTypes.get(0).getRiferimentoData()));
 					purchaseLine.setOtherManagementDataReferenceNumber(altriDatiGestionaliTypes.get(0).getRiferimentoNumero());
 					purchaseLine.setOtherManagementDataReferenceText(altriDatiGestionaliTypes.get(0).getRiferimentoTesto());
 					purchaseLine.setOtherManagementDataDataType(altriDatiGestionaliTypes.get(0).getTipoDato());
 				}
 
-				purchaseLine.setPeriodEndDate(dettaglioLinea.getDataFinePeriodo() != null ? xmlGregorianCalendarToLocalDate(dettaglioLinea.getDataFinePeriodo()) : null);
-				purchaseLine.setPeriodStartDate(dettaglioLinea.getDataInizioPeriodo() != null ? xmlGregorianCalendarToLocalDate(dettaglioLinea.getDataInizioPeriodo()) : null);
+				purchaseLine.setPeriodEndDate(dettaglioLinea.getDataFinePeriodo() != null ? xmlGregorianCalendarToSqlDate(dettaglioLinea.getDataFinePeriodo()) : null);
+				purchaseLine.setPeriodStartDate(dettaglioLinea.getDataInizioPeriodo() != null ? xmlGregorianCalendarToSqlDate(dettaglioLinea.getDataInizioPeriodo()) : null);
 				purchaseLine.setRitenuta(dettaglioLinea.getRitenuta() != null ? dettaglioLinea.getRitenuta().toString() : null);
 				purchaseLine.setQuantity(dettaglioLinea.getQuantita());
 
@@ -535,14 +531,15 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		return "1.2";
 	}
 
-	private List<PurchaseLine> getRelatedPurchaseLines(Invoice invoice, List<Integer> purchaseLineIds) {
+	private Set<PurchaseLine> getRelatedPurchaseLines(Invoice invoice, List<Integer> purchaseLineIds) {
 		if(purchaseLineIds == null || purchaseLineIds.isEmpty())
 			return null;
 		else
 			return invoice.getPurchaseLines().stream()
 					.filter(c -> c.getInvoice().getNumber().equals(invoice.getNumber())
-							&& purchaseLineIds.contains(Integer.parseInt(c.getDocumentId())))
-					.collect(Collectors.toList());
+							&& purchaseLineIds.contains(Integer.parseInt(c.getDocumentId()))
+							)
+					.collect(Collectors.toSet());
 	}
 
 	private void mapAnagraficaTypeToInvoiceParticipant(AnagraficaType anagraficaType, InvoiceParticipant invoiceParticipant) {
@@ -571,8 +568,9 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		}
 	}
 
-	private LocalDate xmlGregorianCalendarToLocalDate(XMLGregorianCalendar xmlGregorianCalendar) {
-		Date utilDate = xmlGregorianCalendar.toGregorianCalendar().getTime();
-		return LocalDateTime.ofInstant(utilDate.toInstant(), ZoneId.systemDefault()).toLocalDate();
+	private Date xmlGregorianCalendarToSqlDate(XMLGregorianCalendar xmlGregorianCalendar) {
+		java.util.Date date = xmlGregorianCalendar.toGregorianCalendar().getTime();
+		LocalDate localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
+		return Date.valueOf(localDate);
 	}
 }
