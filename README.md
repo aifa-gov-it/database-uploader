@@ -1,7 +1,7 @@
 # Invoices Processor
 
-* Development branch: [![Build Status](https://travis-ci.org/aifa-gov-it/invoices-processor.svg?branch=development)](https://travis-ci.org/aifa-gov-it/invoices-processor) [![Coverage Status](https://coveralls.io/repos/github/aifa-gov-it/invoices-processor/badge.svg?branch=development)](https://coveralls.io/github/aifa-gov-it/invoices-processor?branch=development)
-* Master branch: [![Build Status](https://travis-ci.org/aifa-gov-it/invoices-processor.svg?branch=master)](https://travis-ci.org/aifa-gov-it/invoices-processor) [![Coverage Status](https://coveralls.io/repos/github/aifa-gov-it/invoices-processor/badge.svg?branch=master)](https://coveralls.io/github/aifa-gov-it/invoices-processor?branch=master)
+* Development branch: [![Build Status](https://travis-ci.org/aifa-gov-it/invoices-processor.svg?branch=development)](https://travis-ci.org/aifa-gov-it/invoices-processor) [![Coverage Status](https://coveralls.io/repos/github/aifa-gov-it/invoices-processor/badge.svg?branch=development)](https://coveralls.io/github/aifa-gov-it/invoices-processor?branch=development) [![Quality Gate Status](https://sonarqube.com/api/badges/gate?key=it.gov.aifa%3Adatabase-uploader%3Adevelopment)](https://sonarqube.com/dashboard?id=it.gov.aifa%3Adatabase-uploader%3Adevelopment)
+* Master branch: [![Build Status](https://travis-ci.org/aifa-gov-it/invoices-processor.svg?branch=master)](https://travis-ci.org/aifa-gov-it/invoices-processor) [![Coverage Status](https://coveralls.io/repos/github/aifa-gov-it/invoices-processor/badge.svg?branch=master)](https://coveralls.io/github/aifa-gov-it/invoices-processor?branch=master) [![Quality Gate Status](https://sonarqube.com/api/badges/gate?key=it.gov.aifa%3Adatabase-uploader%3A3Amaster)](https://sonarqube.com/dashboard?id=it.gov.aifa%3Adatabase-uploader%3A3Amaster)
 
 ## Dependencies
 
