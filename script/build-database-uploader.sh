@@ -22,4 +22,7 @@ docker run --rm -it \
   -t maven:3.5.0-jdk-8-alpine \
   mvn clean install -s settings.xml
 
+echo "Building aifagovit/database-uploader Docker image"
+docker build --rm -t aifagovit/database-uploader:latest .
+
 set +e

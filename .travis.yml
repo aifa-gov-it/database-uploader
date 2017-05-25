@@ -4,10 +4,9 @@ jobs:
     - stage: Build Database uploader
       script:
         - cd $TRAVIS_BUILD_DIR && ./script/build-database-uploader.sh
-    - stage: Build Docker images
+    - stage: Build XML Validator
       script:
         - set -e && cd $TRAVIS_BUILD_DIR/invoices-xml-validator && docker build --rm -t aifagovit/invoices-xml-validator:latest . && set +e
-        - set -e && cd $TRAVIS_BUILD_DIR/database-uploader && docker build --rm -t aifagovit/database-uploader:latest . && set +e
 services:
   - docker
 sudo: required
