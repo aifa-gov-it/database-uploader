@@ -10,15 +10,11 @@ echo "Set MAVEN_SETTINGS_SECURITY_PATH to $MAVEN_SETTINGS_SECURITY_PATH"
 mkdir -p $HOME/.m2
 echo "$MAVEN_SETTINGS_SECURITY" > $MAVEN_SETTINGS_SECURITY_PATH
 
-echo "Setting up DATABASE_UPLOADER_PROJECT_PATH"
-export DATABASE_UPLOADER_PROJECT_PATH=$TRAVIS_BUILD_DIR/database-uploader
-echo "Set DATABASE_UPLOADER_PROJECT_PATH to $DATABASE_UPLOADER_PROJECT_PATH"
-cd $DATABASE_UPLOADER_PROJECT_PATH
-echo "Building $DATABASE_UPLOADER_PROJECT_PATH"
+echo "Building database-uploader"
 docker run --rm -it \
   -v $MAVEN_SETTINGS_SECURITY_PATH:/root/.m2/settings-security.xml \
-  -v $DATABASE_UPLOADER_PROJECT_PATH:/usr/app \
-  -w /usr/app \
+  -v $TRAVIS_BUILD_DIR:/usr/app \
+  -w /usr/app/database-uploader \
   -t maven:3.5.0-jdk-8-alpine \
   mvn clean install jacoco:report jacoco:report-integration coveralls:report -s settings.xml
 
