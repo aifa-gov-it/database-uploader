@@ -115,7 +115,7 @@ public class ContextConfig{
     @Bean
     @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES_WITH_PREFIX)
     public Job importInvoiceJob(JobBuilderFactory jobBuilderFactory, Step step1InvoiceProcessing) {
-        return jobBuilderFactory.get("importUserJob")
+        return jobBuilderFactory.get("importInvoiceJob")
                 .incrementer(new RunIdIncrementer())
                 .flow(step1InvoiceProcessing)
                 .end()
@@ -182,7 +182,7 @@ public class ContextConfig{
     @Bean
     @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public Job importMovementJob(JobBuilderFactory jobBuilderFactory, Step step1MovementProcessing) {
-        return jobBuilderFactory.get("importUserJob")
+        return jobBuilderFactory.get("importMovementJob")
                 .incrementer(new RunIdIncrementer())
                 .flow(step1MovementProcessing)
                 .end()
