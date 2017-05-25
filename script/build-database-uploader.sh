@@ -19,6 +19,7 @@ docker run --rm -it \
   mvn clean install jacoco:report jacoco:report-integration coveralls:report -s settings.xml -DrepoToken=$COVERALLS_REPOSITORY_TOKEN
 
 echo "Building aifagovit/database-uploader Docker image"
+cd $TRAVIS_BUILD_DIR/database-uploader
 docker build --rm -t aifagovit/database-uploader:latest .
 
 set +e
