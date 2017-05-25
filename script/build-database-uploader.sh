@@ -16,7 +16,7 @@ docker run --rm -it \
   -v $TRAVIS_BUILD_DIR:/usr/app \
   -w /usr/app/database-uploader \
   -t maven:3.5.0-jdk-8-alpine \
-  mvn clean install jacoco:report jacoco:report-integration coveralls:report -s settings.xml -Dbranch=$TRAVIS_BRANCH -DpullRequest=$TRAVIS_PULL_REQUEST -DserviceJobId=$TRAVIS_JOB_ID
+  mvn clean install jacoco:report jacoco:report-integration coveralls:report -s settings.xml -Dbranch=$TRAVIS_BRANCH -DpullRequest=$TRAVIS_PULL_REQUEST -DserviceJobId=$TRAVIS_JOB_ID -DserviceName="travis-ci"
 
 echo "Building aifagovit/database-uploader Docker image"
 cd $TRAVIS_BUILD_DIR/database-uploader
