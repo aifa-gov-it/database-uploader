@@ -22,8 +22,4 @@ docker run --rm -it \
   -t maven:3.5.0-jdk-8-alpine \
   mvn clean install -s settings.xml
 
-export RUNTIME_CONTAINER_ID="aifagovit/database-uploader"
-echo "Building $RUNTIME_CONTAINER_ID"
-docker build --rm -t $RUNTIME_CONTAINER_ID:latest .
-
 set +e
