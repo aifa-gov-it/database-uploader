@@ -1,7 +1,7 @@
 # Invoices Processor
 
-* Development branch: [![Build Status](https://travis-ci.org/aifa-gov-it/invoices-processor.svg?branch=development)](https://travis-ci.org/aifa-gov-it/invoices-processor)
-* Master branch: [![Build Status](https://travis-ci.org/aifa-gov-it/invoices-processor.svg?branch=master)](https://travis-ci.org/aifa-gov-it/invoices-processor)
+* Development branch: [![Build Status](https://travis-ci.org/aifa-gov-it/invoices-processor.svg?branch=development)](https://travis-ci.org/aifa-gov-it/invoices-processor) [![Coverage Status](https://coveralls.io/repos/github/aifa-gov-it/invoices-processor/badge.svg?branch=development)](https://coveralls.io/github/aifa-gov-it/invoices-processor?branch=development)
+* Master branch: [![Build Status](https://travis-ci.org/aifa-gov-it/invoices-processor.svg?branch=master)](https://travis-ci.org/aifa-gov-it/invoices-processor) [![Coverage Status](https://coveralls.io/repos/github/aifa-gov-it/invoices-processor/badge.svg?branch=master)](https://coveralls.io/github/aifa-gov-it/invoices-processor?branch=master)
 
 ## Dependencies
 
