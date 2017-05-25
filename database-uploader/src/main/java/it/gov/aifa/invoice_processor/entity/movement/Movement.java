@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -77,14 +78,33 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	
 	private Double value;
 	
+	public Movement() {
+		super();
+	}
+	
+	public Movement(
+			@NotBlank String aic
+			, @NotBlank String documentNumber
+			, @NotBlank String documentTypeCode
+			, @NotBlank String transmissionDate
+			, @NotBlank String transmissionTime) {
+		this();
+		this.aic = aic;
+		this.documentNumber = documentNumber;
+		this.documentTypeCode = documentTypeCode;
+		setTransmissionDate(transmissionDate);
+		setTransmissionTime(transmissionTime);
+		updateId();
+	}
+	
 	public String getAccountHolderCode() {
 		return accountHolderCode;
 	}
-	
+
 	public String getAccountHolderTypeCode() {
 		return accountHolderTypeCode;
 	}
-	
+
 	public String getAic() {
 		return aic;
 	}
@@ -96,19 +116,20 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	public String getCustomerTypeCode() {
 		return customerTypeCode;
 	}
-
+	
 	public String getDocumentNumber() {
 		return documentNumber;
 	}
-
+	
 	public String getDocumentTypeCode() {
 		return documentTypeCode;
 	}
 	
 	public LocalDate getExpirationDate() {
+		updateExpirationDate();
 		return expirationDate;
 	}
-	
+
 	@Override
 	@Transient
 	public List<String> getIdValues() {
@@ -161,6 +182,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	}
 
 	public LocalDateTime getTransmissionDateTime() {
+		updateTransmissionDateTime();
 		return transmissionDateTime;
 	}
 
@@ -219,9 +241,10 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-
+	
 	public void setRawExpirationDate(String rawExpirationDate) {
 		this.rawExpirationDate = rawExpirationDate;
+		updateExpirationDate();
 	}
 
 	public void setRecipientCode(String recipientCode) {
@@ -242,6 +265,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 
 	public void setTransmissionDate(String transmissionDate) {
 		this.transmissionDate = transmissionDate;
+		updateTransmissionDateTime();
 	}
 
 	public void setTransmissionDateTime(LocalDateTime transmissionDateTime) {
@@ -250,9 +274,29 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 
 	public void setTransmissionTime(String transmissionTime) {
 		this.transmissionTime = transmissionTime;
+		updateTransmissionDateTime();
 	}
 
 	public void setValue(Double value) {
 		this.value = value;
+	}
+
+	private void updateExpirationDate() {
+		if(expirationDate == null && StringUtils.isNotBlank(rawExpirationDate))
+			expirationDate = LocalDate.parse(rawExpirationDate);
+	}
+
+	private void updateTransmissionDateTime() {
+		if(
+				transmissionDateTime == null
+				&& StringUtils.isNotBlank(transmissionDate)
+				&& StringUtils.isNotBlank(transmissionTime)
+				) {
+		StringBuilder transmissionDateTime = new StringBuilder(transmissionDate.length() + transmissionTime.length() + 1);
+		transmissionDateTime.append(transmissionDate);
+		transmissionDateTime.append("T");
+		transmissionDateTime.append(transmissionTime);
+		this.transmissionDateTime = LocalDateTime.parse(transmissionDateTime);
+		}
 	}
 }
