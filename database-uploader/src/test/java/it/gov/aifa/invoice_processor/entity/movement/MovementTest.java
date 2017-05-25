@@ -22,8 +22,8 @@ public class MovementTest extends AbstractEntityTest<Movement>{
 		String time = "15:53:42";
 		movement.setTransmissionDate(date);
 		movement.setTransmissionTime(time);
-		assertThat(movement.getTransmissionDateTime().toLocalDate().toString()).isEqualTo(date);
-		assertThat(movement.getTransmissionDateTime().toLocalTime().toString()).isEqualTo(time);
+		assertThat(movement.getTransmissionDateTime().toLocalDateTime().toLocalDate().toString()).isEqualTo(date);
+		assertThat(movement.getTransmissionDateTime().toLocalDateTime().toLocalTime().toString()).isEqualTo(time);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package it.gov.aifa.invoice_processor.entity.movement;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,10 +42,10 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	@NotBlank
 	private String documentTypeCode;
 	
-	private LocalDate expirationDate;
+	private Date expirationDate;
 	
 	@NotNull
-	private LocalDateTime importDate = LocalDateTime.now();
+	private Timestamp importDate = Timestamp.valueOf(LocalDateTime.now());
 	
 	private String lot;
 
@@ -52,7 +54,6 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 
 	private Double quantity;
 	
-	@Transient
 	private String rawExpirationDate;
 	
 	@NotBlank
@@ -67,13 +68,11 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	@NotBlank
 	private String senderTypeCode;
 
-	@Transient
 	private String transmissionDate;
 	
 	@NotNull
-	private LocalDateTime transmissionDateTime;
+	private Timestamp transmissionDateTime;
 	
-	@Transient
 	private String transmissionTime;
 	
 	private Double value;
@@ -125,7 +124,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		return documentTypeCode;
 	}
 	
-	public LocalDate getExpirationDate() {
+	public Date getExpirationDate() {
 		updateExpirationDate();
 		return expirationDate;
 	}
@@ -141,7 +140,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		return idValues;
 	}
 	
-	public LocalDateTime getImportDate() {
+	public Timestamp getImportDate() {
 		return importDate;
 	}
 
@@ -153,10 +152,11 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		return movementCode;
 	}
 
-	public double getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
 
+	@Transient
 	public String getRawExpirationDate() {
 		return rawExpirationDate;
 	}
@@ -177,15 +177,17 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		return senderTypeCode;
 	}
 
+	@Transient
 	public String getTransmissionDate() {
 		return transmissionDate;
 	}
 
-	public LocalDateTime getTransmissionDateTime() {
+	public Timestamp getTransmissionDateTime() {
 		updateTransmissionDateTime();
 		return transmissionDateTime;
 	}
 
+	@Transient
 	public String getTransmissionTime() {
 		return transmissionTime;
 	}
@@ -222,11 +224,11 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		this.documentTypeCode = documentTypeCode;
 	}
 
-	public void setExpirationDate(LocalDate expirationDate) {
+	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
-	public void setImportDate(LocalDateTime importDate) {
+	public void setImportDate(Timestamp importDate) {
 		this.importDate = importDate;
 	}
 
@@ -238,7 +240,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		this.movementCode = movementCode;
 	}
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 	
@@ -268,7 +270,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		updateTransmissionDateTime();
 	}
 
-	public void setTransmissionDateTime(LocalDateTime transmissionDateTime) {
+	public void setTransmissionDateTime(Timestamp transmissionDateTime) {
 		this.transmissionDateTime = transmissionDateTime;
 	}
 
@@ -283,7 +285,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 
 	private void updateExpirationDate() {
 		if(expirationDate == null && StringUtils.isNotBlank(rawExpirationDate))
-			expirationDate = LocalDate.parse(rawExpirationDate);
+			expirationDate = Date.valueOf(LocalDate.parse(rawExpirationDate));
 	}
 
 	private void updateTransmissionDateTime() {
@@ -296,7 +298,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		transmissionDateTime.append(transmissionDate);
 		transmissionDateTime.append("T");
 		transmissionDateTime.append(transmissionTime);
-		this.transmissionDateTime = LocalDateTime.parse(transmissionDateTime);
+		this.transmissionDateTime = Timestamp.valueOf(LocalDateTime.parse(transmissionDateTime));
 		}
 	}
 }
