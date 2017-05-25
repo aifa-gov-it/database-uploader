@@ -20,7 +20,7 @@ docker run --rm -it \
   -v $DATABASE_UPLOADER_PROJECT_PATH:/usr/app \
   -w /usr/app \
   -t maven:3.5.0-jdk-8-alpine \
-  mvn clean install -s settings.xml
+  mvn clean install jacoco:report jacoco:report-integration coveralls:report -s settings.xml
 
 echo "Building aifagovit/database-uploader Docker image"
 docker build --rm -t aifagovit/database-uploader:latest .
