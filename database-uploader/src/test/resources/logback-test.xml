@@ -3,5 +3,4 @@
 <configuration scan="true" packagingData="true">
     <include resource="logback-common.xml"/>
     <logger name="it.gov.aifa" level="TRACE"/>
-    <logger name="org.hibernate.SQL" level="TRACE"/>
 </configuration>
