@@ -26,8 +26,6 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 	@NotBlank
 	private String id;
 	
-	public AbstractInvoiceProcessorEntity() { }
-
 	@Override
 	public boolean equals(Object other) {
 		if (other == this) {
