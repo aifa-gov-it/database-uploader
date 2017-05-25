@@ -16,7 +16,7 @@ docker run --rm -it \
   -v $TRAVIS_BUILD_DIR:/usr/app \
   -w /usr/app/database-uploader \
   -t maven:3.5.0-jdk-8-alpine \
-  mvn clean install jacoco:report jacoco:report-integration coveralls:report -s settings.xml
+  mvn clean install jacoco:report jacoco:report-integration coveralls:report -s settings.xml -D-DrepoToken=$COVERALLS_REPOSITORY_TOKEN
 
 echo "Building aifagovit/database-uploader Docker image"
 docker build --rm -t aifagovit/database-uploader:latest .
