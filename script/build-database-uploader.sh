@@ -16,7 +16,13 @@ docker run --rm -it \
   -v $TRAVIS_BUILD_DIR:/usr/app \
   -w /usr/app/database-uploader \
   -t maven:3.5.0-jdk-8-alpine \
-  mvn clean install jacoco:report jacoco:report-integration coveralls:report -s settings.xml -Dbranch=$TRAVIS_BRANCH -DpullRequest=$TRAVIS_PULL_REQUEST -DserviceJobId=$TRAVIS_JOB_ID -DserviceName="travis-ci"
+  mvn clean install \
+    jacoco:report jacoco:report-integration \
+    coveralls:report \
+    sonar:sonar \
+    -s settings.xml \
+    -Dbranch=$TRAVIS_BRANCH -DpullRequest=$TRAVIS_PULL_REQUEST -DserviceJobId=$TRAVIS_JOB_ID -DserviceName="travis-ci" \
+    -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=aifa-gov-it -Dsonar.login=$SONARQUBE_LOGIN_TOKEN
 
 echo "Building aifagovit/database-uploader Docker image"
 cd $TRAVIS_BUILD_DIR/database-uploader
