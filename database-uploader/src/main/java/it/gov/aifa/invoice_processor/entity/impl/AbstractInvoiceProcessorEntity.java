@@ -79,5 +79,7 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 		// Remove the last _
 		builder.setLength(builder.length() - 1);
 		this.setId(builder.toString());
+		if(StringUtils.isBlank(id))
+			throw new RuntimeException("id cannot be null");
 	}
 }
