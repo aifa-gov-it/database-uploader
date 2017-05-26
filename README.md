@@ -19,15 +19,14 @@
     ```
 
 1. Upload data with dabase-uploader:
-    1. Build the application (you'll need a properly configured `/.m2/settings-security.xml` containing the master password to decrypt the ones in `settings.xml`):
+    1. Build the application:
 
         ```
         docker run --rm -it \
-          -v /path/to/.m2/settings-security.xml:/root/.m2/settings-security.xml \
           -v /path/to/database-uploader/source:/usr/app \
           -w /usr/app \
           -t maven:3.5.0-jdk-8-alpine \
-          mvn clean install -s settings.xml
+          mvn clean install
         ```
 
     1. Run the application with no arguments to show the help text (note that when running the container you may want to mount additional volumes according to the options you specify):
