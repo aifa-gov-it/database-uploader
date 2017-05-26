@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
-import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.AllegatiType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.CedentePrestatoreType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.CessionarioCommittenteType;
@@ -19,11 +18,8 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_2.DatiVeicoliType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.RappresentanteFiscaleType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.SoggettoEmittenteType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.TerzoIntermediarioSoggettoEmittenteType;
-import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
-public abstract class AbstractInvoiceMappingToEntityConverter
-<S extends InvoiceMapping<String>,T extends Invoice>
-implements InvoiceMappingToEntityConverter<S, T> {
+public abstract class AbstractInvoiceMappingToEntityConverter {
 	
 	protected abstract void buildAttachments(
 			@NotNull List<AllegatiType> allegati
@@ -61,4 +57,6 @@ implements InvoiceMappingToEntityConverter<S, T> {
 			@NotNull SoggettoEmittenteType soggettoEmittente
 			, @NotNull TerzoIntermediarioSoggettoEmittenteType terzoIntermediarioSoggettoEmittenteType
 			, @NotNull Invoice invoice);
+	
+	protected abstract String getInvoiceMappingVersion();
 }

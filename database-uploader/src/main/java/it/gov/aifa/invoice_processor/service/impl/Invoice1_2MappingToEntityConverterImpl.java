@@ -28,6 +28,7 @@ import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
 import it.gov.aifa.invoice_processor.entity.invoice.Vettore;
+import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.AllegatiType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.AltriDatiGestionaliType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.AnagraficaType;
@@ -63,10 +64,11 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_2.RappresentanteFiscaleTyp
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.ScontoMaggiorazioneType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.SoggettoEmittenteType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.TerzoIntermediarioSoggettoEmittenteType;
+import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
 @Service
 @Validated
-public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappingToEntityConverter<FatturaElettronicaType, Invoice> {
+public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappingToEntityConverter implements InvoiceMappingToEntityConverter{
 
 	@Override
 	protected void buildAttachments(
@@ -474,7 +476,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		if(soggettoEmittenteType != null)
 			invoice.setSoggettoEmittenteType(soggettoEmittenteType.toString());
 	}
-
+	
 	@Override
 	public boolean canConvert(Class<?> clazz) {
 		return FatturaElettronicaType.class.equals(clazz);
@@ -486,11 +488,15 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 	}
 
 	@Override
-	public Invoice convert(FatturaElettronicaType source) {
+	public Invoice convert(@NotNull InvoiceMapping<String> source) {
 		Invoice invoice = new Invoice();
-
+		
+		if(!canConvert(source.getClass()))
+			throw new RuntimeException("This converter does not support " + source.getClass() + " class");
+		FatturaElettronicaType fatturaElettronicaType = (FatturaElettronicaType) source;
+		
 		// Build Header
-		FatturaElettronicaHeaderType header = source.getFatturaElettronicaHeader();
+		FatturaElettronicaHeaderType header = fatturaElettronicaType.getFatturaElettronicaHeader();
 		buildCedentePrestatore(header.getCedentePrestatore(), invoice);
 		buildCessionarioCommittente(header.getCessionarioCommittente(), invoice);
 		buildInvoiceSending(header.getDatiTrasmissione(), invoice);
@@ -498,7 +504,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		buildRappresentanteFiscale(header.getRappresentanteFiscale(), invoice);
 		
 		// Build body
-		List<FatturaElettronicaBodyType> bodies = source.getFatturaElettronicaBody();
+		List<FatturaElettronicaBodyType> bodies = fatturaElettronicaType.getFatturaElettronicaBody();
 		if(CollectionUtils.isEmpty(bodies))
 			throw new RuntimeException("Cannot map Invoice without body");
 		checkSingleElementCollection(bodies, FatturaElettronicaBodyType.class);

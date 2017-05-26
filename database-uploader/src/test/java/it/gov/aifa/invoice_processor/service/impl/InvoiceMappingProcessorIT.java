@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import it.gov.aifa.invoice_processor.AbstractComponentIT;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
-import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.FatturaElettronicaType;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
@@ -22,7 +21,7 @@ public class InvoiceMappingProcessorIT extends AbstractComponentIT {
 	private ItemProcessor<JAXBElement<FatturaElettronicaType>, Invoice> invoiceMappingProcessor;
 	
 	@Autowired
-	private Set<InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice>> converters;
+	private Set<InvoiceMappingToEntityConverter> converters;
 	
 	@Override
 	public Object getComponent() {

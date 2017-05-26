@@ -10,24 +10,23 @@ import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
-import it.gov.aifa.invoice_processor.mapping.invoice1_2.FatturaElettronicaType;
 import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
 @Service
 @Validated
-public class InvoiceMappingProcessor
-extends AbstractInvoiceProcessorEntityProcessor<JAXBElement<FatturaElettronicaType>, String, Invoice> {
-	Set<InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice>> converters;
+public class InvoiceMappingProcessor extends AbstractInvoiceProcessorEntityProcessor<JAXBElement<InvoiceMapping<String>>, Invoice> {
+	
+	Set<InvoiceMappingToEntityConverter> converters;
 
-	public  InvoiceMappingProcessor(
-			@NotEmpty Set<InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice>> converters) {
+	public InvoiceMappingProcessor(
+			@NotEmpty Set<InvoiceMappingToEntityConverter> converters) {
 		this.converters = converters;
 	}
 
 	@Override
-	protected Invoice processInternal(final JAXBElement<FatturaElettronicaType> item) {
+	protected Invoice processInternal(final JAXBElement<InvoiceMapping<String>> item) {
 		Invoice invoice = null;
-		for(InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice> converter : converters) {
+		for(InvoiceMappingToEntityConverter converter : converters) {
 			Class<?> objectClass;
 			if(JAXBElement.class.isAssignableFrom(item.getClass())) {
 				JAXBElement<?> jaxbElement = (JAXBElement<?>) item;

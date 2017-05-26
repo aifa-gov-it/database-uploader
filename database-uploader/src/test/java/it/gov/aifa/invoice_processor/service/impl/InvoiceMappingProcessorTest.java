@@ -23,21 +23,22 @@ import it.gov.aifa.invoice_processor.service.InvoiceMappingToEntityConverter;
 
 public class InvoiceMappingProcessorTest {
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void processInvoice1_2Test() throws Exception {
 		InvoiceMapping<String> invoiceMapping = new FatturaElettronicaType();
-		Set<InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice>> converters = new HashSet<>();
-		@SuppressWarnings("unchecked")
-		InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice> converter = mock(InvoiceMappingToEntityConverter.class);
+		Set<InvoiceMappingToEntityConverter> converters = new HashSet<>();
+		InvoiceMappingToEntityConverter converter = mock(InvoiceMappingToEntityConverter.class);
 		Class<?> destinationType = FatturaElettronicaType.class;
 		when(converter.canConvert(destinationType)).thenReturn(true);
 		Invoice invoice = new Invoice("123456");
 		when(converter.convert(invoiceMapping)).thenReturn(invoice);
 		converters.add(converter);
 		new InvoiceMappingProcessor(converters).process(
-				new JAXBElement<FatturaElettronicaType>(new QName("http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2", "FatturaElettronica")
-						, FatturaElettronicaType.class
-						, (FatturaElettronicaType) invoiceMapping)
+				new JAXBElement<InvoiceMapping<String>>(
+						new QName("http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2", "FatturaElettronica")
+						, (Class<InvoiceMapping<String>>) invoiceMapping.getClass()
+						, invoiceMapping)
 				);
 		for(String idValue : invoice.getIdValues()) {
 			assertThat(invoice.getId()).contains(idValue);
@@ -48,9 +49,8 @@ public class InvoiceMappingProcessorTest {
 	
 	@Test(expectedExceptions = RuntimeException.class)
 	public void processNoSuitableConverter() throws Exception {
-		Set<InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice>> converters = new HashSet<>();
-		@SuppressWarnings("unchecked")
-		InvoiceMappingToEntityConverter<InvoiceMapping<String>, Invoice> converter = mock(InvoiceMappingToEntityConverter.class);
+		Set<InvoiceMappingToEntityConverter> converters = new HashSet<>();
+		InvoiceMappingToEntityConverter converter = mock(InvoiceMappingToEntityConverter.class);
 		Class<?> destinationType = FatturaElettronicaType.class;
 		when(converter.canConvert(destinationType)).thenReturn(false);
 		converters.add(converter);
