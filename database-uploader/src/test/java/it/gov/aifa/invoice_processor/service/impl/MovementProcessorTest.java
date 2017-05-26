@@ -18,7 +18,7 @@ public class MovementProcessorTest {
 	@Test
 	public void processTest() throws Exception {
 		Logger logger = mock(Logger.class);
-		Field field = MovementProcessor.class.getDeclaredField("log");
+		Field field = AbstractInvoiceProcessorEntityProcessor.class.getDeclaredField("log");
 		field.setAccessible(true);
 		Field modifiersField = Field.class.getDeclaredField("modifiers");
 		modifiersField.setAccessible(true);
@@ -27,6 +27,6 @@ public class MovementProcessorTest {
 		MovementProcessor movementProcessor = new MovementProcessor();
 		Movement movement = new Movement("aic", "documentNumber", "documentTypeCode", "2017-05-25", "08:55:45");
 		movementProcessor.process(movement);
-		verify(logger, times(1)).info(anyString(), eq(movement.getId()));
+		verify(logger, times(1)).info(anyString(), eq(movement.getClass().toGenericString()), eq(movement.getId()));
 	}
 }
