@@ -5,7 +5,7 @@
 set -e
 
 echo "Building aifa-gov-it/database-uploader"
-docker build --rm -t --file=Dockerfile-build aifa-gov-it/database-uploader-build:latest .
+docker build --rm --file=Dockerfile-build -t aifa-gov-it/database-uploader-build:latest .
 
 echo "Building database-uploader"
 docker run --rm -it \
