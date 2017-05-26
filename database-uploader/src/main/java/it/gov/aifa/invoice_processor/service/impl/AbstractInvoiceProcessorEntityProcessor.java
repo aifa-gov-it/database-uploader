@@ -1,15 +1,12 @@
 package it.gov.aifa.invoice_processor.service.impl;
 
-import java.io.Serializable;
-
 import org.springframework.batch.item.ItemProcessor;
 
 import it.gov.aifa.invoice_processor.entity.InvoiceProcessorEntity;
 
 public abstract class AbstractInvoiceProcessorEntityProcessor<
 I
-, OID extends Serializable
-, O extends InvoiceProcessorEntity<OID>
+, O extends InvoiceProcessorEntity<String>
 > implements ItemProcessor<I, O> {
 
 	@Override
