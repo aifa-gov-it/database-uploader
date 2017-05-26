@@ -4,11 +4,14 @@
 # Fail if one of the commands of this script fails
 set -e
 
+echo "Building aifa-gov-it/database-uploader"
+docker build --rm -t --file=Dockerfile-build aifa-gov-it/database-uploader-build:latest .
+
 echo "Building database-uploader"
 docker run --rm -it \
   -v $TRAVIS_BUILD_DIR:/usr/app \
   -w /usr/app/database-uploader \
-  -t maven:3.5.0-jdk-8-alpine \
+  -t aifa-gov-it/database-uploader-build:lates \
   mvn clean install \
     jacoco:report jacoco:report-integration \
     coveralls:report \
@@ -18,10 +21,8 @@ docker run --rm -it \
 
 cd $TRAVIS_BUILD_DIR/database-uploader
 
-echo "Building aifagovit/database-uploader Docker image"
-docker build --rm -t aifagovit/database-uploader:latest .
-
 echo "Try to run aifagovit/database-uploader"
+docker build --rm -t aifa-gov-it/database-uploader:latest .
 docker run --rm -it aifagovit/database-uploader:latest
 
 set +e

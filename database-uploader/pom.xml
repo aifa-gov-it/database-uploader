@@ -215,56 +215,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>install-ojdbc-clean</id>
-                        <phase>pre-clean</phase>
-                        <configuration>
-                            <file>${project.basedir}/src/lib/ojdbc8/${ojdbc.version}/ojdbc8-${ojdbc.version}.jar</file>
-                            <pomFile>${project.basedir}/src/lib/ojdbc8/${ojdbc.version}/ojdbc8-${ojdbc.version}.pom</pomFile>
-                        </configuration>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>install-ojdbc-default</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <file>${project.basedir}/src/lib/ojdbc8/${ojdbc.version}/ojdbc8-${ojdbc.version}.jar</file>
-                            <pomFile>${project.basedir}/src/lib/ojdbc8/${ojdbc.version}/ojdbc8-${ojdbc.version}.pom</pomFile>
-                        </configuration>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>install-ucp-clean</id>
-                        <phase>pre-clean</phase>
-                        <configuration>
-                            <file>${project.basedir}/src/lib/ucp/${ojdbc.version}/ucp-${ojdbc.version}.jar</file>
-                            <pomFile>${project.basedir}/src/lib/ucp/${ojdbc.version}/ucp-${ojdbc.version}.pom</pomFile>
-                        </configuration>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>install-ucp-default</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <file>${project.basedir}/src/lib/ucp/${ojdbc.version}/ucp-${ojdbc.version}.jar</file>
-                            <pomFile>${project.basedir}/src/lib/ucp/${ojdbc.version}/ucp-${ojdbc.version}.pom</pomFile>
-                        </configuration>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <executions>
                     <execution>
