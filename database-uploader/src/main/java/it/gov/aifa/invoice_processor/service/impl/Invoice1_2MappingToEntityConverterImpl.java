@@ -488,11 +488,14 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 	}
 
 	@Override
-	public Invoice convert(@NotNull InvoiceMapping<String> source) {
-		Invoice invoice = new Invoice();
+	public Invoice convert(InvoiceMapping<String> source) {
+		if(source == null)
+			throw new RuntimeException("Source cannot be null");
 		
 		if(!canConvert(source.getClass()))
 			throw new RuntimeException("This converter does not support " + source.getClass() + " class");
+		
+		Invoice invoice = new Invoice();
 		FatturaElettronicaType fatturaElettronicaType = (FatturaElettronicaType) source;
 		
 		// Build Header
