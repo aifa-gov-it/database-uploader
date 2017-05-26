@@ -127,6 +127,8 @@
             <groupId>com.oracle.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>${ojdbc.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/lib/ojdbc8/${ojdbc.version}/ojdbc8-${ojdbc.version}.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -355,6 +357,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <classifier>exec</classifier>
+                    <executable>true</executable>
                 </configuration>
             </plugin>
         </plugins>
