@@ -1,4 +1,4 @@
-FROM openjdk:8u121-jdk-alpine
+FROM maven:3.5.0-jdk-8-alpine
 
 ENV WORKDIR /usr/app
 RUN mkdir $WORKDIR

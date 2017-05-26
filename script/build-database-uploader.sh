@@ -6,20 +6,21 @@ set -e
 
 cd $TRAVIS_BUILD_DIR/database-uploader
 
-echo "Building aifa-gov-it/database-uploader"
-docker build --rm --file=Dockerfile-build -t aifa-gov-it/database-uploader-build:latest .
-
 echo "Building database-uploader"
 docker run --rm -it \
   -v $TRAVIS_BUILD_DIR:/usr/app \
   -w /usr/app/database-uploader \
-  -t aifa-gov-it/database-uploader-build:latest \
-  mvn clean install \
+  -t maven:3.5.0-jdk-8-alpine \
+  /bin/ash -c "
+  mvn install:install-file -Dfile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar -DpomFile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.pom \
+  && mvn install:install-file -Dfile=lib/ucp/12.2.0.1/ucp-12.2.0.1.jar -DpomFile=lib/ucp/12.2.0.1/ucp-12.2.0.1.pom \
+  && mvn clean install \
     jacoco:report jacoco:report-integration \
     coveralls:report \
     sonar:sonar \
     -Dbranch=$TRAVIS_BRANCH -DpullRequest=$TRAVIS_PULL_REQUEST -DserviceJobId=$TRAVIS_JOB_ID -DserviceName="travis-ci" \
     -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=aifa-gov-it -Dsonar.login=$SONARQUBE_LOGIN_TOKEN -Dsonar.branch=$TRAVIS_BRANCH
+  "
 
 echo "Try to run aifagovit/database-uploader"
 docker build --rm -t aifa-gov-it/database-uploader:latest .
