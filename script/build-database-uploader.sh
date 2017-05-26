@@ -5,7 +5,7 @@
 set -e
 
 echo "Building aifa-gov-it/database-uploader"
-docker build --rm --file=Dockerfile-build -t aifa-gov-it/database-uploader-build:latest .
+docker build --rm --file=$TRAVIS_BUILD_DIR/database-uploader/Dockerfile-build -t aifa-gov-it/database-uploader-build:latest .
 
 echo "Building database-uploader"
 docker run --rm -it \
@@ -18,6 +18,8 @@ docker run --rm -it \
     sonar:sonar \
     -Dbranch=$TRAVIS_BRANCH -DpullRequest=$TRAVIS_PULL_REQUEST -DserviceJobId=$TRAVIS_JOB_ID -DserviceName="travis-ci" \
     -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=aifa-gov-it -Dsonar.login=$SONARQUBE_LOGIN_TOKEN -Dsonar.branch=$TRAVIS_BRANCH
+
+cd $TRAVIS_BUILD_DIR/database-uploader
 
 echo "Try to run aifagovit/database-uploader"
 docker build --rm -t aifa-gov-it/database-uploader:latest .
