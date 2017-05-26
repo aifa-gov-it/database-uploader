@@ -1,4 +1,4 @@
-FROM aifa-gov-it/database-uploader-build:latest
+FROM openjdk:8u121-jdk-alpine
 
 ENV WORKDIR /usr/app
 RUN mkdir $WORKDIR
