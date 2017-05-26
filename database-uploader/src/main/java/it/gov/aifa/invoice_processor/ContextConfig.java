@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -84,21 +85,21 @@ public class ContextConfig{
 	}
 	
 	@Bean
-	public StaxEventItemReader<InvoiceMapping<String>> invoiceMappingReader(Jaxb2Marshaller invoiceMarshaller){
-		StaxEventItemReader<InvoiceMapping<String>> invoiceMappingReader = new StaxEventItemReader<>();
+	public StaxEventItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingReader(Jaxb2Marshaller invoiceMarshaller){
+		StaxEventItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingReader = new StaxEventItemReader<>();
 		invoiceMappingReader.setUnmarshaller(invoiceMarshaller);
 		invoiceMappingReader.setFragmentRootElementName("FatturaElettronica");
 		return invoiceMappingReader;
 	}
 	
 	@Bean
-	public ItemReader<InvoiceMapping<String>> invoiceMappingMultiReader(
+	public ItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingMultiReader(
 			@Value("${" + CommandLineArgumentKey.PATH + "}") String directoryPath
-			, StaxEventItemReader<InvoiceMapping<String>> invoiceMappingReader
+			, StaxEventItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingReader
 			, ResourceLoader resourceLoader
 			) throws IOException{
 		
-		MultiResourceItemReader<InvoiceMapping<String>> multiResourceItemReader = new MultiResourceItemReader<>();
+		MultiResourceItemReader<JAXBElement<InvoiceMapping<String>>> multiResourceItemReader = new MultiResourceItemReader<>();
 		multiResourceItemReader.setDelegate(invoiceMappingReader);
 		multiResourceItemReader.setResources(loadResourcesFromDirectory("file:" + directoryPath));
 		return multiResourceItemReader;
@@ -124,14 +125,14 @@ public class ContextConfig{
     
     @Bean
     public Step step1InvoiceProcessing(
-    		@Qualifier("invoiceMappingProcessor") ItemProcessor<InvoiceMapping<String>, Invoice> invoiceProcessor
-    		, ItemReader<InvoiceMapping<String>> invoiceMappingMultiReader
+    		@Qualifier("invoiceMappingProcessor") ItemProcessor<JAXBElement<InvoiceMapping<String>>, Invoice> invoiceMappingProcessor
+    		, ItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingMultiReader
     		, RepositoryItemWriter<Invoice> invoiceWriter
     		, StepBuilderFactory stepBuilderFactory) {
         return stepBuilderFactory.get("step1InvoiceProcessing")
-                .<InvoiceMapping<String>, Invoice> chunk(10)
+                .<JAXBElement<InvoiceMapping<String>>, Invoice> chunk(10)
                 .reader(invoiceMappingMultiReader)
-                .processor(invoiceProcessor)
+                .processor(invoiceMappingProcessor)
                 .writer(invoiceWriter)
                 .build();
     }
