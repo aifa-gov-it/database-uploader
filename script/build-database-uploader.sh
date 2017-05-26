@@ -24,6 +24,6 @@ docker run --rm -it \
 
 echo "Try to run aifagovit/database-uploader"
 docker build --rm -t aifa-gov-it/database-uploader:latest .
-docker run --rm -it aifagovit/database-uploader:latest
+docker run --rm -it aifa-gov-it/database-uploader:latest
 
 set +e
