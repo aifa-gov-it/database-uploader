@@ -16,8 +16,12 @@ docker run --rm -it \
     -Dbranch=$TRAVIS_BRANCH -DpullRequest=$TRAVIS_PULL_REQUEST -DserviceJobId=$TRAVIS_JOB_ID -DserviceName="travis-ci" \
     -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=aifa-gov-it -Dsonar.login=$SONARQUBE_LOGIN_TOKEN -Dsonar.branch=$TRAVIS_BRANCH
 
-echo "Building aifagovit/database-uploader Docker image"
 cd $TRAVIS_BUILD_DIR/database-uploader
+
+echo "Building aifagovit/database-uploader Docker image"
 docker build --rm -t aifagovit/database-uploader:latest .
+
+echo "Try to run aifagovit/database-uploader"
+docker run --rm -it aifagovit/database-uploader:latest
 
 set +e
