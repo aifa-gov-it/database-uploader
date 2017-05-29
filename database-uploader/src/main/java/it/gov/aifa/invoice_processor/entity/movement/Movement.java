@@ -85,12 +85,14 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 			@NotBlank String aic
 			, @NotBlank String documentNumber
 			, @NotBlank String documentTypeCode
+			, @NotBlank String lot
 			, @NotBlank String transmissionDate
 			, @NotBlank String transmissionTime) {
 		this();
 		this.aic = aic;
 		this.documentNumber = documentNumber;
 		this.documentTypeCode = documentTypeCode;
+		this.lot = lot;
 		setTransmissionDate(transmissionDate);
 		setTransmissionTime(transmissionTime);
 		updateId();
@@ -137,6 +139,8 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		idValues.add(transmissionDateTime.toString());
 		idValues.add(documentTypeCode);
 		idValues.add(documentNumber);
+		if(StringUtils.isNotBlank(lot))
+			idValues.add(lot);
 		return idValues;
 	}
 	

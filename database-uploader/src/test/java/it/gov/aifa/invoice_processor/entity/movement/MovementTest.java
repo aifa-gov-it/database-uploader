@@ -28,7 +28,7 @@ public class MovementTest extends AbstractEntityTest<Movement>{
 
 	@Override
 	protected Movement buildEntityForIdTest() {
-		return new Movement("aic", "documentNumber", "documentTypeCode", "2017-05-25", "08:55:45");
+		return new Movement("aic", "documentNumber", "documentTypeCode", "lot", "2017-05-25", "08:55:45");
 	}
 
 	@Override

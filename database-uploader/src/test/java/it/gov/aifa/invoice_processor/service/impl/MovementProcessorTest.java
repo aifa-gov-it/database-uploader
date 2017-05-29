@@ -25,7 +25,7 @@ public class MovementProcessorTest {
 		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 		field.set(null, logger);
 		MovementProcessor movementProcessor = new MovementProcessor();
-		Movement movement = new Movement("aic", "documentNumber", "documentTypeCode", "2017-05-25", "08:55:45");
+		Movement movement = new Movement("aic", "documentNumber", "documentTypeCode", "lot", "2017-05-25", "08:55:45");
 		movementProcessor.process(movement);
 		verify(logger, times(1)).info(anyString(), eq(movement.getClass().toGenericString()), eq(movement.getId()));
 	}
