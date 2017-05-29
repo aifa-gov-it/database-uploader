@@ -9,4 +9,4 @@ databaseChangeLog:
         - runningAs:
             username: AIFA_INVOICE_PROCESSOR
   - include:
-      file: db/changelog/db.changelog-1.0.0-SNAPSHOT.yaml
+      file: db/changelog/db.changelog-1.0.0.yaml

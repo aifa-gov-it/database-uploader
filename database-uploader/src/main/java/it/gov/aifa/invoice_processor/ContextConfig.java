@@ -79,7 +79,8 @@ public class ContextConfig{
 		Jaxb2Marshaller unmarshaller = new Jaxb2Marshaller();
 		unmarshaller.setSchemas(loadResourcesFromDirectory("classpath:xsd/*.xsd"));
 		unmarshaller.setPackagesToScan(
-				it.gov.aifa.invoice_processor.mapping.invoice1_2.ObjectFactory.class.getPackage().getName()
+				it.gov.aifa.invoice_processor.mapping.invoice1_1.ObjectFactory.class.getPackage().getName()
+				, it.gov.aifa.invoice_processor.mapping.invoice1_2.ObjectFactory.class.getPackage().getName()
 				,it.gov.aifa.invoice_processor.mapping.org.w3._2000._09.xmldsig_.ObjectFactory.class.getPackage().getName());
 		return unmarshaller;
 	}

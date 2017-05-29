@@ -117,6 +117,14 @@ public class InvoiceParticipant extends AbstractInvoiceProcessorEntity{
 		List<String> additionalIdValues = new ArrayList<>();
 		if(StringUtils.isNotBlank(socialSecurityNumber))
 			additionalIdValues.add(socialSecurityNumber);
+		if(StringUtils.isNotBlank(name))
+			additionalIdValues.add(Integer.toString(name.hashCode()));
+		else {
+			if(StringUtils.isNotBlank(lastName))
+				additionalIdValues.add(Integer.toString(lastName.hashCode()));
+			if(StringUtils.isNotBlank(firstName))
+				additionalIdValues.add(Integer.toString(firstName.hashCode()));
+		}
 		if(StringUtils.isNotBlank(taxCountryCode))
 			additionalIdValues.add(taxCountryCode);
 		if(StringUtils.isNotBlank(taxCode))

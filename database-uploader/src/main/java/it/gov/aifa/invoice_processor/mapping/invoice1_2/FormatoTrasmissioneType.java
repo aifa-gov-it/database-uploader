@@ -19,7 +19,11 @@ public enum FormatoTrasmissioneType {
 	FPA_12("FPA12"),
 
 	@XmlEnumValue("FPR12")
-	FPR_12("FPR12");
+	FPR_12("FPR12"),
+
+	@XmlEnumValue("SDI11")
+    SDI_11("SDI11");
+    
 	public static FormatoTrasmissioneType fromValue(String v) {
 		for (FormatoTrasmissioneType c : FormatoTrasmissioneType.values()) {
 			if (c.value.equals(v)) {
