@@ -57,6 +57,4 @@ public abstract class AbstractInvoiceMappingToEntityConverter {
 			@NotNull SoggettoEmittenteType soggettoEmittente
 			, @NotNull TerzoIntermediarioSoggettoEmittenteType terzoIntermediarioSoggettoEmittenteType
 			, @NotNull Invoice invoice);
-	
-	protected abstract String getInvoiceMappingVersion();
 }

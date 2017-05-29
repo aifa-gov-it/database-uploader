@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1495698640677-1
+    id: 1496071366147-1
     author: ferrarim
     changes:
     - createTable:
@@ -30,7 +30,7 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: attachment
 - changeSet:
-    id: 1495698640677-2
+    id: 1496071366147-2
     author: ferrarim
     changes:
     - createTable:
@@ -69,7 +69,7 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: dati_riepilogo
 - changeSet:
-    id: 1495698640677-3
+    id: 1496071366147-3
     author: ferrarim
     changes:
     - createTable:
@@ -105,7 +105,7 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: documento_correlato
 - changeSet:
-    id: 1495698640677-4
+    id: 1496071366147-4
     author: ferrarim
     changes:
     - createTable:
@@ -122,7 +122,7 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: documento_correlato_purchase_line
 - changeSet:
-    id: 1495698640677-5
+    id: 1496071366147-5
     author: ferrarim
     changes:
     - createTable:
@@ -372,80 +372,26 @@ databaseChangeLog:
         - column:
             name: virtual_stamp
             type: VARCHAR(255 CHAR)
-        - column:
-            name: cedente_prestatore_id
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: cessionario_committente_id
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: rappresentante_fiscale_id
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: soggetto_emittente_id
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: vettore_id
-            type: VARCHAR(255 CHAR)
         tableName: invoice
 - changeSet:
-    id: 1495698640677-6
+    id: 1496071366147-6
     author: ferrarim
     changes:
     - createTable:
         columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: VARCHAR(255 CHAR)
         - column:
             name: administrative_reference
             type: VARCHAR(255 CHAR)
         - column:
-            name: clearance_state
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: professional_register
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: professional_register_district
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: professional_register_number
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: professional_register_subscription_date
-            type: date
-        - column:
-            name: rea_number
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: rea_office
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: share_capital
-            type: NUMBER(19, 2)
-        - column:
-            name: sole_stakeholder
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: tax_system
-            type: VARCHAR(255 CHAR)
-        - column:
-            constraints:
-              nullable: false
-            name: id
-            type: VARCHAR(255 CHAR)
-        tableName: invoice_cedente_prestatore
-- changeSet:
-    id: 1495698640677-7
-    author: ferrarim
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              nullable: false
-            name: id
-            type: VARCHAR(255 CHAR)
-        - column:
             name: city
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: clearance_state
             type: VARCHAR(255 CHAR)
         - column:
             name: country
@@ -475,6 +421,9 @@ databaseChangeLog:
             name: name
             type: VARCHAR(255 CHAR)
         - column:
+            name: numero_licenza_guida
+            type: VARCHAR(255 CHAR)
+        - column:
             name: permanent_establishment_city
             type: VARCHAR(255 CHAR)
         - column:
@@ -496,7 +445,31 @@ databaseChangeLog:
             name: phone_number
             type: VARCHAR(255 CHAR)
         - column:
+            name: professional_register
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: professional_register_district
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: professional_register_number
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: professional_register_subscription_date
+            type: date
+        - column:
+            name: rea_number
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: rea_office
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: share_capital
+            type: NUMBER(19, 2)
+        - column:
             name: social_security_number
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: sole_stakeholder
             type: VARCHAR(255 CHAR)
         - column:
             name: street_address
@@ -523,14 +496,23 @@ databaseChangeLog:
             name: tax_representative_name
             type: VARCHAR(255 CHAR)
         - column:
+            name: tax_system
+            type: VARCHAR(255 CHAR)
+        - column:
             name: title
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: type
             type: VARCHAR(255 CHAR)
         - column:
             name: zip_code
             type: VARCHAR(255 CHAR)
+        - column:
+            name: invoice_id
+            type: VARCHAR(255 CHAR)
         tableName: invoice_participant
 - changeSet:
-    id: 1495698640677-8
+    id: 1496071366147-7
     author: ferrarim
     changes:
     - createTable:
@@ -596,7 +578,7 @@ databaseChangeLog:
             type: DOUBLE precision
         tableName: movement
 - changeSet:
-    id: 1495698640677-9
+    id: 1496071366147-8
     author: ferrarim
     changes:
     - createTable:
@@ -677,29 +659,14 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: purchase_line
 - changeSet:
-    id: 1495698640677-10
-    author: ferrarim
-    changes:
-    - createTable:
-        columns:
-        - column:
-            name: numero_licenza_guida
-            type: VARCHAR(255 CHAR)
-        - column:
-            constraints:
-              nullable: false
-            name: id
-            type: VARCHAR(255 CHAR)
-        tableName: vettore
-- changeSet:
-    id: 1495698640677-11
+    id: 1496071366147-9
     author: ferrarim
     changes:
     - addPrimaryKey:
         columnNames: documento_correlato_id, purchase_line_id
         tableName: documento_correlato_purchase_line
 - changeSet:
-    id: 1495698640677-12
+    id: 1496071366147-10
     author: ferrarim
     changes:
     - addPrimaryKey:
@@ -707,7 +674,7 @@ databaseChangeLog:
         constraintName: attachmentPK
         tableName: attachment
 - changeSet:
-    id: 1495698640677-13
+    id: 1496071366147-11
     author: ferrarim
     changes:
     - addPrimaryKey:
@@ -715,7 +682,7 @@ databaseChangeLog:
         constraintName: dati_riepilogoPK
         tableName: dati_riepilogo
 - changeSet:
-    id: 1495698640677-14
+    id: 1496071366147-12
     author: ferrarim
     changes:
     - addPrimaryKey:
@@ -723,7 +690,7 @@ databaseChangeLog:
         constraintName: documento_correlatoPK
         tableName: documento_correlato
 - changeSet:
-    id: 1495698640677-15
+    id: 1496071366147-13
     author: ferrarim
     changes:
     - addPrimaryKey:
@@ -731,15 +698,7 @@ databaseChangeLog:
         constraintName: invoicePK
         tableName: invoice
 - changeSet:
-    id: 1495698640677-16
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: invoice_cedente_prestatorePK
-        tableName: invoice_cedente_prestatore
-- changeSet:
-    id: 1495698640677-17
+    id: 1496071366147-14
     author: ferrarim
     changes:
     - addPrimaryKey:
@@ -747,7 +706,7 @@ databaseChangeLog:
         constraintName: invoice_participantPK
         tableName: invoice_participant
 - changeSet:
-    id: 1495698640677-18
+    id: 1496071366147-15
     author: ferrarim
     changes:
     - addPrimaryKey:
@@ -755,7 +714,7 @@ databaseChangeLog:
         constraintName: movementPK
         tableName: movement
 - changeSet:
-    id: 1495698640677-19
+    id: 1496071366147-16
     author: ferrarim
     changes:
     - addPrimaryKey:
@@ -763,59 +722,19 @@ databaseChangeLog:
         constraintName: purchase_linePK
         tableName: purchase_line
 - changeSet:
-    id: 1495698640677-20
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: vettorePK
-        tableName: vettore
-- changeSet:
-    id: 1495698640677-21
-    author: ferrarim
-    changes:
-    - addUniqueConstraint:
-        columnNames: number
-        constraintName: UK_pv0mc1gtqf3drhc14ykc1bnk3
-        tableName: invoice
-- changeSet:
-    id: 1495698640677-22
+    id: 1496071366147-17
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: cessionario_committente_id
-        baseTableName: invoice
-        constraintName: FK23gt01b2ho84qdc5mvbh9r7hh
+        baseColumnNames: invoice_id
+        baseTableName: invoice_participant
+        constraintName: FK1r1u0bdsvtbeiutuavx13gmnr
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
-        referencedTableName: invoice_participant
+        referencedTableName: invoice
 - changeSet:
-    id: 1495698640677-23
-    author: ferrarim
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: id
-        baseTableName: invoice_cedente_prestatore
-        constraintName: FK2fbji4fgj7s5kf5rtpqo32v31
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: invoice_participant
-- changeSet:
-    id: 1495698640677-24
-    author: ferrarim
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: id
-        baseTableName: vettore
-        constraintName: FK39mfc415n9ea2pb23dw6cekh2
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: invoice_participant
-- changeSet:
-    id: 1495698640677-25
+    id: 1496071366147-18
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -827,7 +746,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: documento_correlato
 - changeSet:
-    id: 1495698640677-26
+    id: 1496071366147-19
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -836,10 +755,10 @@ databaseChangeLog:
         constraintName: FKapetyev9j9mlndtdpjy0mhevl
         deferrable: false
         initiallyDeferred: false
-        referencedColumnNames: number
+        referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1495698640677-27
+    id: 1496071366147-20
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -848,22 +767,10 @@ databaseChangeLog:
         constraintName: FKbsaxn93m19ta6onb54k9jq03f
         deferrable: false
         initiallyDeferred: false
-        referencedColumnNames: number
+        referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1495698640677-28
-    author: ferrarim
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: rappresentante_fiscale_id
-        baseTableName: invoice
-        constraintName: FKcokeujlyuxj1qkjmis5gw5wgp
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: invoice_participant
-- changeSet:
-    id: 1495698640677-29
+    id: 1496071366147-21
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -872,10 +779,10 @@ databaseChangeLog:
         constraintName: FKhns01uttnawtfhldai1owngm
         deferrable: false
         initiallyDeferred: false
-        referencedColumnNames: number
+        referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1495698640677-30
+    id: 1496071366147-22
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -884,34 +791,10 @@ databaseChangeLog:
         constraintName: FKhnw9ml89fgcfu6gwf8vel6u5k
         deferrable: false
         initiallyDeferred: false
-        referencedColumnNames: number
+        referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1495698640677-31
-    author: ferrarim
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: soggetto_emittente_id
-        baseTableName: invoice
-        constraintName: FKj4ii7nm2aqxvfxvqflnx15260
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: invoice_participant
-- changeSet:
-    id: 1495698640677-32
-    author: ferrarim
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: vettore_id
-        baseTableName: invoice
-        constraintName: FKjwtb5mxw3qxae45h3omy0edog
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: vettore
-- changeSet:
-    id: 1495698640677-33
+    id: 1496071366147-23
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -922,16 +805,4 @@ databaseChangeLog:
         initiallyDeferred: false
         referencedColumnNames: id
         referencedTableName: purchase_line
-- changeSet:
-    id: 1495698640677-34
-    author: ferrarim
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: cedente_prestatore_id
-        baseTableName: invoice
-        constraintName: FKtcl1e9kss6fcnvbfwnp89vlv4
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: invoice_cedente_prestatore
 

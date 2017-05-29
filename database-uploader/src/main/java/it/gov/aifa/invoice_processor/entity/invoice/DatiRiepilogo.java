@@ -39,6 +39,7 @@ public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
 	private BigDecimal speseAccessorie;
 
 	public DatiRiepilogo() {
+		super();
 	}
 	
 	public DatiRiepilogo(

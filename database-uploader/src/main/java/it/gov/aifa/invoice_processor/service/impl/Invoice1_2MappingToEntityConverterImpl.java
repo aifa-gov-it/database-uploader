@@ -19,15 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
+import it.gov.aifa.invoice_processor.constant.InvoiceParticipantType;
 import it.gov.aifa.invoice_processor.entity.invoice.Attachment;
 import it.gov.aifa.invoice_processor.entity.invoice.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelato;
 import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
-import it.gov.aifa.invoice_processor.entity.invoice.InvoiceCedentePrestatore;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
-import it.gov.aifa.invoice_processor.entity.invoice.Vettore;
 import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.AllegatiType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.AltriDatiGestionaliType;
@@ -94,7 +93,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 	protected void buildCedentePrestatore(
 			@NotNull CedentePrestatoreType cedentePrestatore
 			, @NotNull Invoice invoice) {
-		InvoiceCedentePrestatore invoiceCedentePrestatore = new InvoiceCedentePrestatore();
+		InvoiceParticipant invoiceCedentePrestatore = new InvoiceParticipant(invoice, InvoiceParticipantType.CEDENTE_PRESTATORE);
 
 		ContattiType contacts = cedentePrestatore.getContatti();
 		if(contacts != null) {
@@ -140,7 +139,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			invoiceCedentePrestatore.setPermanentEstablishmentDistrict(stabileOrganizzazione.getProvincia());
 		}
 
-		invoice.setCedentePrestatore(invoiceCedentePrestatore);
+		invoice.getInvoiceParticipants().add(invoiceCedentePrestatore);
 	}
 
 	@Override
@@ -148,7 +147,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			@NotNull CessionarioCommittenteType cessionarioCommittente
 			, @NotNull Invoice invoice
 			) {
-		InvoiceParticipant invoiceCessionarioCommittente = new InvoiceParticipant();
+		InvoiceParticipant invoiceCessionarioCommittente = new InvoiceParticipant(invoice, InvoiceParticipantType.CESSIONARIO_COMMITTENTE);
 
 		DatiAnagraficiCessionarioType biographicalData = cessionarioCommittente.getDatiAnagrafici();
 		if(biographicalData != null) {
@@ -180,7 +179,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			invoiceCessionarioCommittente.setPermanentEstablishmentZipCode(stabileOrganizzazioneType.getCAP());
 		}
 
-		invoice.setCessionarioCommittente(invoiceCessionarioCommittente);
+		invoice.getInvoiceParticipants().add(invoiceCessionarioCommittente);
 	}
 
 	@Override
@@ -203,7 +202,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			}
 			invoice.getDocumentiCorrelati().addAll(invoiceDatiDdt);
 		}
-		
+
 		invoice.getDocumentiCorrelati().addAll(buildDocumentiCorrelati(datiGenerali.getDatiContratto(), DocumentoCorrelatoType.CONTRATTO, invoice));
 		invoice.getDocumentiCorrelati().addAll(buildDocumentiCorrelati(datiGenerali.getDatiConvenzione(), DocumentoCorrelatoType.CONVENZIONE, invoice));
 		invoice.getDocumentiCorrelati().addAll(buildDocumentiCorrelati(datiGenerali.getDatiFattureCollegate(), DocumentoCorrelatoType.FATTURA_COLLEGATA, invoice));
@@ -223,12 +222,12 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			invoice.setDataOraRitiro(datiTrasportoType.getDataOraRitiro() != null ? xmlGregorianCalendarToSqlDate(datiTrasportoType.getDataOraRitiro()) : null);
 
 			if(datiTrasportoType.getDatiAnagraficiVettore() != null) {
-				Vettore vettore = new Vettore();
+				InvoiceParticipant vettore = new InvoiceParticipant(invoice, InvoiceParticipantType.VETTORE);
 				mapAnagraficaTypeToInvoiceParticipant(datiTrasportoType.getDatiAnagraficiVettore().getAnagrafica(), vettore);
 				vettore.setSocialSecurityNumber(datiTrasportoType.getDatiAnagraficiVettore().getCodiceFiscale());
 				mapIdFiscaleTypeToInvoiceParticipant(datiTrasportoType.getDatiAnagraficiVettore().getIdFiscaleIVA(), vettore);
 				vettore.setNumeroLicenzaGuida(datiTrasportoType.getDatiAnagraficiVettore().getNumeroLicenzaGuida());
-				invoice.setVettore(vettore);
+				invoice.getInvoiceParticipants().add(vettore);
 			}
 
 			invoice.setDescrizioneTrasporto(datiTrasportoType.getDescrizione());
@@ -301,7 +300,6 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		invoice.setDocumentTypeCode(datiGeneraliDocumentoType.getTipoDocumento().toString());
 		invoice.setRounding(datiGeneraliDocumentoType.getArrotondamento());
 		invoice.setTotalAmount(datiGeneraliDocumentoType.getImportoTotaleDocumento());
-		invoice.setVersion(getInvoiceMappingVersion());
 	}
 
 	@Override
@@ -312,9 +310,9 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			throw new RuntimeException("Cannot map invoice without payment information");
 		checkSingleElementCollection(datiPagamento, DatiPagamentoType.class);
 		DatiPagamentoType datiPagamentoType = datiPagamento.get(0);
-		
+
 		invoice.setPaymentConditions(datiPagamentoType.getCondizioniPagamento() != null ? datiPagamentoType.getCondizioniPagamento().toString() : null);
-		
+
 		checkSingleElementCollection(datiPagamentoType.getDettaglioPagamento(), DettaglioPagamentoType.class);
 		DettaglioPagamentoType dettaglioPagamentoType = datiPagamentoType.getDettaglioPagamento().get(0);
 		invoice.setFinancialInstitutionAbi(dettaglioPagamentoType.getABI());
@@ -326,7 +324,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		invoice.setPaymentExpirationDate(dettaglioPagamentoType.getDataScadenzaPagamento() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataScadenzaPagamento()) : null);
 		invoice.setPaymentMode(dettaglioPagamentoType.getModalitaPagamento().toString());
 		invoice.setPaymentTermDays(dettaglioPagamentoType.getGiorniTerminiPagamento());
-		
+
 		invoice.setBeneficiarioPagamento(dettaglioPagamentoType.getBeneficiario());
 		invoice.setCfQuietanzantePagamento(dettaglioPagamentoType.getCFQuietanzante());
 		invoice.setCodicePagamento(dettaglioPagamentoType.getCodicePagamento());
@@ -360,10 +358,11 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 						, datiDocumentiCorrelatiType.getCodiceCommessaConvenzione()
 						, datiDocumentiCorrelatiType.getCodiceCUP()
 						, datiDocumentiCorrelatiType.getData() != null ? xmlGregorianCalendarToSqlDate(datiDocumentiCorrelatiType.getData()) : null
-						, documentoCorrelatoType
-						, datiDocumentiCorrelatiType.getIdDocumento()
-						, invoice, datiDocumentiCorrelatiType.getNumItem()
-						, getRelatedPurchaseLines(invoice, datiDocumentiCorrelatiType.getRiferimentoNumeroLinea())
+								, documentoCorrelatoType
+								, datiDocumentiCorrelatiType.getIdDocumento()
+								, invoice
+								, datiDocumentiCorrelatiType.getNumItem()
+								, getRelatedPurchaseLines(invoice, datiDocumentiCorrelatiType.getRiferimentoNumeroLinea())
 						));
 			}
 			return documentCorrelati;
@@ -385,13 +384,13 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 						, datiRiepilogoType.getImposta()
 						, invoice
 						, datiRiepilogoType.getNatura() != null ? datiRiepilogoType.getNatura().toString() : null
-						, datiRiepilogoType.getRiferimentoNormativo()
-						, datiRiepilogoType.getSpeseAccessorie()
+								, datiRiepilogoType.getRiferimentoNormativo()
+								, datiRiepilogoType.getSpeseAccessorie()
 						));
 			}
 			invoice.setDatiRiepilogo(datiRiepilogo);
 		}
-		
+
 		List<DettaglioLineeType> dettaglioLinee = datiBeniServizi.getDettaglioLinee();
 
 		if(dettaglioLinee != null) {
@@ -460,28 +459,29 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		}
 		invoice.setInvoiceSendingFormat(datiTrasmissione.getFormatoTrasmissione().toString());
 		invoice.setInvoiceSendingNumber(datiTrasmissione.getProgressivoInvio());
+		invoice.setVersion(datiTrasmissione.getFormatoTrasmissione().version());
 	}
 
 	@Override
 	protected void buildSoggettoEmittente(SoggettoEmittenteType soggettoEmittenteType, TerzoIntermediarioSoggettoEmittenteType terzoIntermediarioSoggettoEmittenteType, Invoice invoice) {
 		InvoiceParticipant soggettoEmittente = null;
 		if(terzoIntermediarioSoggettoEmittenteType != null) {
-			soggettoEmittente = new InvoiceParticipant();
+			soggettoEmittente = new InvoiceParticipant(invoice, InvoiceParticipantType.SOGGETTO_EMITTENTE);
 			mapAnagraficaTypeToInvoiceParticipant(terzoIntermediarioSoggettoEmittenteType.getDatiAnagrafici().getAnagrafica(), soggettoEmittente);
 			soggettoEmittente.setSocialSecurityNumber(terzoIntermediarioSoggettoEmittenteType.getDatiAnagrafici().getCodiceFiscale());
 			mapIdFiscaleTypeToInvoiceParticipant(terzoIntermediarioSoggettoEmittenteType.getDatiAnagrafici().getIdFiscaleIVA(), soggettoEmittente);
 		}
-		invoice.setSoggettoEmittente(soggettoEmittente);
-		
+		invoice.getInvoiceParticipants().add(soggettoEmittente);
+
 		if(soggettoEmittenteType != null)
 			invoice.setSoggettoEmittenteType(soggettoEmittenteType.toString());
 	}
-	
+
 	@Override
 	public boolean canConvert(Class<?> clazz) {
 		return FatturaElettronicaType.class.equals(clazz);
 	}
-	
+
 	private <T> void checkSingleElementCollection(Collection<T> collection, Class<T> clazz) {
 		if(collection.size() != 1)
 			throw new RuntimeException("Cannot map invoices with more than one " + clazz.getName());
@@ -491,13 +491,20 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 	public Invoice convert(InvoiceMapping<String> source) {
 		if(source == null)
 			throw new RuntimeException("Source cannot be null");
-		
+
 		if(!canConvert(source.getClass()))
 			throw new RuntimeException("This converter does not support " + source.getClass() + " class");
-		
-		Invoice invoice = new Invoice();
+
 		FatturaElettronicaType fatturaElettronicaType = (FatturaElettronicaType) source;
-		
+
+		List<FatturaElettronicaBodyType> bodies = fatturaElettronicaType.getFatturaElettronicaBody();
+		if(CollectionUtils.isEmpty(bodies))
+			throw new RuntimeException("Cannot map Invoice without body");
+		checkSingleElementCollection(bodies, FatturaElettronicaBodyType.class);
+		FatturaElettronicaBodyType body = bodies.get(0);
+		Invoice invoice = new Invoice();
+		invoice.setNumber(body.getDatiGenerali().getDatiGeneraliDocumento().getNumero());
+
 		// Build Header
 		FatturaElettronicaHeaderType header = fatturaElettronicaType.getFatturaElettronicaHeader();
 		buildCedentePrestatore(header.getCedentePrestatore(), invoice);
@@ -507,12 +514,6 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		buildRappresentanteFiscale(header.getRappresentanteFiscale(), invoice);
 		
 		// Build body
-		List<FatturaElettronicaBodyType> bodies = fatturaElettronicaType.getFatturaElettronicaBody();
-		if(CollectionUtils.isEmpty(bodies))
-			throw new RuntimeException("Cannot map Invoice without body");
-		checkSingleElementCollection(bodies, FatturaElettronicaBodyType.class);
-		FatturaElettronicaBodyType body = bodies.get(0);
-		invoice.setNumber(body.getDatiGenerali().getDatiGeneraliDocumento().getNumero());
 		buildInvoiceItems(body.getDatiBeniServizi(), invoice);
 		buildAttachments(body.getAllegati(), invoice);
 		buildDatiGenerali(body.getDatiGenerali(), invoice);
@@ -521,23 +522,18 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 
 		return invoice;
 	}
-	
+
 	@Override
 	protected void buildRappresentanteFiscale(
 			RappresentanteFiscaleType rappresentanteFiscale
 			, @NotNull Invoice invoice) {
 		if(rappresentanteFiscale != null) {
-			InvoiceParticipant invoiceRappresentanteFiscale = new InvoiceParticipant();
+			InvoiceParticipant invoiceRappresentanteFiscale = new InvoiceParticipant(invoice, InvoiceParticipantType.RAPPRESENTANTE_FISCALE);
 			mapAnagraficaTypeToInvoiceParticipant(rappresentanteFiscale.getDatiAnagrafici().getAnagrafica(), invoiceRappresentanteFiscale);
 			invoiceRappresentanteFiscale.setSocialSecurityNumber(rappresentanteFiscale.getDatiAnagrafici().getCodiceFiscale());
 			mapIdFiscaleTypeToInvoiceParticipant(rappresentanteFiscale.getDatiAnagrafici().getIdFiscaleIVA(), invoiceRappresentanteFiscale);
-			invoice.setRappresentanteFiscale(invoiceRappresentanteFiscale);
+			invoice.getInvoiceParticipants().add(invoiceRappresentanteFiscale);
 		}
-	}
-
-	@Override
-	public String getInvoiceMappingVersion() {
-		return "1.2";
 	}
 
 	private Set<PurchaseLine> getRelatedPurchaseLines(Invoice invoice, List<Integer> purchaseLineIds) {

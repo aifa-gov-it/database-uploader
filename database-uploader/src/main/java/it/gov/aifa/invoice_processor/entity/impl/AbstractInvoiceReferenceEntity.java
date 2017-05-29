@@ -10,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.InvoiceReferenceEntity;
@@ -36,7 +37,11 @@ public abstract class AbstractInvoiceReferenceEntity extends AbstractInvoiceProc
 	@Override
 	@Transient
 	public List<String> getIdValues(){
+		if(CollectionUtils.isEmpty(getAdditionalIdValues()))
+			throw new RuntimeException("Additional Id field list cannot be empty");
 		List<String> idValues = new ArrayList<>();
+		if(invoice == null)
+			throw new RuntimeException("Invoice reference cannot be null");
 		idValues.add(invoice.getNumber());
 		idValues.addAll(getAdditionalIdValues());
 		return Collections.unmodifiableList(idValues);
@@ -45,7 +50,7 @@ public abstract class AbstractInvoiceReferenceEntity extends AbstractInvoiceProc
 	@Transient
 	protected abstract List<String> getAdditionalIdValues();
 
-	@JoinColumn(name = "invoiceId", referencedColumnName = "number")
+	@JoinColumn(name = "invoiceId", referencedColumnName = "id")
 	@ManyToOne
 	@Override
 	public Invoice getInvoice() {

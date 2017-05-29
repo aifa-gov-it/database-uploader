@@ -67,10 +67,10 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 
 	@Override
 	public void updateId() {
-		if(CollectionUtils.isEmpty(this.getIdValues()))
+		if(CollectionUtils.isEmpty(getIdValues()))
 			throw new RuntimeException("Id field cannot be empty");
 		StringBuilder builder = new StringBuilder();
-		for(String idValue : this.getIdValues())
+		for(String idValue : getIdValues())
 			if(StringUtils.isNotBlank(idValue)) {
 				builder.append(idValue);
 				builder.append("_");

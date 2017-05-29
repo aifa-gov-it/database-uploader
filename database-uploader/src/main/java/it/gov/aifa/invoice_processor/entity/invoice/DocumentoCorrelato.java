@@ -42,7 +42,9 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 
 	private Set<PurchaseLine> purchaseLine;
 
-	public DocumentoCorrelato() { }
+	public DocumentoCorrelato() {
+		super();
+	}
 
 	public DocumentoCorrelato(
 			@NotNull Date data
