@@ -7,14 +7,14 @@ import org.testng.annotations.Test;
 import it.gov.aifa.invoice_processor.entity.AbstractEntityTest;
 
 public class MovementTest extends AbstractEntityTest<Movement>{
-	
+
 	@Test
 	public void movementExpirationDateTest() throws Exception {
 		Movement movement = new Movement();
 		movement.setRawExpirationDate("2017-05-12");
 		assertThat(movement.getExpirationDate().toString()).isEqualTo(movement.getRawExpirationDate());
 	}
-	
+
 	@Test
 	public void movementTransmissionDateTimeTest() throws Exception {
 		Movement movement = new Movement();
@@ -33,6 +33,6 @@ public class MovementTest extends AbstractEntityTest<Movement>{
 
 	@Override
 	protected int getExpectedIdValuesSize() {
-		return 4;
+		return 5;
 	}
 }
