@@ -14,6 +14,7 @@ public class InvoiceProcessorEntityListener {
 	@PrePersist
 	@PreUpdate
 	public void methodExecuteBeforeSave(final InvoiceProcessorEntity<String> invoiceProcessorEntity) {
+		log.debug("Updating id for entity {}", invoiceProcessorEntity.getClass().toGenericString());
 		invoiceProcessorEntity.updateId();
 		log.debug("Updated id for entity {}: {}", invoiceProcessorEntity.getClass().toGenericString(), invoiceProcessorEntity.getId());
 	}
