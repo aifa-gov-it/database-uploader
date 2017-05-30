@@ -17,7 +17,10 @@ public enum FormatoTrasmissioneType {
 	FPR_12("FPR12", InvoiceVersion.VERSION_1_2),
 
 	@XmlEnumValue("SDI11")
-    SDI_11("SDI11", InvoiceVersion.VERSION_1_1);
+    SDI_11("SDI11", InvoiceVersion.VERSION_1_1),
+	
+	@XmlEnumValue("1.1")
+    LEGACY_1_1("1.1", InvoiceVersion.VERSION_1_1);
 	
 	
 	public static FormatoTrasmissioneType fromValue(String v) {
