@@ -45,7 +45,6 @@
         <testng.version>6.11</testng.version>
 
         <!-- Plugins (keep this alphabetically ordered) -->
-        <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -270,11 +269,6 @@
                     <skipTests>${skipTests}</skipTests>
                     <workingDirectory>${project.build.directory}</workingDirectory>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>${coveralls-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
