@@ -75,6 +75,7 @@ public class ContextConfig{
 	}
 	
 	@Bean
+	@ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
 	public Jaxb2Marshaller invoiceMarshaller() throws IOException {
 		Jaxb2Marshaller unmarshaller = new Jaxb2Marshaller();
 		unmarshaller.setSchemas(loadResourcesFromDirectory("classpath:xsd/*.xsd"));
@@ -86,6 +87,7 @@ public class ContextConfig{
 	}
 	
 	@Bean
+	@ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
 	public StaxEventItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingReader(Jaxb2Marshaller invoiceMarshaller){
 		StaxEventItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingReader = new StaxEventItemReader<>();
 		invoiceMappingReader.setUnmarshaller(invoiceMarshaller);
@@ -94,6 +96,7 @@ public class ContextConfig{
 	}
 	
 	@Bean
+	@ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
 	public ItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingMultiReader(
 			@Value("${" + CommandLineArgumentKey.PATH + "}") String directoryPath
 			, StaxEventItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingReader
@@ -107,6 +110,7 @@ public class ContextConfig{
 	}
 	
 	@Bean
+	@ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
     public RepositoryItemWriter<Invoice> invoiceWriter(InvoiceRepository invoiceRepository) {
     	RepositoryItemWriter<Invoice> writer = new RepositoryItemWriter<>();
     	writer.setRepository(invoiceRepository);
@@ -115,7 +119,7 @@ public class ContextConfig{
     }
 	
     @Bean
-    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES_WITH_PREFIX)
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
     public Job importInvoiceJob(JobBuilderFactory jobBuilderFactory, Step step1InvoiceProcessing) {
         return jobBuilderFactory.get("importInvoiceJob")
                 .incrementer(new RunIdIncrementer())
@@ -125,6 +129,7 @@ public class ContextConfig{
     }
     
     @Bean
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
     public Step step1InvoiceProcessing(
     		@Qualifier("invoiceMappingProcessor") ItemProcessor<JAXBElement<InvoiceMapping<String>>, Invoice> invoiceMappingProcessor
     		, ItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingMultiReader
@@ -139,6 +144,7 @@ public class ContextConfig{
     }
 	
     @Bean
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public FlatFileItemReader<Movement> movementReader(@Value("${" + CommandLineArgumentKey.PATH + "}") String filePath) {
         FlatFileItemReader<Movement> reader = new FlatFileItemReader<Movement>();
         reader.setLinesToSkip(1);
@@ -174,6 +180,7 @@ public class ContextConfig{
     }
     
     @Bean
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public RepositoryItemWriter<Movement> movementWriter(MovementRepository movementRepository) {
     	RepositoryItemWriter<Movement> writer = new RepositoryItemWriter<>();
     	writer.setRepository(movementRepository);
@@ -192,6 +199,7 @@ public class ContextConfig{
     }
     
     @Bean
+    @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public Step step1MovementProcessing(
     		@Qualifier("movementProcessor") ItemProcessor<Movement, Movement> movementProcessor
     		, FlatFileItemReader<Movement> movementReader

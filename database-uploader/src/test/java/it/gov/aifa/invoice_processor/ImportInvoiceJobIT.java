@@ -14,7 +14,7 @@ import it.gov.aifa.invoice_processor.constant.TestConstant;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.service.persistence.InvoiceRepository;
 
-@TestPropertySource(properties = { CommandLineArgumentKey.IMPORT_INVOICES_WITH_PREFIX, CommandLineArgumentKey.PATH + "=" + TestConstant.TEST_DIRECTORY_PATH_INVOICE_XML })
+@TestPropertySource(properties = { CommandLineArgumentKey.IMPORT_INVOICES, CommandLineArgumentKey.PATH + "=" + TestConstant.TEST_DIRECTORY_PATH_INVOICE_XML })
 public class ImportInvoiceJobIT extends AbstractIT{
 	
 	@Autowired
