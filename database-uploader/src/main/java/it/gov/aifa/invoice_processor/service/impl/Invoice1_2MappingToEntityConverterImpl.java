@@ -353,11 +353,12 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		if(datiDocumentiCorrelati != null) {
 			Set<DocumentoCorrelato> documentCorrelati = new HashSet<>(datiDocumentiCorrelati.size());
 			for(DatiDocumentiCorrelatiType datiDocumentiCorrelatiType : datiDocumentiCorrelati) {
-				documentCorrelati.add(new DocumentoCorrelato(
-						datiDocumentiCorrelatiType.getCodiceCIG()
-						, datiDocumentiCorrelatiType.getCodiceCommessaConvenzione()
-						, datiDocumentiCorrelatiType.getCodiceCUP()
-						, datiDocumentiCorrelatiType.getData() != null ? xmlGregorianCalendarToSqlDate(datiDocumentiCorrelatiType.getData()) : null
+				documentCorrelati.add(
+						new DocumentoCorrelato(
+								datiDocumentiCorrelatiType.getCodiceCIG()
+								, datiDocumentiCorrelatiType.getCodiceCommessaConvenzione()
+								, datiDocumentiCorrelatiType.getCodiceCUP()
+								, datiDocumentiCorrelatiType.getData() != null ? xmlGregorianCalendarToSqlDate(datiDocumentiCorrelatiType.getData()) : null
 								, documentoCorrelatoType
 								, datiDocumentiCorrelatiType.getIdDocumento()
 								, invoice
@@ -365,6 +366,9 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 								, getRelatedPurchaseLines(invoice, datiDocumentiCorrelatiType.getRiferimentoNumeroLinea())
 						));
 			}
+			List<String> ids = new ArrayList<>();
+			for(DocumentoCorrelato documentoCorrelato : documentCorrelati)
+				ids.add(documentoCorrelato.getId());
 			return documentCorrelati;
 		}else
 			return null;
@@ -512,7 +516,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		buildInvoiceSending(header.getDatiTrasmissione(), invoice);
 		buildSoggettoEmittente(header.getSoggettoEmittente(), header.getTerzoIntermediarioOSoggettoEmittente(), invoice);
 		buildRappresentanteFiscale(header.getRappresentanteFiscale(), invoice);
-		
+
 		// Build body
 		buildInvoiceItems(body.getDatiBeniServizi(), invoice);
 		buildAttachments(body.getAllegati(), invoice);
@@ -539,12 +543,14 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 	private Set<PurchaseLine> getRelatedPurchaseLines(Invoice invoice, List<Integer> purchaseLineIds) {
 		if(purchaseLineIds == null || purchaseLineIds.isEmpty())
 			return null;
-		else
-			return invoice.getPurchaseLines().stream()
+		else {
+			Set<PurchaseLine> relatedPurchaseLines = invoice.getPurchaseLines().stream()
 					.filter(c -> c.getInvoice().getNumber().equals(invoice.getNumber())
 							&& purchaseLineIds.contains(Integer.parseInt(c.getDocumentId()))
 							)
 					.collect(Collectors.toSet());
+			return relatedPurchaseLines;
+		}
 	}
 
 	private void mapAnagraficaTypeToInvoiceParticipant(AnagraficaType anagraficaType, InvoiceParticipant invoiceParticipant) {

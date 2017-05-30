@@ -15,6 +15,7 @@ public abstract class AbstractEntityTest<T extends InvoiceProcessorEntity<String
 		T entity = buildEntityForIdTest();
 		assertThat(entity.getIdValues()).doesNotContainNull();
 		assertThat(entity.getIdValues()).hasSize(getExpectedIdValuesSize());
+		entity.updateId();
 		for(String idValue : entity.getIdValues())
 			assertThat(entity.getId()).contains(idValue);
 	}

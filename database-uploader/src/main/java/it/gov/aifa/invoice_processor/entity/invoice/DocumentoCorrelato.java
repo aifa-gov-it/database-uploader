@@ -36,6 +36,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 	@NotBlank
 	private String documentId;
 
+	@NotNull
 	private DocumentoCorrelatoType documentoCorrelatoType;
 
 	private String numItem;
@@ -111,7 +112,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 			additionalIdValues.add(data.toString());
 		if(purchaseLine != null)
 			for(PurchaseLine purchaseLine : purchaseLine) 
-				if(StringUtils.isBlank(purchaseLine.getDocumentId()))
+				if(StringUtils.isNotBlank(purchaseLine.getDocumentId()))
 					additionalIdValues.add(purchaseLine.getDocumentId());
 		return Collections.unmodifiableList(additionalIdValues);
 	}

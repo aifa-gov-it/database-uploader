@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NS1:FatturaElettronica xmlns:NS1="http://www.fatturapa.gov.it/sdi/fatturapa/v1.1" versione="1.1">
+    <FatturaElettronicaHeader>
+        <DatiTrasmissione>
+            <IdTrasmittente>
+                <IdPaese>IT</IdPaese>
+                <IdCodice>01234567894</IdCodice>
+            </IdTrasmittente>
+            <ProgressivoInvio>00003</ProgressivoInvio>
+            <FormatoTrasmissione>SDI11</FormatoTrasmissione>
+            <CodiceDestinatario>RECIP2</CodiceDestinatario>
+            <ContattiTrasmittente>
+                <Email>italy.bhc.invoice.not.sent@domain.com</Email>
+            </ContattiTrasmittente>
+        </DatiTrasmissione>
+        <CedentePrestatore>
+            <DatiAnagrafici>
+                <IdFiscaleIVA>
+                    <IdPaese>IT</IdPaese>
+                    <IdCodice>01234567895</IdCodice>
+                </IdFiscaleIVA>
+                <CodiceFiscale>01234567895</CodiceFiscale>
+                <Anagrafica>
+                    <Denominazione>Pharma SpA</Denominazione>
+                </Anagrafica>
+                <RegimeFiscale>RF01</RegimeFiscale>
+            </DatiAnagrafici>
+            <Sede>
+                <Indirizzo>Viale Roma 130</Indirizzo>
+                <CAP>00200</CAP>
+                <Comune>Milano</Comune>
+                <Provincia>MI</Provincia>
+                <Nazione>IT</Nazione>
+            </Sede>
+            <IscrizioneREA>
+                <Ufficio>MI</Ufficio>
+                <NumeroREA>1.123.456</NumeroREA>
+                <CapitaleSociale>101230000.00</CapitaleSociale>
+                <SocioUnico>SU</SocioUnico>
+                <StatoLiquidazione>LN</StatoLiquidazione>
+            </IscrizioneREA>
+            <Contatti>
+                <Telefono>0202020</Telefono>
+            </Contatti>
+        </CedentePrestatore>
+        <CessionarioCommittente>
+            <DatiAnagrafici>
+                <CodiceFiscale>01234567895</CodiceFiscale>
+                <Anagrafica>
+                    <Denominazione>AZIENDA OSP</Denominazione>
+                </Anagrafica>
+            </DatiAnagrafici>
+            <Sede>
+                <Indirizzo>VIA ANTONIO 2</Indirizzo>
+                <CAP>29000</CAP>
+                <Comune>PIACENZA</Comune>
+                <Provincia>PC</Provincia>
+                <Nazione>IT</Nazione>
+            </Sede>
+        </CessionarioCommittente>
+        <TerzoIntermediarioOSoggettoEmittente>
+            <DatiAnagrafici>
+                <Anagrafica>
+                    <Denominazione>Pahrma - BSP, CC &amp; DC</Denominazione>
+                </Anagrafica>
+            </DatiAnagrafici>
+        </TerzoIntermediarioOSoggettoEmittente>
+        <SoggettoEmittente>TZ</SoggettoEmittente>
+    </FatturaElettronicaHeader>
+    <FatturaElettronicaBody>
+        <DatiGenerali>
+            <DatiGeneraliDocumento>
+                <TipoDocumento>TD01</TipoDocumento>
+                <Divisa>EUR</Divisa>
+                <Data>2016-01-14</Data>
+                <Numero>01234567892</Numero>
+                <ImportoTotaleDocumento>7072.34</ImportoTotaleDocumento>
+                <Causale>Il ritardato pagamento della presente fattura puo&apos; comportare l&apos;addebito degli interessi di mora secondo quanto stabilito dal D.Lgs.n. 231 9.10.02 e/o secondo gli accordi specifici con voi interc</Causale>
+                <Causale>orsi Contributo ambientale CONAI assolto ove dovuto. DIS (ove indicato in &quot;Tipo OP.&quot;): Merce Sconto-valore esposto ai soli fini IVA Art.15 D.P.R 633/72. Al pagamento indicare il nostro riferimento</Causale>
+                <Causale>cliente 1234564897 e fattura nr. 01234567892</Causale>
+            </DatiGeneraliDocumento>
+            <DatiOrdineAcquisto>
+                <IdDocumento>947//26</IdDocumento>
+                <Data>2016-01-11</Data>
+            </DatiOrdineAcquisto>
+            <DatiOrdineAcquisto>
+                <IdDocumento>0005350858</IdDocumento>
+                <Data>2016-01-11</Data>
+            </DatiOrdineAcquisto>
+            <DatiOrdineAcquisto>
+                <RiferimentoNumeroLinea>10</RiferimentoNumeroLinea>
+                <IdDocumento>947//26</IdDocumento>
+                <Data>2016-01-11</Data>
+                <CodiceCIG>542463673C</CodiceCIG>
+            </DatiOrdineAcquisto>
+            <DatiFattureCollegate>
+                <IdDocumento>8515255887</IdDocumento>
+                <Data>2016-01-14</Data>
+            </DatiFattureCollegate>
+            <DatiDDT>
+                <NumeroDDT>0035000738</NumeroDDT>
+                <DataDDT>2016-01-11</DataDDT>
+            </DatiDDT>
+        </DatiGenerali>
+        <DatiBeniServizi>
+            <DettaglioLinee>
+                <NumeroLinea>10</NumeroLinea>
+                <CodiceArticolo>
+                    <CodiceTipo>SA</CodiceTipo>
+                    <CodiceValore>01234567</CodiceValore>
+                </CodiceArticolo>
+                <Descrizione>ABC 200MG 112CPR</Descrizione>
+                <Quantita>2.00</Quantita>
+                <UnitaMisura>Pezzi</UnitaMisura>
+                <PrezzoUnitario>3214.70000000</PrezzoUnitario>
+                <PrezzoTotale>6429.40</PrezzoTotale>
+                <AliquotaIVA>10.00</AliquotaIVA>
+            </DettaglioLinee>
+            <DatiRiepilogo>
+                <AliquotaIVA>10.00</AliquotaIVA>
+                <ImponibileImporto>6429.40</ImponibileImporto>
+                <Imposta>642.94</Imposta>
+                <EsigibilitaIVA>S</EsigibilitaIVA>
+                <RiferimentoNormativo>IVA 10% Scissione dei pagamenti</RiferimentoNormativo>
+            </DatiRiepilogo>
+        </DatiBeniServizi>
+        <DatiPagamento>
+            <CondizioniPagamento>TP02</CondizioniPagamento>
+            <DettaglioPagamento>
+                <ModalitaPagamento>MP05</ModalitaPagamento>
+                <GiorniTerminiPagamento>060</GiorniTerminiPagamento>
+                <DataScadenzaPagamento>2016-03-14</DataScadenzaPagamento>
+                <ImportoPagamento>6429.40</ImportoPagamento>
+                <IstitutoFinanziario>BANCA NAZIONALE DEL LAVORO S.P.A.</IstitutoFinanziario>
+                <IBAN>It01Ab123456789987654321123</IBAN>
+                <ABI>10000</ABI>
+                <CAB>20000</CAB>
+                <BIC>BNLIITRR</BIC>
+            </DettaglioPagamento>
+        </DatiPagamento>
+    </FatturaElettronicaBody>
+</NS1:FatturaElettronica>

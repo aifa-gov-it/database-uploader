@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NS1:FatturaElettronica xmlns:NS1="http://www.fatturapa.gov.it/sdi/fatturapa/v1.1" versione="1.1">
+    <FatturaElettronicaHeader>
+        <DatiTrasmissione>
+            <IdTrasmittente>
+                <IdPaese>IT</IdPaese>
+                <IdCodice>01234567896</IdCodice>
+            </IdTrasmittente>
+            <ProgressivoInvio>00003</ProgressivoInvio>
+            <FormatoTrasmissione>SDI11</FormatoTrasmissione>
+            <CodiceDestinatario>RECIP2</CodiceDestinatario>
+            <ContattiTrasmittente>
+                <Email>italy.bhc.invoice.not.sent@domain.com</Email>
+            </ContattiTrasmittente>
+        </DatiTrasmissione>
+        <CedentePrestatore>
+            <DatiAnagrafici>
+                <IdFiscaleIVA>
+                    <IdPaese>IT</IdPaese>
+                    <IdCodice>01234567898</IdCodice>
+                </IdFiscaleIVA>
+                <CodiceFiscale>01234567898</CodiceFiscale>
+                <Anagrafica>
+                    <Denominazione>Pharma SpA</Denominazione>
+                </Anagrafica>
+                <RegimeFiscale>RF01</RegimeFiscale>
+            </DatiAnagrafici>
+            <Sede>
+                <Indirizzo>Viale Roma 130</Indirizzo>
+                <CAP>20156</CAP>
+                <Comune>Milano</Comune>
+                <Provincia>MI</Provincia>
+                <Nazione>IT</Nazione>
+            </Sede>
+            <IscrizioneREA>
+                <Ufficio>MI</Ufficio>
+                <NumeroREA>1.042.205</NumeroREA>
+                <CapitaleSociale>101230000.00</CapitaleSociale>
+                <SocioUnico>SU</SocioUnico>
+                <StatoLiquidazione>LN</StatoLiquidazione>
+            </IscrizioneREA>
+            <Contatti>
+                <Telefono>0202020</Telefono>
+            </Contatti>
+        </CedentePrestatore>
+        <CessionarioCommittente>
+            <DatiAnagrafici>
+                <IdFiscaleIVA>
+                    <IdPaese>IT</IdPaese>
+                    <IdCodice>01234567899</IdCodice>
+                </IdFiscaleIVA>
+                <CodiceFiscale>01234567899</CodiceFiscale>
+                <Anagrafica>
+                    <Denominazione>AZIENDA USL N.1</Denominazione>
+                </Anagrafica>
+            </DatiAnagrafici>
+            <Sede>
+                <Indirizzo>VIA MONTE 80</Indirizzo>
+                <CAP>07100</CAP>
+                <Comune>SASSARI</Comune>
+                <Provincia>SS</Provincia>
+                <Nazione>IT</Nazione>
+            </Sede>
+        </CessionarioCommittente>
+        <TerzoIntermediarioOSoggettoEmittente>
+            <DatiAnagrafici>
+                <Anagrafica>
+                    <Denominazione>Pharma Italy - BSP, CC &amp; DC</Denominazione>
+                </Anagrafica>
+            </DatiAnagrafici>
+        </TerzoIntermediarioOSoggettoEmittente>
+        <SoggettoEmittente>TZ</SoggettoEmittente>
+    </FatturaElettronicaHeader>
+    <FatturaElettronicaBody>
+        <DatiGenerali>
+            <DatiGeneraliDocumento>
+                <TipoDocumento>TD01</TipoDocumento>
+                <Divisa>EUR</Divisa>
+                <Data>2016-01-14</Data>
+                <Numero>01234567893</Numero>
+                <ImportoTotaleDocumento>118.02</ImportoTotaleDocumento>
+                <Causale>Il ritardato pagamento della presente fattura puo&apos; comportare l&apos;addebito degli interessi di mora secondo quanto stabilito dal D.Lgs.n. 231 9.10.02 e/o secondo gli accordi specifici con voi interc</Causale>
+                <Causale>orsi Contributo ambientale CONAI assolto ove dovuto. DIS (ove indicato in &quot;Tipo OP.&quot;): Merce Sconto-valore esposto ai soli fini IVA Art.15 D.P.R 633/72. Al pagamento indicare il nostro riferimento</Causale>
+                <Causale>cliente 1234564897 e fattura nr. 01234567892</Causale>
+            </DatiGeneraliDocumento>
+            <DatiOrdineAcquisto>
+                <IdDocumento>A1_ORD-2016-23</IdDocumento>
+                <Data>2016-01-02</Data>
+            </DatiOrdineAcquisto>
+            <DatiOrdineAcquisto>
+                <IdDocumento>0005346164</IdDocumento>
+                <Data>2016-01-04</Data>
+            </DatiOrdineAcquisto>
+            <DatiOrdineAcquisto>
+                <RiferimentoNumeroLinea>10</RiferimentoNumeroLinea>
+                <IdDocumento>A1_ORD-2016-23</IdDocumento>
+                <Data>2016-01-02</Data>
+                <CodiceCIG>485404222D</CodiceCIG>
+            </DatiOrdineAcquisto>
+            <DatiOrdineAcquisto>
+                <RiferimentoNumeroLinea>20</RiferimentoNumeroLinea>
+                <IdDocumento>A1_ORD-2016-23</IdDocumento>
+                <Data>2016-01-02</Data>
+                <CodiceCIG>485404222D</CodiceCIG>
+            </DatiOrdineAcquisto>
+            <DatiFattureCollegate>
+                <IdDocumento>8515255319</IdDocumento>
+                <Data>2016-01-14</Data>
+            </DatiFattureCollegate>
+            <DatiDDT>
+                <NumeroDDT>0003000003</NumeroDDT>
+                <DataDDT>2016-01-05</DataDDT>
+            </DatiDDT>
+        </DatiGenerali>
+        <DatiBeniServizi>
+            <DettaglioLinee>
+                <NumeroLinea>10</NumeroLinea>
+                <CodiceArticolo>
+                    <CodiceTipo>SA</CodiceTipo>
+                    <CodiceValore>01234568</CodiceValore>
+                </CodiceArticolo>
+                <Descrizione>PHARMA 1x1 EVO IT</Descrizione>
+                <Quantita>1.00</Quantita>
+                <UnitaMisura>Pezzi</UnitaMisura>
+                <PrezzoUnitario>94.09000000</PrezzoUnitario>
+                <PrezzoTotale>94.09</PrezzoTotale>
+                <AliquotaIVA>10.00</AliquotaIVA>
+            </DettaglioLinee>
+            <DettaglioLinee>
+                <NumeroLinea>20</NumeroLinea>
+                <CodiceArticolo>
+                    <CodiceTipo>SA</CodiceTipo>
+                    <CodiceValore>919571</CodiceValore>
+                </CodiceArticolo>
+                <Descrizione>PHARMA2 500 6 CPR CO</Descrizione>
+                <Quantita>40.00</Quantita>
+                <UnitaMisura>Pezzi</UnitaMisura>
+                <PrezzoUnitario>0.33000000</PrezzoUnitario>
+                <PrezzoTotale>13.20</PrezzoTotale>
+                <AliquotaIVA>10.00</AliquotaIVA>
+            </DettaglioLinee>
+            <DatiRiepilogo>
+                <AliquotaIVA>10.00</AliquotaIVA>
+                <ImponibileImporto>107.29</ImponibileImporto>
+                <Imposta>10.73</Imposta>
+                <EsigibilitaIVA>S</EsigibilitaIVA>
+                <RiferimentoNormativo>IVA 10% Scissione dei pagamenti</RiferimentoNormativo>
+            </DatiRiepilogo>
+        </DatiBeniServizi>
+        <DatiPagamento>
+            <CondizioniPagamento>TP02</CondizioniPagamento>
+            <DettaglioPagamento>
+                <ModalitaPagamento>MP05</ModalitaPagamento>
+                <GiorniTerminiPagamento>060</GiorniTerminiPagamento>
+                <DataScadenzaPagamento>2016-03-14</DataScadenzaPagamento>
+                <ImportoPagamento>107.29</ImportoPagamento>
+                <IstitutoFinanziario>BANCA NAZIONALE DEL LAVORO S.P.A.</IstitutoFinanziario>
+                <IBAN>It01Ab123456789987654321123</IBAN>
+                <ABI>10000</ABI>
+                <CAB>20000</CAB>
+                <BIC>BNLIITRR</BIC>
+            </DettaglioPagamento>
+        </DatiPagamento>
+    </FatturaElettronicaBody>
+</NS1:FatturaElettronica>
