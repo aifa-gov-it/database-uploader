@@ -7,6 +7,6 @@ databaseChangeLog:
         - dbms:
             type: oracle
         - runningAs:
-            username: AIFA_INVOICE_PROCESSOR
+            username: SPENDING_PHA
   - include:
       file: db/changelog/db.changelog-1.0.0-SNAPSHOT.yaml
