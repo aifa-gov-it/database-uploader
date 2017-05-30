@@ -2,8 +2,6 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -105,8 +103,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private String financialInstitutionName;
 
 	private BigDecimal imponibileCassa;
-
-	private Timestamp importDate = Timestamp.valueOf(LocalDateTime.now());
 
 	private BigDecimal importoContributoCassa;
 
@@ -380,10 +376,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	public BigDecimal getImponibileCassa() {
 		return imponibileCassa;
-	}
-	
-	public Timestamp getImportDate() {
-		return importDate;
 	}
 	
 	public BigDecimal getImportoContributoCassa() {
@@ -721,10 +713,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	
 	public void setImponibileCassa(BigDecimal imponibileCassa) {
 		this.imponibileCassa = imponibileCassa;
-	}
-	
-	public void setImportDate(Timestamp importDate) {
-		this.importDate = importDate;
 	}
 	
 	public void setImportoContributoCassa(BigDecimal importoContributoCassa) {

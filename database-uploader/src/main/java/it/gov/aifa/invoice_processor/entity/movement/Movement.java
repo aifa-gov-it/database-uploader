@@ -44,9 +44,6 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	
 	private Date expirationDate;
 	
-	@NotNull
-	private Timestamp importDate = Timestamp.valueOf(LocalDateTime.now());
-	
 	private String lot;
 
 	@NotBlank
@@ -144,10 +141,6 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		return idValues;
 	}
 	
-	public Timestamp getImportDate() {
-		return importDate;
-	}
-
 	public String getLot() {
 		return lot;
 	}
@@ -230,10 +223,6 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
-	}
-
-	public void setImportDate(Timestamp importDate) {
-		this.importDate = importDate;
 	}
 
 	public void setLot(String lot) {

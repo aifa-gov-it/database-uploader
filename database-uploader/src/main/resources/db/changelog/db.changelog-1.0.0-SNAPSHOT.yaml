@@ -11,6 +11,9 @@ databaseChangeLog:
             name: id
             type: VARCHAR(255 CHAR)
         - column:
+            name: import_date
+            type: TIMESTAMP
+        - column:
             name: compression_algorithm
             type: VARCHAR(255 CHAR)
         - column:
@@ -40,6 +43,9 @@ databaseChangeLog:
               nullable: false
             name: id
             type: VARCHAR(255 CHAR)
+        - column:
+            name: import_date
+            type: TIMESTAMP
         - column:
             name: aliquotaiva
             type: NUMBER(19, 2)
@@ -79,6 +85,9 @@ databaseChangeLog:
               nullable: false
             name: id
             type: VARCHAR(255 CHAR)
+        - column:
+            name: import_date
+            type: TIMESTAMP
         - column:
             name: cig_code
             type: VARCHAR(255 CHAR)
@@ -132,6 +141,9 @@ databaseChangeLog:
               nullable: false
             name: id
             type: VARCHAR(255 CHAR)
+        - column:
+            name: import_date
+            type: TIMESTAMP
         - column:
             name: al_cassa
             type: NUMBER(19, 2)
@@ -234,9 +246,6 @@ databaseChangeLog:
         - column:
             name: imponibile_cassa
             type: NUMBER(19, 2)
-        - column:
-            name: import_date
-            type: TIMESTAMP
         - column:
             name: importo_contributo_cassa
             type: NUMBER(19, 2)
@@ -385,6 +394,9 @@ databaseChangeLog:
             name: id
             type: VARCHAR(255 CHAR)
         - column:
+            name: import_date
+            type: TIMESTAMP
+        - column:
             name: administrative_reference
             type: VARCHAR(255 CHAR)
         - column:
@@ -523,6 +535,9 @@ databaseChangeLog:
             name: id
             type: VARCHAR(255 CHAR)
         - column:
+            name: import_date
+            type: TIMESTAMP
+        - column:
             name: account_holder_code
             type: VARCHAR(255 CHAR)
         - column:
@@ -546,9 +561,6 @@ databaseChangeLog:
         - column:
             name: expiration_date
             type: date
-        - column:
-            name: import_date
-            type: TIMESTAMP
         - column:
             name: lot
             type: VARCHAR(255 CHAR)
@@ -588,6 +600,9 @@ databaseChangeLog:
               nullable: false
             name: id
             type: VARCHAR(255 CHAR)
+        - column:
+            name: import_date
+            type: TIMESTAMP
         - column:
             name: administrative_reference
             type: VARCHAR(255 CHAR)

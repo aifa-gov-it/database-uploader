@@ -1,10 +1,13 @@
 package it.gov.aifa.invoice_processor.entity.impl;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -26,6 +29,9 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 	@NotBlank
 	private String id;
 	
+	@NotNull
+	private Timestamp importDate = Timestamp.valueOf(LocalDateTime.now());
+	
 	@Override
 	public boolean equals(Object other) {
 		if (other == this) {
@@ -41,11 +47,15 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 		}
 		return EqualsBuilder.reflectionEquals(this, other, false);
 	}
-	
+
 	@Id
 	@Override
 	public String getId() {
 		return id;
+	}
+
+	public Timestamp getImportDate() {
+		return importDate;
 	}
 	
 	@Override
@@ -58,6 +68,10 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 	@Override
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public void setImportDate(Timestamp importDate) {
+		this.importDate = importDate;
 	}
 
 	@Override
