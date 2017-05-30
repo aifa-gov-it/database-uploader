@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import it.gov.aifa.invoice_processor.constant.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.entity.AbstractEntityTest;
 
 public class DocumentoCorrelatoTest extends AbstractEntityTest<DocumentoCorrelato>{

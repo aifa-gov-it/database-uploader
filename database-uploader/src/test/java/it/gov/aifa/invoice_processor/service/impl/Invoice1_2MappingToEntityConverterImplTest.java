@@ -17,11 +17,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.testng.annotations.Test;
 
+import it.gov.aifa.invoice_processor.constant.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.constant.InvoiceParticipantType;
 import it.gov.aifa.invoice_processor.entity.invoice.Attachment;
 import it.gov.aifa.invoice_processor.entity.invoice.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelato;
-import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
@@ -739,7 +739,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 	private void checkDocumentiCorrelati(
 			List<DatiDocumentiCorrelatiType> datiDocumentiCorrelatiTypes
 			, Invoice invoice
-			, DocumentoCorrelatoType documentoCorrelatoType
+			, String documentoCorrelatoType
 			) {
 		Set<DocumentoCorrelato> documentiCorrelati = invoice.getDocumentiCorrelati().stream()
 				.filter(d -> d.getDocumentoCorrelatoType().equals(documentoCorrelatoType))

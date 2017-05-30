@@ -19,11 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
+import it.gov.aifa.invoice_processor.constant.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.constant.InvoiceParticipantType;
 import it.gov.aifa.invoice_processor.entity.invoice.Attachment;
 import it.gov.aifa.invoice_processor.entity.invoice.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelato;
-import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
 import it.gov.aifa.invoice_processor.entity.invoice.InvoiceParticipant;
 import it.gov.aifa.invoice_processor.entity.invoice.PurchaseLine;
@@ -349,7 +349,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		}
 	}
 
-	private Set<DocumentoCorrelato> buildDocumentiCorrelati(List<DatiDocumentiCorrelatiType> datiDocumentiCorrelati, DocumentoCorrelatoType documentoCorrelatoType, Invoice invoice) {
+	private Set<DocumentoCorrelato> buildDocumentiCorrelati(List<DatiDocumentiCorrelatiType> datiDocumentiCorrelati, String documentoCorrelatoType, Invoice invoice) {
 		if(datiDocumentiCorrelati != null) {
 			Set<DocumentoCorrelato> documentCorrelati = new HashSet<>(datiDocumentiCorrelati.size());
 			for(DatiDocumentiCorrelatiType datiDocumentiCorrelatiType : datiDocumentiCorrelati) {

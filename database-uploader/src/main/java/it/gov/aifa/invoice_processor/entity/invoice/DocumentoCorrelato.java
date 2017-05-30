@@ -36,8 +36,8 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 	@NotBlank
 	private String documentId;
 
-	@NotNull
-	private DocumentoCorrelatoType documentoCorrelatoType;
+	@NotBlank
+	private String documentoCorrelatoType;
 
 	private String numItem;
 
@@ -50,7 +50,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 	public DocumentoCorrelato(
 			@NotNull Date data
 			, @NotBlank String documentId
-			, @NotNull DocumentoCorrelatoType documentoCorrelatoType
+			, @NotBlank String documentoCorrelatoType
 			, @NotNull Invoice invoice
 			, Set<PurchaseLine> purchaseLine
 			) {
@@ -59,18 +59,18 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 		this.purchaseLine = purchaseLine;
 	}
 
-	public DocumentoCorrelato(@NotNull DocumentoCorrelatoType documentoCorrelatoType) {
+	public DocumentoCorrelato(@NotBlank String documentoCorrelatoType) {
 		this(documentoCorrelatoType, null);
 	}
 
-	public DocumentoCorrelato(@NotNull DocumentoCorrelatoType documentoCorrelatoType, @NotNull Invoice invoice) {
+	public DocumentoCorrelato(@NotBlank String documentoCorrelatoType, @NotNull Invoice invoice) {
 		super(invoice);
 		this.documentoCorrelatoType = documentoCorrelatoType;
 	}
 
 	public DocumentoCorrelato(
 			@NotBlank String documentId
-			, @NotNull DocumentoCorrelatoType documentoCorrelatoType
+			, @NotBlank String documentoCorrelatoType
 			, @NotNull Invoice invoice
 			) {
 		this(documentoCorrelatoType, invoice);
@@ -83,7 +83,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 			, String codiceCommessaConvenzione
 			, String codiceCUP
 			, @NotNull Date data
-			, @NotNull DocumentoCorrelatoType documentoCorrelatoType
+			, @NotBlank String documentoCorrelatoType
 			, @NotBlank String documentId
 			, @NotNull Invoice invoice
 			, String numItem
@@ -137,7 +137,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 		return documentId;
 	}
 
-	public DocumentoCorrelatoType getDocumentoCorrelatoType() {
+	public String getDocumentoCorrelatoType() {
 		return documentoCorrelatoType;
 	}
 	public String getNumItem() {
@@ -169,7 +169,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 		this.documentId = documentId;
 	}
 
-	public void setDocumentoCorrelatoType(DocumentoCorrelatoType documentoCorrelatoType) {
+	public void setDocumentoCorrelatoType(String documentoCorrelatoType) {
 		this.documentoCorrelatoType = documentoCorrelatoType;
 	}
 

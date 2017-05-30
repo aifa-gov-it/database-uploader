@@ -105,7 +105,7 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         - column:
             name: documento_correlato_type
-            type: NUMBER(10, 0)
+            type: VARCHAR(255 CHAR)
         - column:
             name: num_item
             type: VARCHAR(255 CHAR)
