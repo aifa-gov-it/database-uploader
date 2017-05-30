@@ -82,7 +82,7 @@ public class ContextConfig{
 		unmarshaller.setPackagesToScan(
 				it.gov.aifa.invoice_processor.mapping.invoice1_1.ObjectFactory.class.getPackage().getName()
 				, it.gov.aifa.invoice_processor.mapping.invoice1_2.ObjectFactory.class.getPackage().getName()
-				,it.gov.aifa.invoice_processor.mapping.org.w3._2000._09.xmldsig_.ObjectFactory.class.getPackage().getName());
+				);
 		return unmarshaller;
 	}
 	

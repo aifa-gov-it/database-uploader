@@ -10,18 +10,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import it.gov.aifa.invoice_processor.mapping.InvoiceMapping;
-import it.gov.aifa.invoice_processor.mapping.org.w3._2000._09.xmldsig_.SignatureType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FatturaElettronicaType", propOrder = { "fatturaElettronicaHeader", "fatturaElettronicaBody",
-		"signature" })
+@XmlType(name = "FatturaElettronicaType", propOrder = { "fatturaElettronicaHeader", "fatturaElettronicaBody" })
 public class FatturaElettronicaType implements InvoiceMapping<String>{
 	@XmlElement(name = "FatturaElettronicaBody", required = true)
 	protected List<FatturaElettronicaBodyType> fatturaElettronicaBody;
 	@XmlElement(name = "FatturaElettronicaHeader", required = true)
 	protected FatturaElettronicaHeaderType fatturaElettronicaHeader;
-	@XmlElement(name = "Signature", namespace = "http://www.w3.org/2000/09/xmldsig#")
-	protected SignatureType signature;
 	@XmlAttribute(name = "versione", required = true)
 	protected FormatoTrasmissioneType versione;
 
@@ -29,11 +25,10 @@ public class FatturaElettronicaType implements InvoiceMapping<String>{
 	}
 
 	public FatturaElettronicaType(List<FatturaElettronicaBodyType> fatturaElettronicaBody,
-			FatturaElettronicaHeaderType fatturaElettronicaHeader, SignatureType signature,
+			FatturaElettronicaHeaderType fatturaElettronicaHeader,
 			FormatoTrasmissioneType versione) {
 		this.fatturaElettronicaBody = fatturaElettronicaBody;
 		this.fatturaElettronicaHeader = fatturaElettronicaHeader;
-		this.signature = signature;
 		this.versione = versione;
 	}
 
@@ -65,20 +60,12 @@ public class FatturaElettronicaType implements InvoiceMapping<String>{
 		return id;
 	}
 	
-	public SignatureType getSignature() {
-		return signature;
-	}
-
 	public FormatoTrasmissioneType getVersione() {
 		return versione;
 	}
 
 	public void setFatturaElettronicaHeader(FatturaElettronicaHeaderType value) {
 		this.fatturaElettronicaHeader = value;
-	}
-
-	public void setSignature(SignatureType value) {
-		this.signature = value;
 	}
 
 	public void setVersione(FormatoTrasmissioneType value) {

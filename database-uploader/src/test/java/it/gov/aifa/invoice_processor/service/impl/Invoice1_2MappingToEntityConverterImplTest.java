@@ -83,7 +83,6 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_2.TipoCessionePrestazioneT
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.TipoDocumentoType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.TipoRitenutaType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.TipoScontoMaggiorazioneType;
-import it.gov.aifa.invoice_processor.mapping.org.w3._2000._09.xmldsig_.SignatureType;
 
 public class Invoice1_2MappingToEntityConverterImplTest{
 
@@ -827,7 +826,6 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 								, SoggettoEmittenteType.TZ
 								, buildTerzoIntermediarioSoggettoEmittenteType()
 								)
-						, new SignatureType()
 						, FormatoTrasmissioneType.FPA_12
 						)
 				);
