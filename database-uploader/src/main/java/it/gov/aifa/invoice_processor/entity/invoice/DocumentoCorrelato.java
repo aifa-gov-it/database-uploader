@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -144,6 +145,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 		return numItem;
 	}
 	
+	@JoinTable(name = "documento_corr_purchase_line")
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	public Set<PurchaseLine> getPurchaseLine() {
 		return purchaseLine;
