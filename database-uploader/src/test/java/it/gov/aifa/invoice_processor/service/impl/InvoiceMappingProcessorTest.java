@@ -1,6 +1,5 @@
 package it.gov.aifa.invoice_processor.service.impl;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -40,9 +39,6 @@ public class InvoiceMappingProcessorTest {
 						, (Class<InvoiceMapping<String>>) invoiceMapping.getClass()
 						, invoiceMapping)
 				);
-		for(String idValue : invoice.getIdValues()) {
-			assertThat(invoice.getId()).contains(idValue);
-		}
 		verify(converter, times(1)).canConvert(destinationType);
 		verify(converter, times(1)).convert(invoiceMapping);
 	}

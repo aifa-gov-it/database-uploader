@@ -2,13 +2,9 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -78,14 +74,6 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 	public PurchaseLine(String purchaseLineNumber, Invoice invoice) {
 		super(invoice);
 		this.documentId = purchaseLineNumber;
-	}
-
-	@Override
-	@Transient
-	protected List<String> getAdditionalIdValues() {
-		List<String> additionalIdValues = new ArrayList<>();
-		additionalIdValues.add(documentId);
-		return Collections.unmodifiableList(additionalIdValues);
 	}
 
 	public String getAdministrativeReference() {

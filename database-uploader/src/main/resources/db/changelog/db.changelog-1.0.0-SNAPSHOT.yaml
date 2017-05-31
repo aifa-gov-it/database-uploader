@@ -1,15 +1,23 @@
 databaseChangeLog:
 - changeSet:
-    id: 1496071366147-1
+    id: 1496212641523-1
+    author: ferrarim
+    changes:
+    - createSequence:
+        sequenceName: hibernate_sequence
+- changeSet:
+    id: 1496212641523-2
     author: ferrarim
     changes:
     - createTable:
         columns:
         - column:
+            autoIncrement: true
             constraints:
-              nullable: false
+              primaryKey: true
+              primaryKeyName: attachmentPK
             name: id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         - column:
             name: import_date
             type: TIMESTAMP
@@ -30,19 +38,21 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         - column:
             name: invoice_id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         tableName: attachment
 - changeSet:
-    id: 1496071366147-2
+    id: 1496212641523-3
     author: ferrarim
     changes:
     - createTable:
         columns:
         - column:
+            autoIncrement: true
             constraints:
-              nullable: false
+              primaryKey: true
+              primaryKeyName: dati_riepilogoPK
             name: id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         - column:
             name: import_date
             type: TIMESTAMP
@@ -72,19 +82,21 @@ databaseChangeLog:
             type: NUMBER(19, 2)
         - column:
             name: invoice_id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         tableName: dati_riepilogo
 - changeSet:
-    id: 1496071366147-3
+    id: 1496212641523-4
     author: ferrarim
     changes:
     - createTable:
         columns:
         - column:
+            autoIncrement: true
             constraints:
-              nullable: false
+              primaryKey: true
+              primaryKeyName: documento_correlatoPK
             name: id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         - column:
             name: import_date
             type: TIMESTAMP
@@ -111,10 +123,10 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         - column:
             name: invoice_id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         tableName: documento_correlato
 - changeSet:
-    id: 1496071366147-4
+    id: 1496212641523-5
     author: ferrarim
     changes:
     - createTable:
@@ -123,24 +135,26 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: documento_correlato_id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         - column:
             constraints:
               nullable: false
             name: purchase_line_id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         tableName: documento_correlato_purchase_line
 - changeSet:
-    id: 1496071366147-5
+    id: 1496212641523-6
     author: ferrarim
     changes:
     - createTable:
         columns:
         - column:
+            autoIncrement: true
             constraints:
-              nullable: false
+              primaryKey: true
+              primaryKeyName: invoicePK
             name: id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         - column:
             name: import_date
             type: TIMESTAMP
@@ -383,16 +397,18 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: invoice
 - changeSet:
-    id: 1496071366147-6
+    id: 1496212641523-7
     author: ferrarim
     changes:
     - createTable:
         columns:
         - column:
+            autoIncrement: true
             constraints:
-              nullable: false
+              primaryKey: true
+              primaryKeyName: invoice_participantPK
             name: id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         - column:
             name: import_date
             type: TIMESTAMP
@@ -521,19 +537,21 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         - column:
             name: invoice_id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         tableName: invoice_participant
 - changeSet:
-    id: 1496071366147-7
+    id: 1496212641523-8
     author: ferrarim
     changes:
     - createTable:
         columns:
         - column:
+            autoIncrement: true
             constraints:
-              nullable: false
+              primaryKey: true
+              primaryKeyName: movementPK
             name: id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         - column:
             name: import_date
             type: TIMESTAMP
@@ -590,16 +608,18 @@ databaseChangeLog:
             type: DOUBLE precision
         tableName: movement
 - changeSet:
-    id: 1496071366147-8
+    id: 1496212641523-9
     author: ferrarim
     changes:
     - createTable:
         columns:
         - column:
+            autoIncrement: true
             constraints:
-              nullable: false
+              primaryKey: true
+              primaryKeyName: purchase_linePK
             name: id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         - column:
             name: import_date
             type: TIMESTAMP
@@ -671,73 +691,17 @@ databaseChangeLog:
             type: NUMBER(19, 2)
         - column:
             name: invoice_id
-            type: VARCHAR(255 CHAR)
+            type: NUMBER(19, 0)
         tableName: purchase_line
 - changeSet:
-    id: 1496071366147-9
+    id: 1496212641523-10
     author: ferrarim
     changes:
     - addPrimaryKey:
         columnNames: documento_correlato_id, purchase_line_id
         tableName: documento_correlato_purchase_line
 - changeSet:
-    id: 1496071366147-10
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: attachmentPK
-        tableName: attachment
-- changeSet:
-    id: 1496071366147-11
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: dati_riepilogoPK
-        tableName: dati_riepilogo
-- changeSet:
-    id: 1496071366147-12
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: documento_correlatoPK
-        tableName: documento_correlato
-- changeSet:
-    id: 1496071366147-13
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: invoicePK
-        tableName: invoice
-- changeSet:
-    id: 1496071366147-14
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: invoice_participantPK
-        tableName: invoice_participant
-- changeSet:
-    id: 1496071366147-15
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: movementPK
-        tableName: movement
-- changeSet:
-    id: 1496071366147-16
-    author: ferrarim
-    changes:
-    - addPrimaryKey:
-        columnNames: id
-        constraintName: purchase_linePK
-        tableName: purchase_line
-- changeSet:
-    id: 1496071366147-17
+    id: 1496212641523-11
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -749,7 +713,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496071366147-18
+    id: 1496212641523-12
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -761,7 +725,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: documento_correlato
 - changeSet:
-    id: 1496071366147-19
+    id: 1496212641523-13
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -773,7 +737,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496071366147-20
+    id: 1496212641523-14
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -785,7 +749,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496071366147-21
+    id: 1496212641523-15
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -797,7 +761,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496071366147-22
+    id: 1496212641523-16
     author: ferrarim
     changes:
     - addForeignKeyConstraint:
@@ -809,7 +773,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496071366147-23
+    id: 1496212641523-17
     author: ferrarim
     changes:
     - addForeignKeyConstraint:

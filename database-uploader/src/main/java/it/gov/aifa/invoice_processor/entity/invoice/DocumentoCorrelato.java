@@ -1,19 +1,14 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -94,27 +89,6 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 		this.codiceCommessaConvenzione = codiceCommessaConvenzione;
 		this.codiceCUP = codiceCUP;
 		this.numItem = numItem;
-	}
-	
-	@Override
-	@Transient
-	protected List<String> getAdditionalIdValues() {
-		List<String> additionalIdValues = new ArrayList<>();
-		additionalIdValues.add(documentId);
-		additionalIdValues.add(documentoCorrelatoType.toString());
-		if(StringUtils.isNotBlank(cigCode))
-			additionalIdValues.add(cigCode);
-		if(StringUtils.isNotBlank(codiceCommessaConvenzione))
-			additionalIdValues.add(codiceCommessaConvenzione);
-		if(StringUtils.isNotBlank(codiceCUP))
-			additionalIdValues.add(codiceCUP);
-		if(data != null)
-			additionalIdValues.add(data.toString());
-		if(purchaseLine != null)
-			for(PurchaseLine purchaseLine : purchaseLine) 
-				if(StringUtils.isNotBlank(purchaseLine.getDocumentId()))
-					additionalIdValues.add(purchaseLine.getDocumentId());
-		return Collections.unmodifiableList(additionalIdValues);
 	}
 
 	public String getCigCode() {
