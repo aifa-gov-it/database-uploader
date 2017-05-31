@@ -42,7 +42,7 @@ public abstract class AbstractInvoiceReferenceEntity extends AbstractInvoiceProc
 		List<String> idValues = new ArrayList<>();
 		if(invoice == null)
 			throw new RuntimeException("Invoice reference cannot be null");
-		idValues.add(invoice.getNumber());
+		idValues.add(invoice.getInvoiceNumber());
 		idValues.addAll(getAdditionalIdValues());
 		return Collections.unmodifiableList(idValues);
 	}

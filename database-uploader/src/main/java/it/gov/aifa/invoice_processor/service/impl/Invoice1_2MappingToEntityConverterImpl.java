@@ -296,7 +296,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		}
 
 		invoice.setCurrency(datiGeneraliDocumentoType.getDivisa());
-		invoice.setDate(xmlGregorianCalendarToSqlDate(datiGeneraliDocumentoType.getData()));
+		invoice.setInvoiceDate(xmlGregorianCalendarToSqlDate(datiGeneraliDocumentoType.getData()));
 		invoice.setDocumentTypeCode(datiGeneraliDocumentoType.getTipoDocumento().toString());
 		invoice.setRounding(datiGeneraliDocumentoType.getArrotondamento());
 		invoice.setTotalAmount(datiGeneraliDocumentoType.getImportoTotaleDocumento());
@@ -504,7 +504,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		checkSingleElementCollection(bodies, FatturaElettronicaBodyType.class);
 		FatturaElettronicaBodyType body = bodies.get(0);
 		Invoice invoice = new Invoice();
-		invoice.setNumber(body.getDatiGenerali().getDatiGeneraliDocumento().getNumero());
+		invoice.setInvoiceNumber(body.getDatiGenerali().getDatiGeneraliDocumento().getNumero());
 
 		// Build Header
 		FatturaElettronicaHeaderType header = fatturaElettronicaType.getFatturaElettronicaHeader();
@@ -542,7 +542,7 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			return null;
 		else {
 			Set<PurchaseLine> relatedPurchaseLines = invoice.getPurchaseLines().stream()
-					.filter(c -> c.getInvoice().getNumber().equals(invoice.getNumber())
+					.filter(c -> c.getInvoice().getInvoiceNumber().equals(invoice.getInvoiceNumber())
 							&& purchaseLineIds.contains(Integer.parseInt(c.getDocumentId()))
 							)
 					.collect(Collectors.toSet());

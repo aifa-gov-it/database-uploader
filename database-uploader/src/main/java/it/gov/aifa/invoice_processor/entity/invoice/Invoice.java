@@ -74,14 +74,12 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private Date dataVeicoli;
 
-	private Date date;
-	
 	private Set<DatiRiepilogo> datiRiepilogo;
 	
 	private String description;
 	
 	private String descrizioneTrasporto;
-
+	
 	private BigDecimal discountAmount;
 
 	private BigDecimal discountPercentage;
@@ -91,9 +89,9 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private Set<DocumentoCorrelato> documentiCorrelati;
 
 	private String documentTypeCode;
-	
-	private String financialInstitutionAbi;
 
+	private String financialInstitutionAbi;
+	
 	private String financialInstitutionBic;
 
 	private String financialInstitutionCab;
@@ -110,12 +108,11 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private String indirizzoResa;
 
-	private Set<InvoiceParticipant> invoiceParticipants;
+	private Date invoiceDate;
 
-	private String recipientCertEmailAddr;
-	
-	@NotBlank
-	private String recipientCode;
+	private String invoiceNumber;
+
+	private Set<InvoiceParticipant> invoiceParticipants;
 	
 	@NotBlank
 	private String invoiceSenderCode;
@@ -124,7 +121,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private String invoiceSenderCountryCode;
 	
 	private String invoiceSenderEmailAddress;
-
+	
 	private String invoiceSenderPhoneNumber;
 
 	@NotBlank
@@ -144,8 +141,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private String nazioneResa;
 
 	private String nomeQuietanzantePag;
-
-	private String number;
 
 	private String numeroCivicoResa;
 
@@ -170,6 +165,11 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private String provinciaResa;
 
 	private Set<PurchaseLine> purchaseLines;
+
+	private String recipientCertEmailAddr;
+
+	@NotBlank
+	private String recipientCode;
 
 	private String riferimentoAmminCassa;
 	
@@ -209,9 +209,9 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.invoiceParticipants = new HashSet<>();
 	}
 
-	public Invoice(String number) {
+	public Invoice(String invoiceNumber) {
 		this();
-		this.number = number;
+		this.invoiceNumber = invoiceNumber;
 	}
 
 	public BigDecimal getAlCassa() {
@@ -302,11 +302,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public Date getDataVeicoli() {
 		return dataVeicoli;
 	}
-
-	public Date getDate() {
-		return date;
-	}
-
+	
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
 	public Set<DatiRiepilogo> getDatiRiepilogo() {
 		return datiRiepilogo;
@@ -316,12 +312,12 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	@Lob
 	public String getDescrizioneTrasporto() {
 		return descrizioneTrasporto;
 	}
-
+	
 	public BigDecimal getDiscountAmount() {
 		return discountAmount;
 	}
@@ -367,8 +363,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	@Transient
 	public List<String> getIdValues() {
 		List<String> additionalIdValues = new ArrayList<>();
-		if(StringUtils.isNotBlank(number))
-			additionalIdValues.add(number);
+		if(StringUtils.isNotBlank(invoiceNumber))
+			additionalIdValues.add(invoiceNumber);
 		else
 			throw new RuntimeException("Invoice reference cannot be null");
 		return Collections.unmodifiableList(additionalIdValues);
@@ -377,7 +373,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public BigDecimal getImponibileCassa() {
 		return imponibileCassa;
 	}
-	
+
 	public BigDecimal getImportoContributoCassa() {
 		return importoContributoCassa;
 	}
@@ -390,17 +386,17 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return indirizzoResa;
 	}
 	
+	public Date getInvoiceDate() {
+		return invoiceDate;
+	}
+	
+	public String getInvoiceNumber() {
+		return invoiceNumber;
+	}
+	
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
 	public Set<InvoiceParticipant> getInvoiceParticipants() {
 		return invoiceParticipants;
-	}
-	
-	public String getRecipientCertEmailAddr() {
-		return recipientCertEmailAddr;
-	}
-
-	public String getRecipientCode() {
-		return recipientCode;
 	}
 
 	public String getInvoiceSenderCode() {
@@ -418,7 +414,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public String getInvoiceSenderPhoneNumber() {
 		return invoiceSenderPhoneNumber;
 	}
-	
+
 	public String getInvoiceSendingFormat() {
 		return invoiceSendingFormat;
 	}
@@ -451,10 +447,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return nomeQuietanzantePag;
 	}
 	
-	public String getNumber() {
-		return number;
-	}
-	
 	public String getNumeroCivicoResa() {
 		return numeroCivicoResa;
 	}
@@ -462,11 +454,11 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public Integer getNumeroColli() {
 		return numeroColli;
 	}
-
+	
 	public BigDecimal getPaymentAmount() {
 		return paymentAmount;
 	}
-
+	
 	public String getPaymentConditions() {
 		return paymentConditions;
 	}
@@ -502,6 +494,14 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
 	public Set<PurchaseLine> getPurchaseLines() {
 		return purchaseLines;
+	}
+
+	public String getRecipientCertEmailAddr() {
+		return recipientCertEmailAddr;
+	}
+
+	public String getRecipientCode() {
+		return recipientCode;
 	}
 
 	public String getRiferimentoAmminCassa() {
@@ -656,14 +656,10 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.dataVeicoli = dataVeicoli;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	public void setDatiRiepilogo(Set<DatiRiepilogo> datiRiepilogo) {
 		this.datiRiepilogo = datiRiepilogo;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -671,7 +667,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public void setDescrizioneTrasporto(String descrizioneTrasporto) {
 		this.descrizioneTrasporto = descrizioneTrasporto;
 	}
-
+	
 	public void setDiscountAmount(BigDecimal discountAmount) {
 		this.discountAmount = discountAmount;
 	}
@@ -699,7 +695,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public void setFinancialInstitutionBic(String financialInstitutionBic) {
 		this.financialInstitutionBic = financialInstitutionBic;
 	}
-	
+
 	public void setFinancialInstitutionCab(String financialInstitutionCab) {
 		this.financialInstitutionCab = financialInstitutionCab;
 	}
@@ -707,10 +703,10 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	public void setFinancialInstitutionIban(String financialInstitutionIban) {
 		this.financialInstitutionIban = financialInstitutionIban;
 	}
+	
 	public void setFinancialInstitutionName(String financialInstitutionName) {
 		this.financialInstitutionName = financialInstitutionName;
 	}
-	
 	public void setImponibileCassa(BigDecimal imponibileCassa) {
 		this.imponibileCassa = imponibileCassa;
 	}
@@ -727,18 +723,18 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.indirizzoResa = indirizzoResa;
 	}
 	
+	public void setInvoiceDate(Date invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+	
+	public void setInvoiceNumber(String invoiceNumber) {
+		this.invoiceNumber = invoiceNumber;
+	}
+	
 	public void setInvoiceParticipants(Set<InvoiceParticipant> invoiceParticipants) {
 		this.invoiceParticipants = invoiceParticipants;
 	}
 	
-	public void setRecipientCertEmailAddr(String recipientCertEmailAddr) {
-		this.recipientCertEmailAddr = recipientCertEmailAddr;
-	}
-	
-	public void setRecipientCode(String recipientCode) {
-		this.recipientCode = recipientCode;
-	}
-
 	public void setInvoiceSenderCode(String invoiceSenderCode) {
 		this.invoiceSenderCode = invoiceSenderCode;
 	}
@@ -787,10 +783,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.nomeQuietanzantePag = nomeQuietanzantePag;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
 	public void setNumeroCivicoResa(String numeroCivicoResa) {
 		this.numeroCivicoResa = numeroCivicoResa;
 	}
@@ -837,6 +829,14 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	public void setPurchaseLines(Set<PurchaseLine> purchaseLines) {
 		this.purchaseLines = purchaseLines;
+	}
+
+	public void setRecipientCertEmailAddr(String recipientCertEmailAddr) {
+		this.recipientCertEmailAddr = recipientCertEmailAddr;
+	}
+
+	public void setRecipientCode(String recipientCode) {
+		this.recipientCode = recipientCode;
 	}
 
 	public void setRiferimentoAmminCassa(String riferimentoAmminCassa) {

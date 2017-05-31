@@ -297,7 +297,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 	public void buildDatiGeneraliTest() throws DatatypeConfigurationException {
 		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
 		Invoice invoice = new Invoice();
-		invoice.setNumber("123456");
+		invoice.setInvoiceNumber("123456");
 		Integer purchaseLineId = 1;
 		invoice.setPurchaseLines(buildOneElementSet(new PurchaseLine(purchaseLineId.toString(), invoice), PurchaseLine.class));
 		DatiGeneraliType datiGeneraliType = buildDatiGeneraliType(purchaseLineId);
@@ -384,7 +384,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getDiscountType()).isEqualTo(scontoMaggiorazioneType.getTipo().toString());
 
 		assertThat(invoice.getCurrency()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDivisa());
-		compareDates(invoice.getDate(), datiGeneraliType.getDatiGeneraliDocumento().getData());
+		compareDates(invoice.getInvoiceDate(), datiGeneraliType.getDatiGeneraliDocumento().getData());
 		assertThat(invoice.getDocumentTypeCode()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getTipoDocumento().toString());
 		assertThat(invoice.getRounding()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getArrotondamento());
 		assertThat(invoice.getTotalAmount()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getImportoTotaleDocumento());
@@ -483,7 +483,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 	public void buildDatiPagamentoTest() throws DatatypeConfigurationException {
 		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
 		Invoice invoice = new Invoice();
-		invoice.setNumber("123456");
+		invoice.setInvoiceNumber("123456");
 		List<DatiPagamentoType> datiPagamentoTypes = buildDatiPagamentoTypes();
 		DatiPagamentoType datiPagamentoType = datiPagamentoTypes.get(0);
 		converter.buildDatiPagamento(datiPagamentoTypes, invoice);
@@ -561,7 +561,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		DatiVeicoliType datiVeicoliType = buildDatiVeicoliType();
 		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
 		Invoice invoice = new Invoice();
-		invoice.setNumber("123456");
+		invoice.setInvoiceNumber("123456");
 		converter.buildDatiVeicoli(datiVeicoliType, invoice);
 		compareDates(invoice.getDataVeicoli(), datiVeicoliType.getData());
 		assertThat(invoice.getTotalePercorsoVeicoli()).isEqualTo(datiVeicoliType.getTotalePercorso());
@@ -578,7 +578,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 	public void buildInvoiceItemsTest() throws DatatypeConfigurationException {
 		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
 		Invoice invoice = new Invoice();
-		invoice.setNumber("123456");
+		invoice.setInvoiceNumber("123456");
 		DatiBeniServiziType datiBeniServizi = buildDatiBeniServiziType();
 		List<DatiRiepilogoType> datiRiepilogoTypes = datiBeniServizi.getDatiRiepilogo();
 		DatiRiepilogoType datiRiepilogoType = datiRiepilogoTypes.get(0);
@@ -832,7 +832,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getInvoiceParticipants()).hasSize(5);
 		// Let's pick a relevant field because we already tested the rest
 		assertThat(invoice.getInvoiceSendingNumber()).isNotBlank();
-		assertThat(invoice.getNumber()).isNotBlank();
+		assertThat(invoice.getInvoiceNumber()).isNotBlank();
 
 		assertThat(invoice.getPurchaseLines()).isNotEmpty();
 		assertThat(invoice.getAttachments()).isNotEmpty();
