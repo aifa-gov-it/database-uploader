@@ -36,13 +36,13 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 
 	private String kind;
 
-	private String otherManagementDataDataType;
+	private String otherMgmtDataDataType;
 	
-	private Date otherManagementDataDate;
+	private Date otherMgmtDataDate;
 	
-	private BigDecimal otherManagementDataReferenceNumber;
+	private BigDecimal otherMgmtDataRefNumber;
 	
-	private String otherManagementDataReferenceText;
+	private String otherMgmtDataRefText;
 	
 	private Date periodEndDate;
 	
@@ -52,11 +52,11 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 
 	private String ritenuta;
 
-	private BigDecimal scontoMaggiorazioneAmount;
+	private BigDecimal scontoMaggAmount;
 
-	private BigDecimal scontoMaggiorazionePercentage;
+	private BigDecimal scontoMaggPercentage;
 
-	private String scontoMaggiorazioneType;
+	private String scontoMaggType;
 
 	@NotNull
 	private BigDecimal taxRate;
@@ -113,20 +113,20 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		return kind;
 	}
 
-	public String getOtherManagementDataDataType() {
-		return otherManagementDataDataType;
+	public String getOtherMgmtDataDataType() {
+		return otherMgmtDataDataType;
 	}
 
-	public Date getOtherManagementDataDate() {
-		return otherManagementDataDate;
+	public Date getOtherMgmtDataDate() {
+		return otherMgmtDataDate;
 	}
 
-	public BigDecimal getOtherManagementDataReferenceNumber() {
-		return otherManagementDataReferenceNumber;
+	public BigDecimal getOtherMgmtDataRefNumber() {
+		return otherMgmtDataRefNumber;
 	}
 
-	public String getOtherManagementDataReferenceText() {
-		return otherManagementDataReferenceText;
+	public String getOtherMgmtDataRefText() {
+		return otherMgmtDataRefText;
 	}
 
 	public Date getPeriodEndDate() {
@@ -145,16 +145,16 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		return ritenuta;
 	}
 	
-	public BigDecimal getScontoMaggiorazioneAmount() {
-		return scontoMaggiorazioneAmount;
+	public BigDecimal getScontoMaggAmount() {
+		return scontoMaggAmount;
 	}
 	
-	public BigDecimal getScontoMaggiorazionePercentage() {
-		return scontoMaggiorazionePercentage;
+	public BigDecimal getScontoMaggPercentage() {
+		return scontoMaggPercentage;
 	}
 
-	public String getScontoMaggiorazioneType() {
-		return scontoMaggiorazioneType;
+	public String getScontoMaggType() {
+		return scontoMaggType;
 	}
 
 	public BigDecimal getTaxRate() {
@@ -201,20 +201,20 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		this.kind = kind;
 	}
 
-	public void setOtherManagementDataDataType(String otherManagementDataDataType) {
-		this.otherManagementDataDataType = otherManagementDataDataType;
+	public void setOtherMgmtDataDataType(String otherMgmtDataDataType) {
+		this.otherMgmtDataDataType = otherMgmtDataDataType;
 	}
 
-	public void setOtherManagementDataDate(Date otherManagementDataDate) {
-		this.otherManagementDataDate = otherManagementDataDate;
+	public void setOtherMgmtDataDate(Date otherMgmtDataDate) {
+		this.otherMgmtDataDate = otherMgmtDataDate;
 	}
 
-	public void setOtherManagementDataReferenceNumber(BigDecimal otherManagementDataReferenceNumber) {
-		this.otherManagementDataReferenceNumber = otherManagementDataReferenceNumber;
+	public void setOtherMgmtDataRefNumber(BigDecimal otherMgmtDataRefNumber) {
+		this.otherMgmtDataRefNumber = otherMgmtDataRefNumber;
 	}
 
-	public void setOtherManagementDataReferenceText(String otherManagementDataReferenceText) {
-		this.otherManagementDataReferenceText = otherManagementDataReferenceText;
+	public void setOtherMgmtDataRefText(String otherMgmtDataRefText) {
+		this.otherMgmtDataRefText = otherMgmtDataRefText;
 	}
 
 	public void setPeriodEndDate(Date periodEndDate) {
@@ -233,16 +233,16 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		this.ritenuta = ritenuta;
 	}
 
-	public void setScontoMaggiorazioneAmount(BigDecimal scontoMaggiorazioneAmount) {
-		this.scontoMaggiorazioneAmount = scontoMaggiorazioneAmount;
+	public void setScontoMaggAmount(BigDecimal scontoMaggAmount) {
+		this.scontoMaggAmount = scontoMaggAmount;
 	}
 
-	public void setScontoMaggiorazionePercentage(BigDecimal scontoMaggiorazionePercentage) {
-		this.scontoMaggiorazionePercentage = scontoMaggiorazionePercentage;
+	public void setScontoMaggPercentage(BigDecimal scontoMaggPercentage) {
+		this.scontoMaggPercentage = scontoMaggPercentage;
 	}
 
-	public void setScontoMaggiorazioneType(String scontoMaggiorazioneType) {
-		this.scontoMaggiorazioneType = scontoMaggiorazioneType;
+	public void setScontoMaggType(String scontoMaggType) {
+		this.scontoMaggType = scontoMaggType;
 	}
 
 	public void setTaxRate(BigDecimal taxRate) {

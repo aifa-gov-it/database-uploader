@@ -136,17 +136,17 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoiceCedentePrestatore.getFaxNumber()).isEqualTo(cedentePrestatoreType.getContatti().getFax());
 		assertThat(invoiceCedentePrestatore.getHouseNumber()).isEqualTo(cedentePrestatoreType.getSede().getNumeroCivico());
 		assertThat(invoiceCedentePrestatore.getInvoice()).isSameAs(invoice);
-		assertThat(invoiceCedentePrestatore.getPermanentEstablishmentCity()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getComune());
-		assertThat(invoiceCedentePrestatore.getPermanentEstablishmentCountry()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getNazione());
-		assertThat(invoiceCedentePrestatore.getPermanentEstablishmentDistrict()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getProvincia());
-		assertThat(invoiceCedentePrestatore.getPermanentEstablishmentHouseNumber()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getNumeroCivico());
-		assertThat(invoiceCedentePrestatore.getPermanentEstablishmentStreetAddress()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getIndirizzo());
-		assertThat(invoiceCedentePrestatore.getPermanentEstablishmentZipCode()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getCAP());
+		assertThat(invoiceCedentePrestatore.getPermEstCity()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getComune());
+		assertThat(invoiceCedentePrestatore.getPermEstCountry()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getNazione());
+		assertThat(invoiceCedentePrestatore.getPermEstDistrict()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getProvincia());
+		assertThat(invoiceCedentePrestatore.getPermEstHouseNumber()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getNumeroCivico());
+		assertThat(invoiceCedentePrestatore.getPermEstStreetAddress()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getIndirizzo());
+		assertThat(invoiceCedentePrestatore.getPermEstZipCode()).isEqualTo(cedentePrestatoreType.getStabileOrganizzazione().getCAP());
 		assertThat(invoiceCedentePrestatore.getPhoneNumber()).isEqualTo(cedentePrestatoreType.getContatti().getTelefono());
-		assertThat(invoiceCedentePrestatore.getProfessionalRegister()).isEqualTo(cedentePrestatoreType.getDatiAnagrafici().getAlboProfessionale());
-		assertThat(invoiceCedentePrestatore.getProfessionalRegisterDistrict()).isEqualTo(cedentePrestatoreType.getDatiAnagrafici().getProvinciaAlbo());
-		assertThat(invoiceCedentePrestatore.getProfessionalRegisterNumber()).isEqualTo(cedentePrestatoreType.getDatiAnagrafici().getNumeroIscrizioneAlbo());
-		compareDates(invoiceCedentePrestatore.getProfessionalRegisterSubscriptionDate(), cedentePrestatoreType.getDatiAnagrafici().getDataIscrizioneAlbo());
+		assertThat(invoiceCedentePrestatore.getProfessionalReg()).isEqualTo(cedentePrestatoreType.getDatiAnagrafici().getAlboProfessionale());
+		assertThat(invoiceCedentePrestatore.getProfessionalRegDistrict()).isEqualTo(cedentePrestatoreType.getDatiAnagrafici().getProvinciaAlbo());
+		assertThat(invoiceCedentePrestatore.getProfessionalRegNumber()).isEqualTo(cedentePrestatoreType.getDatiAnagrafici().getNumeroIscrizioneAlbo());
+		compareDates(invoiceCedentePrestatore.getProfessionalRegSubscrDate(), cedentePrestatoreType.getDatiAnagrafici().getDataIscrizioneAlbo());
 		assertThat(invoiceCedentePrestatore.getReaNumber()).isEqualTo(cedentePrestatoreType.getIscrizioneREA().getNumeroREA());
 		assertThat(invoiceCedentePrestatore.getReaOffice()).isEqualTo(cedentePrestatoreType.getIscrizioneREA().getUfficio());
 		assertThat(invoiceCedentePrestatore.getShareCapital()).isEqualTo(cedentePrestatoreType.getIscrizioneREA().getCapitaleSociale());
@@ -199,12 +199,12 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 				);
 		assertThat(invoiceCessionarioCommittente.getHouseNumber()).isEqualTo(cessionarioCommittenteType.getSede().getNumeroCivico());
 		assertThat(invoiceCessionarioCommittente.getInvoice()).isSameAs(invoice);
-		assertThat(invoiceCessionarioCommittente.getPermanentEstablishmentCity()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getComune());
-		assertThat(invoiceCessionarioCommittente.getPermanentEstablishmentCountry()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getNazione());
-		assertThat(invoiceCessionarioCommittente.getPermanentEstablishmentDistrict()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getProvincia());
-		assertThat(invoiceCessionarioCommittente.getPermanentEstablishmentHouseNumber()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getNumeroCivico());
-		assertThat(invoiceCessionarioCommittente.getPermanentEstablishmentStreetAddress()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getIndirizzo());
-		assertThat(invoiceCessionarioCommittente.getPermanentEstablishmentZipCode()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getCAP());
+		assertThat(invoiceCessionarioCommittente.getPermEstCity()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getComune());
+		assertThat(invoiceCessionarioCommittente.getPermEstCountry()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getNazione());
+		assertThat(invoiceCessionarioCommittente.getPermEstDistrict()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getProvincia());
+		assertThat(invoiceCessionarioCommittente.getPermEstHouseNumber()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getNumeroCivico());
+		assertThat(invoiceCessionarioCommittente.getPermEstStreetAddress()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getIndirizzo());
+		assertThat(invoiceCessionarioCommittente.getPermEstZipCode()).isEqualTo(cessionarioCommittenteType.getStabileOrganizzazione().getCAP());
 		assertThat(invoiceCessionarioCommittente.getSocialSecurityNumber()).isEqualTo(cessionarioCommittenteType.getDatiAnagrafici().getCodiceFiscale());
 		assertThat(invoiceCessionarioCommittente.getStreetAddress()).isEqualTo(cessionarioCommittenteType.getSede().getIndirizzo());
 		assertThat(invoiceCessionarioCommittente.getTaxRepresentativeCountryId()).isEqualTo(cessionarioCommittenteType.getRappresentanteFiscale().getIdFiscaleIVA().getIdPaese());
@@ -359,12 +359,12 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getImponibileCassa()).isEqualTo(datiCassaPrevidenziale.getImponibileCassa());
 		assertThat(invoice.getImportoContributoCassa()).isEqualTo(datiCassaPrevidenziale.getImportoContributoCassa());
 		assertThat(invoice.getNaturaCassa()).isEqualTo(datiCassaPrevidenziale.getNatura());
-		assertThat(invoice.getRiferimentoAmministrazioneCassa()).isEqualTo(datiCassaPrevidenziale.getRiferimentoAmministrazione());
+		assertThat(invoice.getRiferimentoAmminCassa()).isEqualTo(datiCassaPrevidenziale.getRiferimentoAmministrazione());
 		assertThat(invoice.getRitenutaCassa()).isEqualTo(datiCassaPrevidenziale.getRitenuta());
 		assertThat(invoice.getTipoCassa()).isEqualTo(datiCassaPrevidenziale.getTipoCassa());
 
 		assertThat(invoice.getAliquotaRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getAliquotaRitenuta());
-		assertThat(invoice.getCausalePagamentoRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getCausalePagamento().toString());
+		assertThat(invoice.getCausalePagRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getCausalePagamento().toString());
 		assertThat(invoice.getImportoRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getImportoRitenuta());
 		assertThat(invoice.getTipoRitenuta()).isEqualTo(datiGeneraliType.getDatiGeneraliDocumento().getDatiRitenuta().getTipoRitenuta().toString());
 
@@ -488,9 +488,9 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		DatiPagamentoType datiPagamentoType = datiPagamentoTypes.get(0);
 		converter.buildDatiPagamento(datiPagamentoTypes, invoice);
 
-		compareDates(invoice.getDataDecorrenzaPenalePagamento(), datiPagamentoType.getDettaglioPagamento().get(0).getDataDecorrenzaPenale());
-		compareDates(invoice.getDataLimitePagamentoAnticipatoPagamento(), datiPagamentoType.getDettaglioPagamento().get(0).getDataLimitePagamentoAnticipato());
-		compareDates(invoice.getDataRiferimentoTerminiPagamento(), datiPagamentoType.getDettaglioPagamento().get(0).getDataRiferimentoTerminiPagamento());
+		compareDates(invoice.getDataDecorrenzaPenalePag(), datiPagamentoType.getDettaglioPagamento().get(0).getDataDecorrenzaPenale());
+		compareDates(invoice.getDataLimitePagAnticipato(), datiPagamentoType.getDettaglioPagamento().get(0).getDataLimitePagamentoAnticipato());
+		compareDates(invoice.getDataRiferimentoTerminiPag(), datiPagamentoType.getDettaglioPagamento().get(0).getDataRiferimentoTerminiPagamento());
 		compareDates(invoice.getPaymentExpirationDate(), datiPagamentoType.getDettaglioPagamento().get(0).getDataScadenzaPagamento());
 
 		assertThat(invoice.getFinancialInstitutionAbi()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getABI());
@@ -504,15 +504,15 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getPaymentTermDays()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getGiorniTerminiPagamento());
 		assertThat(invoice.getPaymentMode()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getModalitaPagamento().toString());
 		assertThat(invoice.getPaymentTermDays()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getGiorniTerminiPagamento());
-		assertThat(invoice.getBeneficiarioPagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getBeneficiario());
-		assertThat(invoice.getCfQuietanzantePagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCFQuietanzante());
-		assertThat(invoice.getCodicePagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCodicePagamento());
-		assertThat(invoice.getCodUfficioPostalePagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCodUfficioPostale());
-		assertThat(invoice.getCognomeQuietanzantePagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCognomeQuietanzante());
-		assertThat(invoice.getNomeQuietanzantePagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getNomeQuietanzante());
-		assertThat(invoice.getPenalitaPagamentiRitardatiPagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getPenalitaPagamentiRitardati());
-		assertThat(invoice.getScontoPagamentoAnticipatoPagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getScontoPagamentoAnticipato());
-		assertThat(invoice.getTitoloQuietanzantePagamento()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getTitoloQuietanzante());
+		assertThat(invoice.getBeneficiarioPag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getBeneficiario());
+		assertThat(invoice.getCfQuietanzantePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCFQuietanzante());
+		assertThat(invoice.getCodicePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCodicePagamento());
+		assertThat(invoice.getCodUfficioPostalePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCodUfficioPostale());
+		assertThat(invoice.getCognomeQuietanzantePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCognomeQuietanzante());
+		assertThat(invoice.getNomeQuietanzantePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getNomeQuietanzante());
+		assertThat(invoice.getPenalitaPagamentiRitardati()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getPenalitaPagamentiRitardati());
+		assertThat(invoice.getScontoPagAnticipatoPag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getScontoPagamentoAnticipato());
+		assertThat(invoice.getTitoloQuietanzantePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getTitoloQuietanzante());
 	}
 
 	private List<DatiPagamentoType> buildDatiPagamentoTypes() throws DatatypeConfigurationException{
@@ -610,10 +610,10 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(purchaseLine.getItemDescription()).isEqualTo(dettaglioLineeType.getDescrizione());
 		assertThat(purchaseLine.getKind()).isEqualTo(dettaglioLineeType.getNatura().toString());
 		AltriDatiGestionaliType altriDatiGestionaliType = dettaglioLineeType.getAltriDatiGestionali().get(0);
-		compareDates(purchaseLine.getOtherManagementDataDate(), altriDatiGestionaliType.getRiferimentoData());
-		assertThat(purchaseLine.getOtherManagementDataReferenceNumber()).isEqualTo(altriDatiGestionaliType.getRiferimentoNumero());
-		assertThat(purchaseLine.getOtherManagementDataReferenceText()).isEqualTo(altriDatiGestionaliType.getRiferimentoTesto());
-		assertThat(purchaseLine.getOtherManagementDataDataType()).isEqualTo(altriDatiGestionaliType.getTipoDato());
+		compareDates(purchaseLine.getOtherMgmtDataDate(), altriDatiGestionaliType.getRiferimentoData());
+		assertThat(purchaseLine.getOtherMgmtDataRefNumber()).isEqualTo(altriDatiGestionaliType.getRiferimentoNumero());
+		assertThat(purchaseLine.getOtherMgmtDataRefText()).isEqualTo(altriDatiGestionaliType.getRiferimentoTesto());
+		assertThat(purchaseLine.getOtherMgmtDataDataType()).isEqualTo(altriDatiGestionaliType.getTipoDato());
 
 		compareDates(purchaseLine.getPeriodEndDate(), dettaglioLineeType.getDataFinePeriodo());
 		compareDates(purchaseLine.getPeriodStartDate(), dettaglioLineeType.getDataInizioPeriodo());
@@ -623,9 +623,9 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(purchaseLine.getQuantity()).isEqualTo(dettaglioLineeType.getQuantita());
 
 		ScontoMaggiorazioneType scontoMaggiorazioneType = dettaglioLineeType.getScontoMaggiorazione().get(0);
-		assertThat(purchaseLine.getScontoMaggiorazioneAmount()).isEqualTo(scontoMaggiorazioneType.getImporto());
-		assertThat(purchaseLine.getScontoMaggiorazionePercentage()).isEqualTo(scontoMaggiorazioneType.getPercentuale());
-		assertThat(purchaseLine.getScontoMaggiorazioneType()).isEqualTo(scontoMaggiorazioneType.getTipo().toString());
+		assertThat(purchaseLine.getScontoMaggAmount()).isEqualTo(scontoMaggiorazioneType.getImporto());
+		assertThat(purchaseLine.getScontoMaggPercentage()).isEqualTo(scontoMaggiorazioneType.getPercentuale());
+		assertThat(purchaseLine.getScontoMaggType()).isEqualTo(scontoMaggiorazioneType.getTipo().toString());
 
 		assertThat(purchaseLine.getTaxRate()).isEqualTo(dettaglioLineeType.getAliquotaIVA());
 		assertThat(purchaseLine.getTipoCessazionePrestazione()).isEqualTo(dettaglioLineeType.getTipoCessionePrestazione().toString());
@@ -640,8 +640,8 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		Invoice1_2MappingToEntityConverterImpl converter = new Invoice1_2MappingToEntityConverterImpl();
 		Invoice invoice = new Invoice();
 		converter.buildInvoiceSending(datiTrasmissione, invoice);
-		assertThat(invoice.getInvoiceRecipientCertifiedEmailAddress()).isEqualTo(datiTrasmissione.getPECDestinatario());
-		assertThat(invoice.getInvoiceRecipientCode()).isEqualTo(datiTrasmissione.getCodiceDestinatario());
+		assertThat(invoice.getRecipientCertEmailAddr()).isEqualTo(datiTrasmissione.getPECDestinatario());
+		assertThat(invoice.getRecipientCode()).isEqualTo(datiTrasmissione.getCodiceDestinatario());
 		assertThat(invoice.getInvoiceSenderCode()).isEqualTo(datiTrasmissione.getIdTrasmittente().getIdCodice());
 		assertThat(invoice.getInvoiceSenderCountryCode()).isEqualTo(datiTrasmissione.getIdTrasmittente().getIdPaese());
 		assertThat(invoice.getInvoiceSenderEmailAddress()).isEqualTo(datiTrasmissione.getContattiTrasmittente().getEmail());

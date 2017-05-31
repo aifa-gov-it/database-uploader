@@ -40,37 +40,37 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	
 	private Set<Attachment> attachments;
 
-	private String beneficiarioPagamento;
+	private String beneficiarioPag;
 
 	private String capResa;
 
-	private String causalePagamentoRitenuta;
+	private String causalePagRitenuta;
 
 	private String causaleTrasporto;
 	
-	private String cfQuietanzantePagamento;
+	private String cfQuietanzantePag;
 	
-	private String codicePagamento;
+	private String codicePag;
 
-	private String codUfficioPostalePagamento;
+	private String codUfficioPostalePag;
 
-	private String cognomeQuietanzantePagamento;
+	private String cognomeQuietanzantePag;
 
 	private String comuneResa;
 
 	private String currency;
 	
-	private Date dataDecorrenzaPenalePagamento;
+	private Date dataDecorrenzaPenalePag;
 	
 	private Date dataInizioTrasporto;
 
-	private Date dataLimitePagamentoAnticipatoPagamento;
+	private Date dataLimitePagAnticipato;
 	
 	private Date dataOraConsegna;
 
 	private Date dataOraRitiro;
 
-	private Date dataRiferimentoTerminiPagamento;
+	private Date dataRiferimentoTerminiPag;
 
 	private Date dataVeicoli;
 
@@ -112,10 +112,10 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private Set<InvoiceParticipant> invoiceParticipants;
 
-	private String invoiceRecipientCertifiedEmailAddress;
+	private String recipientCertEmailAddr;
 	
 	@NotBlank
-	private String invoiceRecipientCode;
+	private String recipientCode;
 	
 	@NotBlank
 	private String invoiceSenderCode;
@@ -143,7 +143,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private String nazioneResa;
 
-	private String nomeQuietanzantePagamento;
+	private String nomeQuietanzantePag;
 
 	private String number;
 
@@ -161,7 +161,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private Integer paymentTermDays;
 
-	private BigDecimal penalitaPagamentiRitardatiPagamento;
+	private BigDecimal penalitaPagamentiRitardati;
 
 	private BigDecimal pesoLordo;
 
@@ -171,7 +171,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private Set<PurchaseLine> purchaseLines;
 
-	private String riferimentoAmministrazioneCassa;
+	private String riferimentoAmminCassa;
 	
 	private Integer riferimentoFase;
 	
@@ -179,7 +179,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	
 	private BigDecimal rounding;
 	
-	private BigDecimal scontoPagamentoAnticipatoPagamento;
+	private BigDecimal scontoPagAnticipatoPag;
 
 	private String soggettoEmittenteType;
 
@@ -191,7 +191,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private String tipoRitenuta;
 
-	private String titoloQuietanzantePagamento;
+	private String titoloQuietanzantePag;
 
 	private BigDecimal totalAmount;
 
@@ -235,36 +235,36 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return attachments;
 	}
 	
-	public String getBeneficiarioPagamento() {
-		return beneficiarioPagamento;
+	public String getBeneficiarioPag() {
+		return beneficiarioPag;
 	}
 
 	public String getCapResa() {
 		return capResa;
 	}
 
-	public String getCausalePagamentoRitenuta() {
-		return causalePagamentoRitenuta;
+	public String getCausalePagRitenuta() {
+		return causalePagRitenuta;
 	}
 	
 	public String getCausaleTrasporto() {
 		return causaleTrasporto;
 	}
 	
-	public String getCfQuietanzantePagamento() {
-		return cfQuietanzantePagamento;
+	public String getCfQuietanzantePag() {
+		return cfQuietanzantePag;
 	}
 	
-	public String getCodicePagamento() {
-		return codicePagamento;
+	public String getCodicePag() {
+		return codicePag;
 	}
 	
-	public String getCodUfficioPostalePagamento() {
-		return codUfficioPostalePagamento;
+	public String getCodUfficioPostalePag() {
+		return codUfficioPostalePag;
 	}
 	
-	public String getCognomeQuietanzantePagamento() {
-		return cognomeQuietanzantePagamento;
+	public String getCognomeQuietanzantePag() {
+		return cognomeQuietanzantePag;
 	}
 	
 	public String getComuneResa() {
@@ -275,16 +275,16 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return currency;
 	}
 	
-	public Date getDataDecorrenzaPenalePagamento() {
-		return dataDecorrenzaPenalePagamento;
+	public Date getDataDecorrenzaPenalePag() {
+		return dataDecorrenzaPenalePag;
 	}
 
 	public Date getDataInizioTrasporto() {
 		return dataInizioTrasporto;
 	}
 	
-	public Date getDataLimitePagamentoAnticipatoPagamento() {
-		return dataLimitePagamentoAnticipatoPagamento;
+	public Date getDataLimitePagAnticipato() {
+		return dataLimitePagAnticipato;
 	}
 	
 	public Date getDataOraConsegna() {
@@ -295,8 +295,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return dataOraRitiro;
 	}
 
-	public Date getDataRiferimentoTerminiPagamento() {
-		return dataRiferimentoTerminiPagamento;
+	public Date getDataRiferimentoTerminiPag() {
+		return dataRiferimentoTerminiPag;
 	}
 
 	public Date getDataVeicoli() {
@@ -395,12 +395,12 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return invoiceParticipants;
 	}
 	
-	public String getInvoiceRecipientCertifiedEmailAddress() {
-		return invoiceRecipientCertifiedEmailAddress;
+	public String getRecipientCertEmailAddr() {
+		return recipientCertEmailAddr;
 	}
 
-	public String getInvoiceRecipientCode() {
-		return invoiceRecipientCode;
+	public String getRecipientCode() {
+		return recipientCode;
 	}
 
 	public String getInvoiceSenderCode() {
@@ -447,8 +447,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return nazioneResa;
 	}
 	
-	public String getNomeQuietanzantePagamento() {
-		return nomeQuietanzantePagamento;
+	public String getNomeQuietanzantePag() {
+		return nomeQuietanzantePag;
 	}
 	
 	public String getNumber() {
@@ -483,8 +483,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return paymentTermDays;
 	}
 
-	public BigDecimal getPenalitaPagamentiRitardatiPagamento() {
-		return penalitaPagamentiRitardatiPagamento;
+	public BigDecimal getPenalitaPagamentiRitardati() {
+		return penalitaPagamentiRitardati;
 	}
 
 	public BigDecimal getPesoLordo() {
@@ -504,8 +504,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return purchaseLines;
 	}
 
-	public String getRiferimentoAmministrazioneCassa() {
-		return riferimentoAmministrazioneCassa;
+	public String getRiferimentoAmminCassa() {
+		return riferimentoAmminCassa;
 	}
 
 	public Integer getRiferimentoFase() {
@@ -520,8 +520,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return rounding;
 	}
 
-	public BigDecimal getScontoPagamentoAnticipatoPagamento() {
-		return scontoPagamentoAnticipatoPagamento;
+	public BigDecimal getScontoPagAnticipatoPag() {
+		return scontoPagAnticipatoPag;
 	}
 
 	public String getSoggettoEmittenteType() {
@@ -544,8 +544,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return tipoRitenuta;
 	}
 
-	public String getTitoloQuietanzantePagamento() {
-		return titoloQuietanzantePagamento;
+	public String getTitoloQuietanzantePag() {
+		return titoloQuietanzantePag;
 	}
 
 	public BigDecimal getTotalAmount() {
@@ -588,36 +588,36 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.attachments = attachments;
 	}
 
-	public void setBeneficiarioPagamento(String beneficiarioPagamento) {
-		this.beneficiarioPagamento = beneficiarioPagamento;
+	public void setBeneficiarioPag(String beneficiarioPag) {
+		this.beneficiarioPag = beneficiarioPag;
 	}
 
 	public void setCapResa(String capResa) {
 		this.capResa = capResa;
 	}
 
-	public void setCausalePagamentoRitenuta(String causalePagamentoRitenuta) {
-		this.causalePagamentoRitenuta = causalePagamentoRitenuta;
+	public void setCausalePagRitenuta(String causalePagRitenuta) {
+		this.causalePagRitenuta = causalePagRitenuta;
 	}
 
 	public void setCausaleTrasporto(String causaleTrasporto) {
 		this.causaleTrasporto = causaleTrasporto;
 	}
 
-	public void setCfQuietanzantePagamento(String cfQuietanzantePagamento) {
-		this.cfQuietanzantePagamento = cfQuietanzantePagamento;
+	public void setCfQuietanzantePag(String cfQuietanzantePag) {
+		this.cfQuietanzantePag = cfQuietanzantePag;
 	}
 
-	public void setCodicePagamento(String codicePagamento) {
-		this.codicePagamento = codicePagamento;
+	public void setCodicePag(String codicePag) {
+		this.codicePag = codicePag;
 	}
 	
-	public void setCodUfficioPostalePagamento(String codUfficioPostalePagamento) {
-		this.codUfficioPostalePagamento = codUfficioPostalePagamento;
+	public void setCodUfficioPostalePag(String codUfficioPostalePag) {
+		this.codUfficioPostalePag = codUfficioPostalePag;
 	}
 
-	public void setCognomeQuietanzantePagamento(String cognomeQuietanzantePagamento) {
-		this.cognomeQuietanzantePagamento = cognomeQuietanzantePagamento;
+	public void setCognomeQuietanzantePag(String cognomeQuietanzantePag) {
+		this.cognomeQuietanzantePag = cognomeQuietanzantePag;
 	}
 	
 	public void setComuneResa(String comuneResa) {
@@ -628,16 +628,16 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.currency = currency;
 	}
 	
-	public void setDataDecorrenzaPenalePagamento(Date dataDecorrenzaPenalePagamento) {
-		this.dataDecorrenzaPenalePagamento = dataDecorrenzaPenalePagamento;
+	public void setDataDecorrenzaPenalePag(Date dataDecorrenzaPenalePag) {
+		this.dataDecorrenzaPenalePag = dataDecorrenzaPenalePag;
 	}
 	
 	public void setDataInizioTrasporto(Date dataInizioTrasporto) {
 		this.dataInizioTrasporto = dataInizioTrasporto;
 	}
 	
-	public void setDataLimitePagamentoAnticipatoPagamento(Date dataLimitePagamentoAnticipatoPagamento) {
-		this.dataLimitePagamentoAnticipatoPagamento = dataLimitePagamentoAnticipatoPagamento;
+	public void setDataLimitePagAnticipato(Date dataLimitePagAnticipato) {
+		this.dataLimitePagAnticipato = dataLimitePagAnticipato;
 	}
 
 	public void setDataOraConsegna(Date dataOraConsegna) {
@@ -648,8 +648,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.dataOraRitiro = dataOraRitiro;
 	}
 
-	public void setDataRiferimentoTerminiPagamento(Date dataRiferimentoTerminiPagamento) {
-		this.dataRiferimentoTerminiPagamento = dataRiferimentoTerminiPagamento;
+	public void setDataRiferimentoTerminiPag(Date dataRiferimentoTerminiPag) {
+		this.dataRiferimentoTerminiPag = dataRiferimentoTerminiPag;
 	}
 
 	public void setDataVeicoli(Date dataVeicoli) {
@@ -731,12 +731,12 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.invoiceParticipants = invoiceParticipants;
 	}
 	
-	public void setInvoiceRecipientCertifiedEmailAddress(String invoiceRecipientCertifiedEmailAddress) {
-		this.invoiceRecipientCertifiedEmailAddress = invoiceRecipientCertifiedEmailAddress;
+	public void setRecipientCertEmailAddr(String recipientCertEmailAddr) {
+		this.recipientCertEmailAddr = recipientCertEmailAddr;
 	}
 	
-	public void setInvoiceRecipientCode(String invoiceRecipientCode) {
-		this.invoiceRecipientCode = invoiceRecipientCode;
+	public void setRecipientCode(String recipientCode) {
+		this.recipientCode = recipientCode;
 	}
 
 	public void setInvoiceSenderCode(String invoiceSenderCode) {
@@ -783,8 +783,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.nazioneResa = nazioneResa;
 	}
 
-	public void setNomeQuietanzantePagamento(String nomeQuietanzantePagamento) {
-		this.nomeQuietanzantePagamento = nomeQuietanzantePagamento;
+	public void setNomeQuietanzantePag(String nomeQuietanzantePag) {
+		this.nomeQuietanzantePag = nomeQuietanzantePag;
 	}
 
 	public void setNumber(String number) {
@@ -819,8 +819,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.paymentTermDays = paymentTermDays;
 	}
 
-	public void setPenalitaPagamentiRitardatiPagamento(BigDecimal penalitaPagamentiRitardatiPagamento) {
-		this.penalitaPagamentiRitardatiPagamento = penalitaPagamentiRitardatiPagamento;
+	public void setPenalitaPagamentiRitardati(BigDecimal penalitaPagamentiRitardati) {
+		this.penalitaPagamentiRitardati = penalitaPagamentiRitardati;
 	}
 
 	public void setPesoLordo(BigDecimal pesoLordo) {
@@ -839,8 +839,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.purchaseLines = purchaseLines;
 	}
 
-	public void setRiferimentoAmministrazioneCassa(String riferimentoAmministrazioneCassa) {
-		this.riferimentoAmministrazioneCassa = riferimentoAmministrazioneCassa;
+	public void setRiferimentoAmminCassa(String riferimentoAmminCassa) {
+		this.riferimentoAmminCassa = riferimentoAmminCassa;
 	}
 
 	public void setRiferimentoFase(Integer riferimentoFase) {
@@ -855,8 +855,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.rounding = rounding;
 	}
 
-	public void setScontoPagamentoAnticipatoPagamento(BigDecimal scontoPagamentoAnticipatoPagamento) {
-		this.scontoPagamentoAnticipatoPagamento = scontoPagamentoAnticipatoPagamento;
+	public void setScontoPagAnticipatoPag(BigDecimal scontoPagAnticipatoPag) {
+		this.scontoPagAnticipatoPag = scontoPagAnticipatoPag;
 	}
 
 	public void setSoggettoEmittenteType(String soggettoEmittenteType) {
@@ -879,8 +879,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.tipoRitenuta = tipoRitenuta;
 	}
 
-	public void setTitoloQuietanzantePagamento(String titoloQuietanzantePagamento) {
-		this.titoloQuietanzantePagamento = titoloQuietanzantePagamento;
+	public void setTitoloQuietanzantePag(String titoloQuietanzantePag) {
+		this.titoloQuietanzantePag = titoloQuietanzantePag;
 	}
 
 	public void setTotalAmount(BigDecimal totalAmount) {

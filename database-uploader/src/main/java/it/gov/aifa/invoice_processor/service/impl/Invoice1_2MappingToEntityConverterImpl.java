@@ -107,11 +107,11 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			mapAnagraficaTypeToInvoiceParticipant(biographicalData.getAnagrafica(), invoiceCedentePrestatore);
 			invoiceCedentePrestatore.setSocialSecurityNumber(biographicalData.getCodiceFiscale());
 			mapIdFiscaleTypeToInvoiceParticipant(biographicalData.getIdFiscaleIVA(), invoiceCedentePrestatore);
-			invoiceCedentePrestatore.setProfessionalRegister(biographicalData.getAlboProfessionale());
-			invoiceCedentePrestatore.setProfessionalRegisterNumber(biographicalData.getNumeroIscrizioneAlbo());
-			invoiceCedentePrestatore.setProfessionalRegisterDistrict(biographicalData.getProvinciaAlbo());
+			invoiceCedentePrestatore.setProfessionalReg(biographicalData.getAlboProfessionale());
+			invoiceCedentePrestatore.setProfessionalRegNumber(biographicalData.getNumeroIscrizioneAlbo());
+			invoiceCedentePrestatore.setProfessionalRegDistrict(biographicalData.getProvinciaAlbo());
 			if(biographicalData.getDataIscrizioneAlbo() != null)
-				invoiceCedentePrestatore.setProfessionalRegisterSubscriptionDate(xmlGregorianCalendarToSqlDate(biographicalData.getDataIscrizioneAlbo()));
+				invoiceCedentePrestatore.setProfessionalRegSubscrDate(xmlGregorianCalendarToSqlDate(biographicalData.getDataIscrizioneAlbo()));
 
 			invoiceCedentePrestatore.setTaxSystem(biographicalData.getRegimeFiscale().toString());
 		}
@@ -131,12 +131,12 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 
 		IndirizzoType stabileOrganizzazione = cedentePrestatore.getStabileOrganizzazione();
 		if(stabileOrganizzazione != null) {
-			invoiceCedentePrestatore.setPermanentEstablishmentZipCode(stabileOrganizzazione.getCAP());
-			invoiceCedentePrestatore.setPermanentEstablishmentCity(stabileOrganizzazione.getComune());
-			invoiceCedentePrestatore.setPermanentEstablishmentStreetAddress(stabileOrganizzazione.getIndirizzo());
-			invoiceCedentePrestatore.setPermanentEstablishmentCountry(stabileOrganizzazione.getNazione());
-			invoiceCedentePrestatore.setPermanentEstablishmentHouseNumber(stabileOrganizzazione.getNumeroCivico());
-			invoiceCedentePrestatore.setPermanentEstablishmentDistrict(stabileOrganizzazione.getProvincia());
+			invoiceCedentePrestatore.setPermEstZipCode(stabileOrganizzazione.getCAP());
+			invoiceCedentePrestatore.setPermEstCity(stabileOrganizzazione.getComune());
+			invoiceCedentePrestatore.setPermEstStreetAddress(stabileOrganizzazione.getIndirizzo());
+			invoiceCedentePrestatore.setPermEstCountry(stabileOrganizzazione.getNazione());
+			invoiceCedentePrestatore.setPermEstHouseNumber(stabileOrganizzazione.getNumeroCivico());
+			invoiceCedentePrestatore.setPermEstDistrict(stabileOrganizzazione.getProvincia());
 		}
 
 		invoice.getInvoiceParticipants().add(invoiceCedentePrestatore);
@@ -171,12 +171,12 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 
 		IndirizzoType stabileOrganizzazioneType = cessionarioCommittente.getStabileOrganizzazione();
 		if(stabileOrganizzazioneType != null) {
-			invoiceCessionarioCommittente.setPermanentEstablishmentCity(stabileOrganizzazioneType.getComune());
-			invoiceCessionarioCommittente.setPermanentEstablishmentCountry(stabileOrganizzazioneType.getNazione());
-			invoiceCessionarioCommittente.setPermanentEstablishmentDistrict(stabileOrganizzazioneType.getProvincia());
-			invoiceCessionarioCommittente.setPermanentEstablishmentHouseNumber(stabileOrganizzazioneType.getNumeroCivico());
-			invoiceCessionarioCommittente.setPermanentEstablishmentStreetAddress(stabileOrganizzazioneType.getIndirizzo());
-			invoiceCessionarioCommittente.setPermanentEstablishmentZipCode(stabileOrganizzazioneType.getCAP());
+			invoiceCessionarioCommittente.setPermEstCity(stabileOrganizzazioneType.getComune());
+			invoiceCessionarioCommittente.setPermEstCountry(stabileOrganizzazioneType.getNazione());
+			invoiceCessionarioCommittente.setPermEstDistrict(stabileOrganizzazioneType.getProvincia());
+			invoiceCessionarioCommittente.setPermEstHouseNumber(stabileOrganizzazioneType.getNumeroCivico());
+			invoiceCessionarioCommittente.setPermEstStreetAddress(stabileOrganizzazioneType.getIndirizzo());
+			invoiceCessionarioCommittente.setPermEstZipCode(stabileOrganizzazioneType.getCAP());
 		}
 
 		invoice.getInvoiceParticipants().add(invoiceCessionarioCommittente);
@@ -258,14 +258,14 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 			invoice.setImponibileCassa(datiCassaPrevidenziale.getImponibileCassa());
 			invoice.setImportoContributoCassa(datiCassaPrevidenziale.getImportoContributoCassa());
 			invoice.setNaturaCassa(datiCassaPrevidenziale.getNatura());
-			invoice.setRiferimentoAmministrazioneCassa(datiCassaPrevidenziale.getRiferimentoAmministrazione());
+			invoice.setRiferimentoAmminCassa(datiCassaPrevidenziale.getRiferimentoAmministrazione());
 			invoice.setRitenutaCassa(datiCassaPrevidenziale.getRitenuta());
 			invoice.setTipoCassa(datiCassaPrevidenziale.getTipoCassa());
 		}
 
 		if(datiGeneraliDocumentoType.getDatiRitenuta() != null) {
 			invoice.setAliquotaRitenuta(datiGeneraliDocumentoType.getDatiRitenuta().getAliquotaRitenuta());
-			invoice.setCausalePagamentoRitenuta(datiGeneraliDocumentoType.getDatiRitenuta().getCausalePagamento().toString());
+			invoice.setCausalePagRitenuta(datiGeneraliDocumentoType.getDatiRitenuta().getCausalePagamento().toString());
 			invoice.setImportoRitenuta(datiGeneraliDocumentoType.getDatiRitenuta().getImportoRitenuta());
 			invoice.setTipoRitenuta(datiGeneraliDocumentoType.getDatiRitenuta().getTipoRitenuta().toString());
 		}
@@ -325,18 +325,18 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		invoice.setPaymentMode(dettaglioPagamentoType.getModalitaPagamento().toString());
 		invoice.setPaymentTermDays(dettaglioPagamentoType.getGiorniTerminiPagamento());
 
-		invoice.setBeneficiarioPagamento(dettaglioPagamentoType.getBeneficiario());
-		invoice.setCfQuietanzantePagamento(dettaglioPagamentoType.getCFQuietanzante());
-		invoice.setCodicePagamento(dettaglioPagamentoType.getCodicePagamento());
-		invoice.setCodUfficioPostalePagamento(dettaglioPagamentoType.getCodUfficioPostale());
-		invoice.setCognomeQuietanzantePagamento(dettaglioPagamentoType.getCognomeQuietanzante());
-		invoice.setDataDecorrenzaPenalePagamento(dettaglioPagamentoType.getDataDecorrenzaPenale() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataDecorrenzaPenale()) : null);
-		invoice.setDataLimitePagamentoAnticipatoPagamento(dettaglioPagamentoType.getDataLimitePagamentoAnticipato() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataLimitePagamentoAnticipato()) : null);
-		invoice.setDataRiferimentoTerminiPagamento(dettaglioPagamentoType.getDataRiferimentoTerminiPagamento() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataRiferimentoTerminiPagamento()) : null);
-		invoice.setNomeQuietanzantePagamento(dettaglioPagamentoType.getNomeQuietanzante());
-		invoice.setPenalitaPagamentiRitardatiPagamento(dettaglioPagamentoType.getPenalitaPagamentiRitardati());
-		invoice.setScontoPagamentoAnticipatoPagamento(dettaglioPagamentoType.getScontoPagamentoAnticipato());
-		invoice.setTitoloQuietanzantePagamento(dettaglioPagamentoType.getTitoloQuietanzante());
+		invoice.setBeneficiarioPag(dettaglioPagamentoType.getBeneficiario());
+		invoice.setCfQuietanzantePag(dettaglioPagamentoType.getCFQuietanzante());
+		invoice.setCodicePag(dettaglioPagamentoType.getCodicePagamento());
+		invoice.setCodUfficioPostalePag(dettaglioPagamentoType.getCodUfficioPostale());
+		invoice.setCognomeQuietanzantePag(dettaglioPagamentoType.getCognomeQuietanzante());
+		invoice.setDataDecorrenzaPenalePag(dettaglioPagamentoType.getDataDecorrenzaPenale() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataDecorrenzaPenale()) : null);
+		invoice.setDataLimitePagAnticipato(dettaglioPagamentoType.getDataLimitePagamentoAnticipato() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataLimitePagamentoAnticipato()) : null);
+		invoice.setDataRiferimentoTerminiPag(dettaglioPagamentoType.getDataRiferimentoTerminiPagamento() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataRiferimentoTerminiPagamento()) : null);
+		invoice.setNomeQuietanzantePag(dettaglioPagamentoType.getNomeQuietanzante());
+		invoice.setPenalitaPagamentiRitardati(dettaglioPagamentoType.getPenalitaPagamentiRitardati());
+		invoice.setScontoPagAnticipatoPag(dettaglioPagamentoType.getScontoPagamentoAnticipato());
+		invoice.setTitoloQuietanzantePag(dettaglioPagamentoType.getTitoloQuietanzante());
 	}
 
 	@Override
@@ -415,10 +415,10 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 				if(!CollectionUtils.isEmpty(altriDatiGestionaliTypes)) {
 					checkSingleElementCollection(altriDatiGestionaliTypes, AltriDatiGestionaliType.class);
 					if(altriDatiGestionaliTypes.get(0).getRiferimentoData() != null)
-						purchaseLine.setOtherManagementDataDate(xmlGregorianCalendarToSqlDate(altriDatiGestionaliTypes.get(0).getRiferimentoData()));
-					purchaseLine.setOtherManagementDataReferenceNumber(altriDatiGestionaliTypes.get(0).getRiferimentoNumero());
-					purchaseLine.setOtherManagementDataReferenceText(altriDatiGestionaliTypes.get(0).getRiferimentoTesto());
-					purchaseLine.setOtherManagementDataDataType(altriDatiGestionaliTypes.get(0).getTipoDato());
+						purchaseLine.setOtherMgmtDataDate(xmlGregorianCalendarToSqlDate(altriDatiGestionaliTypes.get(0).getRiferimentoData()));
+					purchaseLine.setOtherMgmtDataRefNumber(altriDatiGestionaliTypes.get(0).getRiferimentoNumero());
+					purchaseLine.setOtherMgmtDataRefText(altriDatiGestionaliTypes.get(0).getRiferimentoTesto());
+					purchaseLine.setOtherMgmtDataDataType(altriDatiGestionaliTypes.get(0).getTipoDato());
 				}
 
 				purchaseLine.setPeriodEndDate(dettaglioLinea.getDataFinePeriodo() != null ? xmlGregorianCalendarToSqlDate(dettaglioLinea.getDataFinePeriodo()) : null);
@@ -429,9 +429,9 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 				List<ScontoMaggiorazioneType> scontoMaggiorazioneTypes = dettaglioLinea.getScontoMaggiorazione();
 				if(!CollectionUtils.isEmpty(scontoMaggiorazioneTypes)) {
 					checkSingleElementCollection(scontoMaggiorazioneTypes, ScontoMaggiorazioneType.class);
-					purchaseLine.setScontoMaggiorazioneAmount(scontoMaggiorazioneTypes.get(0).getImporto());
-					purchaseLine.setScontoMaggiorazionePercentage(scontoMaggiorazioneTypes.get(0).getPercentuale());
-					purchaseLine.setScontoMaggiorazioneType(scontoMaggiorazioneTypes.get(0).getTipo().toString());
+					purchaseLine.setScontoMaggAmount(scontoMaggiorazioneTypes.get(0).getImporto());
+					purchaseLine.setScontoMaggPercentage(scontoMaggiorazioneTypes.get(0).getPercentuale());
+					purchaseLine.setScontoMaggType(scontoMaggiorazioneTypes.get(0).getTipo().toString());
 				}
 
 				purchaseLine.setTaxRate(dettaglioLinea.getAliquotaIVA());
@@ -450,8 +450,8 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 	protected void buildInvoiceSending(
 			@NotNull DatiTrasmissioneType datiTrasmissione
 			, @NotNull Invoice invoice) {
-		invoice.setInvoiceRecipientCertifiedEmailAddress(datiTrasmissione.getPECDestinatario());
-		invoice.setInvoiceRecipientCode(datiTrasmissione.getCodiceDestinatario());
+		invoice.setRecipientCertEmailAddr(datiTrasmissione.getPECDestinatario());
+		invoice.setRecipientCode(datiTrasmissione.getCodiceDestinatario());
 		invoice.setInvoiceSenderCode(datiTrasmissione.getIdTrasmittente().getIdCodice());
 		invoice.setInvoiceSenderCountryCode(datiTrasmissione.getIdTrasmittente().getIdPaese());
 		if(datiTrasmissione.getContattiTrasmittente() != null) {

@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1496214758443-1
-    author: ferrarim
+    id: 1496217874366-1
+    author: ferraim
     changes:
     - createTable:
         columns:
@@ -33,8 +33,8 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: attachment
 - changeSet:
-    id: 1496214758443-2
-    author: ferrarim
+    id: 1496217874366-2
+    author: ferraim
     changes:
     - createTable:
         columns:
@@ -75,8 +75,8 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: dati_riepilogo
 - changeSet:
-    id: 1496214758443-3
-    author: ferrarim
+    id: 1496217874366-3
+    author: ferraim
     changes:
     - createTable:
         columns:
@@ -92,8 +92,8 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: documento_corr_purchase_line
 - changeSet:
-    id: 1496214758443-4
-    author: ferrarim
+    id: 1496217874366-4
+    author: ferraim
     changes:
     - createTable:
         columns:
@@ -131,8 +131,8 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: documento_correlato
 - changeSet:
-    id: 1496214758443-5
-    author: ferrarim
+    id: 1496217874366-5
+    author: ferraim
     changes:
     - createTable:
         columns:
@@ -157,28 +157,28 @@ databaseChangeLog:
             name: art73
             type: VARCHAR(255 CHAR)
         - column:
-            name: beneficiario_pagamento
+            name: beneficiario_pag
             type: VARCHAR(255 CHAR)
         - column:
             name: cap_resa
             type: VARCHAR(255 CHAR)
         - column:
-            name: causale_pagamento_ritenuta
+            name: causale_pag_ritenuta
             type: VARCHAR(255 CHAR)
         - column:
             name: causale_trasporto
             type: VARCHAR(255 CHAR)
         - column:
-            name: cf_quietanzante_pagamento
+            name: cf_quietanzante_pag
             type: VARCHAR(255 CHAR)
         - column:
-            name: cod_ufficio_postale_pagamento
+            name: cod_ufficio_postale_pag
             type: VARCHAR(255 CHAR)
         - column:
-            name: codice_pagamento
+            name: codice_pag
             type: VARCHAR(255 CHAR)
         - column:
-            name: cognome_quietanzante_pagamento
+            name: cognome_quietanzante_pag
             type: VARCHAR(255 CHAR)
         - column:
             name: comune_resa
@@ -187,13 +187,13 @@ databaseChangeLog:
             name: currency
             type: VARCHAR(255 CHAR)
         - column:
-            name: data_decorrenza_penale_pagamento
+            name: data_decorrenza_penale_pag
             type: date
         - column:
             name: data_inizio_trasporto
             type: date
         - column:
-            name: data_limite_pagamento_anticipato_pagamento
+            name: data_limite_pag_anticipato
             type: date
         - column:
             name: data_ora_consegna
@@ -202,7 +202,7 @@ databaseChangeLog:
             name: data_ora_ritiro
             type: date
         - column:
-            name: data_riferimento_termini_pagamento
+            name: data_riferimento_termini_pag
             type: date
         - column:
             name: data_veicoli
@@ -256,12 +256,6 @@ databaseChangeLog:
             name: indirizzo_resa
             type: VARCHAR(255 CHAR)
         - column:
-            name: invoice_recipient_certified_email_address
-            type: VARCHAR(255 CHAR)
-        - column:
-            name: invoice_recipient_code
-            type: VARCHAR(255 CHAR)
-        - column:
             name: invoice_sender_code
             type: VARCHAR(255 CHAR)
         - column:
@@ -295,7 +289,7 @@ databaseChangeLog:
             name: nazione_resa
             type: VARCHAR(255 CHAR)
         - column:
-            name: nome_quietanzante_pagamento
+            name: nome_quietanzante_pag
             type: VARCHAR(255 CHAR)
         - column:
             name: number
@@ -322,7 +316,7 @@ databaseChangeLog:
             name: payment_term_days
             type: NUMBER(10, 0)
         - column:
-            name: penalita_pagamenti_ritardati_pagamento
+            name: penalita_pagamenti_ritardati
             type: NUMBER(19, 2)
         - column:
             name: peso_lordo
@@ -334,7 +328,13 @@ databaseChangeLog:
             name: provincia_resa
             type: VARCHAR(255 CHAR)
         - column:
-            name: riferimento_amministrazione_cassa
+            name: recipient_cert_email_addr
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: recipient_code
+            type: VARCHAR(255 CHAR)
+        - column:
+            name: riferimento_ammin_cassa
             type: VARCHAR(255 CHAR)
         - column:
             name: riferimento_fase
@@ -346,7 +346,7 @@ databaseChangeLog:
             name: rounding
             type: NUMBER(19, 2)
         - column:
-            name: sconto_pagamento_anticipato_pagamento
+            name: sconto_pag_anticipato_pag
             type: NUMBER(19, 2)
         - column:
             name: soggetto_emittente_type
@@ -364,7 +364,7 @@ databaseChangeLog:
             name: tipo_ritenuta
             type: VARCHAR(255 CHAR)
         - column:
-            name: titolo_quietanzante_pagamento
+            name: titolo_quietanzante_pag
             type: VARCHAR(255 CHAR)
         - column:
             name: total_amount
@@ -383,8 +383,8 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: invoice
 - changeSet:
-    id: 1496214758443-6
-    author: ferrarim
+    id: 1496217874366-6
+    author: ferraim
     changes:
     - createTable:
         columns:
@@ -436,37 +436,37 @@ databaseChangeLog:
             name: numero_licenza_guida
             type: VARCHAR(255 CHAR)
         - column:
-            name: permanent_establishment_city
+            name: perm_est_city
             type: VARCHAR(255 CHAR)
         - column:
-            name: permanent_establishment_country
+            name: perm_est_country
             type: VARCHAR(255 CHAR)
         - column:
-            name: permanent_establishment_district
+            name: perm_est_district
             type: VARCHAR(255 CHAR)
         - column:
-            name: permanent_establishment_house_number
+            name: perm_est_house_number
             type: VARCHAR(255 CHAR)
         - column:
-            name: permanent_establishment_street_address
+            name: perm_est_street_address
             type: VARCHAR(255 CHAR)
         - column:
-            name: permanent_establishment_zip_code
+            name: perm_est_zip_code
             type: VARCHAR(255 CHAR)
         - column:
             name: phone_number
             type: VARCHAR(255 CHAR)
         - column:
-            name: professional_register
+            name: professional_reg
             type: VARCHAR(255 CHAR)
         - column:
-            name: professional_register_district
+            name: professional_reg_district
             type: VARCHAR(255 CHAR)
         - column:
-            name: professional_register_number
+            name: professional_reg_number
             type: VARCHAR(255 CHAR)
         - column:
-            name: professional_register_subscription_date
+            name: professional_reg_subscr_date
             type: date
         - column:
             name: rea_number
@@ -524,8 +524,8 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: invoice_participant
 - changeSet:
-    id: 1496214758443-7
-    author: ferrarim
+    id: 1496217874366-7
+    author: ferraim
     changes:
     - createTable:
         columns:
@@ -590,8 +590,8 @@ databaseChangeLog:
             type: DOUBLE precision
         tableName: movement
 - changeSet:
-    id: 1496214758443-8
-    author: ferrarim
+    id: 1496217874366-8
+    author: ferraim
     changes:
     - createTable:
         columns:
@@ -622,16 +622,16 @@ databaseChangeLog:
             name: kind
             type: VARCHAR(255 CHAR)
         - column:
-            name: other_management_data_data_type
+            name: other_mgmt_data_data_type
             type: VARCHAR(255 CHAR)
         - column:
-            name: other_management_data_date
+            name: other_mgmt_data_date
             type: date
         - column:
-            name: other_management_data_reference_number
+            name: other_mgmt_data_ref_number
             type: NUMBER(19, 2)
         - column:
-            name: other_management_data_reference_text
+            name: other_mgmt_data_ref_text
             type: VARCHAR(255 CHAR)
         - column:
             name: period_end_date
@@ -646,13 +646,13 @@ databaseChangeLog:
             name: ritenuta
             type: VARCHAR(255 CHAR)
         - column:
-            name: sconto_maggiorazione_amount
+            name: sconto_magg_amount
             type: NUMBER(19, 2)
         - column:
-            name: sconto_maggiorazione_percentage
+            name: sconto_magg_percentage
             type: NUMBER(19, 2)
         - column:
-            name: sconto_maggiorazione_type
+            name: sconto_magg_type
             type: VARCHAR(255 CHAR)
         - column:
             name: tax_rate
@@ -674,71 +674,71 @@ databaseChangeLog:
             type: VARCHAR(255 CHAR)
         tableName: purchase_line
 - changeSet:
-    id: 1496214758443-9
-    author: ferrarim
+    id: 1496217874366-9
+    author: ferraim
     changes:
     - addPrimaryKey:
         columnNames: documento_correlato_id, purchase_line_id
         tableName: documento_corr_purchase_line
 - changeSet:
-    id: 1496214758443-10
-    author: ferrarim
+    id: 1496217874366-10
+    author: ferraim
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: attachmentPK
         tableName: attachment
 - changeSet:
-    id: 1496214758443-11
-    author: ferrarim
+    id: 1496217874366-11
+    author: ferraim
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: dati_riepilogoPK
         tableName: dati_riepilogo
 - changeSet:
-    id: 1496214758443-12
-    author: ferrarim
+    id: 1496217874366-12
+    author: ferraim
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: documento_correlatoPK
         tableName: documento_correlato
 - changeSet:
-    id: 1496214758443-13
-    author: ferrarim
+    id: 1496217874366-13
+    author: ferraim
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: invoicePK
         tableName: invoice
 - changeSet:
-    id: 1496214758443-14
-    author: ferrarim
+    id: 1496217874366-14
+    author: ferraim
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: invoice_participantPK
         tableName: invoice_participant
 - changeSet:
-    id: 1496214758443-15
-    author: ferrarim
+    id: 1496217874366-15
+    author: ferraim
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: movementPK
         tableName: movement
 - changeSet:
-    id: 1496214758443-16
-    author: ferrarim
+    id: 1496217874366-16
+    author: ferraim
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: purchase_linePK
         tableName: purchase_line
 - changeSet:
-    id: 1496214758443-17
-    author: ferrarim
+    id: 1496217874366-17
+    author: ferraim
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: invoice_id
@@ -749,8 +749,8 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496214758443-18
-    author: ferrarim
+    id: 1496217874366-18
+    author: ferraim
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: invoice_id
@@ -761,8 +761,8 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496214758443-19
-    author: ferrarim
+    id: 1496217874366-19
+    author: ferraim
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: invoice_id
@@ -773,8 +773,8 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496214758443-20
-    author: ferrarim
+    id: 1496217874366-20
+    author: ferraim
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: invoice_id
@@ -785,8 +785,8 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496214758443-21
-    author: ferrarim
+    id: 1496217874366-21
+    author: ferraim
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: invoice_id
@@ -797,8 +797,8 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: invoice
 - changeSet:
-    id: 1496214758443-22
-    author: ferrarim
+    id: 1496217874366-22
+    author: ferraim
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: purchase_line_id
@@ -809,8 +809,8 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: purchase_line
 - changeSet:
-    id: 1496214758443-23
-    author: ferrarim
+    id: 1496217874366-23
+    author: ferraim
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: documento_correlato_id

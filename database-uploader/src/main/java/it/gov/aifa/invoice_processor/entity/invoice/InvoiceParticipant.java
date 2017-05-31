@@ -48,27 +48,27 @@ public class InvoiceParticipant extends AbstractInvoiceReferenceEntity{
 
 	private String numeroLicenzaGuida;
 
-	private String permanentEstablishmentCity;
+	private String permEstCity;
 
-	private String permanentEstablishmentCountry;
+	private String permEstCountry;
 
-	private String permanentEstablishmentDistrict;
+	private String permEstDistrict;
 
-	private String permanentEstablishmentHouseNumber;
+	private String permEstHouseNumber;
 
-	private String permanentEstablishmentStreetAddress;
+	private String permEstStreetAddress;
 
-	private String permanentEstablishmentZipCode;
+	private String permEstZipCode;
 
 	private String phoneNumber;
 
-	private String professionalRegister;
+	private String professionalReg;
 
-	private String professionalRegisterDistrict;
+	private String professionalRegDistrict;
 
-	private String professionalRegisterNumber;
+	private String professionalRegNumber;
 
-	private Date professionalRegisterSubscriptionDate;
+	private Date professionalRegSubscrDate;
 
 	private String reaNumber;
 
@@ -186,48 +186,48 @@ public class InvoiceParticipant extends AbstractInvoiceReferenceEntity{
 		return numeroLicenzaGuida;
 	}
 
-	public String getPermanentEstablishmentCity() {
-		return permanentEstablishmentCity;
+	public String getPermEstCity() {
+		return permEstCity;
 	}
 	
-	public String getPermanentEstablishmentCountry() {
-		return permanentEstablishmentCountry;
+	public String getPermEstCountry() {
+		return permEstCountry;
 	}
 
-	public String getPermanentEstablishmentDistrict() {
-		return permanentEstablishmentDistrict;
+	public String getPermEstDistrict() {
+		return permEstDistrict;
 	}
 
-	public String getPermanentEstablishmentHouseNumber() {
-		return permanentEstablishmentHouseNumber;
+	public String getPermEstHouseNumber() {
+		return permEstHouseNumber;
 	}
 	
-	public String getPermanentEstablishmentStreetAddress() {
-		return permanentEstablishmentStreetAddress;
+	public String getPermEstStreetAddress() {
+		return permEstStreetAddress;
 	}
 
-	public String getPermanentEstablishmentZipCode() {
-		return permanentEstablishmentZipCode;
+	public String getPermEstZipCode() {
+		return permEstZipCode;
 	}
 	
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 	
-	public String getProfessionalRegister() {
-		return professionalRegister;
+	public String getProfessionalReg() {
+		return professionalReg;
 	}
 	
-	public String getProfessionalRegisterDistrict() {
-		return professionalRegisterDistrict;
+	public String getProfessionalRegDistrict() {
+		return professionalRegDistrict;
 	}
 	
-	public String getProfessionalRegisterNumber() {
-		return professionalRegisterNumber;
+	public String getProfessionalRegNumber() {
+		return professionalRegNumber;
 	}
 	
-	public Date getProfessionalRegisterSubscriptionDate() {
-		return professionalRegisterSubscriptionDate;
+	public Date getProfessionalRegSubscrDate() {
+		return professionalRegSubscrDate;
 	}
 	
 	public String getReaNumber() {
@@ -349,48 +349,48 @@ public class InvoiceParticipant extends AbstractInvoiceReferenceEntity{
 		this.numeroLicenzaGuida = numeroLicenzaGuida;
 	}
 	
-	public void setPermanentEstablishmentCity(String permanentEstablishmentCity) {
-		this.permanentEstablishmentCity = permanentEstablishmentCity;
+	public void setPermEstCity(String permEstCity) {
+		this.permEstCity = permEstCity;
 	}
 
-	public void setPermanentEstablishmentCountry(String permanentEstablishmentCountry) {
-		this.permanentEstablishmentCountry = permanentEstablishmentCountry;
+	public void setPermEstCountry(String permEstCountry) {
+		this.permEstCountry = permEstCountry;
 	}
 	
-	public void setPermanentEstablishmentDistrict(String permanentEstablishmentDistrict) {
-		this.permanentEstablishmentDistrict = permanentEstablishmentDistrict;
+	public void setPermEstDistrict(String permEstDistrict) {
+		this.permEstDistrict = permEstDistrict;
 	}
 	
-	public void setPermanentEstablishmentHouseNumber(String permanentEstablishmentHouseNumber) {
-		this.permanentEstablishmentHouseNumber = permanentEstablishmentHouseNumber;
+	public void setPermEstHouseNumber(String permEstHouseNumber) {
+		this.permEstHouseNumber = permEstHouseNumber;
 	}
 	
-	public void setPermanentEstablishmentStreetAddress(String permanentEstablishmentStreetAddress) {
-		this.permanentEstablishmentStreetAddress = permanentEstablishmentStreetAddress;
+	public void setPermEstStreetAddress(String permEstStreetAddress) {
+		this.permEstStreetAddress = permEstStreetAddress;
 	}
 
-	public void setPermanentEstablishmentZipCode(String permanentEstablishmentZipCode) {
-		this.permanentEstablishmentZipCode = permanentEstablishmentZipCode;
+	public void setPermEstZipCode(String permEstZipCode) {
+		this.permEstZipCode = permEstZipCode;
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public void setProfessionalRegister(String professionalRegister) {
-		this.professionalRegister = professionalRegister;
+	public void setProfessionalReg(String professionalReg) {
+		this.professionalReg = professionalReg;
 	}
 
-	public void setProfessionalRegisterDistrict(String professionalRegisterDistrict) {
-		this.professionalRegisterDistrict = professionalRegisterDistrict;
+	public void setProfessionalRegDistrict(String professionalRegDistrict) {
+		this.professionalRegDistrict = professionalRegDistrict;
 	}
 
-	public void setProfessionalRegisterNumber(String professionalRegisterNumber) {
-		this.professionalRegisterNumber = professionalRegisterNumber;
+	public void setProfessionalRegNumber(String professionalRegNumber) {
+		this.professionalRegNumber = professionalRegNumber;
 	}
 
-	public void setProfessionalRegisterSubscriptionDate(Date professionalRegisterSubscriptionDate) {
-		this.professionalRegisterSubscriptionDate = professionalRegisterSubscriptionDate;
+	public void setProfessionalRegSubscrDate(Date professionalRegSubscrDate) {
+		this.professionalRegSubscrDate = professionalRegSubscrDate;
 	}
 
 	public void setReaNumber(String reaNumber) {
