@@ -366,9 +366,6 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 								, getRelatedPurchaseLines(invoice, datiDocumentiCorrelatiType.getRiferimentoNumeroLinea())
 						));
 			}
-			List<String> ids = new ArrayList<>();
-			for(DocumentoCorrelato documentoCorrelato : documentCorrelati)
-				ids.add(documentoCorrelato.getId());
 			return documentCorrelati;
 		}else
 			return null;
