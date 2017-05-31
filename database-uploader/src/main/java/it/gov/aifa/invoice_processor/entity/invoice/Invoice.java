@@ -2,7 +2,10 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,7 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -356,6 +361,17 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	public String getFinancialInstitutionName() {
 		return financialInstitutionName;
+	}
+
+	@Override
+	@Transient
+	public List<String> getIdValues() {
+		List<String> additionalIdValues = new ArrayList<>();
+		if(StringUtils.isNotBlank(number))
+			additionalIdValues.add(number);
+		else
+			throw new RuntimeException("Invoice reference cannot be null");
+		return Collections.unmodifiableList(additionalIdValues);
 	}
 
 	public BigDecimal getImponibileCassa() {

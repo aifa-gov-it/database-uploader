@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -90,6 +92,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		this.lot = lot;
 		setTransmissionDate(transmissionDate);
 		setTransmissionTime(transmissionTime);
+		updateId();
 	}
 	
 	public String getAccountHolderCode() {
@@ -123,6 +126,19 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 	public Date getExpirationDate() {
 		updateExpirationDate();
 		return expirationDate;
+	}
+
+	@Override
+	@Transient
+	public List<String> getIdValues() {
+		List<String> idValues = new ArrayList<>();
+		idValues.add(aic);
+		idValues.add(transmissionDateTime.toString());
+		idValues.add(documentTypeCode);
+		idValues.add(documentNumber);
+		if(StringUtils.isNotBlank(lot))
+			idValues.add(lot);
+		return idValues;
 	}
 	
 	public String getLot() {

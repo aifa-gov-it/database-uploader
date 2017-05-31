@@ -4,27 +4,30 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import javax.persistence.GeneratedValue;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
-import it.gov.aifa.invoice_processor.constant.IdGeneratorName;
 import it.gov.aifa.invoice_processor.entity.InvoiceProcessorEntity;
+import it.gov.aifa.invoice_processor.entity.listener.InvoiceProcessorEntityListener;
 
+@EntityListeners(InvoiceProcessorEntityListener.class)
 @MappedSuperclass
 @Validated
-public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessorEntity<Long>, Serializable {
+public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessorEntity<String>, Serializable {
 
 	private static final long serialVersionUID = 6746697384667711588L;
 	
-	private Long id;
+	@NotBlank
+	private String id;
 	
 	@NotNull
 	private Timestamp importDate = Timestamp.valueOf(LocalDateTime.now());
@@ -44,12 +47,10 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 		}
 		return EqualsBuilder.reflectionEquals(this, other, false);
 	}
-	
+
 	@Id
-	@GeneratedValue
-	@SequenceGenerator(name = IdGeneratorName.SEQ_SPENDING_PHA, sequenceName = IdGeneratorName.SEQ_SPENDING_PHA)
 	@Override
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -59,11 +60,13 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 	
 	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, false);
+		if(StringUtils.isBlank(id))
+			updateId();
+		return id.hashCode();
 	}
 	
 	@Override
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -74,5 +77,23 @@ public abstract class AbstractInvoiceProcessorEntity implements InvoiceProcessor
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	@Override
+	public void updateId() {
+		if(CollectionUtils.isEmpty(getIdValues()))
+			throw new RuntimeException("Id field cannot be empty");
+		StringBuilder builder = new StringBuilder();
+		for(String idValue : getIdValues())
+			if(StringUtils.isNotBlank(idValue)) {
+				builder.append(idValue);
+				builder.append("_");
+			}
+		
+		// Remove the last _
+		builder.setLength(builder.length() - 1);
+		this.setId(builder.toString());
+		if(StringUtils.isBlank(id))
+			throw new RuntimeException("id cannot be null");
 	}
 }

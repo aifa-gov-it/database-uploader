@@ -1,10 +1,15 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
@@ -56,6 +61,20 @@ public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
 		this.natura = natura;
 		this.riferimentoNormativo = riferimentoNormativo;
 		this.speseAccessorie = speseAccessorie;
+	}
+	
+	@Override
+	@Transient
+	protected List<String> getAdditionalIdValues() {
+		List<String> additionalIdValues = new ArrayList<>();
+		additionalIdValues.add(aliquotaIVA.toString());
+		additionalIdValues.add(imponibileImporto.toString());
+		additionalIdValues.add(imposta.toString());
+		if(StringUtils.isNotBlank(esigibilitaIVA))
+			additionalIdValues.add(esigibilitaIVA);
+		if(natura != null)
+			additionalIdValues.add(natura.toString());
+		return Collections.unmodifiableList(additionalIdValues);
 	}
 	
 	public BigDecimal getAliquotaIVA() {

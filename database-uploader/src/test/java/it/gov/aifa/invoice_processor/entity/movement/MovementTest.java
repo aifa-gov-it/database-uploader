@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.testng.annotations.Test;
 
-public class MovementTest {
+import it.gov.aifa.invoice_processor.entity.AbstractEntityTest;
+
+public class MovementTest extends AbstractEntityTest<Movement>{
 
 	@Test
 	public void movementExpirationDateTest() throws Exception {
@@ -22,5 +24,15 @@ public class MovementTest {
 		movement.setTransmissionTime(time);
 		assertThat(movement.getTransmissionDateTime().toLocalDateTime().toLocalDate().toString()).isEqualTo(date);
 		assertThat(movement.getTransmissionDateTime().toLocalDateTime().toLocalTime().toString()).isEqualTo(time);
+	}
+
+	@Override
+	protected Movement buildEntityForIdTest() {
+		return new Movement("aic", "documentNumber", "documentTypeCode", "lot", "2017-05-25", "08:55:45");
+	}
+
+	@Override
+	protected int getExpectedIdValuesSize() {
+		return 5;
 	}
 }

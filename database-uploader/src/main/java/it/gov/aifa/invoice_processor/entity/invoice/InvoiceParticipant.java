@@ -2,9 +2,14 @@ package it.gov.aifa.invoice_processor.entity.invoice;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -106,6 +111,27 @@ public class InvoiceParticipant extends AbstractInvoiceReferenceEntity{
 	public InvoiceParticipant(Invoice invoice, String invoiceParticipantType) {
 		super(invoice);
 		this.type = invoiceParticipantType;
+	}
+
+	@Override
+	@Transient
+	public List<String> getAdditionalIdValues() {
+		List<String> additionalIdValues = new ArrayList<>();
+		if(StringUtils.isNotBlank(socialSecurityNumber))
+			additionalIdValues.add(socialSecurityNumber);
+		if(StringUtils.isNotBlank(name))
+			additionalIdValues.add(Integer.toString(name.hashCode()));
+		else {
+			if(StringUtils.isNotBlank(lastName))
+				additionalIdValues.add(Integer.toString(lastName.hashCode()));
+			if(StringUtils.isNotBlank(firstName))
+				additionalIdValues.add(Integer.toString(firstName.hashCode()));
+		}
+		if(StringUtils.isNotBlank(taxCountryCode))
+			additionalIdValues.add(taxCountryCode);
+		if(StringUtils.isNotBlank(taxCode))
+			additionalIdValues.add(taxCode);
+		return Collections.unmodifiableList(additionalIdValues);
 	}
 
 	public String getAdministrativeReference() {

@@ -1,8 +1,14 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +38,15 @@ public class Attachment extends AbstractInvoiceReferenceEntity {
 
 	public Attachment(Invoice invoice) {
 		super(invoice);
+	}
+
+	@Override
+	@Transient
+	protected List<String> getAdditionalIdValues() {
+		List<String> additionalIdValues = new ArrayList<>();
+		if(StringUtils.isNotBlank(name))
+			additionalIdValues.add(name);
+		return Collections.unmodifiableList(additionalIdValues);
 	}
 	
 	public String getCompressionAlgorithm() {
