@@ -318,9 +318,7 @@
                 <version>${liquibase.version}</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
-                    <diffChangeLogFile>src/main/resources/db/changelog/db.changelog-${project.version}.yaml</diffChangeLogFile>
                     <outputFileEncoding>${project.resources.sourceEncoding}</outputFileEncoding>
-                    <referenceUrl>hibernate:spring:it.gov.aifa.invoice_processor.entity?dialect=org.hibernate.dialect.Oracle12cDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy</referenceUrl>
                 </configuration>
                 <dependencies>
                     <dependency>
