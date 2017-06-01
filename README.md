@@ -10,15 +10,6 @@
 
 ## How to run
 
-1. Validate XML files using the given XSD: when running the container, mount the directories containing the XML and XSD input:
-
-    ```
-    docker run --rm -it \
-      -v /path/to/xml/files/directory/:/usr/invoices-xml-validator/xml \
-      -v /path/to/xml/files/directory/your-schema.xsd:/usr/invoices-xml-validator/xsd/schema.xsd \
-      aifa-gov-it/invoices-xml-validator:latest
-    ```
-
 1. Upload data with dabase-uploader:
     1. Build the application:
 
