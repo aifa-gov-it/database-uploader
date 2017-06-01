@@ -27,47 +27,36 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 
 	private String accountHolderTypeCode;
 	
-	@NotBlank
 	private String aic;
 	
-	@NotBlank
 	private String customerCode;
 	
-	@NotBlank
 	private String customerTypeCode;
 	
-	@NotBlank
 	private String documentNumber;
 	
-	@NotBlank
 	private String documentTypeCode;
 	
 	private Date expirationDate;
 	
 	private String lot;
 
-	@NotBlank
 	private String movementCode;
 
 	private Double quantity;
 	
 	private String rawExpirationDate;
 	
-	@NotBlank
 	private String recipientCode;
 	
-	@NotBlank
 	private String recipientTypeCode;
 	
-	@NotBlank
 	private String senderCode;
 
-	@NotBlank
 	private String senderTypeCode;
 
 	private String transmissionDate;
 	
-	@NotNull
 	private Timestamp transmissionDateTime;
 	
 	private String transmissionTime;
@@ -202,23 +191,23 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		this.accountHolderTypeCode = accountHolderTypeCode;
 	}
 
-	public void setAic(String aic) {
+	public void setAic(@NotBlank String aic) {
 		this.aic = aic;
 	}
 
-	public void setCustomerCode(String customerCode) {
+	public void setCustomerCode(@NotBlank String customerCode) {
 		this.customerCode = customerCode;
 	}
 
-	public void setCustomerTypeCode(String customerTypeCode) {
+	public void setCustomerTypeCode(@NotBlank String customerTypeCode) {
 		this.customerTypeCode = customerTypeCode;
 	}
 
-	public void setDocumentNumber(String documentNumber) {
+	public void setDocumentNumber(@NotBlank String documentNumber) {
 		this.documentNumber = documentNumber;
 	}
 
-	public void setDocumentTypeCode(String documentTypeCode) {
+	public void setDocumentTypeCode(@NotBlank String documentTypeCode) {
 		this.documentTypeCode = documentTypeCode;
 	}
 
@@ -230,7 +219,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		this.lot = lot;
 	}
 
-	public void setMovementCode(String movementCode) {
+	public void setMovementCode(@NotBlank String movementCode) {
 		this.movementCode = movementCode;
 	}
 
@@ -243,19 +232,19 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		updateExpirationDate();
 	}
 
-	public void setRecipientCode(String recipientCode) {
+	public void setRecipientCode(@NotBlank String recipientCode) {
 		this.recipientCode = recipientCode;
 	}
 
-	public void setRecipientTypeCode(String recipientTypeCode) {
+	public void setRecipientTypeCode(@NotBlank String recipientTypeCode) {
 		this.recipientTypeCode = recipientTypeCode;
 	}
 
-	public void setSenderCode(String senderCode) {
+	public void setSenderCode(@NotBlank String senderCode) {
 		this.senderCode = senderCode;
 	}
 
-	public void setSenderTypeCode(String senderTypeCode) {
+	public void setSenderTypeCode(@NotBlank String senderTypeCode) {
 		this.senderTypeCode = senderTypeCode;
 	}
 
