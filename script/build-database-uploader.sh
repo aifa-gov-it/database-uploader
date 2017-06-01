@@ -4,8 +4,6 @@
 # Fail if one of the commands of this script fails
 set -e
 
-cd $TRAVIS_BUILD_DIR/database-uploader
-
 echo "Building database-uploader"
 docker run --rm -it \
   -v $TRAVIS_BUILD_DIR:/usr/app \
