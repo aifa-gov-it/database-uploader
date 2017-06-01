@@ -27,6 +27,19 @@
         <url>http://www.aifa.gov.it/</url>
     </organization>
 
+    <name>Database Uploader</name>
+    <description>Batch processor that uploads data in the configured database</description>
+    <url>https://github.com/aifa-gov-it/database-uploader</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/aifa-gov-it/database-uploader/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/aifa-gov-it/database-uploader</url>
+    </scm>
+
     <properties>
         <!-- Environment properties -->
         <java.version>1.8</java.version>
