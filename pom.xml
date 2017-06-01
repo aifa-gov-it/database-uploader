@@ -27,7 +27,7 @@
         <url>http://www.aifa.gov.it/</url>
     </organization>
 
-    <name>Database Uploader</name>
+    <name>${project.artifactId}</name>
     <description>Batch processor that uploads data in the configured database</description>
     <url>https://github.com/aifa-gov-it/database-uploader</url>
     <licenses>
