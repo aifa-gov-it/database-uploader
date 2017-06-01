@@ -149,33 +149,34 @@ public class ContextConfig{
         FlatFileItemReader<Movement> reader = new FlatFileItemReader<Movement>();
         reader.setLinesToSkip(1);
         reader.setResource(new FileSystemResource(filePath));
-        reader.setLineMapper(new DefaultLineMapper<Movement>() {{
-            setLineTokenizer(new DelimitedLineTokenizer(";") {{
-                setNames(new String[] {
-                		"senderTypeCode"
-                		, "senderCode"
-                		, "recipientTypeCode"
-                		, "recipientCode"
-                		, "customerTypeCode"
-                		, "customerCode"
-                		, "accountHolderTypeCode"
-                		, "accountHolderCode"
-                		, "documentTypeCode"
-                		, "documentNumber"
-                		, "transmissionDate"
-                		, "transmissionTime"
-                		, "movementCode"
-                		, "aic"
-                		, "lot"
-                		, "rawExpirationDate"
-                		, "quantity"
-                		, "value"
-                		});
-            }});
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<Movement>() {{
-                setTargetType(Movement.class);
-            }});
-        }});
+        String[] lineTokenizerNames = new String[] {
+        		"senderTypeCode"
+        		, "senderCode"
+        		, "recipientTypeCode"
+        		, "recipientCode"
+        		, "customerTypeCode"
+        		, "customerCode"
+        		, "accountHolderTypeCode"
+        		, "accountHolderCode"
+        		, "documentTypeCode"
+        		, "documentNumber"
+        		, "transmissionDate"
+        		, "transmissionTime"
+        		, "movementCode"
+        		, "aic"
+        		, "lot"
+        		, "rawExpirationDate"
+        		, "quantity"
+        		, "value"
+        		};
+        DelimitedLineTokenizer delimitedLineTokenizer = new DelimitedLineTokenizer(";");
+        delimitedLineTokenizer.setNames(lineTokenizerNames);
+        BeanWrapperFieldSetMapper<Movement> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+        fieldSetMapper.setTargetType(Movement.class);
+        DefaultLineMapper<Movement> defaultLineMapper = new DefaultLineMapper<>();
+        defaultLineMapper.setFieldSetMapper(fieldSetMapper);
+        defaultLineMapper.setLineTokenizer(delimitedLineTokenizer);
+        reader.setLineMapper(defaultLineMapper);
         return reader;
     }
     

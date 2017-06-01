@@ -34,10 +34,8 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 
 	private Date data;
 
-	@NotBlank
 	private String documentId;
 
-	@NotBlank
 	private String documentoCorrelatoType;
 
 	private String numItem;
@@ -60,10 +58,6 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 		this.purchaseLine = purchaseLine;
 	}
 
-	public DocumentoCorrelato(@NotBlank String documentoCorrelatoType) {
-		this(documentoCorrelatoType, null);
-	}
-
 	public DocumentoCorrelato(@NotBlank String documentoCorrelatoType, @NotNull Invoice invoice) {
 		super(invoice);
 		this.documentoCorrelatoType = documentoCorrelatoType;
@@ -83,7 +77,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 			String cigCode
 			, String codiceCommessaConvenzione
 			, String codiceCUP
-			, @NotNull Date data
+			, Date data
 			, @NotBlank String documentoCorrelatoType
 			, @NotBlank String documentId
 			, @NotNull Invoice invoice
@@ -167,11 +161,11 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 		this.data = data;
 	}
 
-	public void setDocumentId(String documentId) {
+	public void setDocumentId(@NotBlank String documentId) {
 		this.documentId = documentId;
 	}
 
-	public void setDocumentoCorrelatoType(String documentoCorrelatoType) {
+	public void setDocumentoCorrelatoType(@NotBlank String documentoCorrelatoType) {
 		this.documentoCorrelatoType = documentoCorrelatoType;
 	}
 

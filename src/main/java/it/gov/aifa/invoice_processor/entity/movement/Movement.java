@@ -92,6 +92,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		this.lot = lot;
 		setTransmissionDate(transmissionDate);
 		setTransmissionTime(transmissionTime);
+		updateTransmissionDateTime();
 		updateId();
 	}
 	
@@ -263,7 +264,7 @@ public class Movement extends AbstractInvoiceProcessorEntity {
 		updateTransmissionDateTime();
 	}
 
-	public void setTransmissionDateTime(Timestamp transmissionDateTime) {
+	public void setTransmissionDateTime(@NotNull Timestamp transmissionDateTime) {
 		this.transmissionDateTime = transmissionDateTime;
 	}
 

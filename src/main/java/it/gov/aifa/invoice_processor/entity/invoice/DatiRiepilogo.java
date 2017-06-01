@@ -19,17 +19,14 @@ import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
 public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
 	private static final long serialVersionUID = -2915903776609151751L;
 
-	@NotNull
 	private BigDecimal aliquotaIVA;
 
 	private BigDecimal arrotondamento;
 
 	private String esigibilitaIVA;
 
-	@NotNull
 	private BigDecimal imponibileImporto;
 
-	@NotNull
 	private BigDecimal imposta;
 
 	private String natura;
@@ -43,11 +40,11 @@ public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
 	}
 	
 	public DatiRiepilogo(
-			BigDecimal aliquotaIVA
+			@NotNull BigDecimal aliquotaIVA
 			, BigDecimal arrotondamento
 			, String esigibilitaIVA
-			, BigDecimal imponibileImporto
-			, BigDecimal imposta
+			, @NotNull BigDecimal imponibileImporto
+			, @NotNull BigDecimal imposta
 			, Invoice invoice
 			, String natura
 			, String riferimentoNormativo
@@ -109,7 +106,7 @@ public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
 		return speseAccessorie;
 	}
 
-	public void setAliquotaIVA(BigDecimal aliquotaIVA) {
+	public void setAliquotaIVA(@NotNull BigDecimal aliquotaIVA) {
 		this.aliquotaIVA = aliquotaIVA;
 	}
 
@@ -121,11 +118,11 @@ public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
 		this.esigibilitaIVA = esigibilitaIVA;
 	}
 
-	public void setImponibileImporto(BigDecimal imponibileImporto) {
+	public void setImponibileImporto(@NotNull BigDecimal imponibileImporto) {
 		this.imponibileImporto = imponibileImporto;
 	}
 
-	public void setImposta(BigDecimal imposta) {
+	public void setImposta(@NotNull BigDecimal imposta) {
 		this.imposta = imposta;
 	}
 

@@ -1,5 +1,6 @@
 package it.gov.aifa.invoice_processor.entity.invoice;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -14,7 +15,16 @@ public class DocumentoCorrelatoTest extends AbstractEntityTest<DocumentoCorrelat
 	protected DocumentoCorrelato buildEntityForIdTest() {
 		Invoice invoice = new Invoice("123456");
 		Set<PurchaseLine> purchaseLines = new HashSet<>();
-		purchaseLines.add(new PurchaseLine("10", invoice));
+		purchaseLines.add(
+				new PurchaseLine(
+						"10"
+						, invoice
+						, "descrizione"
+						, new BigDecimal(1.1)
+						, new BigDecimal(1.2)
+						, new BigDecimal(1.3)
+						)
+				);
 		return new DocumentoCorrelato(
 				"cigCode"
 				, "codiceCommessaConvenzione"

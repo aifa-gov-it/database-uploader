@@ -24,14 +24,12 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 
 	private String administrativeReference;
 	
-	@NotBlank
 	private String documentId;
 
 	private String itemCode;
 
 	private String itemCodeType;
 	
-	@NotBlank
 	private String itemDescription;
 
 	private String kind;
@@ -58,26 +56,34 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 
 	private String scontoMaggType;
 
-	@NotNull
 	private BigDecimal taxRate;
 
 	private String tipoCessazionePrestazione;
 
-	@NotNull
 	private BigDecimal totalPrice;
 
 	private String unitOfMeasureDescription;
 
-	@NotNull
 	private BigDecimal unitPrice;
 
 	public PurchaseLine() {
 		super();
 	}
 
-	public PurchaseLine(String purchaseLineNumber, Invoice invoice) {
+	public PurchaseLine(
+			@NotBlank String documentId
+			, @NotNull Invoice invoice
+			, @NotBlank String itemDescription
+			, @NotNull BigDecimal taxRate
+			, @NotNull BigDecimal totalPrice
+			, @NotNull BigDecimal unitPrice
+			) {
 		super(invoice);
-		this.documentId = purchaseLineNumber;
+		this.documentId = documentId;
+		this.itemDescription = itemDescription;
+		this.taxRate = taxRate;
+		this.totalPrice = totalPrice;
+		this.unitPrice = unitPrice;
 	}
 
 	@Override
@@ -181,7 +187,7 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		this.administrativeReference = administrativeReference;
 	}
 
-	public void setDocumentId(String documentId) {
+	public void setDocumentId(@NotBlank String documentId) {
 		this.documentId = documentId;
 	}
 
@@ -193,7 +199,7 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		this.itemCodeType = itemCodeType;
 	}
 	
-	public void setItemDescription(String itemDescription) {
+	public void setItemDescription(@NotBlank String itemDescription) {
 		this.itemDescription = itemDescription;
 	}
 
@@ -245,14 +251,14 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		this.scontoMaggType = scontoMaggType;
 	}
 
-	public void setTaxRate(BigDecimal taxRate) {
+	public void setTaxRate(@NotNull BigDecimal taxRate) {
 		this.taxRate = taxRate;
 	}
 
 	public void setTipoCessazionePrestazione(String tipoCessazionePrestazione) {
 		this.tipoCessazionePrestazione = tipoCessazionePrestazione;
 	}
-	public void setTotalPrice(BigDecimal totalPrice) {
+	public void setTotalPrice(@NotNull BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 	
@@ -260,7 +266,7 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		this.unitOfMeasureDescription = unitOfMeasureDescription;
 	}
 
-	public void setUnitPrice(BigDecimal unitPrice) {
+	public void setUnitPrice(@NotNull BigDecimal unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 }

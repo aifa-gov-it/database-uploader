@@ -299,7 +299,15 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		Invoice invoice = new Invoice();
 		invoice.setInvoiceNumber("123456");
 		Integer purchaseLineId = 1;
-		invoice.setPurchaseLines(buildOneElementSet(new PurchaseLine(purchaseLineId.toString(), invoice), PurchaseLine.class));
+		invoice.setPurchaseLines(buildOneElementSet(
+				new PurchaseLine(
+				purchaseLineId.toString()
+				, invoice
+				, "descrizione"
+				, new BigDecimal(1.1)
+				, new BigDecimal(1.2)
+				, new BigDecimal(1.3)
+				), PurchaseLine.class));
 		DatiGeneraliType datiGeneraliType = buildDatiGeneraliType(purchaseLineId);
 		converter.buildDatiGenerali(datiGeneraliType, invoice);
 		Set<DocumentoCorrelato> datiDdt = invoice.getDocumentiCorrelati().stream()

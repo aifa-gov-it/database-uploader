@@ -397,7 +397,14 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		if(dettaglioLinee != null) {
 			List<PurchaseLine> purchaseLines = new ArrayList<>(dettaglioLinee.size());
 			for(DettaglioLineeType dettaglioLinea : dettaglioLinee) {
-				PurchaseLine purchaseLine = new PurchaseLine(Integer.toString(dettaglioLinea.getNumeroLinea()), invoice);
+				PurchaseLine purchaseLine = new PurchaseLine(
+						Integer.toString(dettaglioLinea.getNumeroLinea())
+						, invoice
+						, dettaglioLinea.getDescrizione()
+						, dettaglioLinea.getAliquotaIVA()
+						, dettaglioLinea.getPrezzoTotale()
+						, dettaglioLinea.getPrezzoUnitario()
+						);
 
 				purchaseLine.setAdministrativeReference(dettaglioLinea.getRiferimentoAmministrazione());
 
@@ -408,7 +415,6 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 					purchaseLine.setItemCodeType(codiceArticoloTypes.get(0).getCodiceTipo());
 				}
 
-				purchaseLine.setItemDescription(dettaglioLinea.getDescrizione());
 				purchaseLine.setKind(dettaglioLinea.getNatura() != null ? dettaglioLinea.getNatura().toString() : null);
 
 				List<AltriDatiGestionaliType> altriDatiGestionaliTypes = dettaglioLinea.getAltriDatiGestionali();
@@ -434,11 +440,8 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 					purchaseLine.setScontoMaggType(scontoMaggiorazioneTypes.get(0).getTipo().toString());
 				}
 
-				purchaseLine.setTaxRate(dettaglioLinea.getAliquotaIVA());
 				purchaseLine.setTipoCessazionePrestazione(dettaglioLinea.getTipoCessionePrestazione() != null ? dettaglioLinea.getTipoCessionePrestazione().toString() : null);
-				purchaseLine.setTotalPrice(dettaglioLinea.getPrezzoTotale());
 				purchaseLine.setUnitOfMeasureDescription(dettaglioLinea.getUnitaMisura());
-				purchaseLine.setUnitPrice(dettaglioLinea.getPrezzoUnitario());
 
 				purchaseLines.add(purchaseLine);
 			}

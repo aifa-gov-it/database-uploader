@@ -22,15 +22,14 @@ public abstract class AbstractInvoiceReferenceEntity extends AbstractInvoiceProc
 
 	private static final long serialVersionUID = 1904771980819257127L;
 	
-	@NotNull
 	private Invoice invoice;
 
 	public AbstractInvoiceReferenceEntity() {
 		super();
 	}
 
-	public AbstractInvoiceReferenceEntity(Invoice invoice) {
-		this();
+	public AbstractInvoiceReferenceEntity(@NotNull Invoice invoice) {
+		super();
 		this.invoice = invoice;
 	}
 	
@@ -58,7 +57,7 @@ public abstract class AbstractInvoiceReferenceEntity extends AbstractInvoiceProc
 	}
 
 	@Override
-	public void setInvoice(Invoice invoice) {
+	public void setInvoice(@NotNull Invoice invoice) {
 		this.invoice = invoice;
 	}
 }
