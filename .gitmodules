@@ -1,0 +1,3 @@
+[submodule "src/main/resources/db/changelog"]
+	path = src/main/resources/db/changelog
+	url = https://github.com/aifa-gov-it/spending-pha-database-initialization
