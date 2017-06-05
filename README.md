@@ -33,6 +33,10 @@
 
 ## Development tips
 
+### How to clone the repository
+
+This repository has some Git submodules so you should clone it using the `--recursive` switch: `$ git clone git://github.com/<user>/<repo>.git --recursive`
+
 ### Generate a diff changelog
 
 After running the `database-uploader` (it's not necessary to specify any option) against any database (even in-memory ones like H2) you can generate a Liquibase report or a changelog containing the differences between the two databases or even against JPA Entity definitions.
