@@ -10,7 +10,7 @@
 
 ## How to run
 
-1. Upload data with dabase-uploader:
+1. Upload data with database-uploader:
     1. Build the application:
 
         ```
