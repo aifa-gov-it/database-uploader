@@ -6,6 +6,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 @SpringBootTest(
         classes = {ContextConfig.class}
+        , properties = { "liquibase.enabled=true" }
         ,webEnvironment = WebEnvironment.NONE
         )
 public abstract class AbstractIT extends AbstractTestNGSpringContextTests{

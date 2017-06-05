@@ -1,4 +1,8 @@
 ---
+liquibase:
+    change-log: classpath:/db/changelog/SPENDING_PHA/db.changelog-database-uploader.yaml
+    enabled: false
+---
 spring:
     jackson:
         mapper:
