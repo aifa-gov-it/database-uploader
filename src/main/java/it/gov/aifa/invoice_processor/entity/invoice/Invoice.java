@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ import it.gov.aifa.invoice_processor.mapping.invoice1_2.RitenutaType;
 import it.gov.aifa.invoice_processor.mapping.invoice1_2.TipoCassaType;
 
 @Entity
+@Table(name = "MEF_FATTURA")
 @Validated
 public class Invoice extends AbstractInvoiceProcessorEntity {
 	

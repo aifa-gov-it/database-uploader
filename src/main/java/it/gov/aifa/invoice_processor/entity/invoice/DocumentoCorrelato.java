@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
 
 @Entity
+@Table(name = "MEF_DOC_CORRELATO_FATTURA")
 @Validated
 public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 
@@ -139,7 +141,7 @@ public class DocumentoCorrelato extends AbstractInvoiceReferenceEntity {
 		return numItem;
 	}
 	
-	@JoinTable(name = "documento_corr_purchase_line")
+	@JoinTable(name = "MEF_DOC_CORR_LINEA_ACQUISTO")
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	public Set<PurchaseLine> getPurchaseLine() {
 		return purchaseLine;

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
 
 @Entity
+@Table(name = "MEF_DATI_RIEPILOGO_FATTURA")
 @Validated
 public class DatiRiepilogo extends AbstractInvoiceReferenceEntity {
 	private static final long serialVersionUID = -2915903776609151751L;

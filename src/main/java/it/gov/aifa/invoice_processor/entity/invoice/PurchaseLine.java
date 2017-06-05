@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
 
 @Entity
+@Table(name = "MEF_LINEA_ACQUISTO_FATTURA")
 @Validated
 public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 	

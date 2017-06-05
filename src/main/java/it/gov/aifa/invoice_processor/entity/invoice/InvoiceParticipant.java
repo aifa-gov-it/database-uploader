@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceReferenceEntity;
 
 @Entity
+@Table(name = "MEF_SOGGETTO_PART_FATTURA")
 @Validated
 public class InvoiceParticipant extends AbstractInvoiceReferenceEntity{
 
