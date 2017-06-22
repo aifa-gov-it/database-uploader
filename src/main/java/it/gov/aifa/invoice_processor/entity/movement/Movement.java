@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +20,10 @@ import org.springframework.validation.annotation.Validated;
 import it.gov.aifa.invoice_processor.entity.impl.AbstractInvoiceProcessorEntity;
 
 @Entity
-@Table(name = "MDS_MOV")
+@Table(
+		name = "MDS_MOV"
+		, uniqueConstraints = @UniqueConstraint( columnNames={"aic", "lot", "transmissionDateTime", "documentTypeCode", "documentNumber"} )
+		)
 @Validated
 public class Movement extends AbstractInvoiceProcessorEntity {
 
