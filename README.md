@@ -8,28 +8,18 @@
 
 - Docker 1.12+
 
+## Supported tags and respective Dockerfile links
+- `dev-latest`: [dev-latest](https://github.com/aifa-gov-it/database-uploader/blob/development/Dockerfile)
+
+
 ## How to run
 
-1. Upload data with database-uploader:
-    1. Build the application:
+Run the application with no arguments to show the help text (note that when running the container you may want to mount additional volumes according to the options you specify):
 
-        ```
-        docker run --rm -it \
-          -v /path/to/database-uploader/source:/usr/app \
-          -w /usr/app \
-          -t maven:3.5.0-jdk-8-alpine \
-          mvn clean install
-        ```
-
-    1. Run the application with no arguments to show the help text (note that when running the container you may want to mount additional volumes according to the options you specify):
-
-        ```
-        docker run --rm -it \
-          -v /path/to/database-uploader-exec.jar:/usr/app/database-uploader-exec.jar \
-          -w /usr/app \
-          -t openjdk:8u121-jdk-alpine \
-          java -jar database-uploader-exec.jar
-        ```
+```
+docker run --rm -it \
+  aifagovit:<tag>
+```
 
 ## Development tips
 
