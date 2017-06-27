@@ -315,11 +315,6 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 
 		checkSingleElementCollection(datiPagamentoType.getDettaglioPagamento(), DettaglioPagamentoType.class);
 		DettaglioPagamentoType dettaglioPagamentoType = datiPagamentoType.getDettaglioPagamento().get(0);
-		invoice.setFinancialInstitutionAbi(dettaglioPagamentoType.getABI());
-		invoice.setFinancialInstitutionBic(dettaglioPagamentoType.getBIC());
-		invoice.setFinancialInstitutionCab(dettaglioPagamentoType.getCAB());
-		invoice.setFinancialInstitutionIban(dettaglioPagamentoType.getIBAN());
-		invoice.setFinancialInstitutionName(dettaglioPagamentoType.getIstitutoFinanziario());
 		invoice.setPaymentAmount(dettaglioPagamentoType.getImportoPagamento());
 		invoice.setPaymentExpirationDate(dettaglioPagamentoType.getDataScadenzaPagamento() != null ? xmlGregorianCalendarToSqlDate(dettaglioPagamentoType.getDataScadenzaPagamento()) : null);
 		invoice.setPaymentMode(dettaglioPagamentoType.getModalitaPagamento().toString());

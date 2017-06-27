@@ -501,11 +501,6 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		compareDates(invoice.getDataRiferimentoTerminiPag(), datiPagamentoType.getDettaglioPagamento().get(0).getDataRiferimentoTerminiPagamento());
 		compareDates(invoice.getPaymentExpirationDate(), datiPagamentoType.getDettaglioPagamento().get(0).getDataScadenzaPagamento());
 
-		assertThat(invoice.getFinancialInstitutionAbi()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getABI());
-		assertThat(invoice.getFinancialInstitutionBic()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getBIC());
-		assertThat(invoice.getFinancialInstitutionCab()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCAB());
-		assertThat(invoice.getFinancialInstitutionIban()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getIBAN());
-		assertThat(invoice.getFinancialInstitutionName()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getIstitutoFinanziario());
 		assertThat(invoice.getPaymentConditions()).isEqualTo(datiPagamentoType.getCondizioniPagamento().toString());
 		assertThat(invoice.getPaymentAmount()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getImportoPagamento());
 		assertThat(invoice.getPaymentMode()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getModalitaPagamento().toString());

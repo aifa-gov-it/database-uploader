@@ -92,16 +92,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private String documentTypeCode;
 
-	private String financialInstitutionAbi;
-	
-	private String financialInstitutionBic;
-
-	private String financialInstitutionCab;
-
-	private String financialInstitutionIban;
-
-	private String financialInstitutionName;
-
 	private BigDecimal imponibileCassa;
 
 	private BigDecimal importoContributoCassa;
@@ -339,26 +329,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	public String getDocumentTypeCode() {
 		return documentTypeCode;
-	}
-
-	public String getFinancialInstitutionAbi() {
-		return financialInstitutionAbi;
-	}
-
-	public String getFinancialInstitutionBic() {
-		return financialInstitutionBic;
-	}
-
-	public String getFinancialInstitutionCab() {
-		return financialInstitutionCab;
-	}
-
-	public String getFinancialInstitutionIban() {
-		return financialInstitutionIban;
-	}
-
-	public String getFinancialInstitutionName() {
-		return financialInstitutionName;
 	}
 
 	@Override
@@ -690,25 +660,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.documentTypeCode = documentTypeCode;
 	}
 
-	public void setFinancialInstitutionAbi(String financialInstitutionAbi) {
-		this.financialInstitutionAbi = financialInstitutionAbi;
-	}
-
-	public void setFinancialInstitutionBic(String financialInstitutionBic) {
-		this.financialInstitutionBic = financialInstitutionBic;
-	}
-
-	public void setFinancialInstitutionCab(String financialInstitutionCab) {
-		this.financialInstitutionCab = financialInstitutionCab;
-	}
-	
-	public void setFinancialInstitutionIban(String financialInstitutionIban) {
-		this.financialInstitutionIban = financialInstitutionIban;
-	}
-	
-	public void setFinancialInstitutionName(String financialInstitutionName) {
-		this.financialInstitutionName = financialInstitutionName;
-	}
 	public void setImponibileCassa(BigDecimal imponibileCassa) {
 		this.imponibileCassa = imponibileCassa;
 	}
