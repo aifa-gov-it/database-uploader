@@ -9,8 +9,9 @@
 - Docker 1.12+
 
 ## Supported tags and respective Dockerfile links
-- `dev-latest`: [dev-latest](https://github.com/aifa-gov-it/database-uploader/blob/development/Dockerfile)
-
+- `latest`, `1.0.0`: [Dockerfile](https://github.com/aifa-gov-it/database-uploader/blob/1.0.0/Dockerfile)
+- `master-latest`: [Dockerfile](https://github.com/aifa-gov-it/database-uploader/blob/master/Dockerfile)
+- `dev-latest`: [Dockerfile](https://github.com/aifa-gov-it/database-uploader/blob/development/Dockerfile)
 
 ## How to run
 
