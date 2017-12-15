@@ -43,7 +43,7 @@
 
 	<!-- Application loggers -->
 	<logger name="it.gov.aifa" level="INFO"/>
-	<logger name="it.gov.aifa.invoice_processor.ContextConfig" level="ERROR"/>
+	<logger name="it.gov.aifa.invoice_processor.ContextConfig" level="INFO"/>
 
 	<!-- Trace method calls -->
 	<logger name="org.springframework.aop.interceptor.CustomizableTraceInterceptor" level="NONE"/>
