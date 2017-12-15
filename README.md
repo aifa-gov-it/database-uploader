@@ -19,7 +19,13 @@ Run the application with no arguments to show the help text (note that when runn
 
 ```
 docker run --rm -it \
-  aifagovit:<tag>
+  aifagovit/database-uploader:<tag>
+```
+
+Here is an example to run the application to upload some XMLs:
+
+```
+docker run --rm -it -v /path/to/xmls/on/the/host/:/tmp/invoice-xml aifagovit/database-uploader:<tag> --import-invoices --path /tmp/invoice-xml --spring.datasource.username=USERNAME --spring.datasource.password=PASSWORD --spring.datasource.url="jdbc:oracle:thin:@DB_HOST:DB_PORT/DB_NAME"
 ```
 
 ## Development tips
