@@ -65,15 +65,16 @@ import it.gov.aifa.invoice_processor.service.persistence.MovementRepository;
 @SpringBootApplication
 public class ContextConfig{
 	private static final Logger log = LoggerFactory.getLogger(ContextConfig.class);
-	
+
 	private ApplicationContext applicationContext;
-	
+
 	private Resource[] loadResourcesFromDirectory(String directoryPath) throws IOException {
-		ClassLoader cl = this.getClass().getClassLoader(); 
+		ClassLoader cl = this.getClass().getClassLoader();
 		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(cl);
+		log.info("Loading data from {}", directoryPath);
 		return resolver.getResources(directoryPath) ;
 	}
-	
+
 	@Bean
 	@ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
 	public Jaxb2Marshaller invoiceMarshaller() throws IOException {
@@ -85,7 +86,7 @@ public class ContextConfig{
 				);
 		return unmarshaller;
 	}
-	
+
 	@Bean
 	@ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
 	public StaxEventItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingReader(Jaxb2Marshaller invoiceMarshaller){
@@ -94,7 +95,7 @@ public class ContextConfig{
 		invoiceMappingReader.setFragmentRootElementName("FatturaElettronica");
 		return invoiceMappingReader;
 	}
-	
+
 	@Bean
 	@ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
 	public ItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingMultiReader(
@@ -102,13 +103,13 @@ public class ContextConfig{
 			, StaxEventItemReader<JAXBElement<InvoiceMapping<String>>> invoiceMappingReader
 			, ResourceLoader resourceLoader
 			) throws IOException{
-		
+
 		MultiResourceItemReader<JAXBElement<InvoiceMapping<String>>> multiResourceItemReader = new MultiResourceItemReader<>();
 		multiResourceItemReader.setDelegate(invoiceMappingReader);
 		multiResourceItemReader.setResources(loadResourcesFromDirectory("file:" + directoryPath));
 		return multiResourceItemReader;
 	}
-	
+
 	@Bean
 	@ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
     public RepositoryItemWriter<Invoice> invoiceWriter(InvoiceRepository invoiceRepository) {
@@ -117,7 +118,7 @@ public class ContextConfig{
     	writer.setMethodName("save");
         return writer;
     }
-	
+
     @Bean
     @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
     public Job importInvoiceJob(JobBuilderFactory jobBuilderFactory, Step step1InvoiceProcessing) {
@@ -127,7 +128,7 @@ public class ContextConfig{
                 .end()
                 .build();
     }
-    
+
     @Bean
     @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_INVOICES)
     public Step step1InvoiceProcessing(
@@ -142,11 +143,12 @@ public class ContextConfig{
                 .writer(invoiceWriter)
                 .build();
     }
-	
+
     @Bean
     @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public FlatFileItemReader<Movement> movementReader(@Value("${" + CommandLineArgumentKey.PATH + "}") String filePath) {
         FlatFileItemReader<Movement> reader = new FlatFileItemReader<Movement>();
+				log.info("Loading data from {}", filePath);
         reader.setLinesToSkip(1);
         reader.setResource(new FileSystemResource(filePath));
         String[] lineTokenizerNames = new String[] {
@@ -179,7 +181,7 @@ public class ContextConfig{
         reader.setLineMapper(defaultLineMapper);
         return reader;
     }
-    
+
     @Bean
     @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public RepositoryItemWriter<Movement> movementWriter(MovementRepository movementRepository) {
@@ -198,7 +200,7 @@ public class ContextConfig{
                 .end()
                 .build();
     }
-    
+
     @Bean
     @ConditionalOnProperty(CommandLineArgumentKey.IMPORT_MOV_DSV)
     public Step step1MovementProcessing(
@@ -214,17 +216,17 @@ public class ContextConfig{
                 .writer(movementWriter)
                 .build();
     }
-	
+
 	public ContextConfig(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
-	
+
 	@PostConstruct
 	public void postInitialization(){
 		echoApplicationConfiguration();
 	}
-	
-	
+
+
 	private void echoApplicationConfiguration(){
 		log.debug("Searching for beans with @ConfigurationProperties annotation");
 		Map<String,Object> beans = applicationContext.getBeansWithAnnotation(ConfigurationProperties.class);
@@ -234,7 +236,7 @@ public class ContextConfig{
 		}
 		log.debug("Current configuration: {}", beansToString);
 	}
-	
+
 	@Bean
 	public CustomizableTraceInterceptor customizableTraceInterceptor() {
 	    CustomizableTraceInterceptor cti = new CustomizableTraceInterceptor();
@@ -242,11 +244,11 @@ public class ContextConfig{
 	    cti.setExitMessage("Exiting method '" + CustomizableTraceInterceptor.PLACEHOLDER_METHOD_NAME + "' of class [" + CustomizableTraceInterceptor.PLACEHOLDER_TARGET_CLASS_NAME + "] took " + CustomizableTraceInterceptor.PLACEHOLDER_INVOCATION_TIME+"ms. Return: " + CustomizableTraceInterceptor.PLACEHOLDER_RETURN_VALUE);
 	    return cti;
 	}
-	
+
 	public static void main(String[] args) {
         SpringApplication.run(ContextConfig.class, args).close();
     }
-	
+
 	@Bean
 	public Advisor traceAdvisor() {
 	    AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
