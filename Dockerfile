@@ -17,6 +17,7 @@ RUN mv target/database-uploader-exec.jar ./database-uploader-exec.jar \
   && rm -rf target/ \
   && rm -rf pom.xml \
   && rm -rf lib/ \
+  && rm -rf logs/ \
   && rm -rf src/
 
 ENTRYPOINT ["java", "-jar", "database-uploader-exec.jar"]
