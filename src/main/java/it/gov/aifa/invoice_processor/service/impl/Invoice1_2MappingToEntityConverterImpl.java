@@ -372,10 +372,11 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
 		if(datiRiepilogoTypes != null) {
 			Set<DatiRiepilogo> datiRiepilogo = new HashSet<>();
 			for(DatiRiepilogoType datiRiepilogoType : datiRiepilogoTypes) {
+				String esigibilitaIva = datiRiepilogoType.getEsigibilitaIVA() == null ? null : datiRiepilogoType.getEsigibilitaIVA().toString();
 				datiRiepilogo.add(new DatiRiepilogo(
 						datiRiepilogoType.getAliquotaIVA()
 						, datiRiepilogoType.getArrotondamento()
-						, datiRiepilogoType.getEsigibilitaIVA().toString()
+						, esigibilitaIva
 						, datiRiepilogoType.getImponibileImporto()
 						, datiRiepilogoType.getImposta()
 						, invoice
