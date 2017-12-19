@@ -50,7 +50,6 @@
         <commons-io.version>2.5</commons-io.version>
         <commons-lang3.version>3.5</commons-lang3.version>
         <java-ee-api.version>7.0</java-ee-api.version>
-        <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
         <mockito-all.version>2.0.2-beta</mockito-all.version>
         <ojdbc.version>12.2.0.1</ojdbc.version>
         <spring-boot.version>${project.parent.version}</spring-boot.version>
@@ -109,10 +108,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-oxm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -324,43 +319,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase.version}</version>
-                <configuration>
-                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
-                    <outputFileEncoding>${project.resources.sourceEncoding}</outputFileEncoding>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.liquibase.ext</groupId>
-                        <artifactId>liquibase-hibernate5</artifactId>
-                        <version>${liquibase-hibernate5.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-data-jpa</artifactId>
-                        <version>${spring-boot.version}</version>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>org.apache.tomcat</groupId>
-                                <artifactId>tomcat-jdbc</artifactId>
-                            </exclusion>
-                        </exclusions>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-validator</artifactId>
-                        <version>${hibernate-validator.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.oracle.jdbc</groupId>
-                        <artifactId>ojdbc8</artifactId>
-                        <version>${ojdbc.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

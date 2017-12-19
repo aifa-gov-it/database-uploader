@@ -1,0 +1,10 @@
+---
+spring:
+    batch:
+        initializer:
+            enabled: true
+    jpa:
+        generate-ddl: false
+        hibernate:
+          ddl-auto: create-drop
+    profiles: embeddedDatabase

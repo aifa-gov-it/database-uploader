@@ -1,8 +1,4 @@
 ---
-liquibase:
-    change-log: classpath:/db/changelog/SPENDING_PHA/db.changelog-database-uploader.yaml
-    enabled: false
----
 spring:
     jackson:
         mapper:
@@ -16,7 +12,7 @@ spring:
           ddl-auto: none
         properties:
           hibernate:
-          dialect: org.hibernate.dialect.Oracle12cDialect
+            dialect: org.hibernate.dialect.Oracle12cDialect
     datasource:
         initialize: false
         hikari:
