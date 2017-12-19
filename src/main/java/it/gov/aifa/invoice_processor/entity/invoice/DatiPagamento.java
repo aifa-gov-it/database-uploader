@@ -38,6 +38,10 @@ public class DatiPagamento extends AbstractInvoiceReferenceEntity {
     private BigDecimal scontoPagAnticipatoPag;
     private String titoloQuietanzantePag;
 	
+    public DatiPagamento() {
+        super();
+    }
+    
     public DatiPagamento(Invoice invoice) {
         super(invoice);
     }
