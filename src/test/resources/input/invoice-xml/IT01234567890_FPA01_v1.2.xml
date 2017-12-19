@@ -121,5 +121,13 @@
         <ImportoPagamento>6.10</ImportoPagamento>
       </DettaglioPagamento>
     </DatiPagamento>
+    <DatiPagamento>
+      <CondizioniPagamento>TP02</CondizioniPagamento>
+      <DettaglioPagamento>
+        <ModalitaPagamento>MP02</ModalitaPagamento>
+        <DataScadenzaPagamento>2017-02-19</DataScadenzaPagamento>
+        <ImportoPagamento>7.20</ImportoPagamento>
+      </DettaglioPagamento>
+    </DatiPagamento>
   </FatturaElettronicaBody>
 </p:FatturaElettronica>

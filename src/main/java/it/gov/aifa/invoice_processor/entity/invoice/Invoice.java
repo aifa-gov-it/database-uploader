@@ -42,39 +42,25 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	
 	private Set<Attachment> attachments;
 
-	private String beneficiarioPag;
-
 	private String capResa;
 
 	private String causalePagRitenuta;
 
 	private String causaleTrasporto;
 	
-	private String cfQuietanzantePag;
-	
-	private String codicePag;
-
-	private String codUfficioPostalePag;
-
-	private String cognomeQuietanzantePag;
-
 	private String comuneResa;
 
 	private String currency;
 	
-	private Date dataDecorrenzaPenalePag;
-	
 	private Date dataInizioTrasporto;
 
-	private Date dataLimitePagAnticipato;
-	
 	private Date dataOraConsegna;
 
 	private Date dataOraRitiro;
 
-	private Date dataRiferimentoTerminiPag;
-
 	private Date dataVeicoli;
+	
+	private Set<DatiPagamento> datiPagamento;
 
 	private Set<DatiRiepilogo> datiRiepilogo;
 	
@@ -132,23 +118,9 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	private String nazioneResa;
 
-	private String nomeQuietanzantePag;
-
 	private String numeroCivicoResa;
 
 	private Integer numeroColli;
-
-	private BigDecimal paymentAmount;
-
-	private String paymentConditions;
-
-	private Date paymentExpirationDate;
-
-	private String paymentMode;
-
-	private Integer paymentTermDays;
-
-	private BigDecimal penalitaPagamentiRitardati;
 
 	private BigDecimal pesoLordo;
 
@@ -171,8 +143,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	
 	private BigDecimal rounding;
 	
-	private BigDecimal scontoPagAnticipatoPag;
-
 	private String soggettoEmittenteType;
 
 	private BigDecimal stampAmount;
@@ -182,8 +152,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	private String tipoResa;
 
 	private String tipoRitenuta;
-
-	private String titoloQuietanzantePag;
 
 	private BigDecimal totalAmount;
 
@@ -197,6 +165,7 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 	
 	public Invoice() {
 		super();
+		this.datiPagamento = new HashSet<>();
 		this.documentiCorrelati = new HashSet<>();
 		this.invoiceParticipants = new HashSet<>();
 	}
@@ -227,10 +196,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return attachments;
 	}
 	
-	public String getBeneficiarioPag() {
-		return beneficiarioPag;
-	}
-
 	public String getCapResa() {
 		return capResa;
 	}
@@ -243,22 +208,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return causaleTrasporto;
 	}
 	
-	public String getCfQuietanzantePag() {
-		return cfQuietanzantePag;
-	}
-	
-	public String getCodicePag() {
-		return codicePag;
-	}
-	
-	public String getCodUfficioPostalePag() {
-		return codUfficioPostalePag;
-	}
-	
-	public String getCognomeQuietanzantePag() {
-		return cognomeQuietanzantePag;
-	}
-	
 	public String getComuneResa() {
 		return comuneResa;
 	}
@@ -267,16 +216,8 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return currency;
 	}
 	
-	public Date getDataDecorrenzaPenalePag() {
-		return dataDecorrenzaPenalePag;
-	}
-
 	public Date getDataInizioTrasporto() {
 		return dataInizioTrasporto;
-	}
-	
-	public Date getDataLimitePagAnticipato() {
-		return dataLimitePagAnticipato;
 	}
 	
 	public Date getDataOraConsegna() {
@@ -287,13 +228,14 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return dataOraRitiro;
 	}
 
-	public Date getDataRiferimentoTerminiPag() {
-		return dataRiferimentoTerminiPag;
-	}
-
 	public Date getDataVeicoli() {
 		return dataVeicoli;
 	}
+	
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
+    public Set<DatiPagamento> getDatiPagamento() {
+        return datiPagamento;
+    }
 	
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
 	public Set<DatiRiepilogo> getDatiRiepilogo() {
@@ -415,10 +357,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return nazioneResa;
 	}
 	
-	public String getNomeQuietanzantePag() {
-		return nomeQuietanzantePag;
-	}
-	
 	public String getNumeroCivicoResa() {
 		return numeroCivicoResa;
 	}
@@ -427,30 +365,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return numeroColli;
 	}
 	
-	public BigDecimal getPaymentAmount() {
-		return paymentAmount;
-	}
-	
-	public String getPaymentConditions() {
-		return paymentConditions;
-	}
-
-	public Date getPaymentExpirationDate() {
-		return paymentExpirationDate;
-	}
-
-	public String getPaymentMode() {
-		return paymentMode;
-	}
-
-	public Integer getPaymentTermDays() {
-		return paymentTermDays;
-	}
-
-	public BigDecimal getPenalitaPagamentiRitardati() {
-		return penalitaPagamentiRitardati;
-	}
-
 	public BigDecimal getPesoLordo() {
 		return pesoLordo;
 	}
@@ -492,10 +406,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		return rounding;
 	}
 
-	public BigDecimal getScontoPagAnticipatoPag() {
-		return scontoPagAnticipatoPag;
-	}
-
 	public String getSoggettoEmittenteType() {
 		return soggettoEmittenteType;
 	}
@@ -514,10 +424,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	public String getTipoRitenuta() {
 		return tipoRitenuta;
-	}
-
-	public String getTitoloQuietanzantePag() {
-		return titoloQuietanzantePag;
 	}
 
 	public BigDecimal getTotalAmount() {
@@ -560,10 +466,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.attachments = attachments;
 	}
 
-	public void setBeneficiarioPag(String beneficiarioPag) {
-		this.beneficiarioPag = beneficiarioPag;
-	}
-
 	public void setCapResa(String capResa) {
 		this.capResa = capResa;
 	}
@@ -576,22 +478,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.causaleTrasporto = causaleTrasporto;
 	}
 
-	public void setCfQuietanzantePag(String cfQuietanzantePag) {
-		this.cfQuietanzantePag = cfQuietanzantePag;
-	}
-
-	public void setCodicePag(String codicePag) {
-		this.codicePag = codicePag;
-	}
-	
-	public void setCodUfficioPostalePag(String codUfficioPostalePag) {
-		this.codUfficioPostalePag = codUfficioPostalePag;
-	}
-
-	public void setCognomeQuietanzantePag(String cognomeQuietanzantePag) {
-		this.cognomeQuietanzantePag = cognomeQuietanzantePag;
-	}
-	
 	public void setComuneResa(String comuneResa) {
 		this.comuneResa = comuneResa;
 	}
@@ -600,18 +486,10 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.currency = currency;
 	}
 	
-	public void setDataDecorrenzaPenalePag(Date dataDecorrenzaPenalePag) {
-		this.dataDecorrenzaPenalePag = dataDecorrenzaPenalePag;
-	}
-	
 	public void setDataInizioTrasporto(Date dataInizioTrasporto) {
 		this.dataInizioTrasporto = dataInizioTrasporto;
 	}
 	
-	public void setDataLimitePagAnticipato(Date dataLimitePagAnticipato) {
-		this.dataLimitePagAnticipato = dataLimitePagAnticipato;
-	}
-
 	public void setDataOraConsegna(Date dataOraConsegna) {
 		this.dataOraConsegna = dataOraConsegna;
 	}
@@ -620,13 +498,13 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.dataOraRitiro = dataOraRitiro;
 	}
 
-	public void setDataRiferimentoTerminiPag(Date dataRiferimentoTerminiPag) {
-		this.dataRiferimentoTerminiPag = dataRiferimentoTerminiPag;
-	}
-
 	public void setDataVeicoli(Date dataVeicoli) {
 		this.dataVeicoli = dataVeicoli;
 	}
+	
+	public void setDatiPagamento(Set<DatiPagamento> datiPagamento) {
+        this.datiPagamento = datiPagamento;
+    }
 
 	public void setDatiRiepilogo(Set<DatiRiepilogo> datiRiepilogo) {
 		this.datiRiepilogo = datiRiepilogo;
@@ -732,40 +610,12 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.nazioneResa = nazioneResa;
 	}
 
-	public void setNomeQuietanzantePag(String nomeQuietanzantePag) {
-		this.nomeQuietanzantePag = nomeQuietanzantePag;
-	}
-
 	public void setNumeroCivicoResa(String numeroCivicoResa) {
 		this.numeroCivicoResa = numeroCivicoResa;
 	}
 
 	public void setNumeroColli(Integer numeroColli) {
 		this.numeroColli = numeroColli;
-	}
-
-	public void setPaymentAmount(BigDecimal paymentAmount) {
-		this.paymentAmount = paymentAmount;
-	}
-
-	public void setPaymentConditions(String paymentConditions) {
-		this.paymentConditions = paymentConditions;
-	}
-
-	public void setPaymentExpirationDate(Date paymentExpirationDate) {
-		this.paymentExpirationDate = paymentExpirationDate;
-	}
-
-	public void setPaymentMode(String paymentMode) {
-		this.paymentMode = paymentMode;
-	}
-
-	public void setPaymentTermDays(Integer paymentTermDays) {
-		this.paymentTermDays = paymentTermDays;
-	}
-
-	public void setPenalitaPagamentiRitardati(BigDecimal penalitaPagamentiRitardati) {
-		this.penalitaPagamentiRitardati = penalitaPagamentiRitardati;
 	}
 
 	public void setPesoLordo(BigDecimal pesoLordo) {
@@ -808,10 +658,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 		this.rounding = rounding;
 	}
 
-	public void setScontoPagAnticipatoPag(BigDecimal scontoPagAnticipatoPag) {
-		this.scontoPagAnticipatoPag = scontoPagAnticipatoPag;
-	}
-
 	public void setSoggettoEmittenteType(String soggettoEmittenteType) {
 		this.soggettoEmittenteType = soggettoEmittenteType;
 	}
@@ -830,10 +676,6 @@ public class Invoice extends AbstractInvoiceProcessorEntity {
 
 	public void setTipoRitenuta(String tipoRitenuta) {
 		this.tipoRitenuta = tipoRitenuta;
-	}
-
-	public void setTitoloQuietanzantePag(String titoloQuietanzantePag) {
-		this.titoloQuietanzantePag = titoloQuietanzantePag;
 	}
 
 	public void setTotalAmount(BigDecimal totalAmount) {

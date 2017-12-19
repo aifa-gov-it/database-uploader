@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 import it.gov.aifa.invoice_processor.constant.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.constant.InvoiceParticipantType;
 import it.gov.aifa.invoice_processor.entity.invoice.Attachment;
+import it.gov.aifa.invoice_processor.entity.invoice.DatiPagamento;
 import it.gov.aifa.invoice_processor.entity.invoice.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelato;
 import it.gov.aifa.invoice_processor.entity.invoice.Invoice;
@@ -493,29 +494,30 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		Invoice invoice = new Invoice();
 		invoice.setInvoiceNumber("123456");
 		List<DatiPagamentoType> datiPagamentoTypes = buildDatiPagamentoTypes();
-		DatiPagamentoType datiPagamentoType = datiPagamentoTypes.get(0);
 		converter.buildDatiPagamento(datiPagamentoTypes, invoice);
+		
+		assertThat(datiPagamentoTypes).hasSize(1);
+		assertThat(invoice.getDatiPagamento()).hasSize(1);
+		DatiPagamento invoiceDatiPagamento = invoice.getDatiPagamento().iterator().next();
+		compareDates(invoiceDatiPagamento.getDataDecorrenzaPenalePag(), datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getDataDecorrenzaPenale());
+        compareDates(invoiceDatiPagamento.getDataLimitePagAnticipato(), datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getDataLimitePagamentoAnticipato());
+        compareDates(invoiceDatiPagamento.getDataRiferimentoTerminiPag(), datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getDataRiferimentoTerminiPagamento());
+        compareDates(invoiceDatiPagamento.getPaymentExpirationDate(), datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getDataScadenzaPagamento());
 
-		compareDates(invoice.getDataDecorrenzaPenalePag(), datiPagamentoType.getDettaglioPagamento().get(0).getDataDecorrenzaPenale());
-		compareDates(invoice.getDataLimitePagAnticipato(), datiPagamentoType.getDettaglioPagamento().get(0).getDataLimitePagamentoAnticipato());
-		compareDates(invoice.getDataRiferimentoTerminiPag(), datiPagamentoType.getDettaglioPagamento().get(0).getDataRiferimentoTerminiPagamento());
-		compareDates(invoice.getPaymentExpirationDate(), datiPagamentoType.getDettaglioPagamento().get(0).getDataScadenzaPagamento());
-
-		assertThat(invoice.getPaymentConditions()).isEqualTo(datiPagamentoType.getCondizioniPagamento().toString());
-		assertThat(invoice.getPaymentAmount()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getImportoPagamento());
-		assertThat(invoice.getPaymentMode()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getModalitaPagamento().toString());
-		assertThat(invoice.getPaymentTermDays()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getGiorniTerminiPagamento());
-		assertThat(invoice.getPaymentMode()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getModalitaPagamento().toString());
-		assertThat(invoice.getPaymentTermDays()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getGiorniTerminiPagamento());
-		assertThat(invoice.getBeneficiarioPag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getBeneficiario());
-		assertThat(invoice.getCfQuietanzantePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCFQuietanzante());
-		assertThat(invoice.getCodicePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCodicePagamento());
-		assertThat(invoice.getCodUfficioPostalePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCodUfficioPostale());
-		assertThat(invoice.getCognomeQuietanzantePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getCognomeQuietanzante());
-		assertThat(invoice.getNomeQuietanzantePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getNomeQuietanzante());
-		assertThat(invoice.getPenalitaPagamentiRitardati()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getPenalitaPagamentiRitardati());
-		assertThat(invoice.getScontoPagAnticipatoPag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getScontoPagamentoAnticipato());
-		assertThat(invoice.getTitoloQuietanzantePag()).isEqualTo(datiPagamentoType.getDettaglioPagamento().get(0).getTitoloQuietanzante());
+        assertThat(invoiceDatiPagamento.getPaymentConditions()).isEqualTo(datiPagamentoTypes.get(0).getCondizioniPagamento().toString());
+        assertThat(invoiceDatiPagamento.getPaymentAmount()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getImportoPagamento());
+        assertThat(invoiceDatiPagamento.getPaymentMode()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getModalitaPagamento().toString());
+        assertThat(invoiceDatiPagamento.getPaymentTermDays()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getGiorniTerminiPagamento());
+    
+        assertThat(invoiceDatiPagamento.getBeneficiarioPag()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getBeneficiario());
+        assertThat(invoiceDatiPagamento.getCfQuietanzantePag()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getCFQuietanzante());
+        assertThat(invoiceDatiPagamento.getCodicePag()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getCodicePagamento());
+        assertThat(invoiceDatiPagamento.getCodUfficioPostalePag()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getCodUfficioPostale());
+        assertThat(invoiceDatiPagamento.getCognomeQuietanzantePag()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getCognomeQuietanzante());
+        assertThat(invoiceDatiPagamento.getNomeQuietanzantePag()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getNomeQuietanzante());
+        assertThat(invoiceDatiPagamento.getPenalitaPagamentiRitardati()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getPenalitaPagamentiRitardati());
+        assertThat(invoiceDatiPagamento.getScontoPagAnticipatoPag()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getScontoPagamentoAnticipato());
+        assertThat(invoiceDatiPagamento.getTitoloQuietanzantePag()).isEqualTo(datiPagamentoTypes.get(0).getDettaglioPagamento().get(0).getTitoloQuietanzante());
 	}
 
 	private List<DatiPagamentoType> buildDatiPagamentoTypes() throws DatatypeConfigurationException{
@@ -840,7 +842,7 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(invoice.getPurchaseLines()).isNotEmpty();
 		assertThat(invoice.getAttachments()).isNotEmpty();
 		assertThat(invoice.getDocumentiCorrelati()).isNotEmpty();
-		assertThat(invoice.getPaymentConditions()).isNotBlank();
+		assertThat(invoice.getDatiPagamento().iterator().next().getPaymentConditions()).isNotBlank();
 		assertThat(invoice.getTotalePercorsoVeicoli()).isNotBlank();
 	}
 }
