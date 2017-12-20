@@ -3,7 +3,7 @@ FROM maven:3.5.2-jdk-8-alpine
 LABEL maintainer "ferrari.marco@gmail.com"
 
 ENV WORKDIR /usr/app
-RUN mkdir $WORKDIR
+RUN mkdir "$WORKDIR"
 WORKDIR $WORKDIR
 
 COPY pom.xml .
