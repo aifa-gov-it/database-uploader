@@ -25,7 +25,7 @@ docker run --rm -it \
 Here is an example to run the application to upload some XMLs:
 
 ```
-docker run --rm -it -v /path/to/xmls/on/the/host/:/tmp/invoice-xml aifagovit/database-uploader:<tag> --import-invoices --path=/tmp/invoice-xml/*.xml --spring.datasource.username=USERNAME --spring.datasource.password=PASSWORD --spring.datasource.url="jdbc:oracle:thin:@DB_HOST:DB_PORT/DB_NAME"
+docker run --rm -it -v /path/to/xmls/on/the/host/:/tmp/invoice-xml aifagovit/database-uploader:<tag> --import-invoices --path=/tmp/invoice-xml/**/*.xml --spring.datasource.username=USERNAME --spring.datasource.password=PASSWORD --spring.datasource.url="jdbc:oracle:thin:@DB_HOST:DB_PORT/DB_NAME"
 ```
 
 ### Invalid IBAN codes
