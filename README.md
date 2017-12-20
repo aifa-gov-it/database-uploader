@@ -28,6 +28,14 @@ Here is an example to run the application to upload some XMLs:
 docker run --rm -it -v /path/to/xmls/on/the/host/:/tmp/invoice-xml aifagovit/database-uploader:<tag> --import-invoices --path=/tmp/invoice-xml/*.xml --spring.datasource.username=USERNAME --spring.datasource.password=PASSWORD --spring.datasource.url="jdbc:oracle:thin:@DB_HOST:DB_PORT/DB_NAME"
 ```
 
+### Invalid IBAN codes
+
+Some IBAN codes have been set to a dummy value (`XXXXXXXXXXXXXXX`). Such value is not compatible with the provided XSD. It's therefore necessary to use a valid value, like `XX00XXXXXXXXXXX`. Here is an example command to execute such substitution:
+
+```
+find /path/to/xmls -type f -print0 -iname "*.xml" | xargs -0 sed -i 's/XXXXXXXXXXXXXXX/XX00XXXXXXXXXXX/g'
+```
+
 ## Development tips
 
 ### How to clone the repository
