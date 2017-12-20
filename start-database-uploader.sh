@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-ARGS="$@"
+ARGS=$*
 echo "Database uploader started with arguments: $ARGS"
 
 # some IBAN codes are not valid according to the XSD, let's fix this
