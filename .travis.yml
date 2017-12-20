@@ -3,7 +3,7 @@ jobs:
   include:
     - stage: Build Database uploader
       script:
-        - ./script/test-dockerfiles.sh
+        - ./script/test-dockerfiles.sh --docker-context-path=.
         - ./script/build-database-uploader.sh
 services:
   - docker
