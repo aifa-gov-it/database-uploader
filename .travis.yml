@@ -3,6 +3,7 @@ jobs:
   include:
     - stage: Build Database uploader
       script:
+        - ./script/test-dockerfiles.sh
         - ./script/build-database-uploader.sh
 services:
   - docker
