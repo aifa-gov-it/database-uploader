@@ -1,8 +1,12 @@
-# Invoices Processor
+# Database Uploader
 
 * Development branch:
 [![Build Status](https://travis-ci.org/aifa-gov-it/database-uploader.svg?branch=development)](https://travis-ci.org/aifa-gov-it/database-uploader) [![Coverage Status](https://sonarcloud.io/api/badges/measure?key=it.gov.aifa%3Adatabase-uploader%3Adevelopment&metric=coverage)](https://sonarcloud.io/dashboard?id=it.gov.aifa%3Adatabase-uploader%3Adevelopment) [![Quality Gate Status](https://sonarcloud.io/api/badges/gate?key=it.gov.aifa%3Adatabase-uploader%3Adevelopment)](https://sonarcloud.io/dashboard?id=it.gov.aifa%3Adatabase-uploader%3Adevelopment) [![BCH compliance](https://bettercodehub.com/edge/badge/aifa-gov-it/database-uploader?branch=development)](https://bettercodehub.com/)
 * Master branch: [![Build Status](https://travis-ci.org/aifa-gov-it/database-uploader.svg?branch=master)](https://travis-ci.org/aifa-gov-it/database-uploader) [![Coverage Status](https://sonarcloud.io/api/badges/measure?key=it.gov.aifa%3Adatabase-uploader%3Amaster&metric=coverage)](https://sonarcloud.io/dashboard?id=it.gov.aifa%3Adatabase-uploader%3Amaster) [![Quality Gate Status](https://sonarcloud.io/api/badges/gate?key=it.gov.aifa%3Adatabase-uploader%3Amaster)](https://sonarcloud.io/dashboard?id=it.gov.aifa%3Adatabase-uploader%3Amaster) [![BCH compliance](https://bettercodehub.com/edge/badge/aifa-gov-it/database-uploader?branch=master)](https://bettercodehub.com/)
+
+[![Docker Pulls](https://img.shields.io/docker/pulls/aifagovit/database-uploader.svg)](https://hub.docker.com/r/aifagovit/database-uploader/)
+
+[![Docker Automated build](https://img.shields.io/docker/automated/aifagovit/database-uploader.svg)](https://hub.docker.com/r/aifagovit/database-uploader/)
 
 ## Dependencies
 
@@ -38,9 +42,18 @@ find /path/to/xmls -type f -print0 -iname "*.xml" | xargs -0 sed -i 's/XXXXXXXXX
 
 ## Development tips
 
-### How to clone the repository
+### Install Oracle Driver and UCP
 
-This repository has some Git submodules so you should clone it using the `--recursive` switch: `$ git clone git://github.com/<user>/<repo>.git --recursive`
+To successfully build this project with Maven you need to install two JARs in your local Maven repository because they are not available in Maven Central (but only on the Oracle Maven Repository, for which you need an Oracle account). Just run the following commands from the root of this project:
+
+```
+mvn install:install-file -Dfile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar -DpomFile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.pom \
+  && mvn install:install-file -Dfile=lib/ucp/12.2.0.1/ucp-12.2.0.1.jar -DpomFile=lib/ucp/12.2.0.1/ucp-12.2.0.1.pom
+```
+
+### Travis CI Automated Build
+
+Each commit in any branch or pull request and every git tag is automatically built by [Travis CI](https://travis-ci.org/aifa-gov-it/database-uploader).
 
 ### Docker Hub Automated Build
 
