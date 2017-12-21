@@ -23,4 +23,4 @@ RUN \
   && rm -rf logs/ \
   && rm -rf src/
 
-ENTRYPOINT ["java -jar database-uploader-exec.jar"]
+ENTRYPOINT ["java", "-jar", "database-uploader-exec.jar"]
