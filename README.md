@@ -51,9 +51,28 @@ mvn install:install-file -Dfile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar -DpomFil
   && mvn install:install-file -Dfile=lib/ucp/12.2.0.1/ucp-12.2.0.1.jar -DpomFile=lib/ucp/12.2.0.1/ucp-12.2.0.1.pom
 ```
 
+### Build the Docker image
+
+```
+docker build -t aifagovit/database-uploader:<tag> .
+```
+
 ### Travis CI Automated Build
 
 Each commit in any branch or pull request and every git tag is automatically built by [Travis CI](https://travis-ci.org/aifa-gov-it/database-uploader).
+Travis CI configuration is in the [`.travis.yml`](.travis.yml) file.
+
+#### Lint Dockerfiles and Shell Scripts
+
+Dockerfiles and shell scripts are analyzed on each Travis build. You can manually run this analysis with the following command:
+
+```
+script/test-dockerfiles.sh --docker-context-path=.
+```
+
+#### SonarQube Project Analysis
+
+The code is analyzed by SonarQube on each Travis build. Check the relevant badges in this README for the links.
 
 ### Docker Hub Automated Build
 
@@ -62,34 +81,3 @@ Each commit in the `development` or `master` branches and every git tag is autom
 The configuration is in https://hub.docker.com/r/aifagovit/database-uploader/~/settings/automated-builds/
 
 When tagging a new release the relevant link in the README should be updated.
-
-### Generate a diff changelog
-
-After running the `database-uploader` (it's not necessary to specify any option) against any database (even in-memory ones like H2) you can generate a Liquibase report or a changelog containing the differences between the two databases or even against JPA Entity definitions.
-
-- Generate a changelog from JPA Entities (Oracle example):
-
-    ```
-    mvn liquibase:diff \
-      -Dliquibase.driver=oracle.jdbc.OracleDriver \
-      -Dliquibase.url=jdbc:oracle:thin:@host:1521/DB \ # JDBC URL pointing to the target database
-      -Dliquibase.username=USER \ # Username to connect to the target database
-      -Dliquibase.password=PASSWORD \ # Password to connect to the target database
-      -Dliquibase.referenceUrl="hibernate:spring:it.gov.aifa.invoice_processor.entity?dialect=org.hibernate.dialect.Oracle12cDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy"
-      # -Dliquibase.diffChangeLogFile=target/liquibase/db.changelog-diff.yaml # Uncomment this line to generate a changelog file instead of a report
-    ```
-
-- Generate a changelog from reference database: this is useful to compare a target database to a reference database
-
-    ```
-    mvn liquibase:diff \
-      -Dliquibase.driver=oracle.jdbc.OracleDriver \
-      -Dliquibase.url=jdbc:oracle:thin:@host:1521/DB \ # JDBC URL pointing to the target database
-      -Dliquibase.username=USER \ # Username to connect to the target database
-      -Dliquibase.password=PASSWORD \ # Password to connect to the target database
-      -Dliquibase.referenceDriver=org.h2.Driver \
-      -Dliquibase.referenceUrl=jdbc:h2:mem:testdb \ # JDBC URL pointing to the reference database
-      -Dliquibase.referenceUsername=USER \ # Username to connect to the reference database
-      -Dliquibase.referencePassword=PASSWORD \ # Password to connect to the reference database
-      # -Dliquibase.diffChangeLogFile=target/liquibase/db.changelog-diff.yaml # Uncomment this line to generate a changelog file instead of a report
-    ```
