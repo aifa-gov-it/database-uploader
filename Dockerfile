@@ -10,10 +10,13 @@ COPY pom.xml .
 COPY lib/ lib/
 COPY src/ src/
 
-RUN mvn install:install-file -Dfile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar -DpomFile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.pom \
+VOLUME /root/.m2
+
+RUN \
+  mvn install:install-file -Dfile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar -DpomFile=lib/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.pom \
   && mvn install:install-file -Dfile=lib/ucp/12.2.0.1/ucp-12.2.0.1.jar -DpomFile=lib/ucp/12.2.0.1/ucp-12.2.0.1.pom \
-  && mvn clean install
-RUN mv target/database-uploader-exec.jar ./database-uploader-exec.jar \
+  && mvn clean install \
+  && mv target/database-uploader-exec.jar ./database-uploader-exec.jar \
   && rm -rf target/ \
   && rm -rf pom.xml \
   && rm -rf lib/ \
