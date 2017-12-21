@@ -20,7 +20,4 @@ RUN mv target/database-uploader-exec.jar ./database-uploader-exec.jar \
   && rm -rf logs/ \
   && rm -rf src/
 
-COPY start-database-uploader.sh /usr/local/bin/start-database-uploader.sh
-RUN chmod a+x /usr/local/bin/start-database-uploader.sh
-
-ENTRYPOINT ["start-database-uploader.sh"]
+ENTRYPOINT ["java -jar database-uploader-exec.jar"]
