@@ -5,9 +5,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -26,12 +30,10 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 
 	private String administrativeReference;
 	
+	private Set<CodiceArticolo> codiceArticolo;
+	
 	private String documentId;
 
-	private String itemCode;
-
-	private String itemCodeType;
-	
 	private String itemDescription;
 
 	private String kind;
@@ -104,14 +106,18 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		return documentId;
 	}
 	
-	public String getItemCode() {
-		return itemCode;
-	}
 	
-	public String getItemCodeType() {
-		return itemCodeType;
-	}
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "invoice")
+    public Set<CodiceArticolo> getCodiceArticolo() {
+        return codiceArticolo;
+    }
+	
 
+	public void setCodiceArticolo (Set<CodiceArticolo> codiceArticolo) {
+        this.codiceArticolo = codiceArticolo;
+    }
+
+	
 	@Lob
 	public String getItemDescription() {
 		return itemDescription;
@@ -193,13 +199,7 @@ public class PurchaseLine extends AbstractInvoiceReferenceEntity{
 		this.documentId = documentId;
 	}
 
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
-
-	public void setItemCodeType(String itemCodeType) {
-		this.itemCodeType = itemCodeType;
-	}
+	
 	
 	public void setItemDescription(@NotBlank String itemDescription) {
 		this.itemDescription = itemDescription;

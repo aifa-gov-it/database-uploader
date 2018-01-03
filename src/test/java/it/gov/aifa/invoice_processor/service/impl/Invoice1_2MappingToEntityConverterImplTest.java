@@ -610,8 +610,8 @@ public class Invoice1_2MappingToEntityConverterImplTest{
 		assertThat(purchaseLine.getInvoice()).isSameAs(invoice);
 
 		CodiceArticoloType codiceArticoloType = dettaglioLineeType.getCodiceArticolo().get(0);
-		assertThat(purchaseLine.getItemCode()).isEqualTo(codiceArticoloType.getCodiceValore());
-		assertThat(purchaseLine.getItemCodeType()).isEqualTo(codiceArticoloType.getCodiceTipo());
+		assertThat(purchaseLine.getCodiceArticolo().iterator().next().getItemCode()).isEqualTo(codiceArticoloType.getCodiceValore());
+		assertThat(purchaseLine.getCodiceArticolo().iterator().next().getItemCodeType()).isEqualTo(codiceArticoloType.getCodiceTipo());
 		assertThat(purchaseLine.getItemDescription()).isEqualTo(dettaglioLineeType.getDescrizione());
 		assertThat(purchaseLine.getKind()).isEqualTo(dettaglioLineeType.getNatura().toString());
 		AltriDatiGestionaliType altriDatiGestionaliType = dettaglioLineeType.getAltriDatiGestionali().get(0);

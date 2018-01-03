@@ -27,6 +27,7 @@ public class ImportInvoiceJobIT extends AbstractIT{
 		invoices.forEach(m -> invoiceList.add(m));
 		assertThat(invoiceList).hasSize(4);
 		for(Invoice invoice : invoiceList) {
+//			assertThat(invoice.getPurchaseLines().iterator().next().getCodiceArticolo()).hasSize(3);
 			assertThat(invoice.getInvoiceParticipants()).hasSize(3);
 		}
 	}

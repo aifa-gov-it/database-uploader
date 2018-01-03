@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import it.gov.aifa.invoice_processor.constant.DocumentoCorrelatoType;
 import it.gov.aifa.invoice_processor.constant.InvoiceParticipantType;
 import it.gov.aifa.invoice_processor.entity.invoice.Attachment;
+import it.gov.aifa.invoice_processor.entity.invoice.CodiceArticolo;
 import it.gov.aifa.invoice_processor.entity.invoice.DatiPagamento;
 import it.gov.aifa.invoice_processor.entity.invoice.DatiRiepilogo;
 import it.gov.aifa.invoice_processor.entity.invoice.DocumentoCorrelato;
@@ -407,10 +408,17 @@ public class Invoice1_2MappingToEntityConverterImpl extends AbstractInvoiceMappi
                 purchaseLine.setAdministrativeReference(dettaglioLinea.getRiferimentoAmministrazione());
 
                 List<CodiceArticoloType> codiceArticoloTypes = dettaglioLinea.getCodiceArticolo();
+                
+                
                 if(!CollectionUtils.isEmpty(codiceArticoloTypes)) {
-                    checkSingleElementCollection(codiceArticoloTypes, CodiceArticoloType.class);
-                    purchaseLine.setItemCode(codiceArticoloTypes.get(0).getCodiceValore());
-                    purchaseLine.setItemCodeType(codiceArticoloTypes.get(0).getCodiceTipo());
+                	Set<CodiceArticolo> codiciArticoli = new HashSet<>(codiceArticoloTypes.size());
+                	for(CodiceArticoloType codiceArticoloType : codiceArticoloTypes){
+                		CodiceArticolo codiceArticolo = new CodiceArticolo(invoice, purchaseLine);
+                		codiceArticolo.setItemCode(codiceArticoloType.getCodiceValore());
+                		codiceArticolo.setItemCodeType(codiceArticoloType.getCodiceTipo());
+                		codiciArticoli.add(codiceArticolo);
+                	}
+                	purchaseLine.setCodiceArticolo(codiciArticoli);
                 }
 
                 purchaseLine.setKind(dettaglioLinea.getNatura() != null ? dettaglioLinea.getNatura().toString() : null);
